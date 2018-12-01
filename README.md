@@ -6,19 +6,19 @@ Supports dice-rolling, initiative cards and other stuff.
 
 Start you message with `~` then type any command from the following list. Some commands may require additional parameters.
 
-`ping` - checks SavageBot readiness 
+`~ping` - checks SavageBot readiness 
 
-`help` - shows this info
+`~help` - shows this info
 
-`deal [n] [user]` - secretly deals n (1 by default) cards to user (to self by default) 
+`~deal [n] [user]` - secretly deals n (1 by default) cards to user (to self by default) 
 
-`open [n]` - openly deals n (1 by default) cards to current channel
+`~open [n]` - openly deals n (1 by default) cards to current channel
 
-`show` - show your secret cards to current channel
+`~show` - show your secret cards to current channel
 
-`shuffle` - shuffles deck, resets secret cards
+`~shuffle` - shuffles deck, resets secret cards
 
-`roll` or `r` = rolls dice
+`~roll` or `~r` = rolls dice
 
 Currently supported dice codes are:
 
