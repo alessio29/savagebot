@@ -22,27 +22,31 @@ roll or r = rolls dice
 
 Currently supported dice codes are:
 
-ndm - roll n m-sided dice, show sum
+`~r 3d6` - roll 3 6-sided dice, show sum
 
-ndm! - roll n 'exploding' m-sided dice, show sum
+`~r 2d8!` - roll 2 'exploding' 8-sided dice, show sum. 'Exploding' means that if die come up with maximum value - it will be rolled again and summed up 
 
-ndmkp - roll n m-sided dice keep p highest
+`~r 4d6k3` - roll 4 6-sided dice keep 3 highest (DnD attributes roll-up)
 
-ndmklp - roll n m-sided dice keep p lowest\nsm - where m is one of (4,6,8,10,12) - Savage Worlds roll with wild die
+`~r 2d10kl1` - roll 2 10-sided dice keep 1 lowest
 
-nsm - as previous but instead of d6 wild die is dn
+`~r s8` - Savage Worlds roll with trait die d8 and wild die d6
 
-lxdice - roll dice l times - i.e. 6x4d6k3
-
-You can use multiple rolls in one command separated by space: ~r d6 d4! d10+d12
-
-You can use comments in roll: ~r shooting at vampire s8 damage 2d6+1.
+`~r 10s8` - Savage Worlds roll with trait die d8 and wild die d10
 
 
-fight - starts new fight: shuffles deck, resets intiative tracker.
 
-round - starts new round: resets resets intiative tracker, shuffles deck, if joker was dealt on previous round.
+`~r 6x4d6k3` - roll 4 dice keeping 3 highest 6 times
 
-show - shows initiative tracker.
+You can use multiple rolls in one command separated by space: `~r d6 d4! d10+d12`
 
-draw character [ilq] - adds to initiative tracker character and draws card to him. Add q - if character has edge Quick, l - if character has edge Levelheaded and il - if character has edge Impreved Levelheaded
+You can use comments in roll: `~r shooting at vampire s8 damage 2d6+1`
+
+
+`~fight` - starts new fight: shuffles deck, resets intiative tracker.
+
+`~round` - starts new round: resets resets intiative tracker, shuffles deck, if joker was dealt on previous round.
+
+`~show` - shows initiative tracker.
+
+`~draw character [ilq]` - adds to initiative tracker character and draws card to him. Add q - if character has edge Quick, l - if character has edge Levelheaded and il - if character has edge Impreved Levelheaded
