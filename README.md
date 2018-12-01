@@ -49,4 +49,4 @@ You can use comments in roll: `~r shooting at vampire s8 damage 2d6+1`
 
 `~show` - shows initiative tracker.
 
-`~draw character [ilq]` - adds to initiative tracker character and draws card to him. Add q - if character has edge Quick, l - if character has edge Levelheaded and il - if character has edge Impreved Levelheaded
+`~draw character [ilq]` - adds to initiative tracker character and draws card to him. Add q - if character has edge Quick, l - if character has edge Levelheaded and il - if character has edge Improved Levelheaded
