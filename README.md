@@ -34,7 +34,7 @@ Currently supported dice codes are:
 
 `~r 10s8` - Savage Worlds roll with trait die d8 and wild die d10
 
-
+`~r 6d6s4` - Lady Blackbird roll - rolls 6 d6 and returns how many dice rolled 4 or more
 
 `~r 6x4d6k3` - roll 4 dice keeping 3 highest 6 times
 
