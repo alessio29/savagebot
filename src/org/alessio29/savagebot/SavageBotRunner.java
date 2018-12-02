@@ -19,7 +19,7 @@ import com.Cardinal.CommandPackage.Proccessor.CommandRegistry;
 
 public class SavageBotRunner {
 
-	private static final String token = "NDQ4OTUyNTQ1Nzg0NzU4MzAz.DuVLoQ.tLT4PfYWopFS3In-K2MuS7ZeI5E";
+	private static final String token = "INSERT_TOKEN_HERE!!!";
 										 
 
 	public static void main(String[] args) {
