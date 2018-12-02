@@ -15,9 +15,11 @@ public class SimpleParser {
 
 	private static final Pattern repeatRollPattern = Pattern.compile("^[0-9]+x");
 	private static final Pattern basicAndExplodingPattern = Pattern.compile("^[0-9]*d[0-9]+!?$");
-	private static final Pattern rollAndKeepPattern = Pattern.compile("^[0-9]*d[0-9]+k?[0-9]+$"); 
-	private static final Pattern rollAndKeepLowestPattern = Pattern.compile("^[0-9]*d[0-9]+kl?[0-9]+$");
+	private static final Pattern rollAndKeepPattern = Pattern.compile("^[0-9]*d[0-9]+k[0-9]+$"); 
+	private static final Pattern rollAndKeepLowestPattern = Pattern.compile("^[0-9]*d[0-9]+kl[0-9]+$");
 	private static final Pattern savageWorldsPattern = Pattern.compile("^(4|6|8|10|12)?s(4|6|8|10|12)+$");
+	private static final Pattern ladyBlackbirdPattern = Pattern.compile("^[0-9]*d[0-9]+s[0-9]+$");
+	
 	private static final Pattern summPattern = Pattern.compile("^.+(\\+|-){1}.+$");
 	private static final String[] PLUS_MINUS = {"+", "-"};
 	
@@ -64,7 +66,7 @@ public class SimpleParser {
 			if (leftRoll.isString()) {
 				return new DiceRollResult(roll);
 			}
-			leftRoll.append(parseSumm(right), sign);
+			leftRoll.add(parseSumm(right), sign);
 			return leftRoll;
 		}
 		return parseDiceCode(roll);
@@ -159,6 +161,22 @@ public class SimpleParser {
 			}
 			int traitDieSize = Integer.parseInt(s[1]);
 			return Dice.rollSavageDice(traitDieSize, wildDieSize);
+		}
+		
+		Matcher ladyBlackbirdMatcher = ladyBlackbirdPattern.matcher(roll);
+		if(ladyBlackbirdMatcher.find()) {
+			String[] s = roll.split("d");
+			Integer dieCount = 1;
+			if (!s[0].trim().isEmpty() ) {
+				dieCount = Integer.parseInt(s[0]);	
+			}
+			String[] d = s[1].split("s");
+			Integer dieSize=Integer.parseInt(d[0]);
+			Integer successTreshold = Integer.parseInt(d[1]);
+			if (successTreshold>dieSize || successTreshold<2) {
+				throw new ParseErrorException("Success threshold must be more than 1 and less than die size!");				
+			}
+			return Dice.rollLadyBlackbirdDice(dieCount, dieSize, successTreshold);
 		}
 		
 		try {

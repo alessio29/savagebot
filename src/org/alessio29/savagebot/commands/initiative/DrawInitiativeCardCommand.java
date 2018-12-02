@@ -70,7 +70,13 @@ public class DrawInitiativeCardCommand implements ICommand {
 		
 		DealParams dealParams = makeDealParams(args);
 		if (!CharacterInitCache.alreadyDealt(event.getGuild(), dealParams.getCharacterName())) {
+			
+			
+			
 			Card card = deck.getCardByParams(dealParams.getParams());
+			if(card == null) {
+				throw new MissingRequirementsException("Deck is empty!");
+			}
 			try {
 				CharacterInitCache.addCharacter(event.getGuild(), new CharacterInitiative(dealParams.getCharacterName(), card));
 			} catch (CardAlreadyDealtException e) {

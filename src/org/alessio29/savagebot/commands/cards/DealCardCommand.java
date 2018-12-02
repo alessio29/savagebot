@@ -46,7 +46,7 @@ public class DealCardCommand implements ICommand {
 			throws MissingRequirementsException, MissingArgumentsException {
 
 		Deck deck = Decks.getDeck(event.getGuild(), event.getChannel());
-		if(deck.isShuffleNeeded()) {
+		if(deck.isEmpty()) {
 			event.getChannel().sendMessage("Перемешать бы надо..");
 			return;
 		}
@@ -72,8 +72,12 @@ public class DealCardCommand implements ICommand {
 
 		for (int i=0; i<count;i++) {
 			Card newCard = deck.getCard();
-			Hands.getHand(guild, user).getCards().add(newCard);
-			message = message+newCard.toString()+" ";
+			if (newCard!=null) {
+				Hands.getHand(guild, user).getCards().add(newCard);
+				message = message+newCard.toString()+" ";
+			} else {
+				break;
+			}
 		}
 		IChannel ch = user.getOrCreatePMChannel();
 		ch.sendMessage(message);

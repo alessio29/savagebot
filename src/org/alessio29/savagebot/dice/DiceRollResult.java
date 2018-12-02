@@ -13,7 +13,7 @@ public class DiceRollResult {
 	
 	public DiceRollResult(Integer dieCount, Integer dieSize, Integer keepCount, boolean explode) {
 		this.dieCode = createDieCode(dieCount, dieSize, keepCount, explode);
-		this.setExplode(explode);
+		this.explode=explode;
 		this.original="";
 	}
 
@@ -25,10 +25,6 @@ public class DiceRollResult {
 
 	public DiceRollResult(String unparseable) {
 		this.original= unparseable;
-	}
-
-	public void addDetail(String newDetails) {
-		this.details= this.details + newDetails;
 	}
 
 	public void addResult(long newResult) {
@@ -49,12 +45,9 @@ public class DiceRollResult {
 	
 	public void setResult(long result) {
 		this.result = result;
-		if (this.details.isEmpty()) {
-			this.details=""+result;
-		}
 	}
 
-	public void append(DiceRollResult rollDie, String sign) throws ParseErrorException { 
+	public void add(DiceRollResult rollDie, String sign) throws ParseErrorException { 
 		
 		if (sign.equals("+") || sign.equals("-")  ) {
 			if (sign.equals("+")) {
@@ -75,13 +68,13 @@ public class DiceRollResult {
 		throw new ParseErrorException("Wrong sign: + or - expected, but "+sign+" ecountered!"); 
 	}
 	
-	public void combine(DiceRollResult rollDie, boolean isKept) {
-		
-		this.details += (this.details.trim().isEmpty())?rollDie.getDetails():"+"+rollDie.getDetails(); 
-		if(isKept) {
-			this.result+=rollDie.getResult();	
-		}
-	}
+//	public void combine(DiceRollResult rollDie, boolean isKept) {
+//		
+//		this.details += (this.details.trim().isEmpty())?rollDie.getDetails():"+"+rollDie.getDetails(); 
+//		if(isKept) {
+//			this.result+=rollDie.getResult();	
+//		}
+//	}
 
 	@Override
 	public String toString() {
@@ -128,9 +121,6 @@ public class DiceRollResult {
 		return !original.isEmpty();
 	}
 
-
-	// =============================================
-	
 	private String createDieCode(Integer dieCount, Integer dieSize, Integer keepCount, boolean explode) {
 		return ((dieCount>1)?dieCount:"")+"d"+ dieSize+((explode)?"!":"") + ((keepCount>0)?"k"+keepCount:"");
 	}
@@ -151,4 +141,27 @@ public class DiceRollResult {
 	public void setExplode(boolean explode) {
 		this.explode = explode;
 	}
+
+
+
+	public void addMeaningfulValue(DiceRollResult diceRollResult) {
+		addValue(diceRollResult, true);	
+	}
+
+
+
+	public void addIgnoredValue(DiceRollResult diceRollResult) {
+		addValue(diceRollResult, false);		
+	}
+	
+	private void addValue(DiceRollResult diceRollResult, boolean makeBold) {
+		
+		String value = diceRollResult.details;
+		if (makeBold) {
+			value = Messages.bold(value);
+		}
+		this.result +=diceRollResult.result;
+		this.details = (this.details.isEmpty())?value:this.details+"+"+value;	
+	}
+	
 }
