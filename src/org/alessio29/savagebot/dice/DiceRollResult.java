@@ -28,7 +28,12 @@ public class DiceRollResult {
 	}
 
 	public void addDetail(String newDetails) {
-		this.details= this.details + newDetails;
+		
+		if (this.details.isEmpty()) {
+			this.details=newDetails;
+		} else {
+			this.details+=";"+newDetails;
+		}
 	}
 
 	public void addResult(long newResult) {

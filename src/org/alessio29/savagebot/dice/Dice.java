@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import org.alessio29.savagebot.exceptions.WrongDieCodeException;
+import org.alessio29.savagebot.internal.Messages;
 
 public class Dice {
 
@@ -102,5 +103,21 @@ public class Dice {
 		}
 		
 		return result;	}
-	
+
+
+	public static DiceRollResult rollLadyBlackbirdDice(Integer dieCount, Integer dieSize, Integer successTreshold) throws WrongDieCodeException {
+		
+		DiceRollResult result = new DiceRollResult();
+		result.setDieCode(dieCount+"d"+dieSize+">="+successTreshold);
+		for (int i=0; i<dieCount;i++) {
+			DiceRollResult roll =  rollDie(dieSize,false);
+			if (roll.getResult()>=successTreshold) {
+				result.addDetail(Messages.bold(roll.getDetails()));
+				result.setResult(result.getResult()+1);
+			} else {
+				result.addDetail(roll.getDetails());
+			}
+		}
+		return result;
+	}
 }
