@@ -1,5 +1,6 @@
 package org.alessio29.savagebot.commands.cards;
 
+import org.alessio29.savagebot.cards.Card;
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.cards.Decks;
 
@@ -42,7 +43,7 @@ public class OpenCardCommand implements ICommand {
 			throws MissingRequirementsException, MissingArgumentsException {
 
 		Deck deck = Decks.getDeck(event.getGuild(), event.getChannel());
-		if(deck.isShuffleNeeded() || deck.isJokerDealt()) {
+		if(deck.isEmpty()) {
 			event.getChannel().sendMessage("Перемешать бы надо..");
 			return;
 		}
@@ -56,7 +57,13 @@ public class OpenCardCommand implements ICommand {
 		}
 		String message = "";		
 		for (int i=0; i<count;i++) {
-			message = message+deck.getCard().toString()+" ";
+			
+			Card newCard = deck.getCard();
+			if (newCard != null) {
+				message = message+newCard.toString()+" ";
+			} else {
+				break;
+			}
 		}
 		IChannel ch = event.getChannel();
 		ch.sendMessage(message);

@@ -38,6 +38,7 @@ public class Deck {
 		currentDeck = (ArrayList<Card>) INITIAL_DECK.clone();
 		Collections.shuffle(currentDeck);
 		setShuffleNeeded(false);
+		setJokerDealt(false);
 		
 	}
 
@@ -86,7 +87,7 @@ public class Deck {
 			limit = CLUBS_TWO;
 		}
 		Card c = getCard();
-		while (c.getRank().compareTo(limit.getRank())==-1) {
+		while (c!=null && c.getRank().compareTo(limit.getRank())==-1) {
 			c = getCard();
 		}
 		return c;
@@ -94,15 +95,16 @@ public class Deck {
 	
 	public Card getCard() {
 		
-		int last = currentDeck.size()-1;
-		Card c = currentDeck.get(last);
-		currentDeck.remove(last);
-		
-		if (c.equals(BLACK_JOKER) || c.equals(COLOR_JOKER)) {
-			setJokerDealt(true);
+		if (currentDeck.size()>0) {
+			int last = currentDeck.size()-1;
+			Card c = currentDeck.get(last);
+			currentDeck.remove(last);
+			if (c.equals(BLACK_JOKER) || c.equals(COLOR_JOKER)) {
+				setJokerDealt(true);
+			}
+			return c;
 		}
-		
-		return c;
+		return null;
 	}
 
 	public boolean isShuffleNeeded() {
@@ -127,6 +129,9 @@ public class Deck {
 		this.jokerDealt = jokerDealt;
 	}
 
+	public boolean isEmpty() {
+		return currentDeck.isEmpty();
+	}
 
 	public static final Card SPADES_TWO = new Card(Suit.SPADES, Rank.TWO);
 	public static final Card SPADES_THREE = new Card(Suit.SPADES, Rank.THREE);
@@ -202,6 +207,8 @@ public class Deck {
 			
 			COLOR_JOKER, BLACK_JOKER 
 			));
+
+
 
 	
 }

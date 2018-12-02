@@ -38,13 +38,20 @@ public class Suit implements Comparable<Suit>{
 		return true;
 	}
 
-	public static final Suit CLUBS = new Suit("<:blue_clubs:518183303778533386>", 1);		// трефы
-	public static final Suit DIAMONDS = new Suit("<:red_diamonds:518183240746532901>", 2);	// бубны
-	public static final Suit HEARTS = new Suit("<:red_hearts:518183058801819648>", 3);		// червы
-	public static final Suit SPADES = new Suit("<:blue_spades:518182986231840770>", 4);		// пики
-	public static final Suit COLOR = new Suit("<:red_joker:518183609039978575>", 5);		// цветной
-	public static final Suit BLACK = new Suit("<:blue_joker:518182956066537505>", 6);		// черный
-	
+//	public static final Suit CLUBS = new Suit("<:blue_clubs:518746638811136000>", 1);		// трефы
+//	public static final Suit DIAMONDS = new Suit("<:red_diamonds:518746602526081044>", 2);	// бубны
+//	public static final Suit HEARTS = new Suit("<:red_hearts:518746570666147860>", 3);		// червы
+//	public static final Suit SPADES = new Suit("<:blue_spades:518745722338672640>", 4);		// пики
+//	public static final Suit COLOR = new Suit("<:red_joker:518745763241656320>", 5);		// цветной
+//	public static final Suit BLACK = new Suit("<:blue_joker:518745696317472802>", 6);		// черный
+
+	public static final Suit CLUBS = new Suit(":clubs:", 1);		// трефы
+	public static final Suit DIAMONDS = new Suit(":diamonds:", 2);	// бубны
+	public static final Suit HEARTS = new Suit(":hearts:", 3);		// червы
+	public static final Suit SPADES = new Suit(":spades:", 4);		// пики
+	public static final Suit COLOR = new Suit(":black_joker:", 5);		// цветной
+	public static final Suit BLACK = new Suit("<:black_joker_card:518750947753590820>", 6);		// черный
+
 	
 	private String name;
 	private int value;

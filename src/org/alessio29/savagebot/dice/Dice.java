@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import org.alessio29.savagebot.exceptions.WrongDieCodeException;
-import org.alessio29.savagebot.internal.Messages;
 
 public class Dice {
 
@@ -28,11 +27,11 @@ public class Dice {
 		
 		DiceRollResult result = new DiceRollResult(1, size, 0, explode);
 		long roll = roll(size);
-		result.addResult(roll);
-		result.addDetail(roll+"");
+		result.setResult(roll);
+		result.setDetails(roll+"");
 		while (explode && roll==size) {
 			roll = roll(size);
-			result.addDetail("+"+roll);
+			result.setDetails(result.getDetails()+"+"+roll);
 			result.addResult(roll);
 		}
 		if (result.getDetails().contains("+")) {
@@ -62,10 +61,10 @@ public class Dice {
 
 		DiceRollResult result = new DiceRollResult(dieCount, dieSize, keepCount, false);
 		for (int i=0; i<keepCount; i++) {
-			result.combine(rolls.get(i), true);
+			result.addMeaningfulValue(rolls.get(i));
 		}
 		for (int i=keepCount; i<dieCount; i++) {
-			result.combine(rolls.get(i), false);
+			result.addIgnoredValue(rolls.get(i));
 		}
 		
 		return result;
@@ -96,10 +95,10 @@ public class Dice {
 		});
 		DiceRollResult result = new DiceRollResult(dieCount, dieSize, keepCount, false);
 		for (int i=0; i<keepCount; i++) {
-			result.combine(rolls.get(i), true);
+			result.addMeaningfulValue(rolls.get(i));
 		}
 		for (int i=keepCount; i<dieCount; i++) {
-			result.combine(rolls.get(i), false);
+			result.addIgnoredValue(rolls.get(i));
 		}
 		
 		return result;	}
@@ -112,10 +111,10 @@ public class Dice {
 		for (int i=0; i<dieCount;i++) {
 			DiceRollResult roll =  rollDie(dieSize,false);
 			if (roll.getResult()>=successTreshold) {
-				result.addDetail(Messages.bold(roll.getDetails()));
+				result.addMeaningfulValue(roll);
 				result.setResult(result.getResult()+1);
 			} else {
-				result.addDetail(roll.getDetails());
+				result.addIgnoredValue(roll);
 			}
 		}
 		return result;

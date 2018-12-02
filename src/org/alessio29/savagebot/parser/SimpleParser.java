@@ -66,7 +66,7 @@ public class SimpleParser {
 			if (leftRoll.isString()) {
 				return new DiceRollResult(roll);
 			}
-			leftRoll.append(parseSumm(right), sign);
+			leftRoll.add(parseSumm(right), sign);
 			return leftRoll;
 		}
 		return parseDiceCode(roll);
