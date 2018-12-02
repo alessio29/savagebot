@@ -2,6 +2,10 @@
 
 Supports dice-rolling, initiative cards and other stuff.
 
+
+**Installation:**
+Click on the following link and authorize bot on your sever: https://discordapp.com/oauth2/authorize?&client_id=448952545784758303&scope=bot&permissions=0
+
 **How to use it:**
 
 Start you message with `~` then type any command from the following list. Some commands may require additional parameters.
