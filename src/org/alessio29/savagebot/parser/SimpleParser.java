@@ -15,10 +15,10 @@ public class SimpleParser {
 
 	private static final Pattern repeatRollPattern = Pattern.compile("^[0-9]+x");
 	private static final Pattern basicAndExplodingPattern = Pattern.compile("^[0-9]*d[0-9]+!?$");
-	private static final Pattern rollAndKeepPattern = Pattern.compile("^[0-9]*d[0-9]+k?[0-9]+$"); 
-	private static final Pattern rollAndKeepLowestPattern = Pattern.compile("^[0-9]*d[0-9]+kl?[0-9]+$");
+	private static final Pattern rollAndKeepPattern = Pattern.compile("^[0-9]*d[0-9]+k[0-9]+$"); 
+	private static final Pattern rollAndKeepLowestPattern = Pattern.compile("^[0-9]*d[0-9]+kl[0-9]+$");
 	private static final Pattern savageWorldsPattern = Pattern.compile("^(4|6|8|10|12)?s(4|6|8|10|12)+$");
-	private static final Pattern ladyBlackbirdPattern = Pattern.compile("^[0-9]*d[0-9]+s?[0-9]+$");
+	private static final Pattern ladyBlackbirdPattern = Pattern.compile("^[0-9]*d[0-9]+s[0-9]+$");
 	
 	private static final Pattern summPattern = Pattern.compile("^.+(\\+|-){1}.+$");
 	private static final String[] PLUS_MINUS = {"+", "-"};
