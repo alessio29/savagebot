@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import org.alessio29.savagebot.dice.Dice;
 import org.alessio29.savagebot.dice.DiceRollResult;
+import org.alessio29.savagebot.dice.DicelessRollResult;
 import org.alessio29.savagebot.exceptions.ParseErrorException;
 import org.alessio29.savagebot.exceptions.WrongDieCodeException;
 import org.alessio29.savagebot.internal.Messages;
@@ -179,16 +180,7 @@ public class SimpleParser {
 			return Dice.rollLadyBlackbirdDice(dieCount, dieSize, successTreshold);
 		}
 		
-		try {
-			DiceRollResult result = new DiceRollResult();
-			result.setResult(Integer.parseInt(roll));
-			result.setDieCode(roll) ;
-			return result;
-		} catch (Exception e) {
-			return new DiceRollResult(roll);
-		}
-		
-		
+		return new DicelessRollResult(roll);
 	}
 	
 }

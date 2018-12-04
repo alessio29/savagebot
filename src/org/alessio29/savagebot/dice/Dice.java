@@ -10,7 +10,7 @@ public class Dice {
 
 	public static DiceRollResult rollBasicDice(int count, int size, boolean explode) throws WrongDieCodeException {
 		
-		DiceRollResult finalResult = new DiceRollResult(count, size, 0, explode);
+		DiceRollResult finalResult = new BasicRollResult(count, size, explode);
 		for (int i=0; i<count; i++) {
 			DiceRollResult currentDie = rollDie(size, explode);
 			finalResult.addDie(currentDie);
@@ -25,14 +25,14 @@ public class Dice {
 			throw new WrongDieCodeException();
 		}
 		
-		DiceRollResult result = new DiceRollResult(1, size, 0, explode);
+		DiceRollResult result = new BasicRollResult(1, size, explode);
 		long roll = roll(size);
 		result.setResult(roll);
 		result.setDetails(roll+"");
 		while (explode && roll==size) {
 			roll = roll(size);
 			result.setDetails(result.getDetails()+"+"+roll);
-			result.addResult(roll);
+			result.setResult(result.getResult()+roll);
 		}
 		if (result.getDetails().contains("+")) {
 			result.setDetails("["+result.getDetails()+"]");
@@ -59,7 +59,7 @@ public class Dice {
 			
 		});
 
-		DiceRollResult result = new DiceRollResult(dieCount, dieSize, keepCount, false);
+		DiceRollResult result = new RollAndKeepResult(dieCount, dieSize, keepCount);
 		for (int i=0; i<keepCount; i++) {
 			result.addMeaningfulValue(rolls.get(i));
 		}
@@ -73,10 +73,10 @@ public class Dice {
 
 	public static DiceRollResult rollSavageDice(int traitDieSize, Integer wildDieSize) throws WrongDieCodeException {
 		
-		DiceRollResult trait = rollDie(traitDieSize, true);
-		DiceRollResult wild = rollDie(wildDieSize, true);
+		DiceRollResult traitRoll = rollDie(traitDieSize, true);
+		DiceRollResult wildRoll = rollDie(wildDieSize, true);
 		
-		return DiceRollResult.makeSWResult(trait, wild);
+		return new SavageWorldRollResult(traitRoll, wildRoll);
 	}
 
 
@@ -93,7 +93,7 @@ public class Dice {
 			}
 			
 		});
-		DiceRollResult result = new DiceRollResult(dieCount, dieSize, keepCount, false);
+		DiceRollResult result = new RollAndKeepResult(dieCount, dieSize, keepCount);
 		for (int i=0; i<keepCount; i++) {
 			result.addMeaningfulValue(rolls.get(i));
 		}
@@ -106,17 +106,20 @@ public class Dice {
 
 	public static DiceRollResult rollLadyBlackbirdDice(Integer dieCount, Integer dieSize, Integer successTreshold) throws WrongDieCodeException {
 		
-		DiceRollResult result = new DiceRollResult();
-		result.setDieCode(dieCount+"d"+dieSize+">="+successTreshold);
+		DiceRollResult result = new LadyBlackbirdRollResult(dieCount, dieSize, successTreshold);
+		
+		long successCount = 0l;
 		for (int i=0; i<dieCount;i++) {
 			DiceRollResult roll =  rollDie(dieSize,false);
 			if (roll.getResult()>=successTreshold) {
 				result.addMeaningfulValue(roll);
-				result.setResult(result.getResult()+1);
+				successCount++;
 			} else {
 				result.addIgnoredValue(roll);
 			}
 		}
+		
+		result.setResult(successCount);
 		return result;
 	}
 }
