@@ -22,7 +22,7 @@ Start you message with `~` then type any command from the following list. Some c
 
 `~shuffle` - shuffles deck, resets secret cards
 
-`~roll` or `~r` = rolls dice
+`~roll` or `~r` - rolls dice
 
 Currently supported dice codes are:
 
