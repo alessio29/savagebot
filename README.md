@@ -1,6 +1,6 @@
-**Discord bot for playing Savage Worlds RPG online.**
+**Discord bot for playing table-top RPG online.**
 
-Supports dice-rolling, initiative cards and other stuff.
+Supports various dice-rolling, Savage Worlds initiative cards and other RPG stuff.
 
 
 **Installation:**
