@@ -45,9 +45,9 @@ public class UseBennyCommand implements ICommand {
 		}
 
 		IGuild guild = event.getGuild();
+		IChannel channel = event.getChannel();
 		String charName = Messages.createNameFromArgs(args, 2);
-
-		Pocket pocket = Pockets.getPocket(guild, charName);
+		Pocket pocket = Pockets.getPocket(guild, channel, charName);
 		BennyColor color = BennyColor.getColor(args[1]);
 		if (color == null ) {
 			event.getChannel().sendMessage("Something wrong with benny color.");

@@ -12,4 +12,11 @@ public class Benny {
 		return this.color;
 	}
 
+	@Override
+	public String toString() {
+		return color+" benny";
+	}
+
+	
+	
 }

@@ -3,17 +3,19 @@ package org.alessio29.savagebot.bennies;
 import java.util.LinkedList;
 import java.util.List;
 
+import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 
 public class Pocket {
 
 	String character;
 	IGuild guild;
+	IChannel channel;
 	List<Benny> bennies;
 	
 	public void put(Benny benny) {
 		
-		Pocket pocket = Pockets.getPocket(guild, character);
+		Pocket pocket = Pockets.getPocket(guild, channel, character);
 		pocket.bennies.add(benny);		
 	}
 	
@@ -27,10 +29,11 @@ public class Pocket {
 		return false;
 	}
 
-	public Pocket (String characterName, IGuild guild2) {
+	public Pocket (String characterName, IGuild guild2, IChannel channel) {
 		
 		this.character = characterName;
 		this.guild = guild2;
+		this.channel = channel;
 		this.bennies = new LinkedList<Benny>();
 	}
 

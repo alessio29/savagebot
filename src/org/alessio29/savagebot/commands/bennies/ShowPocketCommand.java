@@ -44,7 +44,8 @@ public class ShowPocketCommand implements ICommand {
 		}
 		String charName = Messages.createNameFromArgs(args, 1);
 		IGuild guild = event.getGuild();
-		Pocket pocket = Pockets.getPocket(guild, charName);
+		IChannel channel = event.getChannel();
+		Pocket pocket = Pockets.getPocket(guild, channel, charName);
 		StringBuilder reply = new StringBuilder();
 		reply.append(Messages.capitalize(charName)).append(" has in his posket").append(pocket.getInfo()).append("\n");
 		IChannel ch = event.getChannel();

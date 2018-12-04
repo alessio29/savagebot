@@ -12,10 +12,10 @@ public class Hat {
 	private static final int MAX_RED_BENNIES_COUNT = 10;
 	private static final int MAX_BLUE_BENNIES_COUNT = 5;
 
-	private static int WHITE_BENNIES_COUNT = 20;
-	private static int RED_BENNIES_COUNT = 10;
-	private static int BLUE_BENNIES_COUNT = 5;
-	private static int GOLDEN_BENNIES_COUNT = 0;
+	private int WHITE_BENNIES_COUNT = 20;
+	private int RED_BENNIES_COUNT = 10;
+	private int BLUE_BENNIES_COUNT = 5;
+	private int GOLDEN_BENNIES_COUNT = 0;
 
 	
 	public Hat () {

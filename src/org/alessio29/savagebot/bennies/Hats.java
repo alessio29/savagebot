@@ -10,7 +10,7 @@ public class Hats {
 
 	private static final Map<IGuild, Map<IChannel, Hat>> hats = new HashMap<>();
 
-	public static Hat getHat(IGuild guild, IChannel channel) {
+	public static Hat getHat(IGuild guild, IChannel channel, boolean refill) {
 
 		Map<IChannel, Hat> map = hats.get(guild);
 		if (map == null) {
@@ -19,14 +19,15 @@ public class Hats {
 		}
 		
 		Hat hat = map.get(channel);
-		if (hat == null) {
-			Hats.createColoredHat(guild, channel);	
+		if (hat==null || refill) {
+			hat = createColoredHat();
 		}
+		map.put(channel, hat);
 		return hat;
 	}
 	
-	private static void createColoredHat(IGuild guild, IChannel channel) {
-		Hat hat = new Hat(); 
-		hats.get(guild).put(channel, hat);
+	private static Hat createColoredHat() {
+		return new Hat(); 
 	}
+	
 }
