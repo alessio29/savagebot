@@ -3,23 +3,30 @@ package org.alessio29.savagebot.bennies;
 import java.util.HashMap;
 import java.util.Map;
 
+import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 
 public class Hats {
 
-	private static final Map<IGuild, Hat> hats = new HashMap<>();
+	private static final Map<IGuild, Map<IChannel, Hat>> hats = new HashMap<>();
 
-	public static Hat getHat(IGuild guild) {
+	public static Hat getHat(IGuild guild, IChannel channel) {
 
-		Hat hat = hats.get(guild);
-		if (hat == null) {
-			Hats.createColoredHat(guild);	
+		Map<IChannel, Hat> map = hats.get(guild);
+		if (map == null) {
+			map = new HashMap<>();
+			hats.put(guild, map);
 		}
-		return hats.get(guild);
+		
+		Hat hat = map.get(channel);
+		if (hat == null) {
+			Hats.createColoredHat(guild, channel);	
+		}
+		return hat;
 	}
 	
-	private static void createColoredHat(IGuild guild) {
+	private static void createColoredHat(IGuild guild, IChannel channel) {
 		Hat hat = new Hat(); 
-		hats.put(guild, hat);
+		hats.get(guild).put(channel, hat);
 	}
 }

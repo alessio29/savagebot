@@ -75,15 +75,6 @@ public class Deck {
 		return result;
 	}
 	
-	
-//	private Card getBestOfTwo(Card c1, Card c2) {
-//		
-//		if (c1.compareTo(c2)>0) {
-//			return c1;
-//		}
-//		return c2;
-//	}
-	
 	public DrawCardResult getCard(Card limit) {
 		
 		if (limit==null) {

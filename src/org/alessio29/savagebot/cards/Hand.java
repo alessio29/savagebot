@@ -33,6 +33,4 @@ public class Hand {
 	public void clear() {
 		this.cards.clear();
 	}
-	
-	
 }

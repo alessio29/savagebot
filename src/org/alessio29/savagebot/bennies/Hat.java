@@ -58,10 +58,10 @@ public class Hat {
 	}
 
 	public String getInfo() {
-		return "В шляпе "+WHITE_BENNIES_COUNT+" белых фишек, "+
-					RED_BENNIES_COUNT+" красных фишек, "+
-					BLUE_BENNIES_COUNT+" синих фишек и "+
-					GOLDEN_BENNIES_COUNT+" золотых фишек";
+		return "Inside hat are: "+WHITE_BENNIES_COUNT+" white benny(ies), "+
+					RED_BENNIES_COUNT+" red benny(ies), "+
+					BLUE_BENNIES_COUNT+" benny(ies) and "+
+					GOLDEN_BENNIES_COUNT+" golden benny(ies)";
 	}
 	
 	
