@@ -51,9 +51,9 @@ public class GetBennyCommand implements ICommand{
 		IGuild guild = event.getGuild();
 		IChannel channel = event.getChannel();
 		IUser user = event.getAuthor();
-		Hat hat = Hats.getHat(guild, channel);
+		Hat hat = Hats.getHat(guild, channel, false);
 		String charName = Messages.createNameFromArgs(args, 1);
-		Pocket pocket = Pockets.getPocket(guild, charName);
+		Pocket pocket = Pockets.getPocket(guild, channel, charName);
 		Benny benny = hat.getBenny();
 		if (benny == null ) {
 			event.getChannel().sendMessage("Hat is empty..");

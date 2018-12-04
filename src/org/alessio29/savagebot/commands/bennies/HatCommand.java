@@ -2,6 +2,7 @@ package org.alessio29.savagebot.commands.bennies;
 
 import org.alessio29.savagebot.bennies.Hat;
 import org.alessio29.savagebot.bennies.Hats;
+import org.alessio29.savagebot.bennies.Pockets;
 
 import com.Cardinal.CommandPackage.Commands.Category;
 import com.Cardinal.CommandPackage.Commands.ICommand;
@@ -10,11 +11,10 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 public class HatCommand implements ICommand{
 
-	private static final String INFO = "info";
+	private static final String RESET = "fill";
 
 	@Override
 	public String getName() {
-
 		return "hat";
 	}
 
@@ -26,7 +26,6 @@ public class HatCommand implements ICommand{
 
 	@Override
 	public String getDescription() {
-
 		return "Puts all bennies to the hat";
 	}
 
@@ -38,12 +37,14 @@ public class HatCommand implements ICommand{
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args, String prefix) {
-		if (args.length>1 && args[1].equalsIgnoreCase(INFO)) {
-			Hat hat = Hats.getHat(event.getGuild(), event.getChannel());
-			event.getChannel().sendMessage(hat.getInfo());			
-			return;
+		
+		if (args.length>1) {
+			Hats.getHat(event.getGuild(), event.getChannel(), args[1].equals(RESET));
+			Pockets.resetPockets(event.getGuild(), event.getChannel());
+		} else {
+			Hats.getHat(event.getGuild(), event.getChannel(), false);
 		}
-		Hats.getHat(event.getGuild(), event.getChannel());
-		event.getChannel().sendMessage("Filled hat with bennies...");
+		Hat hat = Hats.getHat(event.getGuild(), event.getChannel(), false);
+		event.getChannel().sendMessage(hat.getInfo());
 	}
 }
