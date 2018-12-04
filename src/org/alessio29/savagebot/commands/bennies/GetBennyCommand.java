@@ -4,9 +4,8 @@ import org.alessio29.savagebot.bennies.Benny;
 import org.alessio29.savagebot.bennies.Hat;
 import org.alessio29.savagebot.bennies.Hats;
 import org.alessio29.savagebot.bennies.Pocket;
-import org.alessio29.savagebot.bennies.Poсkets;
+import org.alessio29.savagebot.bennies.Pockets;
 import org.alessio29.savagebot.internal.Messages;
-import org.alessio29.savagebot.internal.Users;
 
 import com.Cardinal.CommandPackage.Commands.Category;
 import com.Cardinal.CommandPackage.Commands.ICommand;
@@ -43,34 +42,29 @@ public class GetBennyCommand implements ICommand{
 	}
 
 	@Override
-	public void execute(MessageReceivedEvent event, String[] args, String prefix) {
+	public void execute(MessageReceivedEvent event, String[] args, String prefix) throws MissingArgumentsException {
 
-		try {
-			IGuild guild = event.getGuild();
-			Hat hat = Hats.getHat(guild);
-			IUser user = Users.findUser(args[1], guild);
-			if (user == null ) {
-				event.getChannel().sendMessage("Непонятно кто руки сует..");
-				return;
-			}
-
-			Pocket pocket = Poсkets.getPocket(guild, user);
-			Benny benny = hat.getBenny();
-			if (benny == null ) {
-				event.getChannel().sendMessage("Пустая шляпа-то..");
-				return;
-			}
-
-			pocket.put(benny);
-			StringBuilder reply = new StringBuilder();
-			reply.append(user.mention()).append(" достал из шляпы ").append(benny.getColor()).append(" фишку.\n");
-			IChannel ch = event.getChannel();
-			ch.sendMessage(reply.toString());
-
-		} catch (MissingArgumentsException e) {
-			Messages.showError("Ничего не понимаю..", event);
+		if(args.length<2) {
+			throw new MissingArgumentsException("No character name provided. Usage: ~benny <Character>");
+		}
+		
+		IGuild guild = event.getGuild();
+		IChannel channel = event.getChannel();
+		IUser user = event.getAuthor();
+		Hat hat = Hats.getHat(guild, channel);
+		String charName = Messages.createNameFromArgs(args, 1);
+		Pocket pocket = Pockets.getPocket(guild, charName);
+		Benny benny = hat.getBenny();
+		if (benny == null ) {
+			event.getChannel().sendMessage("Hat is empty..");
+			return;
 		}
 
+		pocket.put(benny);
+		StringBuilder reply = new StringBuilder();
+		reply.append(user.mention()).append(" got from hat ").append(benny.getColor()).append(" benny for ").append(Messages.capitalize(charName)).append(".\n");
+		IChannel ch = event.getChannel();
+		ch.sendMessage(reply.toString());
 	}
 
 

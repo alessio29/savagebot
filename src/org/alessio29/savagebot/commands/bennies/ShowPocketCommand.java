@@ -1,9 +1,8 @@
 package org.alessio29.savagebot.commands.bennies;
 
 import org.alessio29.savagebot.bennies.Pocket;
-import org.alessio29.savagebot.bennies.Poсkets;
+import org.alessio29.savagebot.bennies.Pockets;
 import org.alessio29.savagebot.internal.Messages;
-import org.alessio29.savagebot.internal.Users;
 
 import com.Cardinal.CommandPackage.Commands.Category;
 import com.Cardinal.CommandPackage.Commands.ICommand;
@@ -12,7 +11,6 @@ import com.Cardinal.CommandPackage.Exceptions.MissingArgumentsException;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IUser;
 
 public class ShowPocketCommand implements ICommand {
 
@@ -29,7 +27,7 @@ public class ShowPocketCommand implements ICommand {
 
 	@Override
 	public String getDescription() {
-		return "Показывает что у него в карманцах...";
+		return "Shows what he's got...";
 	}
 
 	@Override
@@ -39,24 +37,18 @@ public class ShowPocketCommand implements ICommand {
 	}
 
 	@Override
-	public void execute(MessageReceivedEvent event, String[] args, String prefix){
+	public void execute(MessageReceivedEvent event, String[] args, String prefix) throws MissingArgumentsException{
 
-		try {
-			IGuild guild = event.getGuild();
-			IUser user = Users.findUser(args[1], guild);
-			if (user == null ) {
-				event.getChannel().sendMessage("Непонятно кто руки сует..");
-				return;
-			}
-			Pocket pocket = Poсkets.getPocket(guild, user);
-			StringBuilder reply = new StringBuilder();
-			reply.append("В карманцах у ").append(user.mention()).append(pocket.getInfo()).append("\n");
-			IChannel ch = event.getChannel();
-			ch.sendMessage(reply.toString());
-		} catch (MissingArgumentsException e) {
-			Messages.showError("Ничего не понимаю..", event);
+		if( args.length<2) {
+			throw new MissingArgumentsException("No character name provided. Usage: ~benny <Character Name>"); 
 		}
-
+		String charName = Messages.createNameFromArgs(args, 1);
+		IGuild guild = event.getGuild();
+		Pocket pocket = Pockets.getPocket(guild, charName);
+		StringBuilder reply = new StringBuilder();
+		reply.append(Messages.capitalize(charName)).append(" has in his posket").append(pocket.getInfo()).append("\n");
+		IChannel ch = event.getChannel();
+		ch.sendMessage(reply.toString());
 	}
 
 }

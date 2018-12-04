@@ -13,6 +13,18 @@ import sx.blah.discord.handle.obj.IChannel;
 
 public class Messages {
 
+	
+	public static String createNameFromArgs(String[] args, int startFrom) {
+		String charName="";
+		for (int i=startFrom; i<args.length;i++) {
+			 charName+=" "+args[i];
+		}
+		return charName.trim();
+	}
+	
+	
+	
+	
 	public static void showOrder(MessageReceivedEvent event) {
 		
 		StringBuilder reply = new StringBuilder();
@@ -23,7 +35,7 @@ public class Messages {
 				reply.append(c.getName()).append(" - ").append(" - ").append(c.getBestCard().toString()).append("["+allCards+"]").append("\n");
 			}
 		} else {
-			reply.append("Нет сданных карт!");
+			reply.append("No cards dealt!");
 		}
 		IChannel ch = event.getChannel();
 		ch.sendMessage(reply.toString());
@@ -68,5 +80,10 @@ public class Messages {
 			details=roll.getDetails()+"=";
 		} 
 		return dieCode.concat(details).concat(bold(roll.getResult()+" "));
+	}
+
+
+	public static String capitalize(String charName) {
+		return charName.substring(0, 1).toUpperCase()+charName.substring(1);
 	}
 }

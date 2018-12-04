@@ -4,17 +4,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IUser;
 
 public class Pocket {
 
-	IUser user;
+	String character;
 	IGuild guild;
 	List<Benny> bennies;
 	
 	public void put(Benny benny) {
 		
-		Pocket pocket = Poсkets.getPocket(guild, user);
+		Pocket pocket = Pockets.getPocket(guild, character);
 		pocket.bennies.add(benny);		
 	}
 	
@@ -28,9 +27,9 @@ public class Pocket {
 		return false;
 	}
 
-	public Pocket (IUser user2, IGuild guild2) {
+	public Pocket (String characterName, IGuild guild2) {
 		
-		this.user = user2;
+		this.character = characterName;
 		this.guild = guild2;
 		this.bennies = new LinkedList<Benny>();
 	}
@@ -57,7 +56,7 @@ public class Pocket {
 				break;
 			}
 		}
-		return " "+white+" белых, "+red+"красных, "+blue+" синих фишек и "+golden+" золотых фишек";
+		return " "+white+" white, "+red+" red, "+blue+" blue and "+golden+" golden benny(ies)";
 	}
 	
 }

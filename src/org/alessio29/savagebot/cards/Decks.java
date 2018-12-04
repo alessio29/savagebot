@@ -18,15 +18,6 @@ public class Decks {
 	
 	private static Map<IGuild, Map<IChannel, Deck>> decks = new HashMap<IGuild, Map<IChannel, Deck>>();
 	
-//	public static Map<IChannel, Deck> getGuildDecks(IGuild guild) { 
-//
-//		 Map<IChannel, Deck> guidlDecks = decks.get(guild);
-//		if(guidlDecks == null) {
-//			Decks.addDeck(guild, Deck.createNewDeck());
-//		}
-//		return decks.get(guild);
-//	}
-	
 	public static Deck getDeck(IGuild guild, IChannel channel) { 
 
 		 Map<IChannel, Deck> guidlDecks = decks.get(guild);

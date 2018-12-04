@@ -39,11 +39,11 @@ public class HatCommand implements ICommand{
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args, String prefix) {
 		if (args.length>1 && args[1].equalsIgnoreCase(INFO)) {
-			Hat hat = Hats.getHat(event.getGuild());
+			Hat hat = Hats.getHat(event.getGuild(), event.getChannel());
 			event.getChannel().sendMessage(hat.getInfo());			
 			return;
 		}
-		Hats.getHat(event.getGuild());
-		event.getChannel().sendMessage("Насыпал полную шляпу...");
+		Hats.getHat(event.getGuild(), event.getChannel());
+		event.getChannel().sendMessage("Filled hat with bennies...");
 	}
 }
