@@ -60,8 +60,8 @@ You can use comments in roll: `~r shooting at vampire s8 damage 2d6+1`
 
 `~hat` - prepares hat with 20 white, 10 red and 5 blue bennies (for Deadlands). 
 
-`~benny <character name>` - pulls benny out of hat and gives it to character <character name>.
+`~benny Rory Scorcetti` - pulls benny out of hat and gives it to character 'Rory Scorcetti'.
 
-`~pocket <character name>` - shows bennies available to character <character name>.
+`~pocket Rory Scorcetti` - shows bennies available to character 'Rory Scorcetti'.
   
- `~use <color> <character name>` - pulls out of <character name> pocket <color> benny and expends it.
+ `~use white Rory Scorcetti` - pulls out of Rory Scorcetti's pocket white benny and expends it.
