@@ -1,25 +1,27 @@
 package org.alessio29.savagebot.characters;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alessio29.savagebot.cards.Card;
+import org.alessio29.savagebot.cards.Deck;
+import org.alessio29.savagebot.initiative.DrawCardResult;
 
 public class CharacterInitiative implements Comparable<CharacterInitiative>{
 
 	private String name;
-	private Card card; 
+	private List<Card> allCards = new ArrayList<>();
+	private Card bestCard = Deck.LOWEST_CARD ; 
 
-	public CharacterInitiative (String name, Card c) {
+	public CharacterInitiative (String name, DrawCardResult cards) {
 
-		this.card = c;
+		this.setBestCard(cards.getBestCard());
+		this.setAllCards(cards.getCards());
 		this.name = name;
-
 	}
 
-	public Card getCard() {
-		return card;
-	}
-
-	public void setCard(Card card) {
-		this.card = card;
+	public CharacterInitiative(String characterName) {
+		this.name = characterName;
 	}
 
 	public String getName() {
@@ -33,7 +35,7 @@ public class CharacterInitiative implements Comparable<CharacterInitiative>{
 	@Override
 	public int compareTo(CharacterInitiative o) {
 
-		return -this.card.compareTo(o.card);
+		return -this.bestCard.compareTo(o.bestCard); // reverse order
 	}
 
 	@Override
@@ -63,7 +65,23 @@ public class CharacterInitiative implements Comparable<CharacterInitiative>{
 
 	@Override
 	public String toString() {
-		return "Character [name=" + name + ", card=" + card + "]";
+		return "Character [name=" + name + ", card=" + bestCard + "]";
+	}
+
+	public List<Card> getAllCards() {
+		return allCards;
+	}
+
+	public void setAllCards(List<Card> allCards) {
+		this.allCards = allCards;
+	}
+
+	public Card getBestCard() {
+		return bestCard;
+	}
+
+	public void setBestCard(Card bestCard) {
+		this.bestCard = bestCard;
 	}
 
 

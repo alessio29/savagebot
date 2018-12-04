@@ -3,6 +3,8 @@ package org.alessio29.savagebot.cards;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+
+import org.alessio29.savagebot.initiative.DrawCardResult;
 /**
  * 
  * @author aless
@@ -16,6 +18,7 @@ public class Deck {
 	public static final String IMPROVED_LEVELHEADED = "il";
 	public static final String LEVELHEADED = "l";
 	public static final String QUICK = "q";
+	
 	
 	private ArrayList<Card> currentDeck;
 	private boolean shuffleNeeded = false;
@@ -42,10 +45,10 @@ public class Deck {
 		
 	}
 
-	public Card getCardByParams(String params) {
+	public DrawCardResult getCardByParams(String params) {
 	
-		Card result = null;
-		Card limit = Deck.CLUBS_TWO; 
+		DrawCardResult result = null;
+		Card limit = Deck.LOWEST_CARD; 
 
 		params = params.trim();
 		
@@ -60,37 +63,43 @@ public class Deck {
 		}
 		
 		if (params.contains(QUICK)) {
-			limit = Deck.CLUBS_SIX;
+			limit = Deck.LOWEST_QUICK_CARD;
 			params = params.replace(QUICK, "");
 		}
 		
 		result = getCard(limit);
 		
 		for (int i = 1; i<count; i++ ) {
-			result = getBestOfTwo(result, getCard(limit));
+			result = result.combineWith(getCard(limit)); 
 		}
 		return result;
 	}
 	
 	
-	public Card getBestOfTwo(Card c1, Card c2) {
-		
-		if (c1.compareTo(c2)>0) {
-			return c1;
-		}
-		return c2;
-	}
+//	private Card getBestOfTwo(Card c1, Card c2) {
+//		
+//		if (c1.compareTo(c2)>0) {
+//			return c1;
+//		}
+//		return c2;
+//	}
 	
-	public Card getCard(Card limit) {
+	public DrawCardResult getCard(Card limit) {
 		
 		if (limit==null) {
-			limit = CLUBS_TWO;
+			limit = Deck.LOWEST_CARD;
 		}
-		Card c = getCard();
-		while (c!=null && c.getRank().compareTo(limit.getRank())==-1) {
-			c = getCard();
+		
+		DrawCardResult result = new DrawCardResult();
+		
+		Card newCard = getCard();
+		result.getCards().add(newCard);
+		while (newCard!=null && newCard.compareTo(limit)==-1) {
+			newCard = getCard();
+			result.getCards().add(newCard);
 		}
-		return c;
+		result.setBestCard(result.findBestCard());
+		return result;
 	}
 	
 	public Card getCard() {
@@ -208,7 +217,7 @@ public class Deck {
 			COLOR_JOKER, BLACK_JOKER 
 			));
 
-
-
+	public static final Card LOWEST_CARD = CLUBS_TWO;
+	private static final Card LOWEST_QUICK_CARD = CLUBS_SIX;
 	
 }

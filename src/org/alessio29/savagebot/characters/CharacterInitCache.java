@@ -30,7 +30,7 @@ public class CharacterInitCache {
 		}
 	}
 	
-	public static Set<CharacterInitiative> addCharacter(IGuild guild, CharacterInitiative c) throws CardAlreadyDealtException {
+	public static void addCharacter(IGuild guild, CharacterInitiative c) throws CardAlreadyDealtException {
 		
 		if (characters.get(guild)==null) {
 			characters.put(guild, new HashSet<CharacterInitiative>());
@@ -39,14 +39,12 @@ public class CharacterInitCache {
 			throw new CardAlreadyDealtException("Character "+c.getName()+" has already dealt card!");
 		}
 		characters.get(guild).add(c);
-		return new TreeSet<CharacterInitiative>(characters.get(guild));
 	}
 
 	public static boolean alreadyDealt(IGuild guild, String characterName) {
 		if (characters.get(guild)==null) {
 			characters.put(guild, new HashSet<CharacterInitiative>());
 		}
-		return characters.get(guild).contains(new CharacterInitiative(characterName, null));
+		return characters.get(guild).contains(new CharacterInitiative(characterName));
 	}
-	
 }

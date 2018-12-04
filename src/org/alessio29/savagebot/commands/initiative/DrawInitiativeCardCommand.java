@@ -3,14 +3,14 @@ package org.alessio29.savagebot.commands.initiative;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.alessio29.savagebot.cards.Card;
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.cards.Decks;
+import org.alessio29.savagebot.characters.CharacterInitCache;
 import org.alessio29.savagebot.characters.CharacterInitiative;
 import org.alessio29.savagebot.exceptions.CardAlreadyDealtException;
+import org.alessio29.savagebot.initiative.DrawCardResult;
 import org.alessio29.savagebot.internal.DealParams;
 import org.alessio29.savagebot.internal.Messages;
-import org.alessio29.savagebot.characters.CharacterInitCache;
 
 import com.Cardinal.CommandPackage.Commands.Category;
 import com.Cardinal.CommandPackage.Commands.ICommand;
@@ -45,7 +45,7 @@ public class DrawInitiativeCardCommand implements ICommand {
 
 	@Override
 	public String getDescription() {
-		return "Deal one initiative card";
+		return "Draw one initiative card";
 	}
 
 	@Override
@@ -70,15 +70,12 @@ public class DrawInitiativeCardCommand implements ICommand {
 		
 		DealParams dealParams = makeDealParams(args);
 		if (!CharacterInitCache.alreadyDealt(event.getGuild(), dealParams.getCharacterName())) {
-			
-			
-			
-			Card card = deck.getCardByParams(dealParams.getParams());
-			if(card == null) {
+			DrawCardResult cards = deck.getCardByParams(dealParams.getParams());
+			if(cards == null) {
 				throw new MissingRequirementsException("Deck is empty!");
 			}
 			try {
-				CharacterInitCache.addCharacter(event.getGuild(), new CharacterInitiative(dealParams.getCharacterName(), card));
+				CharacterInitCache.addCharacter(event.getGuild(), new CharacterInitiative(dealParams.getCharacterName(), cards));
 			} catch (CardAlreadyDealtException e) {
 				IChannel ch = event.getChannel();
 				ch.sendMessage(e.getMessage());
@@ -106,12 +103,12 @@ public class DrawInitiativeCardCommand implements ICommand {
 		charName = charName.substring(0, 1).toUpperCase() + charName.substring(1);
 		
 		String edges = "";
-		if (args.length>3) {
-			String tmp = args[3].trim().toLowerCase();
+		if (args.length>2) {
+			String tmp = args[2].trim().toLowerCase();
 			Pattern p = Pattern.compile("^[^ilq]$");
 		    Matcher m = p.matcher(tmp);  
 			if (m.matches()) {
-				throw new MissingArgumentsException("Third parameter must combination of letters: q - for Quick edge, l - for Levelheaded edge and il for Improved Levelheaded edge!");
+				throw new MissingArgumentsException("Third parameter must be a combination of letters: q - for Quick edge, l - for Levelheaded edge and il for Improved Levelheaded edge!");
 			}
 			edges = tmp;
 		}

@@ -1,6 +1,8 @@
 package org.alessio29.savagebot.internal;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.alessio29.savagebot.characters.CharacterInitCache;
 import org.alessio29.savagebot.characters.CharacterInitiative;
@@ -14,9 +16,11 @@ public class Messages {
 	public static void showOrder(MessageReceivedEvent event) {
 		
 		StringBuilder reply = new StringBuilder();
-		if (!CharacterInitCache.getCharacters(event.getGuild()).isEmpty()) {
+		Set<CharacterInitiative> chars = CharacterInitCache.getCharacters(event.getGuild());
+		if (chars!=null && !chars.isEmpty()) {
 			for (CharacterInitiative c : CharacterInitCache.getCharacters(event.getGuild())) {
-				reply.append(c.getName()).append(" - ").append(c.getCard().toString()).append("\n");
+				String allCards = c.getAllCards().stream().map(cr ->cr.toString()).collect(Collectors.joining(","));
+				reply.append(c.getName()).append(" - ").append(" - ").append(c.getBestCard().toString()).append("["+allCards+"]").append("\n");
 			}
 		} else {
 			reply.append("Нет сданных карт!");
