@@ -46,6 +46,7 @@ You can use multiple rolls in one command separated by space: `~r d6 d4! d10+d12
 
 You can use comments in roll: `~r shooting at vampire s8 damage 2d6+1`
 
+**Savage Worlds initiative cards support**
 
 `~fight` - starts new fight: shuffles deck, resets intiative tracker.
 
@@ -54,3 +55,13 @@ You can use comments in roll: `~r shooting at vampire s8 damage 2d6+1`
 `~show` - shows initiative tracker.
 
 `~draw character [ilq]` - adds to initiative tracker character and draws card to him. Add q - if character has edge Quick, l - if character has edge Levelheaded and il - if character has edge Improved Levelheaded
+
+**Savage Worlds bennies support**
+
+`~hat` - prepares hat with 20 white, 10 red and 5 blue bennies (for Deadlands). 
+
+`~benny <character name>` - pulls benny out of hat and gives it to character <character name>.
+
+`~pocket <character name>` - shows bennies available to character <character name>.
+  
+ `~use <color> <character name>` - pulls out of <character name> pocket <color> benny and expends it.
