@@ -58,11 +58,11 @@ public class DrawInitiativeCardCommand implements ICommand {
 		Deck deck = Decks.getDeck(event.getGuild(), event.getChannel());
 
 		if(deck.isShuffleNeeded()) {
-			event.getChannel().sendMessage("Перемешать бы надо..");
+			event.getChannel().sendMessage("Shuffle is needed..");
 			return;
 		}
 		if (args.length < 2) {
-			event.getChannel().sendMessage("Не хватает чего-то..");
+			event.getChannel().sendMessage("Something is missing..");
 			return;
 		}
 		

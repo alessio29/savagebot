@@ -51,9 +51,9 @@ public class NewRoundCommand implements ICommand {
 		if (deck.isJokerDealt()) {
 			deck.shuffle();
 			deck.setJokerDealt(false);
-			event.getChannel().sendMessage(" В прошлом раунде был сдан джокер, колода помешана. ");
+			event.getChannel().sendMessage(" Joker was dealt in last round, deck is shuffled. ");
 		}
-		event.getChannel().sendMessage(" ========== Раунд "+round+" ========== ");
+		event.getChannel().sendMessage(" ========== Round "+round+" ========== ");
 		return;
 	}
 

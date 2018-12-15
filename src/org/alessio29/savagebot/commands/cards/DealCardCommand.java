@@ -48,7 +48,7 @@ public class DealCardCommand implements ICommand {
 
 		Deck deck = Decks.getDeck(event.getGuild(), event.getChannel());
 		if(deck.isEmpty()) {
-			event.getChannel().sendMessage("Перемешать бы надо..");
+			event.getChannel().sendMessage("Shuffle is needed..");
 			return;
 		}
 		int count = 1;
@@ -64,7 +64,7 @@ public class DealCardCommand implements ICommand {
 		if (args.length > 2) {
 			IUser userParam = Users.findUser(args[2], guild);
 			if (userParam == null ) {
-				event.getChannel().sendMessage("Непонятно кому сдавать..");
+				event.getChannel().sendMessage("Cannot uderstand who should receive cards..");
 				return;
 			}
 			user = userParam;

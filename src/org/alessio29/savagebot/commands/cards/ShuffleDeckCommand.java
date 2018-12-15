@@ -48,7 +48,7 @@ public class ShuffleDeckCommand implements ICommand {
 		for (IUser user : users) {
 			Hands.getHand(guild, user).clear();
 		}
-		event.getChannel().sendMessage("Помешано...");
+		event.getChannel().sendMessage("Shuffled...");
 	}
 
 

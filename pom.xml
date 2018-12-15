@@ -10,6 +10,7 @@
 	<properties>
 		<basedir>D:/GIT_REPO/savagebot/</basedir>
 		<javalib>d:/Archive/java_lib/</javalib>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<build>
@@ -24,7 +25,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- to create ja with dependencies - run mvn clean compile assembly:single -->
+			<!-- to create jar with dependencies - run mvn clean compile assembly:single -->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
@@ -58,10 +59,9 @@
 			<groupId>com.cardinal</groupId>
 			<artifactId>commands</artifactId>
 			<version>1.0</version>
-			<!-- dependency installed on local maven repository 
-			mvn install:install-file -Dfile=d:/Archive/java_lib/CommandPackage_1.0.jar \ 
-			-DgroupId=com.cardinal -DartifactId=commands -Dversion=1.0 -Dpackaging=jar			
-			-->
+			<!-- dependency installed on local maven repository mvn install:install-file 
+				-Dfile=d:/Archive/java_lib/CommandPackage_1.0.jar \ -DgroupId=com.cardinal 
+				-DartifactId=commands -Dversion=1.0 -Dpackaging=jar -->
 		</dependency>
 
 	</dependencies>
