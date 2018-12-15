@@ -1,38 +1,104 @@
 package org.alessio29.savagebot.commands;
 
+import java.awt.Color;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.concurrent.TimeUnit;
+
 import com.Cardinal.CommandPackage.Commands.Category;
 import com.Cardinal.CommandPackage.Commands.ICommand;
 import com.Cardinal.CommandPackage.Exceptions.MissingArgumentsException;
 import com.Cardinal.CommandPackage.Exceptions.MissingRequirementsException;
+import com.Cardinal.CommandPackage.Proccessor.CommandRegistry;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.util.EmbedBuilder;
 
-public class HelpCommand implements ICommand{
-
+public class HelpCommand implements ICommand {
+	
+	
+	
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "help";
 	}
 
 	@Override
 	public Category getCategory() {
-		// TODO Auto-generated method stub
-		return null;
+		return Category.INFO;
 	}
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Lists the description and syntax for every registered command.";
 	}
 
 	@Override
 	public String[] getArguments() {
-		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void execute(MessageReceivedEvent event, String[] args, String prefix)
+			throws MissingRequirementsException, MissingArgumentsException {
+
+		CategorizedMap categories = new CategorizedMap();
+		CommandRegistry.current().getRegisteredCommands().stream().forEach(c -> {
+			if (c.getCategory() != null) {
+				categories.put(c.getCategory(), c);
+			} else {
+				categories.put(Category.MISC, c);
+			}
+		});
+		
+		categories.keySet().stream().sorted(Category::compare).forEach(c -> {
+			StringBuilder b = new StringBuilder();
+			b.append("\n--------------------------------------");
+			categories.get(c).stream().forEach(com -> {
+				b.append("\n" + ICommand.asHelpString(com, prefix) + "\n");
+			});
+			b.append("\n--------------------------------------");
+			try {
+				TimeUnit.MILLISECONDS.sleep(500);
+			} catch (InterruptedException e) {
+			}
+			event.getAuthor().getOrCreatePMChannel().sendMessage(c.toString() + " Commands"+b.toString());
+		});
+	}
+
+	private class CategorizedMap extends HashMap<Category, HashSet<ICommand>> {
+
+		private static final long serialVersionUID = 634791493137861944L;
+
+		/**
+		 * Associates the specified value with the specified key in this map. If the map
+		 * previously contained a mapping for the key, the old value is replaced.
+		 *
+		 * @param key
+		 *            key with which the specified value is to be associated
+		 * @param value
+		 *            value to be associated with the specified key
+		 * @return the previous value associated with <tt>key</tt>, or <tt>null</tt> if
+		 *         there was no mapping for <tt>key</tt>. (A <tt>null</tt> return can
+		 *         also indicate that the map previously associated <tt>null</tt> with
+		 *         <tt>key</tt>.)
+		 */
+		public ICommand put(Category key, ICommand value) {
+			if (get(key) == null) {
+				super.put(key, new HashSet<ICommand>(Arrays.asList(new ICommand[] { value })));
+			}
+			get(key).add(value);
+			return value;
+		}
+
+	}
+	
+	
+	
+// ====================================================================================
+/*	
+	
 
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args, String prefix)
@@ -68,5 +134,5 @@ public class HelpCommand implements ICommand{
 		channel.sendMessage(content );
 		
 	}
-
+*/
 }

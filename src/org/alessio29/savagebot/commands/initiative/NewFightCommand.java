@@ -22,13 +22,13 @@ public class NewFightCommand implements ICommand {
 	@Override
 	public Category getCategory() {
 		
-		return null;
+		return Category.UTILITY;
 	}
 
 	@Override
 	public String getDescription() {
 		
-		return null;
+		return "starts new fight: shuffles deck, resets intiative tracker\n";
 	}
 
 	@Override

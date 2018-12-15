@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 import org.alessio29.savagebot.exceptions.ParseErrorException;
 
-public class ParserExample {
-
+public class Parser {
+/*
 	private HashMap<String, Integer> variables;
 
 	public ParserExample() {
@@ -151,5 +151,6 @@ public class ParserExample {
 //		}
 		return r;
 	}
+	*/
 }
 

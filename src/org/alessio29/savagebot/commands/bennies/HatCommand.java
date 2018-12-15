@@ -20,13 +20,12 @@ public class HatCommand implements ICommand{
 
 	@Override
 	public Category getCategory() {
-		// TODO Auto-generated method stub
-		return null;
+		return Category.CUSTOM;
 	}
 
 	@Override
 	public String getDescription() {
-		return "Puts all bennies to the hat";
+		return "Puts all required bennies into the hat";
 	}
 
 	@Override

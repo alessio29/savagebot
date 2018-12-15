@@ -21,19 +21,18 @@ public class ShowCardsCommand implements ICommand {
 
 	@Override
 	public Category getCategory() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return Category.CUSTOM;
 	}
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return "Shows your cards, previously dealt to you by 'deal' command to current channel\\n";
 	}
 
 	@Override
 	public String[] getArguments() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
