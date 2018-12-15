@@ -16,25 +16,24 @@ public class OpenCardCommand implements ICommand {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "open";
 	}
 
 	@Override
 	public Category getCategory() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return Category.CUSTOM;
 	}
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return "openly deals several (1 by default) cards to current channel\n";
 	}
 
 	@Override
 	public String[] getArguments() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 

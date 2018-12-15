@@ -23,11 +23,6 @@ import sx.blah.discord.handle.obj.IChannel;
 /**
  * 
  * @author aless
- * 
- * This command deals cards to PC or NPC
- * 
- * Syntax: deal [n]pc name [ilq]
- * 
  */
 
 
@@ -40,12 +35,15 @@ public class DrawInitiativeCardCommand implements ICommand {
 
 	@Override
 	public Category getCategory() {
-		return null;
+		return Category.UTILITY;
 	}
 
 	@Override
 	public String getDescription() {
-		return "Draw one initiative card";
+		return "draw character [ilq] - draws card to character\n"
+				+ "add q if character has edge Quick\n"
+				+ "add l if character has edge Levelheaded\n"
+				+ "add il if character has edge Improved Levelheaded\n";
 	}
 
 	@Override

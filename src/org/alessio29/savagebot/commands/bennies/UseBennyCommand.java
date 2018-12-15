@@ -21,18 +21,16 @@ public class UseBennyCommand implements ICommand {
 
 	@Override
 	public Category getCategory() {
-		// TODO Auto-generated method stub
-		return null;
+		return Category.CUSTOM;
 	}
 
 	@Override
 	public String getDescription() {
-		return "use benny";
+		return "Uses one of character's benny";
 	}
 
 	@Override
 	public String[] getArguments() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

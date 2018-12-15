@@ -20,7 +20,7 @@ public class PingCommand implements ICommand{
 	@Override
 	public Category getCategory() {
 		
-		return null;
+		return Category.MISC;
 	}
 
 	@Override

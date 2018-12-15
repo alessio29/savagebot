@@ -21,18 +21,16 @@ public class ShowPocketCommand implements ICommand {
 
 	@Override
 	public Category getCategory() {
-		// TODO Auto-generated method stub
-		return null;
+		return Category.CUSTOM;
 	}
 
 	@Override
 	public String getDescription() {
-		return "Shows what he's got...";
+		return "Shows charackter's bennies";
 	}
 
 	@Override
 	public String[] getArguments() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

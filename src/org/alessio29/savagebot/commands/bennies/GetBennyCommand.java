@@ -20,24 +20,21 @@ public class GetBennyCommand implements ICommand{
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "benny";
 	}
 
 	@Override
 	public Category getCategory() {
-		// TODO Auto-generated method stub
-		return null;
+		return Category.CUSTOM;
 	}
 
 	@Override
 	public String getDescription() {
-		return "Get benny from hat";
+		return "Get benny from hat and adds it to characker's pocket";
 	}
 
 	@Override
 	public String[] getArguments() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

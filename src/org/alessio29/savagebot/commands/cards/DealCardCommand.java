@@ -25,20 +25,21 @@ public class DealCardCommand implements ICommand {
 
 	@Override
 	public Category getCategory() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return Category.CUSTOM;
 	}
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return "deal [n] [user] - secretly deals n (1 by default) cards to user (to self by default)";
 	}
 
 	@Override
 	public String[] getArguments() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String[] res = {"CardCount", "User"}; 
+		return res;
 	}
 
 	@Override

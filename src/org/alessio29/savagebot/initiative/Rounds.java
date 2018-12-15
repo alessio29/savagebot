@@ -12,24 +12,31 @@ public class Rounds {
 	
 	public static Integer getGuildRound(IGuild guild, IChannel channel) { 
 
-		Map<IChannel, Integer> map = rounds.get(guild);
-		if (map == null) {
-			map = new HashMap<>(); 
-		}
-		rounds.put(guild, map);
+		Map<IChannel, Integer> map = initGuildRounds(guild);
 		Integer round = map.get(channel);
 		if(round == null) {
 			Rounds.setRound(guild, channel, 1);
 		}
 		return rounds.get(guild).get(channel);
 	}
+
+	private static Map<IChannel, Integer> initGuildRounds(IGuild guild) {
+		Map<IChannel, Integer> map = rounds.get(guild);
+		if (map == null) {
+			map = new HashMap<>(); 
+		}
+		rounds.put(guild, map);
+		return map;
+	}
 		
 	private static void setRound(IGuild guild, IChannel channel, int i) {
+		
 		rounds.get(guild).put(channel, i);
 	}
 
 	public static void resetRounds(IGuild guild, IChannel channel) {
-		rounds.get(guild).put(channel, 1);		
+		Map<IChannel, Integer> round = initGuildRounds(guild);
+		round.put(channel, 1);		
 	}
 
 	public static void nextRound(IGuild guild, IChannel channel) {

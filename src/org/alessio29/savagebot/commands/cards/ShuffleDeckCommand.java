@@ -23,19 +23,18 @@ public class ShuffleDeckCommand implements ICommand {
 
 	@Override
 	public Category getCategory() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return Category.CUSTOM;
 	}
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Shuffles current deck, resets secret cards dealt to all users in this channel\\n";
 	}
 
 	@Override
 	public String[] getArguments() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 

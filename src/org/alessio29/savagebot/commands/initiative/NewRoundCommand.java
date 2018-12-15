@@ -25,13 +25,12 @@ public class NewRoundCommand implements ICommand {
 	@Override
 	public Category getCategory() {
 		// TODO Auto-generated method stub
-		return null;
+		return Category.UTILITY;
 	}
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Starts new round: resets resets intiative tracker, shuffles deck, if joker was dealt on previous round\n";
 	}
 
 	@Override

@@ -29,18 +29,17 @@ public class ShowInitiativeCommand implements ICommand {
 
 	@Override
 	public Category getCategory() {
-		return null;
+		return Category.UTILITY;
 	}
 
 	@Override
 	public String getDescription() {
-		return "Deal one initiative card";
+		return "Shows initiative tracker";
 	}
 
 	@Override
 	public String[] getArguments() {
-		return null;
-	}
+		return null;	}
 	
 	@Override
 	public void execute(MessageReceivedEvent event, String[] args, String prefix)
