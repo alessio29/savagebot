@@ -43,7 +43,7 @@ public class OpenCardCommand implements ICommand {
 
 		Deck deck = Decks.getDeck(event.getGuild(), event.getChannel());
 		if(deck.isEmpty()) {
-			event.getChannel().sendMessage("Перемешать бы надо..");
+			event.getChannel().sendMessage("Shuffle is needed..");
 			return;
 		}
 		int count = 1;

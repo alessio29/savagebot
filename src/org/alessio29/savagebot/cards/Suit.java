@@ -38,19 +38,19 @@ public class Suit implements Comparable<Suit>{
 		return true;
 	}
 
-//	public static final Suit CLUBS = new Suit("<:blue_clubs:518746638811136000>", 1);		// трефы
-//	public static final Suit DIAMONDS = new Suit("<:red_diamonds:518746602526081044>", 2);	// бубны
-//	public static final Suit HEARTS = new Suit("<:red_hearts:518746570666147860>", 3);		// червы
-//	public static final Suit SPADES = new Suit("<:blue_spades:518745722338672640>", 4);		// пики
-//	public static final Suit COLOR = new Suit("<:red_joker:518745763241656320>", 5);		// цветной
-//	public static final Suit BLACK = new Suit("<:blue_joker:518745696317472802>", 6);		// черный
+//	public static final Suit CLUBS = new Suit("<:blue_clubs:518746638811136000>", 1);		
+//	public static final Suit DIAMONDS = new Suit("<:red_diamonds:518746602526081044>", 2);	 
+//	public static final Suit HEARTS = new Suit("<:red_hearts:518746570666147860>", 3);		 
+//	public static final Suit SPADES = new Suit("<:blue_spades:518745722338672640>", 4);		 
+//	public static final Suit COLOR = new Suit("<:red_joker:518745763241656320>", 5);		
+//	public static final Suit BLACK = new Suit("<:blue_joker:518745696317472802>", 6);		
 
-	public static final Suit CLUBS = new Suit(":clubs:", 1);		// трефы
-	public static final Suit DIAMONDS = new Suit(":diamonds:", 2);	// бубны
-	public static final Suit HEARTS = new Suit(":hearts:", 3);		// червы
-	public static final Suit SPADES = new Suit(":spades:", 4);		// пики
-	public static final Suit COLOR = new Suit(":black_joker:", 5);		// цветной
-	public static final Suit BLACK = new Suit("<:black_joker_card:518750947753590820>", 6);		// черный
+	public static final Suit CLUBS = new Suit(":clubs:", 1);
+	public static final Suit DIAMONDS = new Suit(":diamonds:", 2);	
+	public static final Suit HEARTS = new Suit(":hearts:", 3);
+	public static final Suit SPADES = new Suit(":spades:", 4);
+	public static final Suit COLOR = new Suit(":black_joker:", 5);		
+	public static final Suit BLACK = new Suit("<:black_joker_card:518750947753590820>", 6);		
 
 	
 	private String name;

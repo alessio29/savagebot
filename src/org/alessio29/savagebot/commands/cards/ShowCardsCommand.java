@@ -47,7 +47,7 @@ public class ShowCardsCommand implements ICommand {
 		}
 		IChannel ch = event.getChannel();
 		if(message.trim().isEmpty()) {
-			message = "Показывать нечего..";
+			message = "Nothing to show..";
 		}
 		ch.sendMessage(message);
 	}

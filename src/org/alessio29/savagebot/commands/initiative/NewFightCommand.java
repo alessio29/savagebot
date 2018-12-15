@@ -44,8 +44,8 @@ public class NewFightCommand implements ICommand {
 		Decks.getDeck(event.getGuild(), event.getChannel()).shuffle();
 		CharacterInitCache.resetCharactersInitiative(event.getGuild());
 		Rounds.resetRounds(event.getGuild(), event.getChannel());
-		event.getChannel().sendMessage("Колода помешана, порядок хода обнулен, начинаем бой.");
-		event.getChannel().sendMessage(" ========== Раунд 1 ========== ");
+		event.getChannel().sendMessage("Deck is shuffled, initiative tracker reset, starting new fight.");
+		event.getChannel().sendMessage(" ========== Round 1 ========== ");
 		return;
 	}
 
