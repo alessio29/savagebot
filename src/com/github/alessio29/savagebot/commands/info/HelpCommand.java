@@ -85,7 +85,7 @@ public class HelpCommand implements ICommand {
 				b.append("\n" + command.asHelpString() + "\n");
 			});
 		});
-		return new CommandExecutionResult(b.toString(), 1);
+		return new CommandExecutionResult(b.toString(), 1, true);
 	}
 	
 

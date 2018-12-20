@@ -21,7 +21,6 @@ public class ShowPocketCommand implements ICommand {
 
 	@Override
 	public String[] getAliases() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

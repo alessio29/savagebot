@@ -53,13 +53,13 @@ public class UseBennyCommand implements ICommand {
 		Channel channel = event.getTextChannel();
 		String charName = Messages.createNameFromArgs(args, 1);
 		Pocket pocket = Pockets.getPocket(guild, channel, charName);
-		BennyColor color = BennyColor.getColor(args[0]);
+		BennyColor color = BennyColor.getColor(args[0].trim());
 		if (color == null ) {
 			throw new Exception("Something wrong with benny color.");
 		}
 		if (pocket.use(color)) {
 			StringBuilder reply = new StringBuilder();
-			reply.append(Messages.capitalize(charName)).append(" used ").append(color).append(" benny.\n");
+			reply.append(Messages.capitalize(charName)).append(" used ").append(Messages.bold(color.toString())).append(" benny.\n");
 			return new CommandExecutionResult(reply.toString(), 3);
 		}
 		return new CommandExecutionResult(charName+" has no such benny", 3);

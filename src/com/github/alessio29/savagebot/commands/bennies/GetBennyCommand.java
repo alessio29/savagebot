@@ -12,7 +12,6 @@ import com.github.alessio29.savagebot.savagebot.bennies.Pockets;
 
 import net.dv8tion.jda.core.entities.Channel;
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 
@@ -25,7 +24,6 @@ public class GetBennyCommand implements ICommand{
 
 	@Override
 	public String[] getAliases() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
@@ -53,7 +51,6 @@ public class GetBennyCommand implements ICommand{
 		
 		Guild guild = event.getGuild();
 		Channel channel = event.getTextChannel();
-		User user = event.getAuthor();
 		Hat hat = Hats.getHat(guild, channel, false);
 		String charName = Messages.createNameFromArgs(args, 0);
 		Pocket pocket = Pockets.getPocket(guild, channel, charName);
@@ -64,7 +61,7 @@ public class GetBennyCommand implements ICommand{
 		}
 		pocket.put(benny);
 		StringBuilder reply = new StringBuilder();
-		reply.append(user.getAsMention()).append(" got from hat ").append(benny.getColor()).append(" benny for ").append(Messages.capitalize(charName)).append(".\n");
+		reply.append(" got from hat ").append(Messages.bold(benny.getColor().toString())).append(" benny for ").append(Messages.bold(Messages.capitalize(charName))).append(".\n");
 		
 		return new CommandExecutionResult(reply.toString(), 2);
 	}

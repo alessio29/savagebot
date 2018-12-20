@@ -50,7 +50,7 @@ public class PrefixCommand implements ICommand {
 			if (prfx == null) {
 				result = new CommandExecutionResult("Custom prefix is not set! Default prefix is "+Prefixes.DEFAULT_PREFIX, 1);
 			} else {
-				result = new CommandExecutionResult("Prefix is "+prfx, 1);
+				result = new CommandExecutionResult("Prefix is '"+prfx+"'", 1);
 			}
 		}
 		return result;

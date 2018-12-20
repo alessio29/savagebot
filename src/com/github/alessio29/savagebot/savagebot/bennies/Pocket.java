@@ -59,7 +59,7 @@ public class Pocket {
 				break;
 			}
 		}
-		return " "+white+" white, "+red+" red, "+blue+" blue and "+golden+" golden benny(ies)";
+		return " **"+white+" white**, **"+red+" red**, **"+blue+" blue** and **"+golden+" golden** benny(ies)";
 	}
 	
 }

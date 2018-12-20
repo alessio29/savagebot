@@ -2,6 +2,8 @@ package com.github.alessio29.savagebot.internal;
 
 import java.util.ArrayList;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import com.github.alessio29.savagebot.commands.ICommand;
 
 import net.dv8tion.jda.core.entities.Guild;
@@ -24,6 +26,9 @@ public class ParseInputListener extends ListenerAdapter {
 		final Guild server = event.getGuild();
 		boolean privateMessage = false; 
 		boolean processed = false;
+		for (int i = 0; i<words.length; i++) {
+			words[i] = StringEscapeUtils.unescapeJava(words[i]);
+		}
 		int index = 0; 
 		while (index < words.length) {
 			String word = words[index];
@@ -46,6 +51,10 @@ public class ParseInputListener extends ListenerAdapter {
 						}
 					}
 				}
+				if (!processed) {
+					index ++;
+					response.add(new CommandExecutionResult(word, 1));
+				}
 
 			} else {
 				response.add(new CommandExecutionResult(word, 1));
@@ -54,7 +63,7 @@ public class ParseInputListener extends ListenerAdapter {
 		}
 		MessageChannel channel = event.getChannel();
 
-		boolean isPrivate = false;
+		boolean isPrivate = response.get(0).isPrivateMessage();
 		String message = "";
 		for (CommandExecutionResult res : response) {
 			if (res.getResult().isEmpty()) {

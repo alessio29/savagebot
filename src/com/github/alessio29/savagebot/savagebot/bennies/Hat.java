@@ -58,10 +58,10 @@ public class Hat {
 	}
 
 	public String getInfo() {
-		return "Inside hat are: "+WHITE_BENNIES_COUNT+" white benny(ies), "+
-					RED_BENNIES_COUNT+" red benny(ies), "+
-					BLUE_BENNIES_COUNT+" benny(ies) and "+
-					GOLDEN_BENNIES_COUNT+" golden benny(ies)";
+		return "Inside hat are: **"+WHITE_BENNIES_COUNT+" white** benny(ies), **"+
+					RED_BENNIES_COUNT+" red** benny(ies), **"+
+					BLUE_BENNIES_COUNT+" blue** benny(ies) and **"+
+					GOLDEN_BENNIES_COUNT+" golden** benny(ies)";
 	}
 	
 	

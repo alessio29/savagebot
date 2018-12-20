@@ -40,7 +40,7 @@ public class DrawInitiativeCardCommand implements ICommand {
 	
 	@Override
 	public Category getCategory() {
-		return Category.CARDS;
+		return Category.INITIATIVE;
 	}
 
 	@Override
@@ -142,7 +142,7 @@ public class DrawInitiativeCardCommand implements ICommand {
 		} else {
 			reply.append("No cards dealt!");
 		}
-		return new CommandExecutionResult(reply.toString(), argsCount);
+		return new CommandExecutionResult(reply.toString(), argsCount+1);
 	}
 
 

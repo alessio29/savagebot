@@ -22,7 +22,6 @@ public class HatCommand implements ICommand {
 
 	@Override
 	public String[] getAliases() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
@@ -46,7 +45,7 @@ public class HatCommand implements ICommand {
 	@Override
 	public CommandExecutionResult execute(MessageReceivedEvent event, String[] args) throws Exception {
 		
-		boolean reset = (args.length>1) && args[1].equals(RESET);
+		boolean reset = (args.length>0) && args[0].equals(RESET);
 		Hat hat = Hats.getHat(event.getGuild(), event.getTextChannel(), reset);
 		if (reset) {
 			Pockets.resetPockets(event.getGuild(), event.getTextChannel());	

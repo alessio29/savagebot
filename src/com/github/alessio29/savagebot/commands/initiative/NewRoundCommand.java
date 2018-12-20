@@ -47,12 +47,14 @@ public class NewRoundCommand implements ICommand {
 		Integer round = Rounds.getGuildRound(guild, event.getTextChannel());
 		Deck deck = Decks.getDeck(guild, event.getChannel());
 		CharacterInitCache.resetCharactersInitiative(guild);
+		String message = ""; 
 		if (deck.isJokerDealt()) {
 			deck.shuffle();
 			deck.setJokerDealt(false);
-			return new CommandExecutionResult(" Joker was dealt in last round, deck is shuffled. ", 1);
+			message = " Joker was dealt in last round, deck is shuffled.\n" ;
 		}
-		return new CommandExecutionResult(" ========== Round "+round+" ========== ", 1);
+		message +=" ========== Round "+round+" ========== ";
+		return new CommandExecutionResult(message, 1);
 	}
 
 }
