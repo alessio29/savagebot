@@ -1,8 +1,9 @@
 package tests;
 
-import org.alessio29.savagebot.cards.Deck;
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.github.alessio29.savagebot.cards.Deck;
 
 public class TestCards {
 
