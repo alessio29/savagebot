@@ -36,7 +36,7 @@ public class ParseInputListener extends ListenerAdapter {
 			if (word.trim().startsWith(prefix)) {
 				String command = word.replaceFirst(prefix, "");
 				for (ICommand cmd : CommandRegistry.current().getRegisteredCommands()) {
-					if (cmd.getName().trim().toLowerCase().equals(command.trim().toLowerCase())) {
+					if (isCommand(cmd, command)) {
 						String[] args = new String[words.length-index-1];
 						System.arraycopy(words, index+1, args, 0, words.length-index-1);
 						try {
@@ -75,5 +75,16 @@ public class ParseInputListener extends ListenerAdapter {
 		if (processed) {
 			Messages.sendMessage(event.getAuthor(), channel, message.trim(), isPrivate);
 		}
+	}
+
+	private boolean isCommand(ICommand cmd, String command) {
+		
+		boolean result = cmd.getName().trim().toLowerCase().equals(command.trim().toLowerCase());
+		if (cmd.getAliases() != null ) {
+			for (String alias : cmd.getAliases()) {
+				result = result || alias.trim().toLowerCase().equals(command.trim().toLowerCase());	
+			}
+		}
+		return result;
 	}
 }
