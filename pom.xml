@@ -6,6 +6,13 @@
 	<artifactId>DiscordBot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
+	<repositories>
+		<repository>
+			<id>jcenter</id>
+			<name>jcenter-bintray</name>
+			<url>http://jcenter.bintray.com</url>
+		</repository>
+	</repositories>
 
 	<properties>
 		<basedir>D:/GIT_REPO/savagebot/</basedir>
@@ -31,7 +38,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>org.alessio29.savagebot.SavageBotRunner</mainClass>
+							<mainClass>com.github.alessio29.savagebot.SavageBotRunner</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
@@ -42,28 +49,17 @@
 
 		</plugins>
 	</build>
-
 	<dependencies>
 		<dependency>
-			<groupId>com.discord4j</groupId>
-			<artifactId>Discord4J</artifactId>
-			<version>2.10.1</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<groupId>net.dv8tion</groupId>
+			<artifactId>JDA</artifactId>
+			<version>3.8.1_448</version>
 		</dependency>
 
 		<dependency>
-			<groupId>com.cardinal</groupId>
-			<artifactId>commands</artifactId>
-			<version>1.0</version>
-			<!-- dependency installed on local maven repository mvn install:install-file 
-				-Dfile=d:/Archive/java_lib/CommandPackage_1.0.jar \ -DgroupId=com.cardinal 
-				-DartifactId=commands -Dversion=1.0 -Dpackaging=jar -->
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
 		</dependency>
-
 	</dependencies>
-
 </project>
