@@ -8,7 +8,7 @@ Click on the following link and authorize bot on your sever: https://discordapp.
 
 **How to use it:**
 
-Start you message with `.` then type any command from the following list. Some commands may require additional parameters.
+Start you message with `~` then type any command from the following list. Some commands may require additional parameters.
 
 
 __**CARDS category**__
@@ -39,23 +39,23 @@ You can use comments in roll: `.r shooting at vampire s8 damage 2d6+1`
 
 Currently supported dice codes are:
 
-`.r 3d6` - roll 3 6-sided dice, show sum
+`~r 3d6` - roll 3 6-sided dice, show sum
 
-`.r 2d8!` - roll 2 'exploding' 8-sided dice, show sum. 'Exploding' means that if die come up with maximum value - it will be rolled again and summed up 
+`~r 2d8!` - roll 2 'exploding' 8-sided dice, show sum. 'Exploding' means that if die come up with maximum value - it will be rolled again and summed up 
 
-`.r 4d6k3` - roll 4 6-sided dice keep 3 highest (DnD attributes roll-up)
+`~r 4d6k3` - roll 4 6-sided dice keep 3 highest (DnD attributes roll-up)
 
-`.r 2d10kl1` - roll 2 10-sided dice keep 1 lowest
+`~r 2d10kl1` - roll 2 10-sided dice keep 1 lowest
 
-`.r s8` - Savage Worlds roll with trait die d8 and wild die d6
+`~r s8` - Savage Worlds roll with trait die d8 and wild die d6
 
-`.r 10s8` - Savage Worlds roll with trait die d8 and wild die d10
+`~r 10s8` - Savage Worlds roll with trait die d8 and wild die d10
 
-`.r 6d6s4` - Lady Blackbird roll - rolls 6 d6 and returns how many dice rolled 4 or more
+`~r 6d6s4` - Lady Blackbird roll - rolls 6 d6 and returns how many dice rolled 4 or more
 
-`.r 6x4d6k3` - roll 4 dice keeping 3 highest 6 times
+`~r 6x4d6k3` - roll 4 dice keeping 3 highest 6 times
 
-`.r d66` - rolls two d6 and returns values from 11 to 66 to support random choice from 6x6 table
+`~r d66` - rolls two d6 and returns values from 11 to 66 to support random choice from 6x6 table
 
 __**BENNIES category**__
 
