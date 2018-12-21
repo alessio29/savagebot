@@ -15,11 +15,6 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 public class ParseInputListener extends ListenerAdapter {
 
-	private static final String BLOCK_PATTERN = "```(.+\n*)+```";
-	
-	private Pattern quotePattern = Pattern.compile("");
-	private Pattern blockPattern = Pattern.compile(BLOCK_PATTERN);
-	
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
 
@@ -37,10 +32,6 @@ public class ParseInputListener extends ListenerAdapter {
 		rawMessage = Messages.removeBlocks(rawMessage);
 		rawMessage = Messages.removeQuotes(rawMessage);
 		
-		Matcher match = blockPattern.matcher(rawMessage);
-		if (match.find()) {
-			rawMessage = rawMessage.replaceAll(BLOCK_PATTERN, "");
-		}
 		// event.getMessage().getContentStripped()
 		String[] words = rawMessage.split("\\s+");
 		ArrayList<CommandExecutionResult> response = new ArrayList<>();   
