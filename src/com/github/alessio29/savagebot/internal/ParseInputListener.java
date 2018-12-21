@@ -1,18 +1,25 @@
 package com.github.alessio29.savagebot.internal;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.github.alessio29.savagebot.commands.ICommand;
 
-import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 public class ParseInputListener extends ListenerAdapter {
 
+	private static final String BLOCK_PATTERN = "```(.+\n*)+```";
+	
+	private Pattern quotePattern = Pattern.compile("");
+	private Pattern blockPattern = Pattern.compile(BLOCK_PATTERN);
+	
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
 
@@ -20,10 +27,24 @@ public class ParseInputListener extends ListenerAdapter {
 			// do not respond to bots (including myself :) ) 
 			return;
 		}
-
-		String[] words = event.getMessage().getContentStripped().split("\\s+");
+		
+		// Remove quotes and blocks
+		// Quote is line started with '>' and ended with \n
+		// Blocks start and end with ```
+		
+		String rawMessage = event.getMessage().getContentRaw();
+		
+		rawMessage = Messages.removeBlocks(rawMessage);
+		rawMessage = Messages.removeQuotes(rawMessage);
+		
+		Matcher match = blockPattern.matcher(rawMessage);
+		if (match.find()) {
+			rawMessage = rawMessage.replaceAll(BLOCK_PATTERN, "");
+		}
+		// event.getMessage().getContentStripped()
+		String[] words = rawMessage.split("\\s+");
 		ArrayList<CommandExecutionResult> response = new ArrayList<>();   
-		final Guild server = event.getGuild();
+		final User user = event.getAuthor();		
 		boolean privateMessage = false; 
 		boolean processed = false;
 		for (int i = 0; i<words.length; i++) {
@@ -32,7 +53,7 @@ public class ParseInputListener extends ListenerAdapter {
 		int index = 0; 
 		while (index < words.length) {
 			String word = words[index];
-			String prefix = Prefixes.getPrefix(server);
+			String prefix = Prefixes.getPrefix(user);
 			if (word.trim().startsWith(prefix)) {
 				String command = word.replaceFirst(prefix, "");
 				for (ICommand cmd : CommandRegistry.current().getRegisteredCommands()) {
