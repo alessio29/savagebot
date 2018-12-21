@@ -85,4 +85,4 @@ __**ADMIN category**__
 
 **ping**			Checks SavageBot readiness
 
-**prefix**		[<character>]	Sets <character> as custom user-defined command prefix or shows current prefix
+**prefix**		[character]	Sets <character> as custom user-defined command prefix or shows current prefix
