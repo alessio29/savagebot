@@ -117,4 +117,34 @@ public class Messages {
 		}
 		return res;
 	}
+
+	private static final String BLOCK_MARKER = "```";
+	private static final String QUOTE_MARKER = ">"; 
+	
+	
+	public static String removeBlocks(String rawMessage) {
+
+		while (rawMessage.contains(BLOCK_MARKER)) {
+			int blockStarts = rawMessage.indexOf(BLOCK_MARKER);
+			int blockStops = rawMessage.indexOf(BLOCK_MARKER, blockStarts+1);
+			if (blockStops==-1) {
+				return rawMessage;
+			}
+			rawMessage = rawMessage.substring(0, blockStarts)+rawMessage.substring(blockStops+3);
+		}
+		return rawMessage;
+	}
+
+	public static String removeQuotes(String rawMessage) {
+		
+		String[] lines = rawMessage.split("\n"); 
+		ArrayList<String> res = new ArrayList<>();
+		
+		for (String line : lines ) { 
+			if (!line.startsWith(QUOTE_MARKER)) {
+				res.add(line);
+			}
+		}
+		return String.join("\n", res);
+	}
 }

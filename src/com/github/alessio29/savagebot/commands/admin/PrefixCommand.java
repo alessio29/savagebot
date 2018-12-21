@@ -42,11 +42,11 @@ public class PrefixCommand implements ICommand {
 			if (newPrefix.length()>1) {
 				result = new CommandExecutionResult("Prefix must be one-character long!", 1);
 			} else {
-				Prefixes.setPrefix(event.getGuild(), newPrefix);
+				Prefixes.setPrefix(event.getAuthor(), newPrefix);
 				result = new CommandExecutionResult("Prefix is set to "+newPrefix, 2);
 			}
 		} else {
-			String prfx = Prefixes.getPrefix(event.getGuild());
+			String prfx = Prefixes.getPrefix(event.getAuthor());
 			if (prfx == null) {
 				result = new CommandExecutionResult("Custom prefix is not set! Default prefix is "+Prefixes.DEFAULT_PREFIX, 1);
 			} else {
