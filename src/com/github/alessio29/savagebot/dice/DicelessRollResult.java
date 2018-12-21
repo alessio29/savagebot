@@ -12,5 +12,4 @@ public class DicelessRollResult extends DiceRollResult {
 		this.setDieCode(roll);
 		this.setDetails(roll);
 	}
-
 }

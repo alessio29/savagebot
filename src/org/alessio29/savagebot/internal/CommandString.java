@@ -12,7 +12,7 @@ public class CommandString {
 	
 	public CommandString(String content) {
 
-		setCommands(Arrays.asList(content.split(" ")));
+		setCommands(Arrays.asList(content.split("\\s+")));
 	}
 
 

@@ -50,9 +50,9 @@ public class OpenCardCommand implements ICommand {
 		}
 		int count = 1;
 		int index = 1;
-		if (args.length > 1) {
+		if (args.length > 0) {
 			try {
-				count = Integer.parseInt(args[1]);
+				count = Integer.parseInt(args[0]);
 				index = 2;
 			} catch (Exception e) {
 				// count will be 1

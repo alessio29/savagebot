@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import com.github.alessio29.savagebot.characters.CharacterInitCache;
 import com.github.alessio29.savagebot.characters.CharacterInitiative;
 import com.github.alessio29.savagebot.dice.DiceRollResult;
+import com.github.alessio29.savagebot.dice.DicelessRollResult;
 
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
@@ -83,7 +84,11 @@ public class Messages {
 	public static String createStringRepresentation(List<DiceRollResult> rollResults) {
 		String result = "";
 		for (DiceRollResult roll : rollResults) {
-			result = result.concat(toStr(roll));
+			if (roll instanceof DicelessRollResult) {
+				result = result.concat(toStr(roll));
+			} else {
+				result = result.concat(toStr(roll)+"\n");	
+			}
 		}
 		return result;
 	}

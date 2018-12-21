@@ -14,6 +14,7 @@ import com.github.alessio29.savagebot.internal.Messages;
 
 public class SimpleParser {
 
+	private static final Pattern d66RollPattern = Pattern.compile("^d66$");
 	private static final Pattern repeatRollPattern = Pattern.compile("^[0-9]+x");
 	private static final Pattern basicAndExplodingPattern = Pattern.compile("^[0-9]*d[0-9]+!?$");
 	private static final Pattern rollAndKeepPattern = Pattern.compile("^[0-9]*d[0-9]+k[0-9]+$"); 
@@ -26,7 +27,7 @@ public class SimpleParser {
 	
 	public static String parseString(String s) throws ParseErrorException, WrongDieCodeException {
 		String result = "";
-		String[] rolls = s.split(" ");
+		String[] rolls = s.split("\\s+");
 		for (String roll: rolls) {
 			List<DiceRollResult> rollResults = parseRepeatingDiceCode(roll);
 			result = (result.isEmpty())?Messages.createStringRepresentation(rollResults):result+" "+Messages.createStringRepresentation(rollResults);
@@ -105,6 +106,12 @@ public class SimpleParser {
 
 	private static DiceRollResult parseDiceCode(String roll) throws ParseErrorException, WrongDieCodeException {
 
+		Matcher d66Matcher = d66RollPattern.matcher(roll);
+		if (d66Matcher.find()) {
+			return Dice.rolld66Dice();
+		}
+		
+		
 		Matcher basicExplodingMatcher = basicAndExplodingPattern.matcher(roll);
 		if (basicExplodingMatcher.find()) {
 			boolean explode = roll.endsWith("!");

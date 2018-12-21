@@ -21,7 +21,7 @@ public class ParseInputListener extends ListenerAdapter {
 			return;
 		}
 
-		String[] words = event.getMessage().getContentStripped().split(" ");
+		String[] words = event.getMessage().getContentStripped().split("\\s+");
 		ArrayList<CommandExecutionResult> response = new ArrayList<>();   
 		final Guild server = event.getGuild();
 		boolean privateMessage = false; 

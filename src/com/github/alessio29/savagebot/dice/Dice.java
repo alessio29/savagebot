@@ -122,4 +122,13 @@ public class Dice {
 		result.setResult(successCount);
 		return result;
 	}
+
+
+	public static DiceRollResult rolld66Dice() throws WrongDieCodeException {
+		
+		DiceRollResult roll1 =  rollDie(6,false);
+		DiceRollResult roll2 =  rollDie(6,false);
+		
+		return new D66RollResult(roll1, roll2);
+	}
 }

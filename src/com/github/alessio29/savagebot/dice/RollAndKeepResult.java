@@ -6,6 +6,4 @@ public class RollAndKeepResult extends DiceRollResult {
 
 		this.setDieCode(dieCount+"d"+dieSize+"k"+keepCount);
 	}
-
-	
 }
