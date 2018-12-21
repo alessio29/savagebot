@@ -31,7 +31,7 @@ add il if character has edge Improved Levelheaded
 
 __**DICE category**__
 
-**r**	or **roll** <die code1> <die code2> ... <die code n>	rolls dice
+**r**	or **roll**	rolls dice
 
 You can use multiple rolls in one command separated by space: `.r d6 d4! d10+d12`
 
