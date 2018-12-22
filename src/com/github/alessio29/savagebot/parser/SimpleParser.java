@@ -14,13 +14,14 @@ import com.github.alessio29.savagebot.internal.Messages;
 
 public class SimpleParser {
 
-	private static final Pattern d66RollPattern = Pattern.compile("^d66$");
+	private static final Pattern d66RollPattern = Pattern.compile("^[dDêÊäÄ]66$");
 	private static final Pattern repeatRollPattern = Pattern.compile("^[0-9]+x");
-	private static final Pattern basicAndExplodingPattern = Pattern.compile("^[0-9]*d[0-9]+!?$");
-	private static final Pattern rollAndKeepPattern = Pattern.compile("^[0-9]*d[0-9]+k[0-9]+$"); 
-	private static final Pattern rollAndKeepLowestPattern = Pattern.compile("^[0-9]*d[0-9]+kl[0-9]+$");
-	private static final Pattern savageWorldsPattern = Pattern.compile("^(4|6|8|10|12)?s(4|6|8|10|12)+$");
-	private static final Pattern ladyBlackbirdPattern = Pattern.compile("^[0-9]*d[0-9]+s[0-9]+$");
+	private static final Pattern basicAndExplodingPattern = Pattern.compile("^[0-9]*[dDêÊäÄ][0-9]+!?$");
+	private static final Pattern fudgePattern = Pattern.compile("^[0-9]*[dDêÊäÄ][FfÔô]?$");
+	private static final Pattern rollAndKeepPattern = Pattern.compile("^[0-9]*[dDêÊäÄ][0-9]+[kKáÁ][0-9]+$"); 
+	private static final Pattern rollAndKeepLowestPattern = Pattern.compile("^[0-9]*[dDêÊäÄ][0-9]+[kKìÌ][0-9]+$");
+	private static final Pattern savageWorldsPattern = Pattern.compile("^(4|6|8|10|12)?[sSñÑ](4|6|8|10|12)+$");
+	private static final Pattern ladyBlackbirdPattern = Pattern.compile("^[0-9]*[dDêÊäÄ][0-9]+[sSóÓ][0-9]+$");
 	
 	private static final Pattern summPattern = Pattern.compile("^.+(\\+|-){1}.+$");
 	private static final String[] PLUS_MINUS = {"+", "-"};
@@ -108,14 +109,19 @@ public class SimpleParser {
 
 		Matcher d66Matcher = d66RollPattern.matcher(roll);
 		if (d66Matcher.find()) {
-			return Dice.rolld66Dice();
+			return Dice.rollD66Dice();
 		}
 		
+		DiceRollResult rollResult = fudgeRoll(roll);
+		if (rollResult != null) {
+			return rollResult;
+		}
 		
 		Matcher basicExplodingMatcher = basicAndExplodingPattern.matcher(roll);
 		if (basicExplodingMatcher.find()) {
 			boolean explode = roll.endsWith("!");
-			String[] s = roll.split("d");
+			String dieLetter = findDieLetter(roll);			
+			String[] s = roll.split(dieLetter);
 			Integer dieCount = 1;
 			if (!s[0].trim().isEmpty() ) {
 				dieCount = Integer.parseInt(s[0]);	
@@ -130,12 +136,14 @@ public class SimpleParser {
 
 		Matcher rollAndKeepLowestMatcher = rollAndKeepLowestPattern.matcher(roll);
 		if(rollAndKeepLowestMatcher.find()) {
-			String[] s = roll.split("d");
+			String dieLetter = findDieLetter(roll);
+			String[] s = roll.split(dieLetter);
 			Integer dieCount = 1;
 			if (!s[0].trim().isEmpty() ) {
 				dieCount = Integer.parseInt(s[0]);	
 			}
-			String[] d = s[1].split("kl");
+			String keepLowest = findKeepLowest(roll);
+			String[] d = s[1].split(keepLowest);
 			Integer dieSize=Integer.parseInt(d[0]);
 			Integer keepCount = Integer.parseInt(d[1]);
 			if (keepCount>dieCount) {
@@ -146,12 +154,13 @@ public class SimpleParser {
 		
 		Matcher rollAndKeepMatcher = rollAndKeepPattern.matcher(roll);
 		if(rollAndKeepMatcher.find()) {
-			String[] s = roll.split("d");
+
+			String[] s = roll.split(findDieLetter(roll));
 			Integer dieCount = 1;
 			if (!s[0].trim().isEmpty() ) {
 				dieCount = Integer.parseInt(s[0]);	
 			}
-			String[] d = s[1].split("k");
+			String[] d = s[1].split(findKeepLetter(roll));
 			Integer dieSize=Integer.parseInt(d[0]);
 			Integer keepCount = Integer.parseInt(d[1]);
 			if (keepCount>dieCount) {
@@ -162,7 +171,7 @@ public class SimpleParser {
 				
 		Matcher savageWorldsMatcher = savageWorldsPattern.matcher(roll);
 		if(savageWorldsMatcher.find()) {
-			String[] s = roll.split("s");
+			String[] s = roll.split(findSavageLetter(roll));
 			Integer wildDieSize = 6;
 			if (!s[0].trim().isEmpty() ) {
 				wildDieSize = Integer.parseInt(s[0]);	
@@ -173,12 +182,12 @@ public class SimpleParser {
 		
 		Matcher ladyBlackbirdMatcher = ladyBlackbirdPattern.matcher(roll);
 		if(ladyBlackbirdMatcher.find()) {
-			String[] s = roll.split("d");
+			String[] s = roll.split(findDieLetter(roll));
 			Integer dieCount = 1;
 			if (!s[0].trim().isEmpty() ) {
 				dieCount = Integer.parseInt(s[0]);	
 			}
-			String[] d = s[1].split("s");
+			String[] d = s[1].split(findSuccessLetter(roll));
 			Integer dieSize=Integer.parseInt(d[0]);
 			Integer successTreshold = Integer.parseInt(d[1]);
 			if (successTreshold>dieSize || successTreshold<2) {
@@ -188,6 +197,62 @@ public class SimpleParser {
 		}
 		
 		return new DicelessRollResult(roll);
+	}
+
+	private static String findSuccessLetter(String roll) {
+		String[] klLetters = {"s", "S", "ó", "Ó" };
+		return findLetter(klLetters, roll);
+	}
+
+	private static String findSavageLetter(String roll) {
+		String[] klLetters = {"s", "S", "ñ", "Ñ" };
+		return findLetter(klLetters, roll);
+	}
+
+	private static String findKeepLetter(String roll) {
+		
+		String[] klLetters = {"k", "K", "á", "Á" };
+		return findLetter(klLetters, roll);
+	}
+
+	private static String findKeepLowest(String roll) {
+		String[] klLetters = {"kl", "KL", "ì", "Ì" };
+		
+		return findLetter(klLetters, roll);
+	}
+
+	private static String findLetter(String[] letters, String roll) {
+		for (String letter : letters) {
+			if (roll.contains(letter)) {
+				return letter;
+			}
+		}
+		return null;
+	}
+
+	private static String findDieLetter(String roll) {
+		
+		String[] dieLetters = {"d", "D", "ê", "Ê", "ä", "Ä"}; 
+		
+		return findLetter(dieLetters , roll);
+
+	}
+
+	private static DiceRollResult fudgeRoll(String roll) throws WrongDieCodeException {
+		Matcher fudgeMatcher = fudgePattern.matcher(roll);
+		if (fudgeMatcher .find()) {
+			Integer dieCount = 1;
+			int pos = roll.trim().toLowerCase().indexOf("df");
+			if (pos == -1) {
+				pos = roll.trim().toLowerCase().indexOf("äô");
+			}
+			if (pos == -1) {
+				pos = roll.trim().toLowerCase().indexOf("êô");
+			}			
+			dieCount = Integer.parseInt(roll.substring(0, pos));
+			return Dice.rollFudgeDice(dieCount);
+		}
+		return null;
 	}
 	
 }

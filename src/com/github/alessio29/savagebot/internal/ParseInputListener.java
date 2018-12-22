@@ -1,8 +1,6 @@
 package com.github.alessio29.savagebot.internal;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
@@ -22,17 +20,11 @@ public class ParseInputListener extends ListenerAdapter {
 			// do not respond to bots (including myself :) ) 
 			return;
 		}
-		
-		// Remove quotes and blocks
-		// Quote is line started with '>' and ended with \n
-		// Blocks start and end with ```
-		
 		String rawMessage = event.getMessage().getContentRaw();
 		
 		rawMessage = Messages.removeBlocks(rawMessage);
 		rawMessage = Messages.removeQuotes(rawMessage);
-		
-		// event.getMessage().getContentStripped()
+
 		String[] words = rawMessage.split("\\s+");
 		ArrayList<CommandExecutionResult> response = new ArrayList<>();   
 		final User user = event.getAuthor();		
@@ -47,21 +39,21 @@ public class ParseInputListener extends ListenerAdapter {
 			String prefix = Prefixes.getPrefix(user);
 			if (word.trim().startsWith(prefix)) {
 				String command = word.replaceFirst(prefix, "");
-				for (ICommand cmd : CommandRegistry.current().getRegisteredCommands()) {
-					if (isCommand(cmd, command)) {
-						String[] args = new String[words.length-index-1];
-						System.arraycopy(words, index+1, args, 0, words.length-index-1);
-						try {
-							CommandExecutionResult res = CommandInterpreter.runCommand(event, command, args);	
-							processed = true;
-							privateMessage = privateMessage | res.isPrivateMessage();
-							response.add(res);
-							index+=res.getToSkip();
-						} catch (Exception e) {
-							Messages.sendMessage(event.getAuthor(), event.getChannel(), "Error while executing command "+word+". Details:  "+e.getMessage(), false);
-							index++;
-						}
-					}
+				
+				ICommand cmd = CommandRegistry.current().getCommandByName(command);
+				if (cmd!=null) {
+					String[] args = new String[words.length-index-1];
+					System.arraycopy(words, index+1, args, 0, words.length-index-1);
+					try {
+						CommandExecutionResult res = CommandInterpreter.runCommand(event, command, args);	
+						processed = true;
+						privateMessage = privateMessage | res.isPrivateMessage();
+						response.add(res);
+						index+=res.getToSkip();
+					} catch (Exception e) {
+						Messages.sendMessage(event.getAuthor(), event.getChannel(), "Error while executing command "+word+". Details:  "+e.getMessage(), false);
+						index++;
+					}					
 				}
 				if (!processed) {
 					index ++;
@@ -87,16 +79,5 @@ public class ParseInputListener extends ListenerAdapter {
 		if (processed) {
 			Messages.sendMessage(event.getAuthor(), channel, message.trim(), isPrivate);
 		}
-	}
-
-	private boolean isCommand(ICommand cmd, String command) {
-		
-		boolean result = cmd.getName().trim().toLowerCase().equals(command.trim().toLowerCase());
-		if (cmd.getAliases() != null ) {
-			for (String alias : cmd.getAliases()) {
-				result = result || alias.trim().toLowerCase().equals(command.trim().toLowerCase());	
-			}
-		}
-		return result;
 	}
 }
