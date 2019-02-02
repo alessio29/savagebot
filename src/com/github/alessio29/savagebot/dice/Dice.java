@@ -124,11 +124,27 @@ public class Dice {
 	}
 
 
-	public static DiceRollResult rolld66Dice() throws WrongDieCodeException {
+	public static DiceRollResult rollD66Dice() throws WrongDieCodeException {
 		
 		DiceRollResult roll1 =  rollDie(6,false);
 		DiceRollResult roll2 =  rollDie(6,false);
 		
 		return new D66RollResult(roll1, roll2);
+	}
+
+
+	public static DiceRollResult rollFudgeDice(Integer dieCount) throws WrongDieCodeException {
+		
+		DiceRollResult result = new DiceRollResult();
+		ArrayList<String> rep = new ArrayList<>(dieCount);
+		for (int i=0; i<dieCount; i++ ) {
+			DiceRollResult d = rollDie(3,false);
+			long val = d.getResult()-2;
+			String dieCode = (val==0)?"0":((val<0)?"-":"+");
+			result.setResult(result.getResult()+val);
+			rep.add(dieCode);
+		}
+		result.setDetails(String.join(";", rep));
+		return result;
 	}
 }

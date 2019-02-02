@@ -19,7 +19,7 @@ public class RollDiceCommand implements ICommand {
 
 	@Override
 	public String[] getAliases() {
-		String[] res = {"roll"};
+		String[] res = {"roll", "á"};
 		return res;
 	}
 	
