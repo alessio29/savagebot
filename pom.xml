@@ -17,7 +17,6 @@
 	<properties>
 		<basedir>D:/GIT_REPO/savagebot/</basedir>
 		<javalib>d:/Archive/java_lib/</javalib>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<build>
