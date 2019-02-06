@@ -57,6 +57,8 @@ Currently supported dice codes are:
 
 `~r d66` - rolls two d6 and returns values from 11 to 66 to support random choice from 6x6 table
 
+`~r 4dF` - rolls Fudge/FATE dice
+
 __**BENNIES category**__
 
 **pocket**		<characterName>	Shows character's bennies
