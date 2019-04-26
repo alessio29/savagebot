@@ -17,6 +17,8 @@
 	<properties>
 		<basedir>D:/GIT_REPO/savagebot/</basedir>
 		<javalib>d:/Archive/java_lib/</javalib>
+
+        <antlr.version>4.7.2</antlr.version>
 	</properties>
 
 	<build>
@@ -45,19 +47,21 @@
 				</configuration>
 			</plugin>
 
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>org.alessio29.savagebot.SavageBotRunner</mainClass>
-						</manifest>
-					</archive>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-				</configuration>
-			</plugin>
+            <plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-maven-plugin</artifactId>
+                <version>${antlr.version}</version>
+                <configuration>
+                    <visitor>true</visitor>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>antlr4</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 	<dependencies>
@@ -78,5 +82,10 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>${antlr.version}</version>
+        </dependency>
 	</dependencies>
 </project>
