@@ -25,6 +25,10 @@ public class Decks {
 		if(guidlDecks == null) {
 			Decks.addDeck(guild, channel, Deck.createNewDeck());
 		}
+		Deck result = decks.get(guild).get(channel);
+		if (result == null ) {
+			Decks.addDeck(guild, channel, Deck.createNewDeck());
+		}
 		return decks.get(guild).get(channel);
 	}
 		

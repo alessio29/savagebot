@@ -16,11 +16,13 @@ public class SimpleParser {
 
 	private static final Pattern d66RollPattern = Pattern.compile("^[dDêÊäÄ]66$");
 	private static final Pattern repeatRollPattern = Pattern.compile("^[0-9]+x");
+	private static final Pattern limitDamagePattern = Pattern.compile("^\\[\\S+\\]$");
 	private static final Pattern basicAndExplodingPattern = Pattern.compile("^[0-9]*[dDêÊäÄ][0-9]+!?$");
 	private static final Pattern fudgePattern = Pattern.compile("^[0-9]*[dDêÊäÄ][FfÔô]?$");
 	private static final Pattern rollAndKeepPattern = Pattern.compile("^[0-9]*[dDêÊäÄ][0-9]+[kKáÁ][0-9]+$"); 
-	private static final Pattern rollAndKeepLowestPattern = Pattern.compile("^[0-9]*[dDêÊäÄ][0-9]+[kKìÌ][0-9]+$");
-	private static final Pattern savageWorldsPattern = Pattern.compile("^(4|6|8|10|12)?[sSñÑ](4|6|8|10|12)+$");
+	private static final Pattern rollAndKeepLowestPattern = Pattern.compile("^[0-9]*[dDêÊäÄ][0-9]+(kl|KL|ì|Ì)[0-9]+$");
+	private static final Pattern savageWorldsPattern = Pattern.compile("^[0-9]*[sSñÑ](4|6|8|10|12)+$");
+	private static final Pattern savageWorldsPatternWithCustomWildDiePattern = Pattern.compile("^[0-9]*[sSñÑ](4|6|8|10|12)[wWäÄ](4|6|8|10|12)+$");
 	private static final Pattern ladyBlackbirdPattern = Pattern.compile("^[0-9]*[dDêÊäÄ][0-9]+[sSóÓ][0-9]+$");
 	
 	private static final Pattern summPattern = Pattern.compile("^.+(\\+|-){1}.+$");
@@ -29,9 +31,10 @@ public class SimpleParser {
 	public static String parseString(String s) throws ParseErrorException, WrongDieCodeException {
 		String result = "";
 		String[] rolls = s.split("\\s+");
+
 		for (String roll: rolls) {
 			List<DiceRollResult> rollResults = parseRepeatingDiceCode(roll);
-			result = (result.isEmpty())?Messages.createStringRepresentation(rollResults):result+" "+Messages.createStringRepresentation(rollResults);
+			result = (result.isEmpty())?Messages.createStringRepresentation(rollResults) : result+Messages.createStringRepresentation(rollResults);
 		}
 		return result.trim();
 	}
@@ -47,14 +50,38 @@ public class SimpleParser {
 			roll2repeat = roll.split("x")[1];
 		} 
 		for (int i=0; i<repeatCount; i++) {
-			DiceRollResult rollDie = parseSumm(roll2repeat); 
+			Limits limits = new Limits();
+			if (isLimitedRoll(roll2repeat)) {
+				roll2repeat = roll2repeat.substring(1, roll2repeat.length()-1);
+				limits = parseLimits(roll2repeat);	
+			}
+			DiceRollResult rollDie = parseSumm(roll2repeat, limits); 
 			result.add(rollDie);
 		}
 		return result;
 		
 	}
 	
-	private static DiceRollResult parseSumm(String roll) throws ParseErrorException, WrongDieCodeException {
+	private static boolean isLimitedRoll(String roll2repeat) {
+		Matcher limitDamageMatcher = limitDamagePattern.matcher(roll2repeat);
+		return limitDamageMatcher.find();
+	}
+
+	private static Limits parseLimits(String roll) {
+		
+		int lowerLimit = Integer.MIN_VALUE;
+		int upperLimit = Integer.MAX_VALUE;
+		
+		Matcher limitDamageMatcher = limitDamagePattern.matcher(roll);
+		if (limitDamageMatcher.find()) {
+			lowerLimit = calculateLowerLimit(roll);
+			upperLimit = calculateUpperLimit(roll);
+		}
+		
+		return new Limits(lowerLimit, upperLimit);
+	}
+
+	private static DiceRollResult parseSumm(String roll, Limits limits) throws ParseErrorException, WrongDieCodeException {
 	
 		Matcher summMatcher = summPattern.matcher(roll);
 		if (summMatcher.find()) {
@@ -69,7 +96,7 @@ public class SimpleParser {
 			if (leftRoll.isString()) {
 				return new DiceRollResult(roll);
 			}
-			leftRoll.add(parseSumm(right), sign);
+			leftRoll.add(parseSumm(right, Limits.NOLIMITS), sign);
 			return leftRoll;
 		}
 		return parseDiceCode(roll);
@@ -112,9 +139,21 @@ public class SimpleParser {
 			return Dice.rollD66Dice();
 		}
 		
-		DiceRollResult rollResult = fudgeRoll(roll);
-		if (rollResult != null) {
-			return rollResult;
+		Matcher fudgeMatcher = fudgePattern.matcher(roll);
+		if (fudgeMatcher .find()) {
+			Integer dieCount = 1;
+			int pos = roll.trim().toLowerCase().indexOf("df");
+			if (pos == -1) {
+				pos = roll.trim().toLowerCase().indexOf("dF");
+			}
+			if (pos == -1) {
+				pos = roll.trim().toLowerCase().indexOf("äô");
+			}
+			if (pos == -1) {
+				pos = roll.trim().toLowerCase().indexOf("êô");
+			}			
+			dieCount = Integer.parseInt(roll.substring(0, pos));
+			return Dice.rollFudgeDice(dieCount);
 		}
 		
 		Matcher basicExplodingMatcher = basicAndExplodingPattern.matcher(roll);
@@ -168,16 +207,33 @@ public class SimpleParser {
 			}
 			return Dice.rollRollKeepDice(dieCount, dieSize, keepCount);
 		}
-				
+
+		Matcher savageWorldsPatternWithCustomWildDieMatcher = savageWorldsPatternWithCustomWildDiePattern.matcher(roll);
+		if(savageWorldsPatternWithCustomWildDieMatcher.find()) {
+			String[] s = roll.split(findSavageLetter(roll));
+			int diceCount = 1;
+			if (!s[0].trim().isEmpty() ) {
+				diceCount = Integer.parseInt(s[0]);	
+			}
+			String[] s1 = s[1].split(findWildDieLetter(s[1]));
+ 
+			int traitDieSize = Integer.parseInt(s1[0]);
+			Integer wildDieSize = 6;
+			if (!s1[1].trim().isEmpty() ) {
+				wildDieSize = Integer.parseInt(s1[1]);	
+			}
+			return Dice.rollSavageDice(diceCount, traitDieSize, wildDieSize);
+		}		
+		
 		Matcher savageWorldsMatcher = savageWorldsPattern.matcher(roll);
 		if(savageWorldsMatcher.find()) {
 			String[] s = roll.split(findSavageLetter(roll));
-			Integer wildDieSize = 6;
+			int diceCount = 1;
 			if (!s[0].trim().isEmpty() ) {
-				wildDieSize = Integer.parseInt(s[0]);	
+				diceCount = Integer.parseInt(s[0]);	
 			}
 			int traitDieSize = Integer.parseInt(s[1]);
-			return Dice.rollSavageDice(traitDieSize, wildDieSize);
+			return Dice.rollSavageDice(diceCount, traitDieSize, 6);
 		}
 		
 		Matcher ladyBlackbirdMatcher = ladyBlackbirdPattern.matcher(roll);
@@ -197,6 +253,43 @@ public class SimpleParser {
 		}
 		
 		return new DicelessRollResult(roll);
+	}
+
+	private static int calculateUpperLimit(String roll) {
+		
+		
+		return 0;
+	}
+
+	private static int calculateLowerLimit(String roll) {
+		
+		int lowerDieSize = findLowerDie(roll);
+		
+		return lowerDieSize;
+	}
+
+	private static int findLowerDie(String roll) {
+	
+		int dieSize = Integer.MAX_VALUE; 
+		String[] items = roll.split("(\\+|\\-)");
+		for (String item : items) {
+			String[] s = item.split("d");
+			if (s.length>1) {
+				try {
+					int val = Integer.parseInt(s[1]);
+					if (val<dieSize) {
+						dieSize = val;
+					}
+				} catch (NumberFormatException e) {
+				}
+			}
+		}
+		return dieSize;
+	}
+
+	private static String findWildDieLetter(String roll) {
+		String[] klLetters = {"w", "W", "ä", "Ä" };
+		return findLetter(klLetters, roll);
 	}
 
 	private static String findSuccessLetter(String roll) {
@@ -237,22 +330,4 @@ public class SimpleParser {
 		return findLetter(dieLetters , roll);
 
 	}
-
-	private static DiceRollResult fudgeRoll(String roll) throws WrongDieCodeException {
-		Matcher fudgeMatcher = fudgePattern.matcher(roll);
-		if (fudgeMatcher .find()) {
-			Integer dieCount = 1;
-			int pos = roll.trim().toLowerCase().indexOf("df");
-			if (pos == -1) {
-				pos = roll.trim().toLowerCase().indexOf("äô");
-			}
-			if (pos == -1) {
-				pos = roll.trim().toLowerCase().indexOf("êô");
-			}			
-			dieCount = Integer.parseInt(roll.substring(0, pos));
-			return Dice.rollFudgeDice(dieCount);
-		}
-		return null;
-	}
-	
 }

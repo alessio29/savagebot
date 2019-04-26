@@ -7,7 +7,7 @@ public class DiceRollResult {
 	
 	private String original="";
 	private String dieCode="";
-	private long result = 0l;
+	private String result = "";
 	private String details = "";
 	private boolean explode = false;
 	
@@ -19,7 +19,7 @@ public class DiceRollResult {
 	}
 
 	public void addDie(DiceRollResult currentDie) {
-		this.result+=currentDie.result;
+		this.result =this.getIntResult()+currentDie.getIntResult()+"";
 		this.details+=((this.details.isEmpty())?"":"+")+currentDie.details;
 	}
 
@@ -31,11 +31,18 @@ public class DiceRollResult {
 		this.details = details;
 	}
 	
-	public long getResult() {
+	public int getIntResult() {
+		if (result.isEmpty()) {
+			return 0;
+		}
+		return Integer.parseInt(result);
+	}
+	
+	public String getResult() {
 		return result;
 	}
 	
-	public void setResult(long result) {
+	public void setResult(String result) {
 		this.result = result;
 	}
 	
@@ -72,7 +79,7 @@ public class DiceRollResult {
 	}
 
 	public void addMeaningfulValue(DiceRollResult diceRollResult) {
-		this.result +=diceRollResult.result;
+		this.result =this.getIntResult()+diceRollResult.getIntResult()+"";
 		this.details = (this.details.isEmpty())?Messages.bold(diceRollResult.details):
 			this.details+"+"+Messages.bold(diceRollResult.details);	
 	}
@@ -89,10 +96,13 @@ public class DiceRollResult {
 	public void add(DiceRollResult rollDie, String sign) throws ParseErrorException { 
 		
 		if (sign.equals("+") || sign.equals("-")  ) {
+			int val1 = Integer.parseInt(this.result);
+			int val2 = Integer.parseInt(rollDie.result);
+
 			if (sign.equals("+")) {
-				this.result += rollDie.result;
+				this.result = val1+val2+"";
 			} else {
-				this.result -= rollDie.result;
+				this.result = val1-val2+"";
 			}
 			this.dieCode += sign+rollDie.dieCode;
 			if (this.details.isEmpty()) {
@@ -105,4 +115,5 @@ public class DiceRollResult {
 		}	
 		throw new ParseErrorException("Wrong sign: + or - expected, but "+sign+" ecountered!"); 
 	}
+
 }

@@ -7,17 +7,17 @@ public class SavageWorldRollResult extends DiceRollResult {
 	public SavageWorldRollResult(DiceRollResult trait, DiceRollResult wild) {
 		
 		long res = 0;
-		if (trait.getResult()>wild.getResult()) {
+		if (trait.getIntResult()>wild.getIntResult()) {
 			trait.setDetails(Messages.bold(trait.getDetails()));
-			res = trait.getResult();
+			res = trait.getIntResult();
 		} else {
 			wild.setDetails(Messages.bold(wild.getDetails()));
-			res = wild.getResult();
+			res = wild.getIntResult();
 		}
 		this.setDieCode("max("+trait.getDieCode()+";"+wild.getDieCode()+")");
 		
 		this.setDetails("("+trait.getDetails()+";"+wild.getDetails()+")" );
-		this.setResult(res);
+		this.setResult(res+"");
 	}
 	
 }
