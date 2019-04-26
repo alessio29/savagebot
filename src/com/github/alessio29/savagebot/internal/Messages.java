@@ -83,12 +83,18 @@ public class Messages {
 
 	public static String createStringRepresentation(List<DiceRollResult> rollResults) {
 		String result = "";
+		int num = 1;
 		for (DiceRollResult roll : rollResults) {
-			if (roll instanceof DicelessRollResult) {
-				result = result.concat(toStr(roll));
-			} else {
-				result = result.concat(toStr(roll)+"\n");	
+			String s = toStr(roll);
+			if (rollResults.size()>1) {
+				s = num+": "+s;
 			}
+			if (roll instanceof DicelessRollResult) {
+				result = result.concat(s);
+			} else {
+				result = result.concat(s+"\n");	
+			}
+			num++;
 		}
 		return result;
 	}
@@ -96,7 +102,7 @@ public class Messages {
 	private static String toStr(DiceRollResult roll) {
 		
 		if (!roll.getOriginal().trim().isEmpty()) {
-			return roll.getOriginal();
+			return roll.getOriginal()+" ";
 		}
 		String dieCode="";
 		if (!roll.getDieCode().trim().isEmpty()) {
@@ -106,7 +112,7 @@ public class Messages {
 		if (!roll.getDetails().trim().isEmpty() && (roll.getDetails().contains("+") || (roll.getDetails().contains("-") || roll.getDetails().contains(";") ))) {
 			details=roll.getDetails()+"=";
 		} 
-		return dieCode.concat(details).concat(bold(roll.getResult()+" "));
+		return dieCode.concat(details).concat((roll.getResult()+" "));
 	}
 
 	public static List<String> bold(String[] list) {
