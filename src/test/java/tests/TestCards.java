@@ -10,8 +10,8 @@ public class TestCards {
 	@Test
 	public void testCardCompare() {
 
-//		Assert.assertEquals("Jokers must be equal!", 0, Deck.BLACK_JOKER.compareTo(Deck.COLOR_JOKER));
-//		Assert.assertEquals("Jokers must be equal!", 0, Deck.COLOR_JOKER.compareTo(Deck.BLACK_JOKER));
+		Assert.assertNotEquals("Jokers must not be equal!", 0, Deck.BLACK_JOKER.compareTo(Deck.COLOR_JOKER));
+		Assert.assertEquals("Black Joker must be greater than Colored Joker!", -1, Deck.COLOR_JOKER.compareTo(Deck.BLACK_JOKER));
 		Assert.assertEquals("Jokers must be greater than ace!", Deck.SPADES_ACE.compareTo(Deck.BLACK_JOKER), -1);
 		Assert.assertEquals("Jokers must be greater than ace!", 1, Deck.COLOR_JOKER.compareTo(Deck.CLUBS_ACE));
 		Assert.assertEquals("Spades must be greater than hearts!", 1, Deck.SPADES_JACK.compareTo(Deck.HEARTS_JACK));
