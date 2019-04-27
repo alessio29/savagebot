@@ -5,6 +5,7 @@ import org.alessio29.savagebot.exceptions.WrongDieCodeException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Random;
 
 public class Dice {
 
@@ -40,8 +41,10 @@ public class Dice {
 		return result;
 	}
 
+	public static final Random RANDOM = new Random();
+
 	private static int roll(int size) {
-		return (int)(Math.random()*size)+1;
+		return RANDOM.nextInt(size) + 1;
 	}
 
 
