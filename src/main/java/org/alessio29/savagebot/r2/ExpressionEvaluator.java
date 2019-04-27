@@ -95,6 +95,11 @@ class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
     }
 
     @Override
+    public List<Integer> visitCommentedExpression(CommentedExpression commentedExpression) {
+        return commentedExpression.getExpression().accept(this);
+    }
+
+    @Override
     public List<Integer> visitGenericRollExpression(GenericRollExpression genericRollExpression) {
         int diceCount = evalInt(genericRollExpression.getDiceCountArg(), 1);
 

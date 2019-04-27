@@ -1,12 +1,9 @@
 package org.alessio29.savagebot.r2;
 
-import org.alessio29.savagebot.r2.grammar.R2BaseVisitor;
 import org.alessio29.savagebot.r2.grammar.R2Lexer;
 import org.alessio29.savagebot.r2.grammar.R2Parser;
-import org.alessio29.savagebot.r2.grammar.R2Visitor;
 import org.alessio29.savagebot.r2.tree.*;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,26 +40,32 @@ public class Parser {
                 next.append(ch);
                 switch (ch) {
                     case '(':
-                        ++bracketsBalance;
+                        if (!isInStringLiteral) {
+                            ++bracketsBalance;
+                        }
                         break;
                     case ')':
-                        if (bracketsBalance > 0) {
+                        if (!isInStringLiteral && bracketsBalance > 0) {
                             --bracketsBalance;
                         }
                         break;
                     case '[':
-                        ++squareBracketsBalance;
+                        if (!isInStringLiteral) {
+                            ++squareBracketsBalance;
+                        }
                         break;
                     case ']':
-                        if (squareBracketsBalance > 0) {
+                        if (!isInStringLiteral && squareBracketsBalance > 0) {
                             --squareBracketsBalance;
                         }
                         break;
                     case '{':
-                        ++curlyBracketsBalance;
+                        if (!isInStringLiteral) {
+                            ++curlyBracketsBalance;
+                        }
                         break;
                     case '}':
-                        if (curlyBracketsBalance > 0) {
+                        if (!isInStringLiteral && curlyBracketsBalance > 0) {
                             --curlyBracketsBalance;
                         }
                         break;
@@ -86,16 +89,6 @@ public class Parser {
     private static class SyntaxErrorException extends RuntimeException {
         public SyntaxErrorException(String message) {
             super(message);
-        }
-    }
-
-    private static class DesugaringErrorExceptioon extends RuntimeException {
-        public DesugaringErrorExceptioon(String message) {
-            super(message);
-        }
-
-        public DesugaringErrorExceptioon(String message, Throwable cause) {
-            super(message, cause);
         }
     }
 
@@ -130,7 +123,7 @@ public class Parser {
         try {
             R2Parser.StatementContext stmtCtx = parser.statement();
             try {
-                return STATEMENT_DESUGARER.visit(stmtCtx);
+                return new StatementDesugarer(stmtString).visit(stmtCtx);
             } catch (DesugaringErrorExceptioon e) {
                 return new ErrorStatement(stmtString, e.getMessage());
             }
@@ -139,129 +132,8 @@ public class Parser {
         }
     }
 
-    private static final R2Visitor<Statement> STATEMENT_DESUGARER = new R2BaseVisitor<Statement>() {
-        @Override
-        public Statement visitRollOnceStmt(R2Parser.RollOnceStmtContext ctx) {
-            return new RollOnceStatement(
-                    ctx.getText(),
-                    desugarExpression(ctx.e)
-            );
-        }
+    public static String desugarComment(String string) {
+        return string.substring(1, string.length() - 1);
+    }
 
-        @Override
-        public Statement visitRollTimesStmt(R2Parser.RollTimesStmtContext ctx) {
-            return new RollTimesStatement(
-                    ctx.getText(),
-                    desugarExpression(ctx.n),
-                    desugarExpression(ctx.e)
-            );
-        }
-
-        private Expression desugarExpression(ParseTree parseTree) {
-            return EXPRESSION_DESUGARER.visit(parseTree);
-        }
-    };
-
-    private static final R2Visitor<Expression> EXPRESSION_DESUGARER = new R2BaseVisitor<Expression>() {
-        @Override
-        public Expression visitTermExpr(R2Parser.TermExprContext ctx) {
-            return visit(ctx.t);
-        }
-
-        @Override
-        public Expression visitIntTerm(R2Parser.IntTermContext ctx) {
-            String text = ctx.getText();
-            try {
-                return new IntExpression(text, Integer.parseInt(text));
-            } catch (NumberFormatException e) {
-                throw new DesugaringErrorExceptioon("Unrecognized integer: '" + text + "'", e);
-            }
-        }
-
-        @Override
-        public Expression visitExprTerm(R2Parser.ExprTermContext ctx) {
-            return new OperatorExpression(
-                    ctx.getText(),
-                    OperatorExpression.Operator.BRACKETS,
-                    visit(ctx.e)
-            );
-        }
-
-        @Override
-        public Expression visitInfixExpr1(R2Parser.InfixExpr1Context ctx) {
-            return new OperatorExpression(
-                    ctx.getText(),
-                    OperatorExpression.getBinaryOperator(ctx.op.getText()),
-                    visit(ctx.e1),
-                    visit(ctx.e2)
-            );
-        }
-
-        @Override
-        public Expression visitInfixExpr2(R2Parser.InfixExpr2Context ctx) {
-            return new OperatorExpression(
-                    ctx.getText(),
-                    OperatorExpression.getBinaryOperator(ctx.op.getText()),
-                    visit(ctx.e1),
-                    visit(ctx.e2)
-            );
-        }
-
-        @Override
-        public Expression visitPrefixExpr(R2Parser.PrefixExprContext ctx) {
-            // Currently all unary operators are prefix
-            return new OperatorExpression(
-                    ctx.getText(),
-                    OperatorExpression.getUnaryOperator(ctx.op.getText()),
-                    visit(ctx.e1)
-            );
-        }
-
-        @Override
-        public Expression visitGenericRollExpr(R2Parser.GenericRollExprContext ctx) {
-            R2Parser.GenericRollContext gr = ctx.genericRoll();
-
-            Expression arg1 = visitOrNull(gr.t1);
-            Expression arg2 = visit(gr.t2);
-            boolean isOpenEnded = gr.excl != null;
-
-            R2Parser.GenericRollSuffixContext grs = gr.genericRollSuffix();
-            if (grs == null) {
-                return new GenericRollExpression(ctx.getText(), arg1, arg2, isOpenEnded);
-            }
-
-            return new GenericRollExpression(
-                    ctx.getText(),
-                    arg1, arg2, isOpenEnded,
-                    GenericRollExpression.getSuffixOperator(grs.op.getText()),
-                    visitOrNull(grs.n)
-            );
-        }
-
-        @Override
-        public Expression visitFudgeRollExpr(R2Parser.FudgeRollExprContext ctx) {
-            R2Parser.FudgeRollContext frc = ctx.fudgeRoll();
-
-            return new FudgeRollExpression(
-                    ctx.getText(),
-                    visitOrNull(frc.t)
-            );
-        }
-
-        @Override
-        public Expression visitSavageWorldsRollExpr(R2Parser.SavageWorldsRollExprContext ctx) {
-            R2Parser.SavageWorldsRollContext swrc = ctx.savageWorldsRoll();
-
-            return new SavageWorldsRollExpression(
-                    ctx.getText(),
-                    visitOrNull(swrc.t1),
-                    visit(swrc.t2),
-                    visitOrNull(swrc.t3)
-            );
-        }
-
-        private Expression visitOrNull(ParseTree parseTree) {
-            return parseTree == null ? null : visit(parseTree);
-        }
-    };
 }
