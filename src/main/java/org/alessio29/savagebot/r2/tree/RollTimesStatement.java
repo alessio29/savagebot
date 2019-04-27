@@ -1,8 +1,5 @@
 package org.alessio29.savagebot.r2.tree;
 
-import org.alessio29.savagebot.r2.tree.Expression;
-import org.alessio29.savagebot.r2.tree.Statement;
-
 public class RollTimesStatement extends Statement {
     private final Expression times;
     private final Expression expression;

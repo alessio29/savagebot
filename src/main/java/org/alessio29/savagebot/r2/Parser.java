@@ -180,7 +180,11 @@ public class Parser {
 
         @Override
         public Expression visitExprTerm(R2Parser.ExprTermContext ctx) {
-            return visit(ctx.e);
+            return new OperatorExpression(
+                    ctx.getText(),
+                    OperatorExpression.Operator.BRACKETS,
+                    visit(ctx.e)
+            );
         }
 
         @Override

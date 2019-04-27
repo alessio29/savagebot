@@ -51,9 +51,11 @@ public class TestR2Parser {
         expect(
                 "RollOnce\n" +
                         "  expr: Operator MUL\n" +
-                        "    arg1: Operator PLUS\n" +
-                        "      arg1: Int 2\n" +
-                        "      arg2: Int 2\n" +
+                        "    arg1: Operator BRACKETS\n" +
+                        "      arg1: Operator PLUS\n" +
+                        "        arg1: Int 2\n" +
+                        "        arg2: Int 2\n" +
+                        "      arg2: null\n" +
                         "    arg2: Int 2",
                 "(2+2)*2"
         );

@@ -5,29 +5,72 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class OperatorExpression extends Expression {
-    public enum Operator {
-        PLUS(2, "+"), MINUS(2, "-"), MUL(2, "*"), DIV(2, "/"), MOD(2, "%"),
-        UNARY_PLUS(1, "+"), UNARY_MINUS(1, "-");
-        private final int arity;
-        private final String image;
+    public enum OperatorKind {
+        BINARY(2),
+        PREFIX(1),
+        BRACKETS(1);
 
-        Operator(int arity, String image) {
+        private final int arity;
+
+        OperatorKind(int arity) {
             this.arity = arity;
-            this.image = image;
         }
 
         public int getArity() {
             return arity;
         }
+    }
+
+    public enum Operator {
+        PLUS(OperatorKind.BINARY, "+"),
+        MINUS(OperatorKind.BINARY, "-"),
+        MUL(OperatorKind.BINARY, "*"),
+        DIV(OperatorKind.BINARY, "/"),
+        MOD(OperatorKind.BINARY, "%"),
+        UNARY_PLUS(OperatorKind.PREFIX, "+"),
+        UNARY_MINUS(OperatorKind.PREFIX, "-"),
+        BRACKETS(OperatorKind.BRACKETS, "(", ")");
+
+        private final OperatorKind kind;
+        private final String image1;
+        private final String image2;
+
+        Operator(OperatorKind kind, String image) {
+            this.kind = kind;
+            this.image1 = image;
+            this.image2 = "";
+        }
+
+        Operator(OperatorKind kind, String image1, String image2) {
+            this.kind = kind;
+            this.image1 = image1;
+            this.image2 = image2;
+        }
+
+        public OperatorKind getKind() {
+            return kind;
+        }
+
+        public int getArity() {
+            return kind.getArity();
+        }
 
         public String getImage() {
-            return image;
+            return image1;
+        }
+
+        public String getImage1() {
+            return image1;
+        }
+
+        public String getImage2() {
+            return image2;
         }
     }
 
     private static final Map<String, Operator> UNARY_OPERATORS =
             Arrays.stream(Operator.values())
-                    .filter(op -> op.arity == 1)
+                    .filter(op -> op.getArity() == 1)
                     .collect(Collectors.toMap(Operator::getImage, op -> op));
 
     public static Operator getUnaryOperator(String image) {
@@ -36,7 +79,7 @@ public class OperatorExpression extends Expression {
 
     private static final Map<String, Operator> BINARY_OPERATORS =
             Arrays.stream(Operator.values())
-                    .filter(op -> op.arity == 2)
+                    .filter(op -> op.getArity() == 2)
                     .collect(Collectors.toMap(Operator::getImage, op -> op));
 
     public static Operator getBinaryOperator(String image) {
