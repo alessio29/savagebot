@@ -243,6 +243,15 @@ public class TestR2Interpreter {
         );
     }
 
+    @Test
+    public void testShootingAtVampireExample() {
+        expect(
+                "shooting at vampire {s8: [wild: 5; 6]} = **6**\n" +
+                        "damage {2d6: [2,6]} + 1 = **9**",
+                "shooting", "at", "vampire", "s8", "damage", "2d6+1"
+        );
+    }
+
     private void expect(String result, String... args) {
         List<Statement> statements = new Parser().parse(args);
         CommandContext context = new CommandContext(new Random(0));

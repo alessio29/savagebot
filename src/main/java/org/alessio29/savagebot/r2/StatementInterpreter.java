@@ -31,6 +31,8 @@ class StatementInterpreter implements Statement.Visitor<String> {
         IntListResult evalResult = eval(rollOnceStatement.getExpression());
         result.append(evalResult.getExplained());
 
+        result.append("\n");
+
         return result.toString();
     }
 
