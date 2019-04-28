@@ -61,4 +61,9 @@ class ExpressionExplainer implements Expression.Visitor<String> {
     public String visitSavageWorldsRollExpression(SavageWorldsRollExpression savageWorldsRollExpression) {
         return getExplanation(savageWorldsRollExpression);
     }
+
+    @Override
+    public String visitD66RollExpression(D66RollExpression d66RollExpression) {
+        return getExplanation(d66RollExpression);
+    }
 }

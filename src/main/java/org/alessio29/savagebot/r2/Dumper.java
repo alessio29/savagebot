@@ -142,6 +142,12 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
     }
 
     @Override
+    public Void visitD66RollExpression(D66RollExpression d66RollExpression) {
+        println("RollD66 digits=" + d66RollExpression.getDigitsCount());
+        return null;
+    }
+
+    @Override
     public Void visitNonParsedStringStatement(NonParsedStringStatement nonParsedStringStatement) {
         println("NonParsedString " +
                 "text='" + nonParsedStringStatement.getText() + "' " +

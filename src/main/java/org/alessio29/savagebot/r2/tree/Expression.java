@@ -19,5 +19,7 @@ public abstract class Expression extends Node {
         V visitSavageWorldsRollExpression(SavageWorldsRollExpression savageWorldsRollExpression);
 
         V visitCommentedExpression(CommentedExpression commentedExpression);
+
+        V visitD66RollExpression(D66RollExpression d66RollExpression);
     }
 }

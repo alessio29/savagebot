@@ -7,7 +7,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import java.util.stream.Collectors;
 
 class StatementDesugarer extends Desugarer<Statement> {
-    public StatementDesugarer(String inputString) {
+    StatementDesugarer(String inputString) {
         super(inputString);
     }
 

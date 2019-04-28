@@ -5,7 +5,7 @@ import org.alessio29.savagebot.r2.tree.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 class ExpressionDesugarer extends Desugarer<Expression> {
-    public ExpressionDesugarer(String inputString) {
+    ExpressionDesugarer(String inputString) {
         super(inputString);
     }
 
@@ -84,6 +84,28 @@ class ExpressionDesugarer extends Desugarer<Expression> {
 
         R2Parser.GenericRollSuffixContext grs = gr.genericRollSuffix();
         if (grs == null) {
+            if (arg1 == null && arg2 instanceof IntExpression) {
+                int facets = ((IntExpression) arg2).getValue();
+                switch (facets) {
+                    case 66:
+                        return new D66RollExpression(getOriginalText(ctx), 2);
+                    case 666:
+                        return new D66RollExpression(getOriginalText(ctx), 3);
+                    case 6666:
+                        return new D66RollExpression(getOriginalText(ctx), 4);
+                    case 66666:
+                        return new D66RollExpression(getOriginalText(ctx), 5);
+                    case 666666:
+                        return new D66RollExpression(getOriginalText(ctx), 6);
+                    case 6666666:
+                        return new D66RollExpression(getOriginalText(ctx), 7);
+                    case 66666666:
+                        return new D66RollExpression(getOriginalText(ctx), 8);
+                    case 666666666:
+                        return new D66RollExpression(getOriginalText(ctx), 9);
+                }
+            }
+
             return new GenericRollExpression(getOriginalText(ctx), arg1, arg2, isOpenEnded);
         }
 

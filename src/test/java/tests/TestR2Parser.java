@@ -290,6 +290,43 @@ public class TestR2Parser {
         );
     }
 
+    @Test
+    public void testD66() {
+        expect(
+                "RollOnce\n" +
+                        "  expr: RollD66 digits=2",
+                "d66"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: RollD66 digits=3",
+                "d666"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: RollD66 digits=4",
+                "d6666"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: GenericRoll isOpenEnded=false\n" +
+                        "    diceCount: Int 1\n" +
+                        "    facetsCount: Int 66\n" +
+                        "    suffixArg: null",
+                "1d66"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: GenericRoll isOpenEnded=false\n" +
+                        "    diceCount: null\n" +
+                        "    facetsCount: Operator BRACKETS\n" +
+                        "      arg1: Int 66\n" +
+                        "      arg2: null\n" +
+                        "    suffixArg: null",
+                "d(66)"
+        );
+    }
+
     private void expect(String expectedDump, String... args) {
         List<Statement> statements = new Parser().parse(args);
         StringWriter sw = new StringWriter();

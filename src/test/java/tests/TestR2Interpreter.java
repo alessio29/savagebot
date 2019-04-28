@@ -227,6 +227,22 @@ public class TestR2Interpreter {
         );
     }
 
+    @Test
+    public void testD66() {
+        expect(
+                "{d66: [1,5]} = **15**",
+                "d66"
+        );
+        expect(
+                "{d666: [1,5,2]} = **152**",
+                "d666"
+        );
+        expect(
+                "{d6666: [1,5,2,6]} = **1526**",
+                "d6666"
+        );
+    }
+
     private void expect(String result, String... args) {
         List<Statement> statements = new Parser().parse(args);
         CommandContext context = new CommandContext(new Random(0));
