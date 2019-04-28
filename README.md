@@ -33,9 +33,9 @@ __**DICE category**__
 
 **r**	or **roll**	rolls dice
 
-You can use multiple rolls in one command separated by space: `~r d6 d4! d10+d12`
+You can use multiple rolls in one command separated by space: `!r d6 d4! d10+d12`
 
-You can use comments in roll: `~r shooting at vampire s8 damage 2d6+1`
+You can use comments in roll: `!r shooting at vampire s8 damage 2d6+1`
 
 Currently supported dice codes are:
 
