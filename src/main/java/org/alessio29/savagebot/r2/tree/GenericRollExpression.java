@@ -7,8 +7,8 @@ public class GenericRollExpression extends Expression {
     public enum SuffixOperator {
         KEEP("k", "K"),
         KEEP_LEAST("kl", "KL"),
-        ADVANTAGE("a", "adv"),
-        DISADVANTAGE("d", "dis");
+        ADVANTAGE("adv"),
+        DISADVANTAGE("dis");
 
         private final String image;
         private final String[] aliases;

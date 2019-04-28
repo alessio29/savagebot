@@ -39,7 +39,7 @@ genericRoll
     ;
 
 genericRollSuffix
-    :   op=('k'|'K'|'kl'|'KL'|'a'|'d'|'adv'|'dis') (n=term)?
+    :   op=('k'|'K'|'kl'|'KL'|'adv'|'dis') (n=term)?
     ;
 
 savageWorldsRoll
