@@ -39,29 +39,29 @@ You can use comments in roll: `~r shooting at vampire s8 damage 2d6+1`
 
 Currently supported dice codes are:
 
-`~r 3d6` - roll 3 6-sided dice, show sum
+`!r 3d6` - roll 3 6-sided dice, show sum
 
-`~r 2d8!` - roll 2 'exploding' 8-sided dice, show sum. 'Exploding' means that if die come up with maximum value - it will be rolled again and summed up 
+`!r 2d8!` - roll 2 'exploding' 8-sided dice, show sum. 'Exploding' means that if die come up with maximum value - it will be rolled again and summed up 
 
-`~r 4d6k3` - roll 4 6-sided dice keep 3 highest (DnD attributes roll-up)
+`!r 4d6k3` - roll 4 6-sided dice keep 3 highest (DnD attributes roll-up)
 
-`~r 2d10kl1` - roll 2 10-sided dice keep 1 lowest
+`!r 2d10kl1` - roll 2 10-sided dice keep 1 lowest
 
-`~r s8` - Savage Worlds roll with trait die d8 and wild die d6
+`!r s8` - Savage Worlds roll with trait die d8 and wild die d6
 
-`~r 3s8` - Savage Worlds roll with three trait die d8 (bursts)
+`!r 3s8` - Savage Worlds roll with three trait die d8 (bursts)
 
-`~r s8w10` - Savage Worlds roll with trait die d8 and wild die d10
+`!r s8w10` - Savage Worlds roll with trait die d8 and wild die d10
 
-`~r 3s8w8` - Savage Worlds roll with three trait die d8 and wild die d8 (bursts with non-default wild die)
+`!r 3s8w8` - Savage Worlds roll with three trait die d8 and wild die d8 (bursts with non-default wild die)
 
-`~r 6d6s4` - Lady Blackbird roll - rolls 6 d6 and returns how many dice rolled 4 or more
+`!r 6d6s4` - Lady Blackbird roll - rolls 6 d6 and returns how many dice rolled 4 or more
 
-`~r 6x4d6k3` - roll 4 dice keeping 3 highest 6 times
+`!r 6x4d6k3` - roll 4 dice keeping 3 highest 6 times
 
-`~r d66` - rolls two d6 and returns values from 11 to 66 to support random choice from 6x6 table
+`!r d66` - rolls two d6 and returns values from 11 to 66 to support random choice from 6x6 table
 
-`~r 4dF` - rolls Fudge/FATE dice
+`!r 4dF` - rolls Fudge/FATE dice
 
 __**BENNIES category**__
 
