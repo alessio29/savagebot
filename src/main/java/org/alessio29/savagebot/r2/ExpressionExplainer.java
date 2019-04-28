@@ -34,6 +34,11 @@ class ExpressionExplainer implements Expression.Visitor<String> {
         }
     }
 
+    @Override
+    public String visitCommentedExpression(CommentedExpression commentedExpression) {
+        return commentedExpression.getComment() + ": " + commentedExpression.getExpression().accept(this);
+    }
+
     private String getExplanation(Expression expression) {
         String explanation = expressionContext.getExplanation(expression);
         if (explanation != null) {
@@ -55,5 +60,10 @@ class ExpressionExplainer implements Expression.Visitor<String> {
     @Override
     public String visitSavageWorldsRollExpression(SavageWorldsRollExpression savageWorldsRollExpression) {
         return getExplanation(savageWorldsRollExpression);
+    }
+
+    @Override
+    public String visitD66RollExpression(D66RollExpression d66RollExpression) {
+        return getExplanation(d66RollExpression);
     }
 }

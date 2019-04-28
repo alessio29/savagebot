@@ -95,6 +95,11 @@ class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
     }
 
     @Override
+    public List<Integer> visitCommentedExpression(CommentedExpression commentedExpression) {
+        return commentedExpression.getExpression().accept(this);
+    }
+
+    @Override
     public List<Integer> visitGenericRollExpression(GenericRollExpression genericRollExpression) {
         int diceCount = evalInt(genericRollExpression.getDiceCountArg(), 1);
 
@@ -167,6 +172,15 @@ class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
         context.putExplanation(savageWorldsRollExpression, result.getExplained());
 
         return result.getValues();
+    }
+
+    @Override
+    public List<Integer> visitD66RollExpression(D66RollExpression d66RollExpression) {
+        IntResult result = roller.rollD66(d66RollExpression.getDigitsCount());
+
+        context.putExplanation(d66RollExpression, result.getExplained());
+
+        return Collections.singletonList(result.getValue());
     }
 
     private List<Integer> eval(Expression expression) {

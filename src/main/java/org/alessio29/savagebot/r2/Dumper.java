@@ -101,6 +101,13 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
     }
 
     @Override
+    public Void visitCommentedExpression(CommentedExpression commentedExpression) {
+        println("Commented \"" + commentedExpression.getComment() + "\"");
+        indented(() -> dump("expr", commentedExpression.getExpression()));
+        return null;
+    }
+
+    @Override
     public Void visitGenericRollExpression(GenericRollExpression genericRollExpression) {
         GenericRollExpression.SuffixOperator suffixOperator = genericRollExpression.getSuffixOperator();
         print("GenericRoll isOpenEnded=" + genericRollExpression.isOpenEnded());
@@ -135,6 +142,12 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
     }
 
     @Override
+    public Void visitD66RollExpression(D66RollExpression d66RollExpression) {
+        println("RollD66 digits=" + d66RollExpression.getDigitsCount());
+        return null;
+    }
+
+    @Override
     public Void visitNonParsedStringStatement(NonParsedStringStatement nonParsedStringStatement) {
         println("NonParsedString " +
                 "text='" + nonParsedStringStatement.getText() + "' " +
@@ -165,6 +178,18 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
         indented(() -> {
             dump("times", rollTimesStatement.getTimes());
             dump("epxr", rollTimesStatement.getExpression());
+        });
+        return null;
+    }
+
+    @Override
+    public Void visitRollBatchTimesStatement(RollBatchTimesStatement rollBatchTimesStatement) {
+        println("RollBatch");
+        indented(() -> {
+            dump("times", rollBatchTimesStatement.getTimes());
+            for (Expression expression : rollBatchTimesStatement.getExpressions()) {
+                dump("expr", expression);
+            }
         });
         return null;
     }

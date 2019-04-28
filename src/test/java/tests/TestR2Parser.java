@@ -245,6 +245,88 @@ public class TestR2Parser {
         );
     }
 
+    @Test
+    public void testCommented() {
+        expect(
+                "RollOnce\n" +
+                        "  expr: Operator PLUS\n" +
+                        "    arg1: Operator PLUS\n" +
+                        "      arg1: GenericRoll isOpenEnded=false\n" +
+                        "        diceCount: null\n" +
+                        "        facetsCount: Int 20\n" +
+                        "        suffixArg: null\n" +
+                        "      arg2: Operator BRACKETS\n" +
+                        "        arg1: Commented \"STR\"\n" +
+                        "          expr: Int 3\n" +
+                        "        arg2: null\n" +
+                        "    arg2: Operator BRACKETS\n" +
+                        "      arg1: Commented \"Attack bonus\"\n" +
+                        "        expr: Int 5\n" +
+                        "      arg2: null",
+                "d20+(\"STR\" 3)+(\"Attack bonus\" 5)"
+        );
+    }
+
+    @Test
+    public void testRollBatch() {
+        expect(
+                "RollBatch\n" +
+                        "  times: Int 10\n" +
+                        "  expr: GenericRoll isOpenEnded=false\n" +
+                        "    diceCount: null\n" +
+                        "    facetsCount: Int 100\n" +
+                        "    suffixArg: null\n" +
+                        "  expr: Operator PLUS\n" +
+                        "    arg1: GenericRoll isOpenEnded=false\n" +
+                        "      diceCount: Int 2\n" +
+                        "      facetsCount: Int 6\n" +
+                        "      suffixArg: null\n" +
+                        "    arg2: Int 1\n" +
+                        "  expr: GenericRoll isOpenEnded=false\n" +
+                        "    diceCount: Int 2\n" +
+                        "    facetsCount: Int 6\n" +
+                        "    suffixArg: null",
+                "10x[d100 2d6+1 2d6]"
+        );
+    }
+
+    @Test
+    public void testD66() {
+        expect(
+                "RollOnce\n" +
+                        "  expr: RollD66 digits=2",
+                "d66"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: RollD66 digits=3",
+                "d666"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: RollD66 digits=4",
+                "d6666"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: GenericRoll isOpenEnded=false\n" +
+                        "    diceCount: Int 1\n" +
+                        "    facetsCount: Int 66\n" +
+                        "    suffixArg: null",
+                "1d66"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: GenericRoll isOpenEnded=false\n" +
+                        "    diceCount: null\n" +
+                        "    facetsCount: Operator BRACKETS\n" +
+                        "      arg1: Int 66\n" +
+                        "      arg2: null\n" +
+                        "    suffixArg: null",
+                "d(66)"
+        );
+    }
+
     private void expect(String expectedDump, String... args) {
         List<Statement> statements = new Parser().parse(args);
         StringWriter sw = new StringWriter();

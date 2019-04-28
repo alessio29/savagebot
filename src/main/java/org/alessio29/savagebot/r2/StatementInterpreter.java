@@ -31,11 +31,9 @@ class StatementInterpreter implements Statement.Visitor<String> {
         IntListResult evalResult = eval(rollOnceStatement.getExpression());
         result.append(evalResult.getExplained());
 
-        return result.toString();
-    }
+        result.append("\n");
 
-    private ExpressionEvaluator enterContext(Expression topExpression) {
-        return new ExpressionEvaluator(getTopLevelExpressionContext(topExpression));
+        return result.toString();
     }
 
     private ExpressionContext getTopLevelExpressionContext(Expression topExpression) {
@@ -48,11 +46,7 @@ class StatementInterpreter implements Statement.Visitor<String> {
         result.append(rollTimesStatement.getText()).append(": ");
 
         Expression timesExpression = rollTimesStatement.getTimes();
-        IntListResult timesResult = eval(timesExpression);
-        if (!(timesExpression instanceof IntExpression)) {
-            result.append(timesResult.getExplained());
-        }
-        int times = timesResult.getValues().get(0);
+        int times = evalAndExplainTimes(result, timesExpression);
 
         result.append("\n");
 
@@ -64,6 +58,38 @@ class StatementInterpreter implements Statement.Visitor<String> {
         }
 
         return result.toString();
+    }
+
+    @Override
+    public String visitRollBatchTimesStatement(RollBatchTimesStatement rollBatchTimesStatement) {
+        StringBuilder result = new StringBuilder();
+        result.append(rollBatchTimesStatement.getText()).append(": ");
+
+        Expression timesExpression = rollBatchTimesStatement.getTimes();
+        List<Expression> expressions = rollBatchTimesStatement.getExpressions();
+
+        int times = evalAndExplainTimes(result, timesExpression);
+
+        result.append("\n");
+
+        for (int i = 0; i < times; ++i) {
+            result.append(i+1).append(": ");
+            for (Expression expression : expressions) {
+                result.append(eval(expression).getExplained());
+                result.append("; ");
+            }
+            result.append("\n");
+        }
+
+        return result.toString();
+    }
+
+    private int evalAndExplainTimes(StringBuilder result, Expression timesExpression) {
+        IntListResult timesResult = eval(timesExpression);
+        if (!(timesExpression instanceof IntExpression)) {
+            result.append(timesResult.getExplained());
+        }
+        return timesResult.getValues().get(0);
     }
 
     private IntListResult eval(Expression expression) {

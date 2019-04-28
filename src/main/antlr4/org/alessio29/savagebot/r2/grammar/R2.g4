@@ -9,6 +9,12 @@ statement
         # RollOnceStmt
     |   n=term ('x'|'X') e=expression
         # RollTimesStmt
+    |   n=term ('x'|'X') '[' batchElement* ']'
+        # RollBatchTimesStmt
+    ;
+
+batchElement
+    :   (comment=STRING)? e=expression ';'?
     ;
 
 expression
@@ -47,9 +53,12 @@ fudgeRoll
 term
     :   i=INT
         # IntTerm
-    |   '(' e=expression ')'
+    |   '(' (comment=STRING)? e=expression ')'
         # ExprTerm
     ;
 
 INT: [0-9]+;
+STRING: '"' StringChar* '"';
 WS: [ \t\n\r] -> skip;
+
+fragment StringChar: ~["\\\r\n];

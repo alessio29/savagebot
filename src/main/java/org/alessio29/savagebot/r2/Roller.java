@@ -159,4 +159,15 @@ public class Roller {
 
         return new IntListResult(result, explained.toString());
     }
+
+    public IntResult rollD66(int digitsCount) {
+        StringJoiner result = new StringJoiner(",", "[", "]");
+        int total = 0;
+        for (int i = 0; i < digitsCount; ++i) {
+            int die = roll(6);
+            total = total * 10 + die;
+            result.add(Integer.toString(die));
+        }
+        return new IntResult(total, result.toString());
+    }
 }
