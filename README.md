@@ -8,7 +8,7 @@ Click on the following link and authorize bot on your sever: https://discordapp.
 
 **How to use it:**
 
-Start you message with `~` then type any command from the following list. Some commands may require additional parameters.
+Start you message with `!` then type any command from the following list. Some commands may require additional parameters.
 
 
 __**CARDS category**__
