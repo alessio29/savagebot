@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Random;
 
 public class TestR2Interpreter {
+
+    private static final String LINE_SEPARATOR = System.lineSeparator();
+
     @Test
     public void testRandomText() {
         expect(
@@ -252,15 +255,40 @@ public class TestR2Interpreter {
         );
     }
 
+    @Test
+    public void testDebugMode() {
+        expect(
+                "*Debug mode enabled.*\n" +
+                        "\n" +
+                        "`shooting`:\n" +
+                        "```\n" +
+                        "NonParsedString text='shooting' parserErrorMessage='[1]: token recognition error at: 'h''\n" +
+                        "```\n" +
+                        "shooting \n" +
+                        "`2d6`:\n" +
+                        "```\n" +
+                        "RollOnce\n" +
+                        "  expr: GenericRoll isOpenEnded=false\n" +
+                        "    diceCount: Int 2\n" +
+                        "    facetsCount: Int 6\n" +
+                        "    suffixArg: null\n" +
+                        "```\n" +
+                        "{2d6: [1,5]} = **6**",
+                "--debug", "shooting", "2d6"
+        );
+    }
+
     private void expect(String result, String... args) {
         List<Statement> statements = new Parser().parse(args);
         CommandContext context = new CommandContext(new Random(0));
         Interpreter interpreter = new Interpreter(context);
         String actualResult = interpreter.run(statements).trim();
-        if (actualResult.contains("\n") && !actualResult.contains(System.lineSeparator())) {
-            actualResult = actualResult.replace("\n", System.lineSeparator());
+        if (!LINE_SEPARATOR.equals("\n")) {
+            actualResult = actualResult
+                    .replace(LINE_SEPARATOR, "\n")
+                    .replace("\n", LINE_SEPARATOR);
         }
-        String expected = result.replace("\n", System.lineSeparator()).trim();
+        String expected = result.replace("\n", LINE_SEPARATOR).trim();
         Assert.assertEquals(expected, actualResult);
     }
 }

@@ -11,6 +11,8 @@ statement
         # RollTimesStmt
     |   n=term ('x'|'X') '[' batchElement* ']'
         # RollBatchTimesStmt
+    |   flag=FLAG
+        # FlagStmt
     ;
 
 batchElement
@@ -60,5 +62,6 @@ term
 INT: [0-9]+;
 STRING: '"' StringChar* '"';
 WS: [ \t\n\r] -> skip;
+FLAG: '--'[a-zA-Z]+;
 
 fragment StringChar: ~["\\\r\n];

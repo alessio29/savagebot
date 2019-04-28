@@ -45,6 +45,14 @@ class StatementDesugarer extends Desugarer<Statement> {
         );
     }
 
+    @Override
+    public Statement visitFlagStmt(R2Parser.FlagStmtContext ctx) {
+        return new FlagStatement(
+                getOriginalText(ctx),
+                ctx.flag.getText().substring(2)
+        );
+    }
+
     private Expression desugarExpression(ParseTree parseTree) {
         return new ExpressionDesugarer(inputString).visit(parseTree);
     }

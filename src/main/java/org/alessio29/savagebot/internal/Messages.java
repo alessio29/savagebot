@@ -123,7 +123,7 @@ public class Messages {
 		return res;
 	}
 
-	private static final String BLOCK_MARKER = "```";
+	public static final String BLOCK_MARKER = "```";
 	private static final String QUOTE_MARKER = ">"; 
 	
 	

@@ -193,4 +193,10 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
         });
         return null;
     }
+
+    @Override
+    public Void visitFlagStatement(FlagStatement flagStatement) {
+        println("Flag '" + flagStatement.getFlag() + "'");
+        return null;
+    }
 }
