@@ -118,4 +118,16 @@ class StatementInterpreter implements Statement.Visitor<String> {
 
         return new IntListResult(values, result.toString());
     }
+
+    @Override
+    public String visitFlagStatement(FlagStatement flagStatement) {
+        switch (flagStatement.getFlag().toLowerCase()) {
+            case "debug":
+                interpreter.setDebugEnabled(true);
+                return Messages.italic("Debug mode enabled.") + "\n";
+            default:
+                throw new EvaluationErrorException("Unknown flag: '" + flagStatement.getFlag() + "'");
+        }
+
+    }
 }

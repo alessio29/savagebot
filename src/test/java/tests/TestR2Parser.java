@@ -18,9 +18,12 @@ public class TestR2Parser {
 
     @Test
     public void testRandomStrings() {
-        expect("NonParsedString text='abc' parserErrorMessage='[1]: token recognition error at: 'b''", "abc");
         expect(
-                "NonParsedString text='abc' parserErrorMessage='[1]: token recognition error at: 'b''\n" +
+                "NonParsedString text='abc' parserErrorMessage='[0]: token recognition error at: 'ab''",
+                "abc"
+        );
+        expect(
+                "NonParsedString text='abc' parserErrorMessage='[0]: token recognition error at: 'ab''\n" +
                         "NonParsedString text='def' parserErrorMessage='[1]: token recognition error at: 'e''\n" +
                         "NonParsedString text='qwer' parserErrorMessage='[0]: token recognition error at: 'q''\n" +
                         "NonParsedString text='tty' parserErrorMessage='[0]: token recognition error at: 't''\n" +
@@ -124,7 +127,7 @@ public class TestR2Parser {
                         "    diceCount: null\n" +
                         "    facetsCount: Int 20\n" +
                         "    suffixArg: null",
-                "d20a"
+                "d20adv"
         );
         expect(
                 "RollOnce\n" +
@@ -132,7 +135,7 @@ public class TestR2Parser {
                         "    diceCount: null\n" +
                         "    facetsCount: Int 20\n" +
                         "    suffixArg: Int 2",
-                "d20a2"
+                "d20adv2"
         );
         expect(
                 "RollOnce\n" +
@@ -140,7 +143,7 @@ public class TestR2Parser {
                         "    diceCount: null\n" +
                         "    facetsCount: Int 20\n" +
                         "    suffixArg: null",
-                "d20d"
+                "d20dis"
         );
         expect(
                 "RollOnce\n" +
@@ -148,7 +151,7 @@ public class TestR2Parser {
                         "    diceCount: null\n" +
                         "    facetsCount: Int 20\n" +
                         "    suffixArg: Int 2",
-                "d20d2"
+                "d20dis2"
         );
         expect(
                 "RollOnce\n" +
@@ -158,7 +161,7 @@ public class TestR2Parser {
                         "      facetsCount: Int 20\n" +
                         "      suffixArg: null\n" +
                         "    arg2: Int 3",
-                "d20a+3"
+                "d20adv+3"
         );
         expect(
                 "RollOnce\n" +
@@ -287,6 +290,19 @@ public class TestR2Parser {
                         "    facetsCount: Int 6\n" +
                         "    suffixArg: null",
                 "10x[d100 2d6+1 2d6]"
+        );
+        expect(
+                "RollBatch\n" +
+                        "  times: Int 2\n" +
+                        "  expr: GenericRoll isOpenEnded=false\n" +
+                        "    diceCount: null\n" +
+                        "    facetsCount: Int 6\n" +
+                        "    suffixArg: null\n" +
+                        "  expr: GenericRoll isOpenEnded=false\n" +
+                        "    diceCount: null\n" +
+                        "    facetsCount: Int 4\n" +
+                        "    suffixArg: null",
+                "2x[d6 d4]"
         );
     }
 
