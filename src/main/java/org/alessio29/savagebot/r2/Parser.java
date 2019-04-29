@@ -2,11 +2,15 @@ package org.alessio29.savagebot.r2;
 
 import org.alessio29.savagebot.r2.grammar.R2Lexer;
 import org.alessio29.savagebot.r2.grammar.R2Parser;
-import org.alessio29.savagebot.r2.tree.*;
+import org.alessio29.savagebot.r2.tree.ErrorStatement;
+import org.alessio29.savagebot.r2.tree.NonParsedStringStatement;
+import org.alessio29.savagebot.r2.tree.Statement;
 import org.antlr.v4.runtime.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Parser {
     public List<Statement> parse(String[] args) {
@@ -31,10 +35,7 @@ public class Parser {
                     curlyBracketsBalance == 0 &&
                     !isInStringLiteral
             ) {
-                Statement stmt = parseSingleStatement(next.toString());
-                if (stmt != null) {
-                    statements.add(stmt);
-                }
+                statements.addAll(parseCommandElement(next.toString()));
                 next.setLength(0);
             } else {
                 next.append(ch);
@@ -77,17 +78,14 @@ public class Parser {
         }
 
         if (next.length() > 0) {
-            Statement stmt = parseSingleStatement(next.toString());
-            if (stmt != null) {
-                statements.add(stmt);
-            }
+            statements.addAll(parseCommandElement(next.toString()));
         }
 
         return statements;
     }
 
     private static class SyntaxErrorException extends RuntimeException {
-        public SyntaxErrorException(String message) {
+        SyntaxErrorException(String message) {
             super(message);
         }
     }
@@ -106,10 +104,10 @@ public class Parser {
         }
     };
 
-    private Statement parseSingleStatement(String input) {
+    public List<Statement> parseCommandElement(String input) {
         String stmtString = input.trim();
         if (stmtString.length() == 0) {
-            return null;
+            return Collections.emptyList();
         }
 
         R2Lexer lexer = new R2Lexer(CharStreams.fromString(stmtString));
@@ -121,14 +119,19 @@ public class Parser {
         parser.addErrorListener(THROWING_ERROR_LISTENER);
 
         try {
-            R2Parser.StatementContext stmtCtx = parser.statement();
-            try {
-                return new StatementDesugarer(stmtString).visit(stmtCtx);
-            } catch (DesugaringErrorExceptioon e) {
-                return new ErrorStatement(stmtString, e.getMessage());
-            }
+            return parser.commandElement().statement().stream()
+                    .map(statementContext -> {
+                        try {
+                            return new StatementDesugarer(stmtString).visit(statementContext);
+                        } catch (DesugaringErrorExceptioon e) {
+                            return new ErrorStatement(stmtString, e.getMessage());
+                        }
+                    })
+                    .collect(Collectors.toList());
         } catch (SyntaxErrorException e) {
-            return new NonParsedStringStatement(stmtString, e.getMessage());
+            return Collections.singletonList(
+                    new NonParsedStringStatement(stmtString, e.getMessage())
+            );
         }
     }
 

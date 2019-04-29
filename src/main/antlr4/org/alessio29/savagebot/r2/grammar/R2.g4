@@ -4,6 +4,10 @@ grammar R2;
 //    mvn generate-sources
 // or antlr4:antlr4 goal
 
+commandElement
+    :   statement (';' statement)* ';'? EOF
+    ;
+
 statement
     :   e=expression
         # RollOnceStmt

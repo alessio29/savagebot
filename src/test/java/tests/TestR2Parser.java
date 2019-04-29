@@ -343,6 +343,53 @@ public class TestR2Parser {
         );
     }
 
+    @Test
+    public void testCommandSeparation() {
+        expect(
+                "RollOnce\n" +
+                        "  expr: GenericRoll isOpenEnded=false\n" +
+                        "    diceCount: null\n" +
+                        "    facetsCount: Int 6\n" +
+                        "    suffixArg: null\n" +
+                        "RollOnce\n" +
+                        "  expr: GenericRoll isOpenEnded=false\n" +
+                        "    diceCount: null\n" +
+                        "    facetsCount: Int 6\n" +
+                        "    suffixArg: null",
+                "d6 d6"
+        );
+        expect(
+                "NonParsedString text='d6d6' parserErrorMessage='[2]: mismatched input 'd' expecting {<EOF>, ';'}'",
+                "d6d6"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: GenericRoll isOpenEnded=false\n" +
+                        "    diceCount: null\n" +
+                        "    facetsCount: Int 6\n" +
+                        "    suffixArg: null\n" +
+                        "RollOnce\n" +
+                        "  expr: GenericRoll isOpenEnded=false\n" +
+                        "    diceCount: null\n" +
+                        "    facetsCount: Int 6\n" +
+                        "    suffixArg: null",
+                "d6", "d6"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: GenericRoll isOpenEnded=false\n" +
+                        "    diceCount: null\n" +
+                        "    facetsCount: Int 6\n" +
+                        "    suffixArg: null\n" +
+                        "RollOnce\n" +
+                        "  expr: GenericRoll isOpenEnded=false\n" +
+                        "    diceCount: null\n" +
+                        "    facetsCount: Int 6\n" +
+                        "    suffixArg: null",
+                "d6;d6"
+        );
+    }
+
     private void expect(String expectedDump, String... args) {
         List<Statement> statements = new Parser().parse(args);
         StringWriter sw = new StringWriter();
