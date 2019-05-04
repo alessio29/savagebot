@@ -390,6 +390,34 @@ public class TestR2Parser {
         );
     }
 
+    @Test
+    public void testSuffixOperatorArguments() {
+        expect(
+                "Error text='2d6k' errorMessage='Argument required for 'k''",
+                "2d6k"
+        );
+        expect(
+                "Error text='2d6kl' errorMessage='Argument required for 'kl''",
+                "2d6kl"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: GenericRoll isOpenEnded=false suffixOperator=ADVANTAGE\n" +
+                        "    diceCount: Int 2\n" +
+                        "    facetsCount: Int 6\n" +
+                        "    suffixArg: null",
+                "2d6adv"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: GenericRoll isOpenEnded=false suffixOperator=DISADVANTAGE\n" +
+                        "    diceCount: Int 2\n" +
+                        "    facetsCount: Int 6\n" +
+                        "    suffixArg: null",
+                "2d6dis"
+        );
+    }
+
     private void expect(String expectedDump, String... args) {
         List<Statement> statements = new Parser().parse(args);
         StringWriter sw = new StringWriter();

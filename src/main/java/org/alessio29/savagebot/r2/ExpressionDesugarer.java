@@ -109,10 +109,15 @@ class ExpressionDesugarer extends Desugarer<Expression> {
             return new GenericRollExpression(getOriginalText(ctx), arg1, arg2, isOpenEnded);
         }
 
+        String suffixOperatorText = grs.op.getText();
+        GenericRollExpression.SuffixOperator suffixOperator = GenericRollExpression.getSuffixOperator(suffixOperatorText);
+        if (suffixOperator.getRequiredArguments() > 0 && grs.n == null) {
+            throw new DesugaringErrorExceptioon("Argument required for '" + suffixOperatorText + "'");
+        }
         return new GenericRollExpression(
                 getOriginalText(ctx),
                 arg1, arg2, isOpenEnded,
-                GenericRollExpression.getSuffixOperator(grs.op.getText()),
+                suffixOperator,
                 visitOrNull(grs.n)
         );
     }

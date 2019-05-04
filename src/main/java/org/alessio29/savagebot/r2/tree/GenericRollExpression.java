@@ -5,17 +5,25 @@ import java.util.Map;
 
 public class GenericRollExpression extends Expression {
     public enum SuffixOperator {
-        KEEP("k", "K"),
-        KEEP_LEAST("kl", "KL"),
+        KEEP(1, "k", "K"),
+        KEEP_LEAST(1, "kl", "KL"),
         ADVANTAGE("adv"),
         DISADVANTAGE("dis");
 
         private final String image;
         private final String[] aliases;
+        private final int requiredArguments;
 
         SuffixOperator(String image, String... aliases) {
             this.image = image;
             this.aliases = aliases;
+            this.requiredArguments = 0;
+        }
+
+        SuffixOperator(int requiredArguments, String image, String... aliases) {
+            this.image = image;
+            this.aliases = aliases;
+            this.requiredArguments = requiredArguments;
         }
 
         public String getImage() {
@@ -24,6 +32,10 @@ public class GenericRollExpression extends Expression {
 
         public String[] getAliases() {
             return aliases;
+        }
+
+        public int getRequiredArguments() {
+            return requiredArguments;
         }
     }
 
