@@ -21,13 +21,40 @@ public class Messages {
     public static void sendMessage(User user, MessageChannel messageChannel, String message, boolean isPrivate) {
 		if (isPrivate) {
 			user.openPrivateChannel().queue((channel) ->
-			{
-				channel.sendMessage(message).queue();
-			});
+					channel.sendMessage(fitMessageToLengthLimit(message)).queue());
 				
 		} else {
-			messageChannel.sendMessage(user.getAsMention()+" "+message).queue();
+			messageChannel.sendMessage(fitMessageToLengthLimit(user.getAsMention()+" "+message)).queue();
 		}
+	}
+
+	private final static int MESSAGE_LENGTH_LIMIT = 2000;
+    private final static String MESSAGE_LENGTH_LIMIT_REACHED = "**Message length limit reached**";
+    private final static int MESSAGE_LENGTH_LIMIT_2 = MESSAGE_LENGTH_LIMIT - MESSAGE_LENGTH_LIMIT_REACHED.length() - 1;
+
+	private static String fitMessageToLengthLimit(String text) {
+		if (text.length() <= MESSAGE_LENGTH_LIMIT) {
+			return text;
+		}
+
+		String[] lines = text.split("\n");
+
+		int endExclusive = 0;
+		for (int i = 0, linesLength = lines.length, totalLength = 0; i < linesLength; ++i) {
+			int newTotalLength = totalLength + lines[i].length() + 1;
+			if (newTotalLength > MESSAGE_LENGTH_LIMIT_2) {
+				endExclusive = i;
+				break;
+			}
+			totalLength = newTotalLength;
+		}
+
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < endExclusive; ++i) {
+			sb.append(lines[i]).append("\n");
+		}
+		sb.append(MESSAGE_LENGTH_LIMIT_REACHED);
+		return sb.toString();
 	}
 
 	public static String mention(User user) {
