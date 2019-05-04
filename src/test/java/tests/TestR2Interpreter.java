@@ -271,10 +271,38 @@ public class TestR2Interpreter {
                         "  expr: GenericRoll isOpenEnded=false\n" +
                         "    diceCount: Int 2\n" +
                         "    facetsCount: Int 6\n" +
-                        "    suffixArg: null\n" +
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null\n" +
                         "```\n" +
                         "{2d6: [1,5]} = **6**",
                 "--debug", "shooting", "2d6"
+        );
+    }
+
+    @Test
+    public void testSuccessOrFail() {
+        expect(
+                "{12d10s7: [1, 9:white_check_mark:, 10:white_check_mark:, 8:white_check_mark:, 6, 4, 2, 2, " +
+                        "10:white_check_mark:, 5, 8:white_check_mark:, 8:white_check_mark:]} = **6**",
+                "12d10s7"
+        );
+        expect(
+                "{12d10s7f1: [1:red_circle:, 9:white_check_mark:, 10:white_check_mark:, 8:white_check_mark:, " +
+                        "6, 4, 2, 2, 10:white_check_mark:, 5, 8:white_check_mark:, 8:white_check_mark:]} = **5**",
+                "12d10s7f1"
+        );
+        expect(
+                "{12d10f1s7: [1:red_circle:, 9:white_check_mark:, 10:white_check_mark:, " +
+                        "8:white_check_mark:, 6, 4, 2, 2, 10:white_check_mark:, 5, 8:white_check_mark:, " +
+                        "8:white_check_mark:]} = **5**",
+                "12d10f1s7"
+        );
+        expect(
+                "{28d6!s10f1: [1:red_circle:, 5, 2, 6+6+6+6+4=28:white_check_mark:, 4, 3, " +
+                        "6+6+6+5=23:white_check_mark:, 6+3=9, 5, 4, 6+3=9, 2, 1:red_circle:, 3, 6+3=9, 5, 4, 5, " +
+                        "1:red_circle:, 6+6+6+6+6+3=33:white_check_mark:, 3, 4, 6+5=11:white_check_mark:, " +
+                        "4, 3, 2, 6+3=9, 5]} = **1**",
+                "28d6!s10f1"
         );
     }
 

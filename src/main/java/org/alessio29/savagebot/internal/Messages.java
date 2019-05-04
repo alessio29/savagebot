@@ -15,7 +15,10 @@ import java.util.stream.Collectors;
 
 public class Messages {
 
-	public static void sendMessage(User user, MessageChannel messageChannel, String message, boolean isPrivate) {
+    public static final String SUCCESS_MARK = ":white_check_mark:";
+    public static final String FAIL_MARK = ":red_circle:";
+
+    public static void sendMessage(User user, MessageChannel messageChannel, String message, boolean isPrivate) {
 		if (isPrivate) {
 			user.openPrivateChannel().queue((channel) ->
 			{

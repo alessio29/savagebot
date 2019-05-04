@@ -8,7 +8,8 @@ public class GenericRollExpression extends Expression {
         KEEP(1, "k", "K"),
         KEEP_LEAST(1, "kl", "KL"),
         ADVANTAGE("adv"),
-        DISADVANTAGE("dis");
+        DISADVANTAGE("dis"),
+        SUCCESS_OR_FAIL("sf");
 
         private final String image;
         private final String[] aliases;
@@ -57,7 +58,8 @@ public class GenericRollExpression extends Expression {
     private final Expression facetsCountArg;
     private final boolean isOpenEnded;
     private final SuffixOperator suffixOperator;
-    private final Expression suffixArg;
+    private final Expression suffixArg1;
+    private final Expression suffixArg2;
 
     public GenericRollExpression(
             String text,
@@ -65,14 +67,27 @@ public class GenericRollExpression extends Expression {
             Expression facetsCountArg,
             boolean isOpenEnded,
             SuffixOperator suffixOperator,
-            Expression suffixArg
+            Expression suffixArg1,
+            Expression suffixArg2
     ) {
         super(text);
         this.diceCountArg = diceCountArg;
         this.facetsCountArg = facetsCountArg;
         this.isOpenEnded = isOpenEnded;
         this.suffixOperator = suffixOperator;
-        this.suffixArg = suffixArg;
+        this.suffixArg1 = suffixArg1;
+        this.suffixArg2 = suffixArg2;
+    }
+
+    public GenericRollExpression(
+            String text,
+            Expression diceCountArg,
+            Expression facetsCountArg,
+            boolean isOpenEnded,
+            SuffixOperator suffixOperator,
+            Expression suffixArg1
+    ) {
+        this(text, diceCountArg, facetsCountArg, isOpenEnded, suffixOperator, suffixArg1, null);
     }
 
     public GenericRollExpression(
@@ -100,8 +115,12 @@ public class GenericRollExpression extends Expression {
         return suffixOperator;
     }
 
-    public Expression getSuffixArg() {
-        return suffixArg;
+    public Expression getSuffixArg1() {
+        return suffixArg1;
+    }
+
+    public Expression getSuffixArg2() {
+        return suffixArg2;
     }
 
     @Override

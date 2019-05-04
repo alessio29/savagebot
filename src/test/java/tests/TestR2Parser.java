@@ -84,7 +84,8 @@ public class TestR2Parser {
                         "  expr: GenericRoll isOpenEnded=false\n" +
                         "    diceCount: null\n" +
                         "    facetsCount: Int 6\n" +
-                        "    suffixArg: null",
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null",
                 "d6"
         );
         expect(
@@ -92,7 +93,8 @@ public class TestR2Parser {
                         "  expr: GenericRoll isOpenEnded=false\n" +
                         "    diceCount: Int 2\n" +
                         "    facetsCount: Int 6\n" +
-                        "    suffixArg: null",
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null",
                 "2d6"
         );
         expect(
@@ -101,7 +103,8 @@ public class TestR2Parser {
                         "    arg1: GenericRoll isOpenEnded=false\n" +
                         "      diceCount: Int 2\n" +
                         "      facetsCount: Int 6\n" +
-                        "      suffixArg: null\n" +
+                        "      suffixArg1: null\n" +
+                        "      suffixArg2: null\n" +
                         "    arg2: Int 5",
                 "2d6+5"
         );
@@ -110,7 +113,8 @@ public class TestR2Parser {
                         "  expr: GenericRoll isOpenEnded=false suffixOperator=KEEP\n" +
                         "    diceCount: Int 4\n" +
                         "    facetsCount: Int 6\n" +
-                        "    suffixArg: Int 3",
+                        "    suffixArg1: Int 3\n" +
+                        "    suffixArg2: null",
                 "4d6k3"
         );
         expect(
@@ -118,7 +122,8 @@ public class TestR2Parser {
                         "  expr: GenericRoll isOpenEnded=false suffixOperator=KEEP_LEAST\n" +
                         "    diceCount: Int 4\n" +
                         "    facetsCount: Int 6\n" +
-                        "    suffixArg: Int 3",
+                        "    suffixArg1: Int 3\n" +
+                        "    suffixArg2: null",
                 "4d6kl3"
         );
         expect(
@@ -126,7 +131,8 @@ public class TestR2Parser {
                         "  expr: GenericRoll isOpenEnded=false suffixOperator=ADVANTAGE\n" +
                         "    diceCount: null\n" +
                         "    facetsCount: Int 20\n" +
-                        "    suffixArg: null",
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null",
                 "d20adv"
         );
         expect(
@@ -134,7 +140,8 @@ public class TestR2Parser {
                         "  expr: GenericRoll isOpenEnded=false suffixOperator=ADVANTAGE\n" +
                         "    diceCount: null\n" +
                         "    facetsCount: Int 20\n" +
-                        "    suffixArg: Int 2",
+                        "    suffixArg1: Int 2\n" +
+                        "    suffixArg2: null",
                 "d20adv2"
         );
         expect(
@@ -142,7 +149,8 @@ public class TestR2Parser {
                         "  expr: GenericRoll isOpenEnded=false suffixOperator=DISADVANTAGE\n" +
                         "    diceCount: null\n" +
                         "    facetsCount: Int 20\n" +
-                        "    suffixArg: null",
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null",
                 "d20dis"
         );
         expect(
@@ -150,7 +158,8 @@ public class TestR2Parser {
                         "  expr: GenericRoll isOpenEnded=false suffixOperator=DISADVANTAGE\n" +
                         "    diceCount: null\n" +
                         "    facetsCount: Int 20\n" +
-                        "    suffixArg: Int 2",
+                        "    suffixArg1: Int 2\n" +
+                        "    suffixArg2: null",
                 "d20dis2"
         );
         expect(
@@ -159,7 +168,8 @@ public class TestR2Parser {
                         "    arg1: GenericRoll isOpenEnded=false suffixOperator=ADVANTAGE\n" +
                         "      diceCount: null\n" +
                         "      facetsCount: Int 20\n" +
-                        "      suffixArg: null\n" +
+                        "      suffixArg1: null\n" +
+                        "      suffixArg2: null\n" +
                         "    arg2: Int 3",
                 "d20adv+3"
         );
@@ -169,7 +179,8 @@ public class TestR2Parser {
                         "    arg1: GenericRoll isOpenEnded=true suffixOperator=KEEP\n" +
                         "      diceCount: Int 2\n" +
                         "      facetsCount: Int 10\n" +
-                        "      suffixArg: Int 1\n" +
+                        "      suffixArg1: Int 1\n" +
+                        "      suffixArg2: null\n" +
                         "    arg2: Int 6",
                 "2d10!k1+6"
         );
@@ -257,7 +268,8 @@ public class TestR2Parser {
                         "      arg1: GenericRoll isOpenEnded=false\n" +
                         "        diceCount: null\n" +
                         "        facetsCount: Int 20\n" +
-                        "        suffixArg: null\n" +
+                        "        suffixArg1: null\n" +
+                        "        suffixArg2: null\n" +
                         "      arg2: Operator BRACKETS\n" +
                         "        arg1: Commented \"STR\"\n" +
                         "          expr: Int 3\n" +
@@ -278,17 +290,20 @@ public class TestR2Parser {
                         "  expr: GenericRoll isOpenEnded=false\n" +
                         "    diceCount: null\n" +
                         "    facetsCount: Int 100\n" +
-                        "    suffixArg: null\n" +
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null\n" +
                         "  expr: Operator PLUS\n" +
                         "    arg1: GenericRoll isOpenEnded=false\n" +
                         "      diceCount: Int 2\n" +
                         "      facetsCount: Int 6\n" +
-                        "      suffixArg: null\n" +
+                        "      suffixArg1: null\n" +
+                        "      suffixArg2: null\n" +
                         "    arg2: Int 1\n" +
                         "  expr: GenericRoll isOpenEnded=false\n" +
                         "    diceCount: Int 2\n" +
                         "    facetsCount: Int 6\n" +
-                        "    suffixArg: null",
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null",
                 "10x[d100 2d6+1 2d6]"
         );
         expect(
@@ -297,11 +312,13 @@ public class TestR2Parser {
                         "  expr: GenericRoll isOpenEnded=false\n" +
                         "    diceCount: null\n" +
                         "    facetsCount: Int 6\n" +
-                        "    suffixArg: null\n" +
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null\n" +
                         "  expr: GenericRoll isOpenEnded=false\n" +
                         "    diceCount: null\n" +
                         "    facetsCount: Int 4\n" +
-                        "    suffixArg: null",
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null",
                 "2x[d6 d4]"
         );
     }
@@ -328,7 +345,8 @@ public class TestR2Parser {
                         "  expr: GenericRoll isOpenEnded=false\n" +
                         "    diceCount: Int 1\n" +
                         "    facetsCount: Int 66\n" +
-                        "    suffixArg: null",
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null",
                 "1d66"
         );
         expect(
@@ -338,7 +356,8 @@ public class TestR2Parser {
                         "    facetsCount: Operator BRACKETS\n" +
                         "      arg1: Int 66\n" +
                         "      arg2: null\n" +
-                        "    suffixArg: null",
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null",
                 "d(66)"
         );
     }
@@ -350,12 +369,14 @@ public class TestR2Parser {
                         "  expr: GenericRoll isOpenEnded=false\n" +
                         "    diceCount: null\n" +
                         "    facetsCount: Int 6\n" +
-                        "    suffixArg: null\n" +
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null\n" +
                         "RollOnce\n" +
                         "  expr: GenericRoll isOpenEnded=false\n" +
                         "    diceCount: null\n" +
                         "    facetsCount: Int 6\n" +
-                        "    suffixArg: null",
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null",
                 "d6 d6"
         );
         expect(
@@ -367,12 +388,14 @@ public class TestR2Parser {
                         "  expr: GenericRoll isOpenEnded=false\n" +
                         "    diceCount: null\n" +
                         "    facetsCount: Int 6\n" +
-                        "    suffixArg: null\n" +
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null\n" +
                         "RollOnce\n" +
                         "  expr: GenericRoll isOpenEnded=false\n" +
                         "    diceCount: null\n" +
                         "    facetsCount: Int 6\n" +
-                        "    suffixArg: null",
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null",
                 "d6", "d6"
         );
         expect(
@@ -380,12 +403,14 @@ public class TestR2Parser {
                         "  expr: GenericRoll isOpenEnded=false\n" +
                         "    diceCount: null\n" +
                         "    facetsCount: Int 6\n" +
-                        "    suffixArg: null\n" +
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null\n" +
                         "RollOnce\n" +
                         "  expr: GenericRoll isOpenEnded=false\n" +
                         "    diceCount: null\n" +
                         "    facetsCount: Int 6\n" +
-                        "    suffixArg: null",
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null",
                 "d6;d6"
         );
     }
@@ -405,7 +430,8 @@ public class TestR2Parser {
                         "  expr: GenericRoll isOpenEnded=false suffixOperator=ADVANTAGE\n" +
                         "    diceCount: Int 2\n" +
                         "    facetsCount: Int 6\n" +
-                        "    suffixArg: null",
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null",
                 "2d6adv"
         );
         expect(
@@ -413,8 +439,45 @@ public class TestR2Parser {
                         "  expr: GenericRoll isOpenEnded=false suffixOperator=DISADVANTAGE\n" +
                         "    diceCount: Int 2\n" +
                         "    facetsCount: Int 6\n" +
-                        "    suffixArg: null",
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null",
                 "2d6dis"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: GenericRoll isOpenEnded=false suffixOperator=SUCCESS_OR_FAIL\n" +
+                        "    diceCount: Int 9\n" +
+                        "    facetsCount: Int 10\n" +
+                        "    suffixArg1: Int 7\n" +
+                        "    suffixArg2: Int 1",
+                "9d10f1s7"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: GenericRoll isOpenEnded=false suffixOperator=SUCCESS_OR_FAIL\n" +
+                        "    diceCount: Int 9\n" +
+                        "    facetsCount: Int 10\n" +
+                        "    suffixArg1: Int 7\n" +
+                        "    suffixArg2: Int 1",
+                "9d10s7f1"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: GenericRoll isOpenEnded=false suffixOperator=SUCCESS_OR_FAIL\n" +
+                        "    diceCount: Int 9\n" +
+                        "    facetsCount: Int 10\n" +
+                        "    suffixArg1: Int 7\n" +
+                        "    suffixArg2: null",
+                "9d10s7"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: GenericRoll isOpenEnded=true suffixOperator=SUCCESS_OR_FAIL\n" +
+                        "    diceCount: Int 28\n" +
+                        "    facetsCount: Int 6\n" +
+                        "    suffixArg1: Int 8\n" +
+                        "    suffixArg2: null",
+                "28d6!s8"
         );
     }
 

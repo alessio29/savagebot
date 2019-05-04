@@ -118,7 +118,8 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
         indented(() -> {
             dump("diceCount", genericRollExpression.getDiceCountArg());
             dump("facetsCount", genericRollExpression.getFacetsCountArg());
-            dump("suffixArg", genericRollExpression.getSuffixArg());
+            dump("suffixArg1", genericRollExpression.getSuffixArg1());
+            dump("suffixArg2", genericRollExpression.getSuffixArg2());
         });
         return null;
     }
