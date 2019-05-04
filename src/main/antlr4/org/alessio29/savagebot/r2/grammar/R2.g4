@@ -46,6 +46,11 @@ genericRoll
 
 genericRollSuffix
     :   op=('k'|'K'|'kl'|'KL'|'adv'|'dis') (n=term)?
+        # RollAndKeepSuffix
+    |   sop=('s'|'S') sn=term (fop=('f'|'F') fn=term)?
+        # SuccessOrFailSuffix1
+    |   fop=('f'|'F') fn=term sop=('s'|'S') sn=term
+        # SuccessOrFailSuffix2
     ;
 
 savageWorldsRoll

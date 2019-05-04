@@ -108,24 +108,43 @@ class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
                 () -> "No facets count: '" + genericRollExpression.getText() + "'"
         );
 
-        int suffixArg = evalSuffixArgument(genericRollExpression);
+        IntResult result;
 
-        IntResult dieResult = roller.rollGeneric(
-                diceCount,
-                facetsCount,
-                genericRollExpression.isOpenEnded(),
-                genericRollExpression.getSuffixOperator(),
-                suffixArg
-        );
+        if (genericRollExpression.getSuffixOperator() == GenericRollExpression.SuffixOperator.SUCCESS_OR_FAIL) {
+            int successThreshold = evalInt(
+                    genericRollExpression.getSuffixArg1(),
+                    () -> "No success threshold: '" + genericRollExpression.getText() + "'"
+            );
 
-        context.putExplanation(genericRollExpression, dieResult.getExplained());
+            int failThreshold = evalInt(genericRollExpression.getSuffixArg2(), 0);
 
-        return Collections.singletonList(dieResult.getValue());
+            result = roller.rollSuccessOrFail(
+                    diceCount,
+                    facetsCount,
+                    genericRollExpression.isOpenEnded(),
+                    successThreshold,
+                    failThreshold
+            );
+        } else {
+            int suffixArg = evalRollAndKeepSuffixArgument(genericRollExpression);
+
+            result = roller.rollAndKeep(
+                    diceCount,
+                    facetsCount,
+                    genericRollExpression.isOpenEnded(),
+                    genericRollExpression.getSuffixOperator(),
+                    suffixArg
+            );
+        }
+
+        context.putExplanation(genericRollExpression, result.getExplained());
+
+        return Collections.singletonList(result.getValue());
     }
 
-    private int evalSuffixArgument(GenericRollExpression expression) {
+    private int evalRollAndKeepSuffixArgument(GenericRollExpression expression) {
         GenericRollExpression.SuffixOperator suffixOperator = expression.getSuffixOperator();
-        Expression suffixArgument = expression.getSuffixArg();
+        Expression suffixArgument = expression.getSuffixArg1();
 
         if (suffixOperator == null) {
             return 0;
@@ -133,9 +152,9 @@ class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
 
         switch (suffixOperator) {
             case KEEP:
-                return evalInt(suffixArgument, () -> "No argument for 'k': '" + expression + "'");
+                return evalInt(suffixArgument, () -> "No argument for 'k': '" + expression.getText() + "'");
             case KEEP_LEAST:
-                return evalInt(suffixArgument, () -> "No argument for 'kl': '" + expression + "'");
+                return evalInt(suffixArgument, () -> "No argument for 'kl': '" + expression.getText() + "'");
             case ADVANTAGE:
                 return evalInt(suffixArgument, 1);
             case DISADVANTAGE:

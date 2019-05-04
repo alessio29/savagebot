@@ -107,13 +107,44 @@ class ExpressionDesugarer extends Desugarer<Expression> {
             }
 
             return new GenericRollExpression(getOriginalText(ctx), arg1, arg2, isOpenEnded);
+        } else if (grs instanceof R2Parser.RollAndKeepSuffixContext) {
+            R2Parser.RollAndKeepSuffixContext suffix = (R2Parser.RollAndKeepSuffixContext) grs;
+            String suffixOperatorText = suffix.op.getText();
+            GenericRollExpression.SuffixOperator suffixOperator = GenericRollExpression.getSuffixOperator(suffixOperatorText);
+            if (suffixOperator.getRequiredArguments() > 0 && suffix.n == null) {
+                throw new DesugaringErrorExceptioon("Argument required for '" + suffixOperatorText + "'");
+            }
+            return new GenericRollExpression(
+                    getOriginalText(ctx),
+                    arg1, arg2, isOpenEnded,
+                    suffixOperator,
+                    visitOrNull(suffix.n)
+            );
+        } else if (grs instanceof R2Parser.SuccessOrFailSuffix1Context) {
+            R2Parser.SuccessOrFailSuffix1Context suffix = (R2Parser.SuccessOrFailSuffix1Context) grs;
+            return desugarSuccessOrFailure(getOriginalText(ctx), arg1, arg2, isOpenEnded, suffix.sn, suffix.fn);
+        } else if (grs instanceof R2Parser.SuccessOrFailSuffix2Context) {
+            R2Parser.SuccessOrFailSuffix2Context suffix = (R2Parser.SuccessOrFailSuffix2Context) grs;
+            return desugarSuccessOrFailure(getOriginalText(ctx), arg1, arg2, isOpenEnded, suffix.sn, suffix.fn);
+        } else {
+            throw new DesugaringErrorExceptioon("Unexpected generic roll suffix: '" + grs.getText() + "': " +
+                    grs.getClass().getSimpleName());
         }
+    }
 
+    private Expression desugarSuccessOrFailure(
+            String originalText,
+            Expression arg1,
+            Expression arg2,
+            boolean isOpenEnded,
+            R2Parser.TermContext sn,
+            R2Parser.TermContext fn
+    ) {
         return new GenericRollExpression(
-                getOriginalText(ctx),
-                arg1, arg2, isOpenEnded,
-                GenericRollExpression.getSuffixOperator(grs.op.getText()),
-                visitOrNull(grs.n)
+                originalText, arg1, arg2, isOpenEnded,
+                GenericRollExpression.SuffixOperator.SUCCESS_OR_FAIL,
+                visitOrNull(sn),
+                visitOrNull(fn)
         );
     }
 

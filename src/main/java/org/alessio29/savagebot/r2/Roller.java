@@ -54,7 +54,7 @@ public class Roller {
         return random.nextInt(3) - 1;
     }
 
-    public IntResult rollGeneric(
+    public IntResult rollAndKeep(
             int dieCount,
             int facetsCount,
             boolean isOpenEnded,
@@ -170,4 +170,35 @@ public class Roller {
         }
         return new IntResult(total, result.toString());
     }
+
+    public IntResult rollSuccessOrFail(
+            int diceCount,
+            int facetsCount,
+            boolean isOpenEnded,
+            int successThreshold,
+            int failThreshold
+    ) {
+        List<IntResult> dice = IntStream.range(0, diceCount)
+                .mapToObj(it -> roll(facetsCount, isOpenEnded))
+                .collect(Collectors.toList());
+
+        int totalSuccesses = 0;
+        int totalFailures = 0;
+        StringJoiner rolls = new StringJoiner(", ", "[", "]");
+
+        for (IntResult die : dice) {
+            int dieValue = die.getValue();
+            String dieExplained = die.getExplained();
+            if (dieValue >= successThreshold) {
+                rolls.add(dieExplained + Messages.SUCCESS_MARK);
+                ++totalSuccesses;
+            } else if (dieValue <= failThreshold) {
+                rolls.add(dieExplained + Messages.FAIL_MARK);
+                ++totalFailures;
+            } else {
+                rolls.add(dieExplained);
+            }
+        }
+
+        return new IntResult(totalSuccesses - totalFailures, rolls.toString()); }
 }
