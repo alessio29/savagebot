@@ -2,8 +2,10 @@ package org.alessio29.savagebot.r2;
 
 import org.alessio29.savagebot.r2.tree.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -23,11 +25,23 @@ class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
 
     @Override
     public List<Integer> visitOperatorExpression(OperatorExpression operatorExpression) {
+        OperatorExpression.Operator operator = operatorExpression.getOperator();
+
+        if (operator == OperatorExpression.Operator.BOUND_TO) {
+            return evalBoundToOperator(operatorExpression);
+        }
+
         List<Integer> arg1 = eval(operatorExpression.getArgument1());
         List<Integer> arg2 = eval(operatorExpression.getArgument2());
 
-        OperatorExpression.Operator operator = operatorExpression.getOperator();
         if (operator.getArity() == 1) {
+            if (operator == OperatorExpression.Operator.BRACKETS) {
+                String argumentExplanation = context.getExplanation(operatorExpression.getArgument1());
+                if (argumentExplanation != null) {
+                    context.putExplanation(operatorExpression, argumentExplanation);
+                }
+            }
+
             return arg1.stream()
                     .map(it -> applyUnaryOperator(operator, it))
                     .collect(Collectors.toList());
@@ -46,8 +60,53 @@ class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
                     .map(it -> applyBinaryOperator(operator, it, arg20))
                     .collect(Collectors.toList());
         } else {
-            throw new EvaluationErrorException("Unexpected argument sizes: " + arg1 + ", " + arg2);
+            throw new EvaluationErrorException("Unexpected argument sizes: " + arg1 + ", " + arg2 +
+                    " in `" + operatorExpression.getText() + "`");
         }
+    }
+
+    private List<Integer> evalBoundToOperator(OperatorExpression operatorExpression) {
+        List<Integer> arg = eval(operatorExpression.getArgument1());
+        int lowBound = evalInt(operatorExpression.getArgument2(), Integer.MIN_VALUE);
+        int highBound = evalInt(operatorExpression.getArgument3(), Integer.MAX_VALUE);
+
+        if (lowBound > highBound) {
+            throw new EvaluationErrorException(
+                    "Empty range in `" + operatorExpression.getText() + "`: " +
+                            "[" + lowBound + ":" + highBound + "]"
+            );
+        }
+
+        List<Integer> result = new ArrayList<>(arg.size());
+        StringBuilder explain = new StringBuilder();
+        if (arg.size() > 1) {
+            explain.append("[");
+        }
+
+        StringJoiner listContent = new StringJoiner(",");
+        for (Integer value : arg) {
+            int bounded;
+            if (value > highBound) {
+                listContent.add(value + "=>" + highBound);
+                bounded = highBound;
+            } else if (value < lowBound) {
+                listContent.add(value + "=>" + lowBound);
+                bounded = lowBound;
+            } else {
+                listContent.add(Integer.toString(value));
+                bounded = value;
+            }
+            result.add(bounded);
+        }
+
+        explain.append(listContent.toString());
+        if (arg.size() > 1) {
+            explain.append("]");
+        }
+
+        context.putExplanation(operatorExpression, explain.toString());
+
+        return result;
     }
 
     private int applyUnaryOperator(OperatorExpression.Operator operator, int it) {
@@ -105,7 +164,7 @@ class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
 
         int facetsCount = evalInt(
                 genericRollExpression.getFacetsCountArg(),
-                () -> "No facets count: '" + genericRollExpression.getText() + "'"
+                () -> "No facets count: `" + genericRollExpression.getText() + "`"
         );
 
         IntResult result;
@@ -113,7 +172,7 @@ class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
         if (genericRollExpression.getSuffixOperator() == GenericRollExpression.SuffixOperator.SUCCESS_OR_FAIL) {
             int successThreshold = evalInt(
                     genericRollExpression.getSuffixArg1(),
-                    () -> "No success threshold: '" + genericRollExpression.getText() + "'"
+                    () -> "No success threshold: `" + genericRollExpression.getText() + "`"
             );
 
             int failThreshold = evalInt(genericRollExpression.getSuffixArg2(), 0);
@@ -152,11 +211,10 @@ class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
 
         switch (suffixOperator) {
             case KEEP:
-                return evalInt(suffixArgument, () -> "No argument for 'k': '" + expression.getText() + "'");
+                return evalInt(suffixArgument, () -> "No argument for 'k': `" + expression.getText() + "`");
             case KEEP_LEAST:
-                return evalInt(suffixArgument, () -> "No argument for 'kl': '" + expression.getText() + "'");
+                return evalInt(suffixArgument, () -> "No argument for 'kl': `" + expression.getText() + "`");
             case ADVANTAGE:
-                return evalInt(suffixArgument, 1);
             case DISADVANTAGE:
                 return evalInt(suffixArgument, 1);
             default:
@@ -181,7 +239,7 @@ class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
 
         int abilityDieFacets = evalInt(
                 savageWorldsRollExpression.getAbilityDieArg(),
-                () -> "No ability die facets: '" + savageWorldsRollExpression.getText() + "'"
+                () -> "No ability die facets: `" + savageWorldsRollExpression.getText() + "`"
         );
 
         int wildDieFacets = evalInt(savageWorldsRollExpression.getWildDieArg(), 6);
@@ -212,7 +270,7 @@ class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
         }
         List<Integer> result = expression.accept(this);
         if (result.size() != 1) {
-            throw new EvaluationErrorException("Single value expected: " + result);
+            throw new EvaluationErrorException("Single value expected in `" + expression.getText() + "`: " + result);
         }
         return result.get(0);
     }
@@ -221,7 +279,7 @@ class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
         if (expression == null) return defaultValue;
         List<Integer> result = expression.accept(this);
         if (result.size() != 1) {
-            throw new EvaluationErrorException("Single value expected: " + result);
+            throw new EvaluationErrorException("Single value expected in `" + expression.getText() + "`: " + result);
         }
         return result.get(0);
     }

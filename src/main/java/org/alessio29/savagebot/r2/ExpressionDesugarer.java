@@ -66,6 +66,31 @@ class ExpressionDesugarer extends Desugarer<Expression> {
     }
 
     @Override
+    public Expression visitBoundedExpr(R2Parser.BoundedExprContext ctx) {
+        if (ctx.e2 == null && ctx.e3 == null) {
+            throw new DesugaringErrorExceptioon("At least one bound should be provided: `" + getOriginalText(ctx) + "`");
+        }
+
+        Expression argument2 = visitOrNull(ctx.e2);
+        Expression argument3 = visitOrNull(ctx.e3);
+        if (argument2 instanceof IntExpression && argument3 instanceof IntExpression) {
+            int value2 = ((IntExpression) argument2).getValue();
+            int value3 = ((IntExpression) argument3).getValue();
+            if (value2 > value3) {
+                throw new DesugaringErrorExceptioon("Empty range: `" + getOriginalText(ctx) + "`");
+            }
+        }
+
+        return new OperatorExpression(
+                getOriginalText(ctx),
+                OperatorExpression.Operator.BOUND_TO,
+                visit(ctx.e1),
+                argument2,
+                argument3
+        );
+    }
+
+    @Override
     public Expression visitPrefixExpr(R2Parser.PrefixExprContext ctx) {
         return new OperatorExpression(
                 getOriginalText(ctx),

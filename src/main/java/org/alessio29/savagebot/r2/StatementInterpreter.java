@@ -21,7 +21,7 @@ class StatementInterpreter implements Statement.Visitor<String> {
 
     @Override
     public String visitErrorStatement(ErrorStatement errorStatement) {
-        return "(Error: '" + errorStatement.getText() + "': " + errorStatement.getErrorMessage() + ")\n";
+        return "Error: `" + errorStatement.getText() + "`: " + errorStatement.getErrorMessage() + "\n";
     }
 
     @Override
