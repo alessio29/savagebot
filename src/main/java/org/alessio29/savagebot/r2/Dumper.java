@@ -91,6 +91,19 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
     }
 
     @Override
+    public Void visitAssignVariableExpression(AssignVariableExpression assignVariableExpression) {
+        println("AssignVar " + assignVariableExpression.getVariable());
+        indented(() -> dump("arg", assignVariableExpression.getArgument()));
+        return null;
+    }
+
+    @Override
+    public Void visitVariableExpression(VariableExpression variableExpression) {
+        println("Var " + variableExpression.getVariable());
+        return null;
+    }
+
+    @Override
     public Void visitOperatorExpression(OperatorExpression operatorExpression) {
         OperatorExpression.Operator operator = operatorExpression.getOperator();
         println("Operator " + operator);

@@ -568,6 +568,50 @@ public class TestR2Parser {
         );
     }
 
+    @Test
+    public void testVariables() {
+        expect(
+                "RollOnce\n" +
+                        "  expr: Operator PLUS\n" +
+                        "    arg1: GenericRoll isOpenEnded=false\n" +
+                        "      diceCount: null\n" +
+                        "      facetsCount: Int 20\n" +
+                        "      suffixArg1: null\n" +
+                        "      suffixArg2: null\n" +
+                        "    arg2: AssignVar @dd\n" +
+                        "      arg: GenericRoll isOpenEnded=false\n" +
+                        "        diceCount: null\n" +
+                        "        facetsCount: Int 5\n" +
+                        "        suffixArg1: null\n" +
+                        "        suffixArg2: null\n" +
+                        "RollOnce\n" +
+                        "  expr: Operator PLUS\n" +
+                        "    arg1: GenericRoll isOpenEnded=false\n" +
+                        "      diceCount: null\n" +
+                        "      facetsCount: Int 8\n" +
+                        "      suffixArg1: null\n" +
+                        "      suffixArg2: null\n" +
+                        "    arg2: Var @dd",
+                "d20+@dd:=d5", "d8+@dd"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: Operator PLUS\n" +
+                        "    arg1: AssignVar @dd\n" +
+                        "      arg: GenericRoll isOpenEnded=false\n" +
+                        "        diceCount: null\n" +
+                        "        facetsCount: Int 5\n" +
+                        "        suffixArg1: null\n" +
+                        "        suffixArg2: null\n" +
+                        "    arg2: GenericRoll isOpenEnded=false\n" +
+                        "      diceCount: null\n" +
+                        "      facetsCount: Int 20\n" +
+                        "      suffixArg1: null\n" +
+                        "      suffixArg2: null",
+                "@dd:=d5+d20"
+        );
+    }
+
     private void expect(String expectedDump, String... args) {
         List<Statement> statements = new Parser().parse(args);
         StringWriter sw = new StringWriter();

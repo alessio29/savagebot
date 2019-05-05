@@ -3,6 +3,7 @@ package org.alessio29.savagebot.r2;
 import org.alessio29.savagebot.r2.tree.Expression;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 class ExpressionContext {

@@ -5,13 +5,27 @@ import org.alessio29.savagebot.r2.tree.*;
 class ExpressionExplainer implements Expression.Visitor<String> {
     private final ExpressionContext expressionContext;
 
-    public ExpressionExplainer(ExpressionContext expressionContext) {
+    ExpressionExplainer(ExpressionContext expressionContext) {
         this.expressionContext = expressionContext;
     }
 
     @Override
     public String visitIntExpression(IntExpression intExpression) {
         return intExpression.getText();
+    }
+
+    @Override
+    public String visitAssignVariableExpression(AssignVariableExpression assignVariableExpression) {
+        String argumentExplanation = expressionContext.getExplanation(assignVariableExpression.getArgument());
+        if (argumentExplanation != null) {
+            return "{" + assignVariableExpression.getVariable() + "=" + argumentExplanation + "}";
+        }
+        return getExplanation(assignVariableExpression);
+    }
+
+    @Override
+    public String visitVariableExpression(VariableExpression variableExpression) {
+        return expressionContext.getExplanation(variableExpression);
     }
 
     @Override
@@ -80,14 +94,13 @@ class ExpressionExplainer implements Expression.Visitor<String> {
         return getExplanation(operatorExpression);
     }
 
-    private StringBuilder appendArgumentExplanation(StringBuilder result, Expression argument, String explanation) {
+    private void appendArgumentExplanation(StringBuilder result, Expression argument, String explanation) {
         if (explanation != null) {
             if (argument != null) {
                 result.append(argument.getText()).append(": ");
             }
             result.append(explanation).append(" ");
         }
-        return result;
     }
 
     @Override
