@@ -18,20 +18,76 @@ class ExpressionExplainer implements Expression.Visitor<String> {
     public String visitOperatorExpression(OperatorExpression operatorExpression) {
         OperatorExpression.Operator operator = operatorExpression.getOperator();
         OperatorExpression.OperatorKind kind = operator.getKind();
-
         Expression argument1 = operatorExpression.getArgument1();
         Expression argument2 = operatorExpression.getArgument2();
+        Expression argument3 = operatorExpression.getArgument3();
 
+        String explanation1 = explainOrNull(argument1);
+        String explanation2 = explainOrNull(argument2);
+        explainOrNull(argument3);
+
+        if (operator == OperatorExpression.Operator.BOUND_TO) {
+            return explainBoundTo(operatorExpression);
+        }
+
+        String operatorExplanation;
         switch (kind) {
             case BINARY:
-                return argument1.accept(this) + " " + operator.getImage() + " " + argument2.accept(this);
+                operatorExplanation = explanation1 + " " + operator.getImage() + " " + explanation2;
+                break;
             case PREFIX:
-                return operator.getImage() + argument1.accept(this);
+                operatorExplanation = operator.getImage() + explanation1;
+                break;
             case BRACKETS:
-                return operator.getImage1() + argument1.accept(this) + operator.getImage2();
+                operatorExplanation = operator.getImage1() + explanation1 + operator.getImage2();
+                break;
             default:
                 throw new EvaluationErrorException("Unexpected operator kind: " + kind);
         }
+
+        if (expressionContext.getExplanation(argument1) != null ||
+                expressionContext.getExplanation(argument2) != null ||
+                expressionContext.getExplanation(argument3) != null
+        ) {
+            expressionContext.putExplanation(operatorExpression, operatorExplanation);
+        }
+
+        return operatorExplanation;
+    }
+
+    private String explainOrNull(Expression argument1) {
+        return argument1 == null ? null : argument1.accept(this);
+    }
+
+    private String explainBoundTo(OperatorExpression operatorExpression) {
+        Expression argument1 = operatorExpression.getArgument1();
+        Expression argument2 = operatorExpression.getArgument2();
+        Expression argument3 = operatorExpression.getArgument3();
+        String explanation1 = expressionContext.getExplanation(argument1);
+        String explanation2 = expressionContext.getExplanation(argument2);
+        String explanation3 = expressionContext.getExplanation(argument3);
+
+        if (explanation1 != null || explanation2 != null || explanation3 != null) {
+            StringBuilder explanation = new StringBuilder();
+            explanation.append("{").append(operatorExpression.getText()).append(": ");
+            appendArgumentExplanation(explanation, null, explanation1);
+            appendArgumentExplanation(explanation, argument2, explanation2);
+            appendArgumentExplanation(explanation, argument3, explanation3);
+            explanation.append(expressionContext.getExplanation(operatorExpression)).append("}");
+            return explanation.toString();
+        }
+
+        return getExplanation(operatorExpression);
+    }
+
+    private StringBuilder appendArgumentExplanation(StringBuilder result, Expression argument, String explanation) {
+        if (explanation != null) {
+            if (argument != null) {
+                result.append(argument.getText()).append(": ");
+            }
+            result.append(explanation).append(" ");
+        }
+        return result;
     }
 
     @Override
@@ -40,6 +96,13 @@ class ExpressionExplainer implements Expression.Visitor<String> {
     }
 
     private String getExplanation(Expression expression) {
+        if (expression instanceof OperatorExpression) {
+            OperatorExpression operatorExpression = (OperatorExpression) expression;
+            if (operatorExpression.getOperator() == OperatorExpression.Operator.BRACKETS) {
+                return getExplanation(operatorExpression.getArgument1());
+            }
+        }
+
         String explanation = expressionContext.getExplanation(expression);
         if (explanation != null) {
             return "{" + expression.getText() + ": " + explanation + "}";

@@ -58,7 +58,6 @@ public class TestR2Parser {
                         "      arg1: Operator PLUS\n" +
                         "        arg1: Int 2\n" +
                         "        arg2: Int 2\n" +
-                        "      arg2: null\n" +
                         "    arg2: Int 2",
                 "(2+2)*2"
         );
@@ -68,11 +67,9 @@ public class TestR2Parser {
                         "RollOnce\n" +
                         "  expr: Operator UNARY_MINUS\n" +
                         "    arg1: Int 2\n" +
-                        "    arg2: null\n" +
                         "RollOnce\n" +
                         "  expr: Operator UNARY_PLUS\n" +
-                        "    arg1: Int 2\n" +
-                        "    arg2: null",
+                        "    arg1: Int 2",
                 "2", "-2", "+2"
         );
     }
@@ -273,11 +270,9 @@ public class TestR2Parser {
                         "      arg2: Operator BRACKETS\n" +
                         "        arg1: Commented \"STR\"\n" +
                         "          expr: Int 3\n" +
-                        "        arg2: null\n" +
                         "    arg2: Operator BRACKETS\n" +
                         "      arg1: Commented \"Attack bonus\"\n" +
-                        "        expr: Int 5\n" +
-                        "      arg2: null",
+                        "        expr: Int 5",
                 "d20+(\"STR\" 3)+(\"Attack bonus\" 5)"
         );
     }
@@ -355,7 +350,6 @@ public class TestR2Parser {
                         "    diceCount: null\n" +
                         "    facetsCount: Operator BRACKETS\n" +
                         "      arg1: Int 66\n" +
-                        "      arg2: null\n" +
                         "    suffixArg1: null\n" +
                         "    suffixArg2: null",
                 "d(66)"
@@ -478,6 +472,99 @@ public class TestR2Parser {
                         "    suffixArg1: Int 8\n" +
                         "    suffixArg2: null",
                 "28d6!s8"
+        );
+    }
+
+    @Test
+    public void testBoundedExpr() {
+        expect(
+                "RollOnce\n" +
+                        "  expr: Operator BOUND_TO\n" +
+                        "    arg1: GenericRoll isOpenEnded=false\n" +
+                        "      diceCount: Int 10\n" +
+                        "      facetsCount: Int 6\n" +
+                        "      suffixArg1: null\n" +
+                        "      suffixArg2: null\n" +
+                        "    arg2: Int 15\n" +
+                        "    arg3: Int 50",
+                "10d6[15:50]"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: Operator BOUND_TO\n" +
+                        "    arg1: GenericRoll isOpenEnded=false\n" +
+                        "      diceCount: Int 10\n" +
+                        "      facetsCount: Int 6\n" +
+                        "      suffixArg1: null\n" +
+                        "      suffixArg2: null\n" +
+                        "    arg2: Int 15\n" +
+                        "    arg3: null",
+                "10d6[15:]"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: Operator BOUND_TO\n" +
+                        "    arg1: GenericRoll isOpenEnded=false\n" +
+                        "      diceCount: Int 10\n" +
+                        "      facetsCount: Int 6\n" +
+                        "      suffixArg1: null\n" +
+                        "      suffixArg2: null\n" +
+                        "    arg2: null\n" +
+                        "    arg3: Int 50",
+                "10d6[:50]"
+        );
+        expect(
+                "Error text='10d6[:]' errorMessage='At least one bound should be provided: `10d6[:]`'",
+                "10d6[:]"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: Operator PLUS\n" +
+                        "    arg1: GenericRoll isOpenEnded=false\n" +
+                        "      diceCount: Int 2\n" +
+                        "      facetsCount: Int 6\n" +
+                        "      suffixArg1: null\n" +
+                        "      suffixArg2: null\n" +
+                        "    arg2: Operator BOUND_TO\n" +
+                        "      arg1: GenericRoll isOpenEnded=false\n" +
+                        "        diceCount: Int 2\n" +
+                        "        facetsCount: Int 6\n" +
+                        "        suffixArg1: null\n" +
+                        "        suffixArg2: null\n" +
+                        "      arg2: Int 3\n" +
+                        "      arg3: Int 8",
+                "2d6+2d6[3:8]"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: Operator MUL\n" +
+                        "    arg1: GenericRoll isOpenEnded=false\n" +
+                        "      diceCount: Int 2\n" +
+                        "      facetsCount: Int 6\n" +
+                        "      suffixArg1: null\n" +
+                        "      suffixArg2: null\n" +
+                        "    arg2: Operator BOUND_TO\n" +
+                        "      arg1: GenericRoll isOpenEnded=false\n" +
+                        "        diceCount: Int 2\n" +
+                        "        facetsCount: Int 6\n" +
+                        "        suffixArg1: null\n" +
+                        "        suffixArg2: null\n" +
+                        "      arg2: Int 3\n" +
+                        "      arg3: Int 8",
+                "2d6*2d6[3:8]"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: Operator UNARY_PLUS\n" +
+                        "    arg1: Operator BOUND_TO\n" +
+                        "      arg1: GenericRoll isOpenEnded=false\n" +
+                        "        diceCount: Int 2\n" +
+                        "        facetsCount: Int 6\n" +
+                        "        suffixArg1: null\n" +
+                        "        suffixArg2: null\n" +
+                        "      arg2: Int 3\n" +
+                        "      arg3: Int 8",
+                "+2d6[3:8]"
         );
     }
 

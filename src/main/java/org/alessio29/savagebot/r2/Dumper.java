@@ -92,10 +92,18 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
 
     @Override
     public Void visitOperatorExpression(OperatorExpression operatorExpression) {
-        println("Operator " + operatorExpression.getOperator());
+        OperatorExpression.Operator operator = operatorExpression.getOperator();
+        println("Operator " + operator);
         indented(() -> {
-            dump("arg1", operatorExpression.getArgument1());
-            dump("arg2", operatorExpression.getArgument2());
+            if (operator.getArity() >= 1) {
+                dump("arg1", operatorExpression.getArgument1());
+            }
+            if (operator.getArity() >= 2) {
+                dump("arg2", operatorExpression.getArgument2());
+            }
+            if (operator.getArity() >= 3) {
+                dump("arg3", operatorExpression.getArgument3());
+            }
         });
         return null;
     }

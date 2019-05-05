@@ -30,6 +30,8 @@ expression
         # SavageWorldsRollExpr
     |   fudgeRoll
         # FudgeRollExpr
+    |   e1=expression '[' (e2=expression)? ':' (e3=expression)? ']'
+        # BoundedExpr
     |   e1=expression op=('*'|'/'|'%') e2=expression
         # InfixExpr1
     |   e1=expression op=('+'|'-') e2=expression
