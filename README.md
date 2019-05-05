@@ -71,6 +71,10 @@ Currently supported dice codes are:
 
 `!r 4dF` - rolls Fudge/FATE dice
 
+`!r d20adv+2` - advantage roll in DnD5e
+
+`!r d20dis+2` - disadvantage roll in DnD5e
+
 __**BENNIES category**__
 
 **pocket**		<characterName>	Shows character's bennies
