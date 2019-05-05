@@ -24,6 +24,29 @@ class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
     }
 
     @Override
+    public List<Integer> visitAssignVariableExpression(AssignVariableExpression assignVariableExpression) {
+        List<Integer> value = assignVariableExpression.getArgument().accept(this);
+        String variable = assignVariableExpression.getVariable();
+        context.getCommandContext().putVariable(variable, value);
+        return value;
+    }
+
+    @Override
+    public List<Integer> visitVariableExpression(VariableExpression variableExpression) {
+        String variable = variableExpression.getVariable();
+        List<Integer> value = context.getCommandContext().getVariable(variable);
+        if (value == null) {
+            throw new EvaluationErrorException("Undefined variable: `" + variable + "`");
+        }
+        if (value.size() == 1) {
+            context.putExplanation(variableExpression, "{" + variable + "=" + value.get(0) + "}");
+        } else {
+            context.putExplanation(variableExpression, "{" + variable + "=" + value + "}");
+        }
+        return value;
+    }
+
+    @Override
     public List<Integer> visitOperatorExpression(OperatorExpression operatorExpression) {
         OperatorExpression.Operator operator = operatorExpression.getOperator();
 

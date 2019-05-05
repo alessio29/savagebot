@@ -32,6 +32,8 @@ expression
         # FudgeRollExpr
     |   e1=expression '[' (e2=expression)? ':' (e3=expression)? ']'
         # BoundedExpr
+    |   v=VAR ':=' e1=expression
+        # AssignExpr
     |   e1=expression op=('*'|'/'|'%') e2=expression
         # InfixExpr1
     |   e1=expression op=('+'|'-') e2=expression
@@ -66,6 +68,8 @@ fudgeRoll
 term
     :   i=INT
         # IntTerm
+    |   v=VAR
+        # VarTerm
     |   '(' (comment=STRING)? e=expression ')'
         # ExprTerm
     ;
@@ -74,5 +78,6 @@ INT: [0-9]+;
 STRING: '"' StringChar* '"';
 WS: [ \t\n\r] -> skip;
 FLAG: '--'[a-zA-Z]+;
+VAR: '@'[a-zA-Z0-9_]+;
 
 fragment StringChar: ~["\\\r\n];

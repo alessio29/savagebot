@@ -66,6 +66,23 @@ class ExpressionDesugarer extends Desugarer<Expression> {
     }
 
     @Override
+    public Expression visitAssignExpr(R2Parser.AssignExprContext ctx) {
+        return new AssignVariableExpression(
+                getOriginalText(ctx),
+                ctx.v.getText(),
+                visit(ctx.e1)
+        );
+    }
+
+    @Override
+    public Expression visitVarTerm(R2Parser.VarTermContext ctx) {
+        return new VariableExpression(
+                getOriginalText(ctx),
+                ctx.v.getText()
+        );
+    }
+
+    @Override
     public Expression visitBoundedExpr(R2Parser.BoundedExprContext ctx) {
         if (ctx.e2 == null && ctx.e3 == null) {
             throw new DesugaringErrorExceptioon("At least one bound should be provided: `" + getOriginalText(ctx) + "`");
