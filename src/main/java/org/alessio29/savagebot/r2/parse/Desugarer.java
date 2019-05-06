@@ -1,4 +1,4 @@
-package org.alessio29.savagebot.r2;
+package org.alessio29.savagebot.r2.parse;
 
 import org.alessio29.savagebot.r2.grammar.R2BaseVisitor;
 import org.antlr.v4.runtime.ParserRuleContext;

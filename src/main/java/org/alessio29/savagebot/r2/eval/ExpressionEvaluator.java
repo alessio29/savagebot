@@ -1,4 +1,4 @@
-package org.alessio29.savagebot.r2;
+package org.alessio29.savagebot.r2.eval;
 
 import org.alessio29.savagebot.r2.tree.*;
 

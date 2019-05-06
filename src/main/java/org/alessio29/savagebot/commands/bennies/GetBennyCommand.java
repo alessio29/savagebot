@@ -7,7 +7,7 @@ import org.alessio29.savagebot.commands.Category;
 import org.alessio29.savagebot.commands.ICommand;
 import org.alessio29.savagebot.internal.CommandExecutionResult;
 import org.alessio29.savagebot.internal.Messages;
-import org.alessio29.savagebot.savagebot.bennies.*;
+import org.alessio29.savagebot.bennies.*;
 
 
 public class GetBennyCommand implements ICommand{
