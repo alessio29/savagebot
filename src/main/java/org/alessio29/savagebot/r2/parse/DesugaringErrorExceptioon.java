@@ -1,4 +1,4 @@
-package org.alessio29.savagebot.r2;
+package org.alessio29.savagebot.r2.parse;
 
 class DesugaringErrorExceptioon extends RuntimeException {
     public DesugaringErrorExceptioon(String message) {

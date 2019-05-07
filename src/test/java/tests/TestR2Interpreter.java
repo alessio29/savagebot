@@ -1,8 +1,8 @@
 package tests;
 
-import org.alessio29.savagebot.r2.CommandContext;
-import org.alessio29.savagebot.r2.Interpreter;
-import org.alessio29.savagebot.r2.Parser;
+import org.alessio29.savagebot.r2.eval.CommandContext;
+import org.alessio29.savagebot.r2.eval.Interpreter;
+import org.alessio29.savagebot.r2.parse.Parser;
 import org.alessio29.savagebot.r2.tree.Statement;
 import org.junit.Assert;
 import org.junit.Test;

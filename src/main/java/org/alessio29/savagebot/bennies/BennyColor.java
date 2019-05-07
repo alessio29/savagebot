@@ -1,4 +1,4 @@
-package org.alessio29.savagebot.savagebot.bennies;
+package org.alessio29.savagebot.bennies;
 
 public enum BennyColor {
 	WHITE, RED, BLUE, GOLDEN;
