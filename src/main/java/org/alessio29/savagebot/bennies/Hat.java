@@ -1,4 +1,4 @@
-package org.alessio29.savagebot.savagebot.bennies;
+package org.alessio29.savagebot.bennies;
 
 import java.util.Collections;
 import java.util.LinkedList;

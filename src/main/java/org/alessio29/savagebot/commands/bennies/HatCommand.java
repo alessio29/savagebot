@@ -4,9 +4,9 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.commands.Category;
 import org.alessio29.savagebot.commands.ICommand;
 import org.alessio29.savagebot.internal.CommandExecutionResult;
-import org.alessio29.savagebot.savagebot.bennies.Hat;
-import org.alessio29.savagebot.savagebot.bennies.Hats;
-import org.alessio29.savagebot.savagebot.bennies.Pockets;
+import org.alessio29.savagebot.bennies.Hat;
+import org.alessio29.savagebot.bennies.Hats;
+import org.alessio29.savagebot.bennies.Pockets;
 
 
 

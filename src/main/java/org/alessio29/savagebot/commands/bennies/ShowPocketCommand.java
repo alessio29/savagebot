@@ -7,8 +7,8 @@ import org.alessio29.savagebot.commands.Category;
 import org.alessio29.savagebot.commands.ICommand;
 import org.alessio29.savagebot.internal.CommandExecutionResult;
 import org.alessio29.savagebot.internal.Messages;
-import org.alessio29.savagebot.savagebot.bennies.Pocket;
-import org.alessio29.savagebot.savagebot.bennies.Pockets;
+import org.alessio29.savagebot.bennies.Pocket;
+import org.alessio29.savagebot.bennies.Pockets;
 
 
 public class ShowPocketCommand implements ICommand {

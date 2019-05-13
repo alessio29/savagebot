@@ -71,6 +71,14 @@ Currently supported dice codes are:
 
 `!r 4dF` - rolls Fudge/FATE dice
 
+`!r d20adv+2` - advantage roll in DnD5e
+
+`!r d20dis+2` - disadvantage roll in DnD5e
+
+Bot supports limits to roll: 
+
+`!r (3d8!+d6!)[6:24+6]` - this roll will give value at least 6 and no more than 30 (24+6). This used in our house-rule for damage rolls for Savage Worlds.
+
 __**BENNIES category**__
 
 **pocket**		<characterName>	Shows character's bennies

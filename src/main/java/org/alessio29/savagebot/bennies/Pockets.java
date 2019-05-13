@@ -1,4 +1,4 @@
-package org.alessio29.savagebot.savagebot.bennies;
+package org.alessio29.savagebot.bennies;
 
 import net.dv8tion.jda.core.entities.Channel;
 import net.dv8tion.jda.core.entities.Guild;
