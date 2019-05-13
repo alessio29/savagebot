@@ -13,7 +13,7 @@ public class RollDiceCommand implements ICommand {
 
 	@Override
 	public String getName() {
-		return "r";
+		return "rr";
 	}
 
 	@Override
