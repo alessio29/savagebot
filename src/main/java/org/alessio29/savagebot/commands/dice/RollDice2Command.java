@@ -1,6 +1,5 @@
 package org.alessio29.savagebot.commands.dice;
 
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.commands.Category;
 import org.alessio29.savagebot.commands.ICommand;
 import org.alessio29.savagebot.dice.Dice;
@@ -8,14 +7,13 @@ import org.alessio29.savagebot.internal.CommandExecutionResult;
 import org.alessio29.savagebot.r2.CommandContext;
 import org.alessio29.savagebot.r2.Interpreter;
 import org.alessio29.savagebot.r2.Parser;
-import org.alessio29.savagebot.r2.tree.Statement;
 
-import java.util.List;
+import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class RollDice2Command implements ICommand {
     @Override
     public String getName() {
-        return "rr";
+        return "r";
     }
 
     @Override
