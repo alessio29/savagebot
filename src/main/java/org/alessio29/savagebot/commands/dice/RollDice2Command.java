@@ -2,6 +2,7 @@ package org.alessio29.savagebot.commands.dice;
 
 import org.alessio29.savagebot.commands.Category;
 import org.alessio29.savagebot.commands.ICommand;
+import org.alessio29.savagebot.commands.IParsingCommand;
 import org.alessio29.savagebot.dice.Dice;
 import org.alessio29.savagebot.internal.CommandExecutionResult;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -9,9 +10,13 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.r2.eval.CommandContext;
 import org.alessio29.savagebot.r2.eval.Interpreter;
 import org.alessio29.savagebot.r2.parse.Parser;
+import org.alessio29.savagebot.r2.tree.NonParsedStringStatement;
+import org.alessio29.savagebot.r2.tree.Statement;
+
+import java.util.List;
 
 
-public class RollDice2Command implements ICommand {
+public class RollDice2Command implements ICommand, IParsingCommand {
     @Override
     public String getName() {
         return "r";
@@ -25,9 +30,10 @@ public class RollDice2Command implements ICommand {
     @Override
     public String getDescription() {
         return "rolls dice. Understands complex expressions.\n" +
-                "Multiple die rolls in a single command: `.rr 2d6+d4+2 d12 d6!`\n" +
-                "Repeated die rolls: `.rr 6x4d6k3`\n" +
-                "Inline comments: `.rr shooting s8 damage 2d6+1`";
+                "Multiple die rolls in a single command: `!r 2d6+d4+2 d12 d6!`\n" +
+                "Repeated die rolls: `!r 6x4d6k3`\n" +
+                "Inline comments: `!r shooting s8 damage 2d6+1`" +
+                "Just roll them bones (no spaces in expressions): `shooting !s8 damage !2d6+1`";
     }
 
     @Override
@@ -49,6 +55,18 @@ public class RollDice2Command implements ICommand {
         String result = new Interpreter(getCommandContext(event)).run(new Parser().parse(args));
 
         return new CommandExecutionResult(result, args.length + 1);
+    }
+
+    @Override
+    public CommandExecutionResult parseAndExecuteOrNull(MessageReceivedEvent event, String command) {
+        List<Statement> statements = new Parser().parseCommandElement(command);
+        if (statements.stream().allMatch(statement -> statement instanceof NonParsedStringStatement)) {
+            return null;
+        }
+
+        String result = new Interpreter(getCommandContext(event)).run(statements);
+
+        return new CommandExecutionResult(result, 1);
     }
 
     private CommandContext getCommandContext(MessageReceivedEvent event) {

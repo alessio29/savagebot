@@ -1,46 +1,43 @@
 package org.alessio29.savagebot.internal;
 
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.commands.ICommand;
+import org.alessio29.savagebot.commands.IParsingCommand;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class CommandRegistry {
 
-	private static CommandRegistry instance = new CommandRegistry();
-	private static Map<String, ICommand> registeredCommands = new HashMap<>();
+	private static final CommandRegistry INSTANCE = new CommandRegistry();
+
+	private final Map<String, ICommand> registeredCommands = new HashMap<>();
+	private final List<IParsingCommand> parsingCommands = new ArrayList<>();
 	
-	public static void registerCommand(ICommand newCommand) {
+	public void registerCommand(ICommand newCommand) {
 		registeredCommands.put(newCommand.getName(), newCommand);
-		if (newCommand.getAliases()!=null) {
+		if (newCommand.getAliases() != null) {
 			for (String alias : newCommand.getAliases()) {
 				registeredCommands.put(alias, newCommand);
 			}
 		}
+		if (newCommand instanceof IParsingCommand) {
+			parsingCommands.add((IParsingCommand) newCommand);
+		}
 		registeredCommands.put(newCommand.getName(), newCommand);
 	}
 	
-	public static CommandRegistry current() {
-		return instance;
+	public static CommandRegistry getInstance() {
+		return INSTANCE;
 	}
 
 	public Collection<ICommand> getRegisteredCommands() {
 		return registeredCommands.values();
 	}
 
-	public ICommand getCommandByName(String command) {
-		return registeredCommands.get(command);
+	public Collection<IParsingCommand> getRegisteredParsingCommands() {
+		return parsingCommands;
 	}
 
-	public CommandExecutionResult execute(MessageReceivedEvent event, String command, String[] args) throws Exception {
-
-		ICommand cmd = getCommandByName(command);
-		
-		if (cmd == null) {
-			return new CommandExecutionResult();
-		}
-		return cmd.execute(event, args);
+	public ICommand getCommandByName(String command) {
+		return registeredCommands.get(command);
 	}
 }
