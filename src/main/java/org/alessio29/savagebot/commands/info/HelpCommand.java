@@ -69,7 +69,7 @@ public class HelpCommand implements ICommand {
 	@Override
 	public CommandExecutionResult execute(MessageReceivedEvent event, String[] args) {
 		CategorizedMap categories = new CategorizedMap();
-		CommandRegistry.current().getRegisteredCommands().stream().forEach(c -> {
+		CommandRegistry.getInstance().getRegisteredCommands().stream().forEach(c -> {
 			if (c.getCategory() != null) {
 				categories.put(c.getCategory(), c);
 			} else {

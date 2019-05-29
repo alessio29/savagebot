@@ -38,35 +38,36 @@ public class SavageBotRunner {
 	}
 	
 	private static void registerCommands() { 
+		CommandRegistry registry = CommandRegistry.getInstance();		
 		
 		// admin commands
-		CommandRegistry.registerCommand(new PingCommand());
-		CommandRegistry.registerCommand(new PrefixCommand());
+		registry.registerCommand(new PingCommand());
+		registry.registerCommand(new PrefixCommand());
 		
 		// info commands
-		CommandRegistry.registerCommand(new InviteCommand());
-		CommandRegistry.registerCommand(new HelpCommand());
+		registry.registerCommand(new InviteCommand());
+		registry.registerCommand(new HelpCommand());
 		
 		// bennies commands
-		CommandRegistry.registerCommand(new GetBennyCommand());
-		CommandRegistry.registerCommand(new HatCommand());
-		CommandRegistry.registerCommand(new ShowPocketCommand());
-		CommandRegistry.registerCommand(new UseBennyCommand());
+		registry.registerCommand(new GetBennyCommand());
+		registry.registerCommand(new HatCommand());
+		registry.registerCommand(new ShowPocketCommand());
+		registry.registerCommand(new UseBennyCommand());
 		
 		// cards commands
-		CommandRegistry.registerCommand(new DealCardCommand());
-		CommandRegistry.registerCommand(new DrawInitiativeCardCommand());
-		CommandRegistry.registerCommand(new OpenCardCommand());
-		CommandRegistry.registerCommand(new ShowCardsCommand());
-		CommandRegistry.registerCommand(new ShuffleDeckCommand());
+		registry.registerCommand(new DealCardCommand());
+		registry.registerCommand(new DrawInitiativeCardCommand());
+		registry.registerCommand(new OpenCardCommand());
+		registry.registerCommand(new ShowCardsCommand());
+		registry.registerCommand(new ShuffleDeckCommand());
 		
 		// dice commands
-        CommandRegistry.registerCommand(new RollDiceCommand());
-        CommandRegistry.registerCommand(new RollDice2Command());
+        registry.registerCommand(new RollDiceCommand());
+        registry.registerCommand(new RollDice2Command());
         
         // initiative commands
-        CommandRegistry.registerCommand(new NewFightCommand());
-        CommandRegistry.registerCommand(new NewRoundCommand());
-        CommandRegistry.registerCommand(new ShowInitiativeCommand());
+        registry.registerCommand(new NewFightCommand());
+        registry.registerCommand(new NewRoundCommand());
+        registry.registerCommand(new ShowInitiativeCommand());
 	}
 }	
