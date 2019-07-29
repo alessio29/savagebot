@@ -42,8 +42,13 @@ public class PrefixCommand implements ICommand {
 			if (newPrefix.length()>1) {
 				result = new CommandExecutionResult("Prefix must be one-character long!", 1);
 			} else {
-				Prefixes.setPrefix(event.getAuthor(), newPrefix);
-				result = new CommandExecutionResult("Prefix is set to "+newPrefix, 2);
+				
+				if (newPrefix.equals("?") || newPrefix.equals("*") || newPrefix.equals("^") ) {
+					result = new CommandExecutionResult("Prefix must not be question sign, asterisk or circumflex!", 1);
+				} else {
+					Prefixes.setPrefix(event.getAuthor(), newPrefix);
+					result = new CommandExecutionResult("Prefix is set to "+newPrefix, 2);
+				}
 			}
 		} else {
 			String prfx = Prefixes.getPrefix(event.getAuthor());
