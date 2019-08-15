@@ -13,7 +13,6 @@ public class CommandRegistry {
 	private final List<IParsingCommand> parsingCommands = new ArrayList<>();
 	
 	public void registerCommand(ICommand newCommand) {
-		registeredCommands.put(newCommand.getName(), newCommand);
 		if (newCommand.getAliases() != null) {
 			for (String alias : newCommand.getAliases()) {
 				registeredCommands.put(alias, newCommand);
