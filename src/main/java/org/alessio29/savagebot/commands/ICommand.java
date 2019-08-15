@@ -23,15 +23,15 @@ public interface ICommand {
 	default String asHelpString() {
 
 		String name = Messages.bold(this.getName());
-		if (getAliases()!=null) {
+		if (getAliases() != null) {
 			List<String> aliases = Messages.bold(getAliases());
 			name += " or " + String.join(" or ", aliases);
 		}
-		name +="\t";
-		if (getArguments()!=null) {
+		name += "\t";
+		if (getArguments() != null) {
 			name += String.join(" ", getArguments());
 		}
-		return  name + "\t" + this.getDescription() ;
+		return name + "\t" + this.getDescription();
 	}
 
 	
