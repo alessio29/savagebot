@@ -319,6 +319,34 @@ public class TestR2Parser {
     }
 
     @Test
+    public void testRollBatchWithInlineComments() {
+        expect(
+                "RollBatch\n" +
+                        "  times: Int 10\n" +
+                        "  expr: Commented \"rating\"\n" +
+                        "    expr: GenericRoll isOpenEnded=false\n" +
+                        "      diceCount: null\n" +
+                        "      facetsCount: Int 100\n" +
+                        "      suffixArg1: null\n" +
+                        "      suffixArg2: null\n" +
+                        "  expr: Commented \"weight\"\n" +
+                        "    expr: Operator PLUS\n" +
+                        "      arg1: GenericRoll isOpenEnded=false\n" +
+                        "        diceCount: Int 2\n" +
+                        "        facetsCount: Int 6\n" +
+                        "        suffixArg1: null\n" +
+                        "        suffixArg2: null\n" +
+                        "      arg2: Int 1\n" +
+                        "  expr: GenericRoll isOpenEnded=false\n" +
+                        "    diceCount: Int 2\n" +
+                        "    facetsCount: Int 6\n" +
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null",
+                "10x[\"rating\" d100 \"weight\" 2d6+1 2d6]"
+        );
+    }
+
+    @Test
     public void testD66() {
         expect(
                 "RollOnce\n" +

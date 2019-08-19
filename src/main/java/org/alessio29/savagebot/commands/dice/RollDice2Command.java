@@ -47,12 +47,12 @@ public class RollDice2Command implements ICommand, IParsingCommand {
     }
 
     @Override
-    public CommandExecutionResult execute(MessageReceivedEvent event, String[] args) throws Exception {
+    public CommandExecutionResult execute(MessageReceivedEvent event, String[] args) {
         if (args.length < 1) {
             return new CommandExecutionResult("No commands", args.length + 1);
         }
 
-        String result = new Interpreter(getCommandContext(event)).run(new Parser().parse(args));
+        String result = new Interpreter(getCommandContext()).run(new Parser().parse(args));
 
         return new CommandExecutionResult(result, args.length + 1);
     }
@@ -64,12 +64,12 @@ public class RollDice2Command implements ICommand, IParsingCommand {
             return null;
         }
 
-        String result = new Interpreter(getCommandContext(event)).run(statements);
+        String result = new Interpreter(getCommandContext()).run(statements);
 
         return new CommandExecutionResult(result, 1);
     }
 
-    private CommandContext getCommandContext(MessageReceivedEvent event) {
+    private CommandContext getCommandContext() {
         return new CommandContext(Dice.RANDOM);
     }
 }

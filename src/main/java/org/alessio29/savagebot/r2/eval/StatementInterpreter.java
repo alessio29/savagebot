@@ -5,12 +5,11 @@ import org.alessio29.savagebot.r2.tree.*;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 class StatementInterpreter implements Statement.Visitor<String> {
     private Interpreter interpreter;
 
-    public StatementInterpreter(Interpreter interpreter) {
+    StatementInterpreter(Interpreter interpreter) {
         this.interpreter = interpreter;
     }
 
@@ -51,7 +50,7 @@ class StatementInterpreter implements Statement.Visitor<String> {
         result.append("\n");
 
         for (int i = 0; i < times; ++i) {
-            result.append(i+1).append(": ");
+            result.append(i + 1).append(": ");
             IntListResult nthResult = eval(rollTimesStatement.getExpression());
             result.append(nthResult.getExplained());
             result.append("\n");
@@ -73,7 +72,7 @@ class StatementInterpreter implements Statement.Visitor<String> {
         result.append("\n");
 
         for (int i = 0; i < times; ++i) {
-            result.append(i+1).append(": ");
+            result.append(i + 1).append(": ");
             for (Expression expression : expressions) {
                 result.append(eval(expression).getExplained());
                 result.append("; ");
@@ -93,41 +92,34 @@ class StatementInterpreter implements Statement.Visitor<String> {
     }
 
     private IntListResult eval(Expression expression) {
-        StringBuilder result = new StringBuilder();
-        List<Integer> values;
-
         try {
             ExpressionContext expressionContext = getTopLevelExpressionContext(expression);
-            ExpressionEvaluator evaluator = new ExpressionEvaluator(expressionContext);
 
-            values = expression.accept(evaluator);
+            List<Integer> values = new ExpressionEvaluator(expressionContext).eval(expression);
 
             ExpressionExplainer explainer = new ExpressionExplainer(expressionContext);
+            String explanation = explainer.explainExpressionResult(expression, values);
 
-            result.append(expression.accept(explainer)).append(" = ");
+            return new IntListResult(values, explanation);
 
-            result.append(
-                    values.stream()
-                            .map(integer -> Messages.bold(integer.toString()))
-                            .collect(Collectors.joining(", "))
-            );
         } catch (EvaluationErrorException e) {
-            values = Collections.singletonList(0);
-            result.append(expression.getText()).append(": ").append(e.getMessage());
+            return new IntListResult(
+                    Collections.emptyList(),
+                    expression.getText() + ": " + e.getMessage()
+            );
         }
-
-        return new IntListResult(values, result.toString());
     }
+
 
     @Override
     public String visitFlagStatement(FlagStatement flagStatement) {
-        switch (flagStatement.getFlag().toLowerCase()) {
-            case "debug":
-                interpreter.setDebugEnabled(true);
-                return Messages.italic("Debug mode enabled.") + "\n";
-            default:
-                throw new EvaluationErrorException("Unknown flag: '" + flagStatement.getFlag() + "'");
+        String flagToLower = flagStatement.getFlag().toLowerCase();
+
+        if ("debug".equals(flagToLower)) {
+            interpreter.setDebugEnabled(true);
+            return Messages.italic("Debug mode enabled.") + "\n";
         }
 
+        throw new EvaluationErrorException("Unknown flag: '" + flagStatement.getFlag() + "'");
     }
 }
