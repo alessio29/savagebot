@@ -42,7 +42,7 @@ public class Roller {
 
         String explainedWithTotal;
         if (exploded) {
-            explainedWithTotal = explained.toString() + "=" + total;
+            explainedWithTotal = "[" + explained.toString() + "=" + total + "]";
         } else {
             explainedWithTotal = explained.toString();
         }
@@ -94,7 +94,7 @@ public class Roller {
         }
 
         int total = 0;
-        StringJoiner explained = new StringJoiner(",", "[", "]");
+        StringJoiner explained = new StringJoiner(" + ", "", "");
 
         for (int i = 0; i < nDice; ++i) {
             IntResult die = dice.get(i);
@@ -122,7 +122,7 @@ public class Roller {
             } else if (die == 1) {
                 explained.append("+");
             } else if (die == 0) {
-                explained.append(".");
+                explained.append("0");
             }
         }
         explained.append("]");
@@ -161,14 +161,12 @@ public class Roller {
     }
 
     public IntResult rollD66(int digitsCount) {
-        StringJoiner result = new StringJoiner(",", "[", "]");
         int total = 0;
         for (int i = 0; i < digitsCount; ++i) {
             int die = roll(6);
             total = total * 10 + die;
-            result.add(Integer.toString(die));
         }
-        return new IntResult(total, result.toString());
+        return new IntResult(total, Integer.toString(total));
     }
 
     public IntResult rollSuccessOrFail(

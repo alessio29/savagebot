@@ -283,7 +283,7 @@ class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
         return Collections.singletonList(result.getValue());
     }
 
-    private List<Integer> eval(Expression expression) {
+    public List<Integer> eval(Expression expression) {
         return expression == null ? null : expression.accept(this);
     }
 

@@ -1,12 +1,62 @@
 package org.alessio29.savagebot.r2.eval;
 
+import org.alessio29.savagebot.internal.Messages;
 import org.alessio29.savagebot.r2.tree.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 class ExpressionExplainer implements Expression.Visitor<String> {
     private final ExpressionContext expressionContext;
 
     ExpressionExplainer(ExpressionContext expressionContext) {
         this.expressionContext = expressionContext;
+    }
+
+    String explainExpressionResult(Expression expression, List<Integer> values) {
+        String explanation = expression.accept(this);
+
+        if (isTrivialExpression(expression)) {
+            return explanation;
+        }
+
+        if (shouldExplanationAlreadyBeResult(expression)) {
+            return expression.getText() + ": " + Messages.bold(explanation);
+        }
+
+        String results = values.stream().map(i -> Messages.bold(i.toString())).collect(Collectors.joining(", "));
+
+        if (shouldExplanationContainHeader(expression)) {
+            return explanation + " = " + results;
+        }
+
+        return expression.getText() + ": " + explanation + " = " + results;
+    }
+
+    private boolean isTrivialExpression(Expression expression) {
+        return expression instanceof IntExpression;
+    }
+
+    private static boolean shouldExplanationAlreadyBeResult(Expression expression) {
+        if (expression instanceof IntExpression || expression instanceof D66RollExpression) {
+            return true;
+        }
+
+        if (expression instanceof GenericRollExpression) {
+            GenericRollExpression rollExpression = (GenericRollExpression) expression;
+            if (rollExpression.getSuffixOperator() != null) return false;
+            if (rollExpression.isOpenEnded()) return false;
+
+            Expression diceCount = rollExpression.getDiceCountArg();
+            if (diceCount == null) return true;
+            return diceCount instanceof IntExpression && ((IntExpression) diceCount).getValue() == 1;
+        }
+
+        return false;
+    }
+
+    private static boolean shouldExplanationContainHeader(Expression expression) {
+        return expression instanceof CommentedExpression;
     }
 
     @Override
@@ -20,7 +70,7 @@ class ExpressionExplainer implements Expression.Visitor<String> {
         if (argumentExplanation != null) {
             return "{" + assignVariableExpression.getVariable() + "=" + argumentExplanation + "}";
         }
-        return getExplanation(assignVariableExpression);
+        return getKnownExplanation(assignVariableExpression);
     }
 
     @Override
@@ -83,15 +133,15 @@ class ExpressionExplainer implements Expression.Visitor<String> {
 
         if (explanation1 != null || explanation2 != null || explanation3 != null) {
             StringBuilder explanation = new StringBuilder();
-            explanation.append("{").append(operatorExpression.getText()).append(": ");
+            explanation.append("{");
             appendArgumentExplanation(explanation, null, explanation1);
             appendArgumentExplanation(explanation, argument2, explanation2);
             appendArgumentExplanation(explanation, argument3, explanation3);
-            explanation.append(expressionContext.getExplanation(operatorExpression)).append("}");
+            explanation.append("= ").append(expressionContext.getExplanation(operatorExpression)).append("}");
             return explanation.toString();
         }
 
-        return getExplanation(operatorExpression);
+        return getKnownExplanation(operatorExpression);
     }
 
     private void appendArgumentExplanation(StringBuilder result, Expression argument, String explanation) {
@@ -108,38 +158,38 @@ class ExpressionExplainer implements Expression.Visitor<String> {
         return commentedExpression.getComment() + ": " + commentedExpression.getExpression().accept(this);
     }
 
-    private String getExplanation(Expression expression) {
+    private String getKnownExplanation(Expression expression) {
         if (expression instanceof OperatorExpression) {
             OperatorExpression operatorExpression = (OperatorExpression) expression;
             if (operatorExpression.getOperator() == OperatorExpression.Operator.BRACKETS) {
-                return getExplanation(operatorExpression.getArgument1());
+                return getKnownExplanation(operatorExpression.getArgument1());
             }
         }
 
         String explanation = expressionContext.getExplanation(expression);
         if (explanation != null) {
-            return "{" + expression.getText() + ": " + explanation + "}";
+            return explanation;
         }
         return expression.getText();
     }
 
     @Override
     public String visitGenericRollExpression(GenericRollExpression genericRollExpression) {
-        return getExplanation(genericRollExpression);
+        return getKnownExplanation(genericRollExpression);
     }
 
     @Override
     public String visitFudgeRollExpression(FudgeRollExpression fudgeRollExpression) {
-        return getExplanation(fudgeRollExpression);
+        return getKnownExplanation(fudgeRollExpression);
     }
 
     @Override
     public String visitSavageWorldsRollExpression(SavageWorldsRollExpression savageWorldsRollExpression) {
-        return getExplanation(savageWorldsRollExpression);
+        return getKnownExplanation(savageWorldsRollExpression);
     }
 
     @Override
     public String visitD66RollExpression(D66RollExpression d66RollExpression) {
-        return getExplanation(d66RollExpression);
+        return getKnownExplanation(d66RollExpression);
     }
 }
