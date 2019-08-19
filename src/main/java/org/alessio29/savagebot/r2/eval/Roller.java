@@ -23,12 +23,13 @@ public class Roller {
 
     private IntResult roll(int facetsCount, boolean isOpenEnded) {
         int total = 0;
+        int openEndedRepeats = 0;
+        int openEndedLast;
         StringJoiner explained = new StringJoiner("+");
-
-        boolean exploded = false;
 
         while (true) {
             int die = roll(facetsCount);
+            openEndedLast = die;
             total += die;
 
             explained.add(Integer.toString(die));
@@ -37,14 +38,14 @@ public class Roller {
                 break;
             }
 
-            exploded = true;
+            ++openEndedRepeats;
         }
 
         String explainedWithTotal;
-        if (exploded) {
-            explainedWithTotal = "[" + explained.toString() + "=" + total + "]";
+        if (openEndedRepeats > 1) {
+            explainedWithTotal = openEndedRepeats + "x" + facetsCount + "+" + openEndedLast + "=" + total;
         } else {
-            explainedWithTotal = explained.toString();
+            explainedWithTotal = Integer.toString(total);
         }
 
         return new IntResult(total, explainedWithTotal);
@@ -141,10 +142,10 @@ public class Roller {
         StringBuilder explained = new StringBuilder();
         explained.append("[");
 
-        explained.append("wild: ").append(wildDie.getExplained());
         for (IntResult dieResult : abilityDice) {
-            explained.append("; ").append(dieResult.getExplained());
+            explained.append(dieResult.getExplained()).append("; ");
         }
+        explained.append("w").append(wildDie.getExplained());
 
         explained.append("]");
 
