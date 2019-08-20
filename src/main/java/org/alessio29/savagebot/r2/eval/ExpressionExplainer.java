@@ -20,6 +20,13 @@ class ExpressionExplainer implements Expression.Visitor<String> {
             return explanation;
         }
 
+        if (isSavageWorldsCheck(expression)) {
+            return expression.getText() + ": " + explanation + " = " +
+                    values.stream()
+                            .map(i -> Messages.bold(i.toString()) + getSuccessesIfAny(i))
+                            .collect(Collectors.joining(", "));
+        }
+
         if (shouldExplanationAlreadyBeResult(expression)) {
             return expression.getText() + ": " + Messages.bold(explanation);
         }
@@ -31,6 +38,41 @@ class ExpressionExplainer implements Expression.Visitor<String> {
         }
 
         return expression.getText() + ": " + explanation + " = " + results;
+    }
+
+    private String getSuccessesIfAny(int intValue) {
+        if (intValue < 4) {
+            return "";
+        } else {
+            return " (" + (intValue / 4) + ")";
+        }
+    }
+
+    private boolean isSavageWorldsCheck(Expression expression) {
+        if (isSimpleSavageWorldsRoll(expression)) {
+            return true;
+        } else if (expression instanceof OperatorExpression) {
+            OperatorExpression operatorExpression = (OperatorExpression) expression;
+            OperatorExpression.Operator operator = operatorExpression.getOperator();
+            if (operator != OperatorExpression.Operator.PLUS && operator != OperatorExpression.Operator.MINUS) {
+                return false;
+            }
+            Expression arg1 = operatorExpression.getArgument1();
+            Expression arg2 = operatorExpression.getArgument2();
+            return isTrivialExpression(arg2) && isSavageWorldsCheck(arg1) ||
+                    isTrivialExpression(arg1) && isSavageWorldsCheck(arg2);
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isSimpleSavageWorldsRoll(Expression expression) {
+        if (!(expression instanceof SavageWorldsRollExpression)) return false;
+        SavageWorldsRollExpression savageWorldsRoll = (SavageWorldsRollExpression) expression;
+        Expression diceCount = savageWorldsRoll.getDiceCountArg();
+        if (diceCount == null) return true;
+        if (!(diceCount instanceof IntExpression)) return false;
+        return ((IntExpression) diceCount).getValue() == 1;
     }
 
     private boolean isTrivialExpression(Expression expression) {

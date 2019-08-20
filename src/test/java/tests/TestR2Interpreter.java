@@ -419,6 +419,28 @@ public class TestR2Interpreter {
         );
     }
 
+    @Test
+    public void testSavageWorldsChecksWithSuccessesInExplanation() {
+        expect(
+                "s8+5: [6; w5] + 5 = **11** (2)",
+                "s8+5"
+        );
+        expect(
+                "10xs10: \n" +
+                        "1: s10: [1; w5] = **5** (1)\n" +
+                        "2: s10: [18; w22] = **22** (5)\n" +
+                        "3: s10: [15; w23] = **23** (5)\n" +
+                        "4: s10: [6; w3] = **6** (1)\n" +
+                        "5: s10: [5; w4] = **5** (1)\n" +
+                        "6: s10: [2; w3] = **3**\n" +
+                        "7: s10: [4; w1] = **4** (1)\n" +
+                        "8: s10: [5; w9] = **9** (2)\n" +
+                        "9: s10: [1; w4] = **4** (1)\n" +
+                        "10: s10: [3; w1] = **3**",
+                "10xs10"
+        );
+    }
+
     private void expect(String result, String... args) {
         List<Statement> statements = new Parser().parse(args);
         CommandContext context = new CommandContext(new Random(0));
