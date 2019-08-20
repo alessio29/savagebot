@@ -25,8 +25,6 @@ public class Roller {
         int total = 0;
         StringJoiner explained = new StringJoiner("+");
 
-        boolean exploded = false;
-
         while (true) {
             int die = roll(facetsCount);
             total += die;
@@ -36,18 +34,9 @@ public class Roller {
             if (!isOpenEnded || die != facetsCount) {
                 break;
             }
-
-            exploded = true;
         }
 
-        String explainedWithTotal;
-        if (exploded) {
-            explainedWithTotal = "[" + explained.toString() + "=" + total + "]";
-        } else {
-            explainedWithTotal = explained.toString();
-        }
-
-        return new IntResult(total, explainedWithTotal);
+        return new IntResult(total, Integer.toString(total));
     }
 
     private int rollDF() {
@@ -141,10 +130,10 @@ public class Roller {
         StringBuilder explained = new StringBuilder();
         explained.append("[");
 
-        explained.append("wild: ").append(wildDie.getExplained());
         for (IntResult dieResult : abilityDice) {
-            explained.append("; ").append(dieResult.getExplained());
+            explained.append(dieResult.getExplained()).append("; ");
         }
+        explained.append("w").append(wildDie.getExplained());
 
         explained.append("]");
 
@@ -178,25 +167,42 @@ public class Roller {
     ) {
         List<IntResult> dice = IntStream.range(0, diceCount)
                 .mapToObj(it -> roll(facetsCount, isOpenEnded))
+                .sorted(IntResult.BY_VALUE.reversed())
                 .collect(Collectors.toList());
 
-        int totalSuccesses = 0;
-        int totalFailures = 0;
-        StringJoiner rolls = new StringJoiner(", ", "[", "]");
-
+        List<IntResult> successes = new ArrayList<>();
+        List<IntResult> failures = new ArrayList<>();
+        List<IntResult> neutral = new ArrayList<>();
         for (IntResult die : dice) {
             int dieValue = die.getValue();
-            String dieExplained = die.getExplained();
             if (dieValue >= successThreshold) {
-                rolls.add(dieExplained + Messages.SUCCESS_MARK);
-                ++totalSuccesses;
+                successes.add(die);
             } else if (dieValue <= failThreshold) {
-                rolls.add(dieExplained + Messages.FAIL_MARK);
-                ++totalFailures;
+                failures.add(die);
             } else {
-                rolls.add(dieExplained);
+                neutral.add(die);
             }
         }
 
-        return new IntResult(totalSuccesses - totalFailures, rolls.toString()); }
+        StringJoiner explained = new StringJoiner("; ", "[", "]");
+        if (!successes.isEmpty()) {
+            explained.add("successes(" + successes.size() + "): " + getCommaSeparatedExplanations(successes));
+        }
+        if (!failures.isEmpty()) {
+            explained.add("failures(" + failures.size() + "): " + getCommaSeparatedExplanations(failures));
+        }
+        if (!neutral.isEmpty()) {
+            explained.add("rest: " + getCommaSeparatedExplanations(neutral));
+        }
+
+
+
+        return new IntResult(successes.size() - failures.size(), explained.toString());
+    }
+
+    private String getCommaSeparatedExplanations(List<IntResult> results) {
+        return results.stream()
+                .map(IntResult::getExplained)
+                .collect(Collectors.joining(", "));
+    }
 }
