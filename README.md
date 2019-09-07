@@ -103,6 +103,15 @@ __**INFO category**__
 
 **invite**			Creates invite link for this bot
 
+__**TOKENS category**__
+
+**tokens**			Shows characters and their tokens
+
+**give** <character> [token count]		Gives token(s) to <character>
+
+**take** <character> [token count]		Takes token(s) from <character>
+
+
 __**ADMIN category**__
 
 **ping**			Checks SavageBot readiness
