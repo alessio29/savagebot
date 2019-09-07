@@ -7,6 +7,7 @@ public enum Category implements Comparable<Category>{
 	BENNIES,
 	INITIATIVE,
 	INFO, 
-	ADMIN, 
-	OTHER
+	ADMIN,
+	TOKENS,
+	OTHER;
 }

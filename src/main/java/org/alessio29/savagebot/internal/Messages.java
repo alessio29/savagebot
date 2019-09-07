@@ -7,6 +7,7 @@ import org.alessio29.savagebot.characters.CharacterInitCache;
 import org.alessio29.savagebot.characters.CharacterInitiative;
 import org.alessio29.savagebot.dice.DiceRollResult;
 import org.alessio29.savagebot.dice.DicelessRollResult;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,8 @@ public class Messages {
 
     public static final String SUCCESS_MARK = ":white_check_mark:";
     public static final String FAIL_MARK = ":red_circle:";
+	public static final String NEWLINE = "\n";
+	public static final String TAB = "\t";
 
     public static void sendMessage(User user, MessageChannel messageChannel, String message, boolean isPrivate) {
 		if (isPrivate) {

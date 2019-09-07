@@ -13,8 +13,8 @@ public class DiscordResponseBuilder extends ResponseBuilder {
     }
 
     public void sendResponse() {
-        String privatePart = this.privatePart.toString().trim();
-        String publicPart = this.publicPart.toString().trim();
+        String privatePart = this.privatePart.toString();
+        String publicPart = this.publicPart.toString();
         if (publicPart.length() > 0 && hasCommandResult) {
             Messages.sendMessage(user, channel, publicPart, false);
         }
