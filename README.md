@@ -111,6 +111,8 @@ __**TOKENS category**__
 
 **take** <character> [token count]		Takes token(s) from <character>
 
+**clear** <character>/all Clears token(s) for sprecified <character> or for all characters in channel
+
 
 __**ADMIN category**__
 
