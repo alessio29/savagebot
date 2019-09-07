@@ -41,4 +41,13 @@ public class Characters {
         m.put(channel, characters);
         storage.put(guild, m);
     }
+
+    public static void storeAllCharacters(Guild guild, Channel channel, Set<Character> chars) {
+        Map<Channel, Set<Character>> m = storage.get(guild);
+        if (m == null) {
+            m = new HashMap();
+        }
+        m.put(channel, chars);
+        storage.put(guild, m);
+    }
 }

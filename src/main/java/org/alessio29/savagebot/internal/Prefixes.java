@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Prefixes {
-	public static final String DEFAULT_PREFIX = "!";
-
+//	public static final String DEFAULT_PREFIX = "!";
+public static final String DEFAULT_PREFIX = "~";
 	private static Map<User, String> prefixes = new HashMap<>();
 	
 	public static String getPrefix(User user) {

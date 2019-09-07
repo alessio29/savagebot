@@ -25,4 +25,18 @@ public class Character {
         this.tokens=(this.tokens<=tokens)?0:this.tokens-tokens;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Character character = (Character) o;
+
+        return name.equals(character.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 }
