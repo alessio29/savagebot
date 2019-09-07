@@ -85,11 +85,11 @@ __**TOKENS category**__
 
 **tokens**			Shows characters and their tokens
 
-**give** <character> [token count]		Gives token(s) to <character>
+**give** character [token count]		Gives token(s) to <character>
 
-**take** <character> [token count]		Takes token(s) from <character>
+**take** character [token count]		Takes token(s) from <character>
 
-**clear** <character>/all Clears token(s) for sprecified <character> or for all characters in channel
+**clear** character/all Clears token(s) for sprecified character or for all characters in channel
 
 __**BENNIES category**__
 
