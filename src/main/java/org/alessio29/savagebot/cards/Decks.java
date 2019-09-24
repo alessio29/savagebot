@@ -2,6 +2,7 @@ package org.alessio29.savagebot.cards;
 
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageChannel;
+import org.alessio29.savagebot.internal.RedisClient;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,9 +17,11 @@ import java.util.Map;
  */
 
 public class Decks {
-	
+
+	private static final String DECKS = "decks";
+
 	private static Map<Guild, Map<MessageChannel, Deck>> decks = new HashMap<Guild, Map<MessageChannel, Deck>>();
-	
+
 	public static Deck getDeck(Guild guild, MessageChannel channel) { 
 
 		 Map<MessageChannel, Deck> guidlDecks = decks.get(guild);
@@ -40,6 +43,20 @@ public class Decks {
 			decks.put(guild, map);
 		}
 		map.put(channel, deck);
+	}
+
+	public static void saveDecks() {
+
+		Map <String, String> data = new HashMap<>();
+
+		for (Map.Entry<Guild, Map<MessageChannel, Deck>> entry : decks.entrySet()) {
+			String guildKey = entry.getKey().getId();
+			Map<MessageChannel, Deck> map = entry.getValue();
+			for (Map.Entry<MessageChannel, Deck> internalEntry : map.entrySet()) {
+				String channelKey = internalEntry.getKey().getId();
+			}
+		}
+		RedisClient.getClient().hset(DECKS, data);
 	}
 	
 }

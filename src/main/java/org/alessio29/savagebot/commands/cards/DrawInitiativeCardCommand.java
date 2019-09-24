@@ -47,12 +47,13 @@ public class DrawInitiativeCardCommand implements ICommand {
 		return "draws card to character\n"
 				+ "add q if character has edge Quick\n"
 				+ "add l if character has edge Levelheaded\n"
-				+ "add il if character has edge Improved Levelheaded";
+				+ "add il if character has edge Improved Levelheaded\n"
+				+ "add h if character has hindrance Hesitant";
 	}
 
 	@Override
 	public String[] getArguments() {
-		String[] res = {"character", "[ilq]"};
+		String[] res = {"character", "[ilqh]"};
 		return res;
 	}
 	
@@ -74,10 +75,10 @@ public class DrawInitiativeCardCommand implements ICommand {
 		String edges = "";
 		if (args.length>1) {
 			String tmp = args[1].trim().toLowerCase();
-			Pattern p = Pattern.compile("^[^ilq]$");
+			Pattern p = Pattern.compile("^[^ilqh]$");
 		    Matcher m = p.matcher(tmp);  
 			if (m.matches()) {
-				throw new Exception("Third parameter must be a combination of letters: q - for Quick edge, l - for Levelheaded edge and il for Improved Levelheaded edge!");
+				throw new Exception("Third parameter must be a combination of letters: h - for Hesitant hindrance, q - for Quick edge, l - for Levelheaded edge and il for Improved Levelheaded edge!");
 			}
 			edges = tmp;
 		}

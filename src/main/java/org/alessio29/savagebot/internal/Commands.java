@@ -13,6 +13,7 @@ import org.alessio29.savagebot.commands.info.InviteCommand;
 import org.alessio29.savagebot.commands.initiative.NewFightCommand;
 import org.alessio29.savagebot.commands.initiative.NewRoundCommand;
 import org.alessio29.savagebot.commands.initiative.ShowInitiativeCommand;
+import org.alessio29.savagebot.commands.tokens.ClearTokensCommand;
 import org.alessio29.savagebot.commands.tokens.GiveTokensCommand;
 import org.alessio29.savagebot.commands.tokens.ListTokensCommand;
 import org.alessio29.savagebot.commands.tokens.TakeTokensCommand;
@@ -55,6 +56,7 @@ public class Commands {
 		registry.registerCommand(new ListTokensCommand());
 		registry.registerCommand(new GiveTokensCommand());
 		registry.registerCommand(new TakeTokensCommand());
+		registry.registerCommand(new ClearTokensCommand());
 
 	}
 }
