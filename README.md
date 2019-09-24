@@ -21,6 +21,8 @@ add l if character has edge Levelheaded
 
 add il if character has edge Improved Levelheaded
 
+add h if character has hindrance Hesitant
+
 **open**			openly deals several (1 by default) cards to current channel
 
 **show**			Shows your cards, previously dealt to you by 'deal' command to current channel
