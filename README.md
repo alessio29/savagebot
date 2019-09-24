@@ -13,7 +13,7 @@ Start you message with `!` then type any command from the following list. Some c
 
 __**CARDS category**__
 
-**draw**		character [ilq]	draws card to character
+**draw**		character [ilqh]	draws card to character
 
 add q if character has edge Quick
 
