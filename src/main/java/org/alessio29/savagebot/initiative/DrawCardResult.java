@@ -10,8 +10,16 @@ public class DrawCardResult {
 
 	private List<Card> cards = new ArrayList<>(); 
 	private Card bestCard;
-	
-	public List<Card> getCards() {
+
+	public DrawCardResult() {
+	}
+
+    public DrawCardResult(Card c1) {
+		this.cards.add(c1);
+    	this.bestCard = c1;
+    }
+
+    public List<Card> getCards() {
 		return cards;
 	}
 	
@@ -27,10 +35,14 @@ public class DrawCardResult {
 		this.bestCard = bestCard;
 	}
 
-	public DrawCardResult combineWith(DrawCardResult other) {
+	public DrawCardResult combineWith(DrawCardResult other, boolean best) {
 		
 		this.getCards().addAll(other.getCards());
-		this.setBestCard(findBestCard());
+		if (best) {
+			this.setBestCard(findBestCard());
+		} else {
+			this.setBestCard(findWorstCard());
+		}
 		return this;
 	}
 
@@ -38,5 +50,9 @@ public class DrawCardResult {
 		Collections.sort(this.getCards());
 		return this.getCards().get(this.getCards().size()-1);
 	}
-	
+
+	public Card findWorstCard() {
+		Collections.sort(this.getCards());
+		return this.getCards().get(0);
+	}
 }

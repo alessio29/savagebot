@@ -59,7 +59,7 @@ public class OpenCardCommand implements ICommand {
 		}
 		String message = "";		
 		for (int i=0; i<count;i++) {
-			Card newCard = deck.getCard();
+			Card newCard = deck.getNextCard();
 			if (newCard != null) {
 				message = message+newCard.toString()+" ";
 			} else {

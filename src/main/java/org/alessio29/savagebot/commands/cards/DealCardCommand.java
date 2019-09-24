@@ -66,7 +66,7 @@ public class DealCardCommand implements ICommand {
 		String message = "";
 
 		for (int i=0; i<count;i++) {
-			Card newCard = deck.getCard();
+			Card newCard = deck.getNextCard();
 			if (newCard!=null) {
 				Hands.getHand(guild, user).getCards().add(newCard);
 				message = message+newCard.toString()+" ";

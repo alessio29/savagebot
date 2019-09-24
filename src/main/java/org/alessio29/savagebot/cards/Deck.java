@@ -16,9 +16,10 @@ import java.util.Collections;
  */
 public class Deck {
 
-	public static final String IMPROVED_LEVELHEADED = "il";
-	public static final String LEVELHEADED = "l";
-	public static final String QUICK = "q";
+	private static final String IMPROVED_LEVELHEADED = "il";
+	private static final String LEVELHEADED = "l";
+	private static final String QUICK = "q";
+	private static final String HESITANT = "h";
 	
 	
 	private ArrayList<Card> currentDeck;
@@ -26,11 +27,11 @@ public class Deck {
 	private boolean jokerDealt = false;
 	
 	@SuppressWarnings("unchecked")
-	private Deck(ArrayList<Card> initialdeck) {
-		this.currentDeck = (ArrayList<Card>) initialdeck.clone();
+	private Deck(ArrayList<Card> initialDeck) {
+		this.currentDeck = (ArrayList<Card>) initialDeck.clone();
 	}
 
-	public static Deck createNewDeck() {
+	static Deck createNewDeck() {
 		
 		Deck result = new Deck(INITIAL_DECK); 
 		result.shuffle();
@@ -48,12 +49,16 @@ public class Deck {
 
 	public DrawCardResult getCardByParams(String params) {
 	
-		DrawCardResult result = null;
+		DrawCardResult result;
 		Card limit = Deck.LOWEST_CARD; 
 
 		params = params.trim();
 		
 		int count = 1;
+
+		if (params.contains(HESITANT)) {
+			return getHesitantResult();
+		}
 
 		if (params.contains(IMPROVED_LEVELHEADED)) {
 			count = 3;
@@ -71,11 +76,24 @@ public class Deck {
 		result = getCard(limit);
 		
 		for (int i = 1; i<count; i++ ) {
-			result = result.combineWith(getCard(limit)); 
+			result = result.combineWith(getCard(limit), false);
 		}
 		return result;
 	}
-	
+
+	private DrawCardResult getHesitantResult() {
+
+		DrawCardResult result = new DrawCardResult();
+
+		Card c1 = getNextCard();
+		Card c2 = getNextCard();
+
+		result.combineWith(new DrawCardResult(c1), false);
+		result.combineWith(new DrawCardResult(c2), false);
+
+		return result;
+	}
+
 	public DrawCardResult getCard(Card limit) {
 		
 		if (limit==null) {
@@ -84,17 +102,17 @@ public class Deck {
 		
 		DrawCardResult result = new DrawCardResult();
 		
-		Card newCard = getCard();
+		Card newCard = getNextCard();
 		result.getCards().add(newCard);
 		while (newCard!=null && newCard.compareTo(limit)==-1) {
-			newCard = getCard();
+			newCard = getNextCard();
 			result.getCards().add(newCard);
 		}
 		result.setBestCard(result.findBestCard());
 		return result;
 	}
 	
-	public Card getCard() {
+	public Card getNextCard() {
 		
 		if (currentDeck.size()>0) {
 			int last = currentDeck.size()-1;
@@ -133,6 +151,7 @@ public class Deck {
 	public boolean isEmpty() {
 		return currentDeck.isEmpty();
 	}
+
 
 	public static final Card SPADES_TWO = new Card(Suit.SPADES, Rank.TWO);
 	public static final Card SPADES_THREE = new Card(Suit.SPADES, Rank.THREE);
