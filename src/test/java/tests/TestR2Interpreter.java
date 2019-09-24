@@ -101,11 +101,11 @@ public class TestR2Interpreter {
     @Test
     public void testSavageWorldsRolls() {
         expect(
-                "s8: [6; w5] = **6**",
+                "s8: [6; w5] = **6** (1)",
                 "s8"
         );
         expect(
-                "s8+2: [6; w5] + 2 = **8**",
+                "s8+2: [6; w5] + 2 = **8** (2)",
                 "s8+2"
         );
         expect(
@@ -273,7 +273,7 @@ public class TestR2Interpreter {
     @Test
     public void testShootingAtVampireExample() {
         expect(
-                "shooting at vampire s8: [6; w5] = **6**\n" +
+                "shooting at vampire s8: [6; w5] = **6** (1)\n" +
                         "damage 2d6+1: 2 + 6 + 1 = **9**",
                 "shooting", "at", "vampire", "s8", "damage", "2d6+1"
         );
