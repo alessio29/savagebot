@@ -16,11 +16,11 @@ public class CharacterInitiative implements Comparable<CharacterInitiative> {
     private boolean isHesitant;
 	private String params;
 
-	public CharacterInitiative(String name, String params, DrawCardResult cards, boolean isHesitant) {
+	public CharacterInitiative(String name, String params, DrawCardResult cards) {
 
         this.setAllCards(cards.getCards());
         this.name = name;
-        this.isHesitant = isHesitant;
+        this.isHesitant = params.toLowerCase().contains("h");
         this.params = params;
         findBestCard();
     }
@@ -84,14 +84,14 @@ public class CharacterInitiative implements Comparable<CharacterInitiative> {
 
 	public void findBestCard() {
     	if (isHesitant) {
+            Collections.sort(this.allCards, Card::compareTo);
+            this.bestCard = this.allCards.get(0);
 			if (this.allCards.contains(Deck.BLACK_JOKER)) {
 				this.bestCard = Deck.BLACK_JOKER;
 			}
 			if (this.allCards.contains(Deck.COLOR_JOKER)) {
 				this.bestCard = Deck.COLOR_JOKER;
 			}
-			Collections.sort(this.allCards, Card::compareTo);
-			this.bestCard = this.allCards.get(0);
 		} else {
 			Collections.sort(this.allCards, Card::compareTo);
 			this.bestCard = this.allCards.get(this.allCards.size()-1);
