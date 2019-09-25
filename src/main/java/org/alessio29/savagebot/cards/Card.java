@@ -70,7 +70,6 @@ public class Card implements Comparable<Card> {
 		if (result == 0) {
 			result = this.getSuit().compareTo(other.getSuit());
 		}
-		
 		return result;
 	}
 }

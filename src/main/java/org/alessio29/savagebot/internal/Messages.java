@@ -99,12 +99,12 @@ public class Messages {
 
 	public static String showOrder(MessageReceivedEvent event) {
 		
-		StringBuilder reply = new StringBuilder();
+		StringBuilder reply = new StringBuilder("\n");
 		Set<CharacterInitiative> chars = CharacterInitCache.getCharacters(event.getGuild());
 		if (chars!=null && !chars.isEmpty()) {
 			for (CharacterInitiative c : CharacterInitCache.getCharacters(event.getGuild())) {
 				String allCards = c.getAllCards().stream().map(cr ->cr.toString()).collect(Collectors.joining(","));
-				reply.append(c.getName()).append(" - ").append(" - ").append(c.getBestCard().toString()).append("["+allCards+"]").append("\n");
+				reply.append(c.getName()).append("[").append(c.getParams()).append("] - ").append(c.getBestCard().toString()).append("["+allCards+"]").append("\n");
 			}
 		} else {
 			reply.append("No cards dealt!");
