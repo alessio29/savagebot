@@ -11,6 +11,7 @@ import org.alessio29.savagebot.exceptions.CardAlreadyDealtException;
 import org.alessio29.savagebot.initiative.DrawCardResult;
 import org.alessio29.savagebot.internal.CommandExecutionResult;
 import org.alessio29.savagebot.internal.DealParams;
+import org.alessio29.savagebot.internal.Messages;
 
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -126,23 +127,16 @@ public class DrawInitiativeCardCommand implements ICommand {
 				throw new Exception("Deck is empty!");
 			}
 			try {
-				CharacterInitCache.addCharacter(event.getGuild(), new CharacterInitiative(dealParams.getCharacterName(), cards));
+				CharacterInitCache.addCharacter(event.getGuild(),
+						new CharacterInitiative(dealParams.getCharacterName(), dealParams.getParams(),
+								cards, dealParams.getParams().toLowerCase().contains("h")
+						)
+				);
 			} catch (CardAlreadyDealtException e) {
 				return new CommandExecutionResult("Card already dealt!", argsCount);
 			}
 		}
-		
-		StringBuilder reply = new StringBuilder();
-		Set<CharacterInitiative> chars = CharacterInitCache.getCharacters(event.getGuild());
-		if (chars!=null && !chars.isEmpty()) {
-			for (CharacterInitiative c : CharacterInitCache.getCharacters(event.getGuild())) {
-				String allCards = c.getAllCards().stream().map(cr ->cr.toString()).collect(Collectors.joining(","));
-				reply.append(c.getName()).append(" - ").append(" - ").append(c.getBestCard().toString()).append("["+allCards+"]").append("\n");
-			}
-		} else {
-			reply.append("No cards dealt!");
-		}
-		return new CommandExecutionResult(reply.toString(), argsCount+1);
+		return new CommandExecutionResult(Messages.showOrder(event), argsCount+1);
 	}
 
 
