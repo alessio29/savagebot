@@ -104,7 +104,8 @@ public class Messages {
 		if (chars!=null && !chars.isEmpty()) {
 			for (CharacterInitiative c : CharacterInitCache.getCharacters(event.getGuild())) {
 				String allCards = c.getAllCards().stream().map(cr ->cr.toString()).collect(Collectors.joining(","));
-				reply.append(c.getName()).append("[").append(c.getParams()).append("] - ").append(c.getBestCard().toString()).append("["+allCards+"]").append("\n");
+				String paramString = (c.getParams().trim().isEmpty())?" - ":" ["+c.getParams()+"] - ";
+				reply.append(c.getName()).append(paramString).append(c.getBestCard().toString()).append("["+allCards+"]").append("\n");
 			}
 		} else {
 			reply.append("No cards dealt!");

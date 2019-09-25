@@ -128,8 +128,8 @@ public class DrawInitiativeCardCommand implements ICommand {
 			}
 			try {
 				CharacterInitCache.addCharacter(event.getGuild(),
-						new CharacterInitiative(dealParams.getCharacterName(), dealParams.getParams(),
-								cards, dealParams.getParams().toLowerCase().contains("h")
+						new CharacterInitiative(dealParams.getCharacterName(),
+								dealParams.getParams(),cards
 						)
 				);
 			} catch (CardAlreadyDealtException e) {
