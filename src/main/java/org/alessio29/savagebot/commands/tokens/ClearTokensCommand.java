@@ -44,7 +44,6 @@ public class ClearTokensCommand implements ICommand {
             throw new Exception("Please provide character name or 'all' to clear all characters");
         }
 
-
         Guild guild = event.getGuild();
         Channel channel = event.getTextChannel();
         Set<Character> chars = Characters.getCharacters(guild, channel);
