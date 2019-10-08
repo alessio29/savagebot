@@ -1,7 +1,10 @@
 package org.alessio29.savagebot.characters;
 
+import java.util.List;
+
 public class Character {
     private String name;
+    private List<Stat> attributes;
     private int tokens;
 
     public Character (String name, int tokens) {
