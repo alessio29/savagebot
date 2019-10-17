@@ -6,7 +6,7 @@ import org.alessio29.savagebot.internal.RedisClient;
 import java.util.HashMap;
 
 public class Prefixes {
-    static final String DEFAULT_PREFIX = "~";
+    static final String DEFAULT_PREFIX = "!";
     private static final String PREFIXES_KEY = "prefixes";
 
     private static HashMap<String, String> prefixes = new HashMap<>();
