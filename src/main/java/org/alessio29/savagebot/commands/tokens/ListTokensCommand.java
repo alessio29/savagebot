@@ -5,11 +5,10 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
-import org.alessio29.savagebot.commands.Category;
-import org.alessio29.savagebot.commands.ICommand;
-import org.alessio29.savagebot.internal.CommandExecutionResult;
-import org.alessio29.savagebot.internal.Messages;
-import org.apache.commons.lang.StringUtils;
+import org.alessio29.savagebot.internal.commands.CommandCategory;
+import org.alessio29.savagebot.internal.commands.ICommand;
+import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
+import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 
 import java.util.Set;
 
@@ -30,8 +29,8 @@ public class ListTokensCommand implements ICommand{
     }
 
     @Override
-    public Category getCategory() {
-        return Category.TOKENS;
+    public CommandCategory getCategory() {
+        return CommandCategory.TOKENS;
     }
 
     @Override
@@ -52,20 +51,24 @@ public class ListTokensCommand implements ICommand{
         if (chars.isEmpty()) {
             return new CommandExecutionResult("No characters with tokens defined!",1);
         }
-        StringBuilder reply = new StringBuilder();
-        reply.append(Messages.NEWLINE).
-                append("```").
-                append(StringUtils.rightPad("NAME", NAME_SIZE)).
-                append(Messages.TAB).
-                append(StringUtils.rightPad("TOKENS", TOKEN_SIZE)).
-                append(Messages.NEWLINE);
+
+        ReplyBuilder replyBuilder = new ReplyBuilder();
+
+        replyBuilder.newLine().
+                blockQoute().
+                rightPad("NAME", NAME_SIZE).
+                tab().
+                rightPad("TOKENS", TOKEN_SIZE).
+                newLine();
+
         for (Character chr : chars ) {
-            reply.append(StringUtils.rightPad(chr.getName(), NAME_SIZE)).
-                    append(Messages.TAB).
-                    append(StringUtils.rightPad(String.valueOf(chr.getTokens()), TOKEN_SIZE)).
-                    append(Messages.NEWLINE);
+
+            replyBuilder.rightPad(chr.getName(), NAME_SIZE).
+                    tab().
+                    rightPad(String.valueOf(chr.getTokens()), TOKEN_SIZE).
+                    newLine();
         }
-        reply.append("```");
-        return new CommandExecutionResult(reply.toString(), 2);
+        replyBuilder.blockQoute();
+        return new CommandExecutionResult(replyBuilder.toString(), 2);
     }
 }

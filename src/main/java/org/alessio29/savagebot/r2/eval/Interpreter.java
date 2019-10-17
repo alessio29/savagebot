@@ -1,6 +1,6 @@
 package org.alessio29.savagebot.r2.eval;
 
-import org.alessio29.savagebot.internal.Messages;
+import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.r2.Dumper;
 import org.alessio29.savagebot.r2.tree.NonParsedStringStatement;
 import org.alessio29.savagebot.r2.tree.Statement;
@@ -24,31 +24,29 @@ public class Interpreter {
             return "No commands";
         }
 
-        StringBuilder result = new StringBuilder();
+        ReplyBuilder result = new ReplyBuilder();
 
         for (Statement statement : statements) {
             if (debugEnabled) {
-                result.append("\n`").append(statement.getText()).append("`:\n")
-                        .append(Messages.BLOCK_MARKER).append("\n")
-                        .append(Dumper.dump(statement))
-                        .append(Messages.BLOCK_MARKER).append("\n");
+                result.newLine().
+                        attach(statement.getText()).
+                        newLine().
+                        blockQoute().
+                        newLine().
+                        attach(Dumper.dump(statement)).
+                        blockQoute().newLine();
             }
 
             try {
-                result.append(statement.accept(new StatementInterpreter(this)));
+                result.attach(statement.accept(new StatementInterpreter(this)));
             } catch (EvaluationErrorException e) {
-                result.append("{").append(statement.getText()).append(": ").append(e.getMessage()).append("}");
+                result.attach("{").attach(statement.getText()).attach(": ").attach(e.getMessage()).attach("}");
             }
         }
-
         return result.toString();
     }
 
-    public boolean isDebugEnabled() {
-        return debugEnabled;
-    }
-
-    public void setDebugEnabled(boolean debugEnabled) {
-        this.debugEnabled = debugEnabled;
+    void setDebugEnabled() {
+        this.debugEnabled = true;
     }
 }

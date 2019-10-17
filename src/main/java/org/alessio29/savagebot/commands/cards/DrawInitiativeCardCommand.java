@@ -3,24 +3,22 @@ package org.alessio29.savagebot.commands.cards;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.cards.Decks;
+import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.CharacterInitCache;
 import org.alessio29.savagebot.characters.CharacterInitiative;
-import org.alessio29.savagebot.commands.Category;
-import org.alessio29.savagebot.commands.ICommand;
+import org.alessio29.savagebot.characters.Characters;
+import org.alessio29.savagebot.internal.commands.CommandCategory;
+import org.alessio29.savagebot.internal.commands.ICommand;
 import org.alessio29.savagebot.exceptions.CardAlreadyDealtException;
 import org.alessio29.savagebot.initiative.DrawCardResult;
-import org.alessio29.savagebot.internal.CommandExecutionResult;
-import org.alessio29.savagebot.internal.DealParams;
-import org.alessio29.savagebot.internal.Messages;
+import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
+import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 
 /**
- * 
  * @author aless
  */
 
@@ -34,13 +32,12 @@ public class DrawInitiativeCardCommand implements ICommand {
 
 	@Override
 	public String[] getAliases() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
 	@Override
-	public Category getCategory() {
-		return Category.INITIATIVE;
+	public CommandCategory getCategory() {
+		return CommandCategory.INITIATIVE;
 	}
 
 	@Override
@@ -54,14 +51,12 @@ public class DrawInitiativeCardCommand implements ICommand {
 
 	@Override
 	public String[] getArguments() {
-		String[] res = {"character", "[ilqh]"};
-		return res;
+		return new String[]{"character", "[ilqh]"};
 	}
 	
 	private DealParams makeDealParams(String[] args) throws Exception {
 		args = removeEmptyArgs(args);
-		DealParams result = splitArgs(args);
-		return result;
+		return splitArgs(args);
 	}
 
 	private DealParams splitArgs(String[] args) throws Exception {
@@ -113,14 +108,11 @@ public class DrawInitiativeCardCommand implements ICommand {
 		if (args.length < 1) {
 			return new CommandExecutionResult("Something is missing..", 2);
 		}
-		
 		DealParams dealParams = makeDealParams(args);
-		
 		int argsCount = 1;
 		if (!dealParams.getParams().isEmpty()) {
 			argsCount = 2;
 		}
-		
 		if (!CharacterInitCache.alreadyDealt(event.getGuild(), dealParams.getCharacterName())) {
 			DrawCardResult cards = deck.getCardByParams(dealParams.getParams());
 			if(cards == null) {
@@ -132,12 +124,11 @@ public class DrawInitiativeCardCommand implements ICommand {
 								dealParams.getParams(),cards
 						)
 				);
+//				Characters.saveCharacters();
 			} catch (CardAlreadyDealtException e) {
 				return new CommandExecutionResult("Card already dealt!", argsCount);
 			}
 		}
-		return new CommandExecutionResult(Messages.showOrder(event), argsCount+1);
+		return new CommandExecutionResult(ReplyBuilder.showOrder(event), argsCount+1);
 	}
-
-
 }

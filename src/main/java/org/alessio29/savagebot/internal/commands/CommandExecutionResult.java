@@ -1,4 +1,4 @@
-package org.alessio29.savagebot.internal;
+package org.alessio29.savagebot.internal.commands;
 
 public class CommandExecutionResult {
 	
@@ -28,19 +28,15 @@ public class CommandExecutionResult {
 		this.result = result;
 	}
 
-	public int getToSkip() {
+	int getToSkip() {
 		return toSkip;
-	}
-
-	public void setToSkip(int toSkip) {
-		this.toSkip = toSkip;
 	}
 
 	public boolean isPrivateMessage() {
 		return privateMessage;
 	}
 
-	public void setPrivateMessage(boolean privateMessage) {
+	private void setPrivateMessage(boolean privateMessage) {
 		this.privateMessage = privateMessage;
 	}
 

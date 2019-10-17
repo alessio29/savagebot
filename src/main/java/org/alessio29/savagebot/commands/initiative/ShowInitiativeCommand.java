@@ -2,11 +2,10 @@ package org.alessio29.savagebot.commands.initiative;
 
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import org.alessio29.savagebot.commands.Category;
-import org.alessio29.savagebot.commands.ICommand;
-import org.alessio29.savagebot.internal.CommandExecutionResult;
-import org.alessio29.savagebot.internal.Messages;
-
+import org.alessio29.savagebot.internal.commands.CommandCategory;
+import org.alessio29.savagebot.internal.commands.ICommand;
+import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
+import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 
 
 public class ShowInitiativeCommand implements ICommand {
@@ -22,8 +21,8 @@ public class ShowInitiativeCommand implements ICommand {
 	}
 	
 	@Override
-	public Category getCategory() {
-		return Category.INITIATIVE;
+	public CommandCategory getCategory() {
+		return CommandCategory.INITIATIVE;
 	}
 
 	@Override
@@ -39,7 +38,7 @@ public class ShowInitiativeCommand implements ICommand {
 	@Override
 	public CommandExecutionResult execute(MessageReceivedEvent event, String[] args) throws Exception {
 		
-		return new CommandExecutionResult(Messages.showOrder(event), 1);
+		return new CommandExecutionResult(ReplyBuilder.showOrder(event), 1);
 	}
 	
 }

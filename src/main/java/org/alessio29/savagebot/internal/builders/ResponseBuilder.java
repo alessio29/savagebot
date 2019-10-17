@@ -1,4 +1,6 @@
-package org.alessio29.savagebot.internal;
+package org.alessio29.savagebot.internal.builders;
+
+import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 public abstract class ResponseBuilder {
     protected boolean hasCommandResult = false;

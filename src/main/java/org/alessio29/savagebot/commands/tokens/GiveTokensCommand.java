@@ -5,9 +5,9 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
-import org.alessio29.savagebot.commands.Category;
-import org.alessio29.savagebot.commands.ICommand;
-import org.alessio29.savagebot.internal.CommandExecutionResult;
+import org.alessio29.savagebot.internal.commands.CommandCategory;
+import org.alessio29.savagebot.internal.commands.ICommand;
+import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 public class GiveTokensCommand implements ICommand {
     @Override
@@ -16,8 +16,8 @@ public class GiveTokensCommand implements ICommand {
     }
 
     @Override
-    public Category getCategory() {
-        return Category.TOKENS;
+    public CommandCategory getCategory() {
+        return CommandCategory.TOKENS;
     }
 
     @Override

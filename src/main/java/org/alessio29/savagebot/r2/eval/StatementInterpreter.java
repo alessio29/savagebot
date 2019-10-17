@@ -1,6 +1,6 @@
 package org.alessio29.savagebot.r2.eval;
 
-import org.alessio29.savagebot.internal.Messages;
+import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.r2.tree.*;
 
 import java.util.Collections;
@@ -61,16 +61,13 @@ class StatementInterpreter implements Statement.Visitor<String> {
 
     @Override
     public String visitRollBatchTimesStatement(RollBatchTimesStatement rollBatchTimesStatement) {
+
         StringBuilder result = new StringBuilder();
         result.append(rollBatchTimesStatement.getText()).append(": ");
-
         Expression timesExpression = rollBatchTimesStatement.getTimes();
         List<Expression> expressions = rollBatchTimesStatement.getExpressions();
-
         int times = evalAndExplainTimes(result, timesExpression);
-
         result.append("\n");
-
         for (int i = 0; i < times; ++i) {
             result.append(i + 1).append(": ");
             for (Expression expression : expressions) {
@@ -79,7 +76,6 @@ class StatementInterpreter implements Statement.Visitor<String> {
             }
             result.append("\n");
         }
-
         return result.toString();
     }
 
@@ -94,14 +90,10 @@ class StatementInterpreter implements Statement.Visitor<String> {
     private IntListResult eval(Expression expression) {
         try {
             ExpressionContext expressionContext = getTopLevelExpressionContext(expression);
-
             List<Integer> values = new ExpressionEvaluator(expressionContext).eval(expression);
-
             ExpressionExplainer explainer = new ExpressionExplainer(expressionContext);
             String explanation = explainer.explainExpressionResult(expression, values);
-
             return new IntListResult(values, explanation);
-
         } catch (EvaluationErrorException e) {
             return new IntListResult(
                     Collections.emptyList(),
@@ -114,12 +106,10 @@ class StatementInterpreter implements Statement.Visitor<String> {
     @Override
     public String visitFlagStatement(FlagStatement flagStatement) {
         String flagToLower = flagStatement.getFlag().toLowerCase();
-
         if ("debug".equals(flagToLower)) {
-            interpreter.setDebugEnabled(true);
-            return Messages.italic("Debug mode enabled.") + "\n";
+            interpreter.setDebugEnabled();
+            return ReplyBuilder.italic("Debug mode enabled.") + "\n";
         }
-
         throw new EvaluationErrorException("Unknown flag: '" + flagStatement.getFlag() + "'");
     }
 }

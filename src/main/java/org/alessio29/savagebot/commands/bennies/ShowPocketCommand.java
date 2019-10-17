@@ -3,12 +3,12 @@ package org.alessio29.savagebot.commands.bennies;
 import net.dv8tion.jda.core.entities.Channel;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import org.alessio29.savagebot.commands.Category;
-import org.alessio29.savagebot.commands.ICommand;
-import org.alessio29.savagebot.internal.CommandExecutionResult;
-import org.alessio29.savagebot.internal.Messages;
+import org.alessio29.savagebot.internal.commands.CommandCategory;
+import org.alessio29.savagebot.internal.commands.ICommand;
+import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import org.alessio29.savagebot.bennies.Pocket;
 import org.alessio29.savagebot.bennies.Pockets;
+import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 
 
 public class ShowPocketCommand implements ICommand {
@@ -24,8 +24,8 @@ public class ShowPocketCommand implements ICommand {
 	}
 	
 	@Override
-	public Category getCategory() {
-		return Category.BENNIES;
+	public CommandCategory getCategory() {
+		return CommandCategory.BENNIES;
 	}
 
 	@Override
@@ -44,12 +44,15 @@ public class ShowPocketCommand implements ICommand {
 		if( args.length<1) {
 			throw new Exception("No character name provided. Usage: ~benny <Character Name>"); 
 		}
-		String charName = Messages.createNameFromArgs(args, 0);
+		String charName = ReplyBuilder.createNameFromArgs(args, 0);
 		Guild guild = event.getGuild();
 		Channel channel = event.getTextChannel();
 		Pocket pocket = Pockets.getPocket(guild, channel, charName);
-		StringBuilder reply = new StringBuilder();
-		reply.append(Messages.capitalize(charName)).append(" has in his pocket").append(pocket.getInfo()).append("\n");
-		return new CommandExecutionResult(reply.toString(), 2);
+
+		ReplyBuilder replyBuilder = new ReplyBuilder();
+		replyBuilder.attach(ReplyBuilder.capitalize(charName)).
+				attach(" has in his pocket").
+				attach(pocket.getInfo()).newLine();
+		return new CommandExecutionResult(replyBuilder.toString(), 2);
 	}
 }

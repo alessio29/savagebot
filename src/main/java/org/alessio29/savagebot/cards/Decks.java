@@ -18,14 +18,15 @@ import java.util.Map;
 
 public class Decks {
 
-	private static final String DECKS = "decks";
+	private static final String REDIS_DECKS_KEY = "decks";
 
-	private static Map<Guild, Map<MessageChannel, Deck>> decks = new HashMap<Guild, Map<MessageChannel, Deck>>();
+
+	private static Map<Guild, Map<MessageChannel, Deck>> decks = new HashMap<>();
 
 	public static Deck getDeck(Guild guild, MessageChannel channel) { 
 
-		 Map<MessageChannel, Deck> guidlDecks = decks.get(guild);
-		if(guidlDecks == null) {
+		 Map<MessageChannel, Deck> guildDecks = decks.get(guild);
+		if(guildDecks == null) {
 			Decks.addDeck(guild, channel, Deck.createNewDeck());
 		}
 		Deck result = decks.get(guild).get(channel);
@@ -35,28 +36,21 @@ public class Decks {
 		return decks.get(guild).get(channel);
 	}
 		
-	public static void addDeck(Guild guild, MessageChannel channel,  Deck deck) {
-		
-		Map<MessageChannel, Deck> map = decks.get(guild);
-		if (map == null) {
-			map = new HashMap<>();
-			decks.put(guild, map);
-		}
+	private static void addDeck(Guild guild, MessageChannel channel, Deck deck) {
+		Map<MessageChannel, Deck> map = decks.computeIfAbsent(guild, k -> new HashMap<>());
 		map.put(channel, deck);
+		saveDecks();
 	}
 
 	public static void saveDecks() {
-
-		Map <String, String> data = new HashMap<>();
-
-		for (Map.Entry<Guild, Map<MessageChannel, Deck>> entry : decks.entrySet()) {
-			String guildKey = entry.getKey().getId();
-			Map<MessageChannel, Deck> map = entry.getValue();
-			for (Map.Entry<MessageChannel, Deck> internalEntry : map.entrySet()) {
-				String channelKey = internalEntry.getKey().getId();
-			}
-		}
-		RedisClient.getClient().hset(DECKS, data);
+		RedisClient.storeObject(REDIS_DECKS_KEY, decks);
 	}
-	
+
+	public static void loadDecks() {
+		decks = RedisClient.loadObject(REDIS_DECKS_KEY, HashMap.class);
+		if (decks == null) {
+			decks = new HashMap<>();
+		}
+	}
+
 }

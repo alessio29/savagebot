@@ -1,8 +1,7 @@
-package org.alessio29.savagebot.commands;
+package org.alessio29.savagebot.internal.commands;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import org.alessio29.savagebot.internal.CommandExecutionResult;
-import org.alessio29.savagebot.internal.Messages;
+import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 
 import java.util.List;
 
@@ -10,7 +9,7 @@ public interface ICommand {
 	
 	String getName();
 
-	Category getCategory();
+	CommandCategory getCategory();
 	
 	String getDescription();
 	
@@ -22,9 +21,9 @@ public interface ICommand {
 
 	default String asHelpString() {
 
-		String name = Messages.bold(this.getName());
+		String name = ReplyBuilder.bold(this.getName());
 		if (getAliases() != null) {
-			List<String> aliases = Messages.bold(getAliases());
+			List<String> aliases = ReplyBuilder.bold(getAliases());
 			name += " or " + String.join(" or ", aliases);
 		}
 		name += "\t";

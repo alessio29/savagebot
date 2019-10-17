@@ -1,6 +1,6 @@
 package org.alessio29.savagebot.r2.eval;
 
-import org.alessio29.savagebot.internal.Messages;
+import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.r2.tree.*;
 
 import java.util.List;
@@ -23,15 +23,15 @@ class ExpressionExplainer implements Expression.Visitor<String> {
         if (isSavageWorldsCheck(expression)) {
             return expression.getText() + ": " + explanation + " = " +
                     values.stream()
-                            .map(i -> Messages.bold(i.toString()) + getSuccessesIfAny(i))
+                            .map(i -> ReplyBuilder.bold(i.toString()) + getSuccessesIfAny(i))
                             .collect(Collectors.joining(", "));
         }
 
         if (shouldExplanationAlreadyBeResult(expression)) {
-            return expression.getText() + ": " + Messages.bold(explanation);
+            return expression.getText() + ": " + ReplyBuilder.bold(explanation);
         }
 
-        String results = values.stream().map(i -> Messages.bold(i.toString())).collect(Collectors.joining(", "));
+        String results = values.stream().map(i -> ReplyBuilder.bold(i.toString())).collect(Collectors.joining(", "));
 
         if (shouldExplanationContainHeader(expression)) {
             return explanation + " = " + results;

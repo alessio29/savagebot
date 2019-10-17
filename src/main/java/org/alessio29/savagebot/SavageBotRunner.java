@@ -2,7 +2,11 @@ package org.alessio29.savagebot;
 
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
-import org.alessio29.savagebot.internal.Commands;
+import org.alessio29.savagebot.cards.Decks;
+import org.alessio29.savagebot.cards.Hands;
+import org.alessio29.savagebot.characters.Characters;
+import org.alessio29.savagebot.commands.admin.Prefixes;
+import org.alessio29.savagebot.internal.commands.Commands;
 import org.alessio29.savagebot.internal.ParseInputListener;
 import org.alessio29.savagebot.internal.RedisClient;
 
@@ -31,10 +35,14 @@ public class SavageBotRunner {
 		int redisPort = Integer.parseInt(args[3].trim());
 		String redisPass = args[4].trim();
 
-		Commands.registerDefaultCommands();
-
 		RedisClient.setup(redisHost, redisPort, redisPass);
 		RedisClient.init(redisHost, redisPort, redisPass);
+
+		Commands.registerDefaultCommands();
+		Prefixes.loadPrefixes();
+		Decks.loadDecks();
+		Hands.loadHands();
+//		Characters.loadCharacters();
 
 	    JDA jda = new JDABuilder(token).build();
         jda.addEventListener(new ParseInputListener());

@@ -3,11 +3,11 @@ package org.alessio29.savagebot.commands.bennies;
 import net.dv8tion.jda.core.entities.Channel;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import org.alessio29.savagebot.commands.Category;
-import org.alessio29.savagebot.commands.ICommand;
-import org.alessio29.savagebot.internal.CommandExecutionResult;
-import org.alessio29.savagebot.internal.Messages;
+import org.alessio29.savagebot.internal.commands.CommandCategory;
+import org.alessio29.savagebot.internal.commands.ICommand;
+import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import org.alessio29.savagebot.bennies.*;
+import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 
 
 public class GetBennyCommand implements ICommand{
@@ -23,8 +23,8 @@ public class GetBennyCommand implements ICommand{
 	}
 	
 	@Override
-	public Category getCategory() {
-		return Category.BENNIES;
+	public CommandCategory getCategory() {
+		return CommandCategory.BENNIES;
 	}
 
 	@Override
@@ -34,8 +34,7 @@ public class GetBennyCommand implements ICommand{
 
 	@Override
 	public String[] getArguments() {
-		String[] res = {"<character>"}; 
-		return res;
+		return new String[]{"<character>"};
 	}
 
 	@Override
@@ -47,18 +46,22 @@ public class GetBennyCommand implements ICommand{
 		Guild guild = event.getGuild();
 		Channel channel = event.getTextChannel();
 		Hat hat = Hats.getHat(guild, channel, false);
-		String charName = Messages.createNameFromArgs(args, 0);
+		String charName = ReplyBuilder.createNameFromArgs(args, 0);
 		Pocket pocket = Pockets.getPocket(guild, channel, charName);
 		Benny benny = hat.getBenny();
 		if (benny == null ) {
-			event.getChannel().sendMessage("Hat is empty..");
-			return new CommandExecutionResult();
+			return new CommandExecutionResult("Hat is empty..", 2);
 		}
 		pocket.put(benny);
-		StringBuilder reply = new StringBuilder();
-		reply.append(" got from hat ").append(Messages.bold(benny.getColor().toString())).append(" benny for ").append(Messages.bold(Messages.capitalize(charName))).append(".\n");
-		
-		return new CommandExecutionResult(reply.toString(), 2);
+
+		ReplyBuilder replyBuilder = new ReplyBuilder();
+		replyBuilder.attach(" got from hat ").
+				attach(ReplyBuilder.bold(benny.getColor().toString())).
+				attach(" benny for ").
+				attach(ReplyBuilder.bold(
+						ReplyBuilder.capitalize(charName)
+				)).newLine();
+		return new CommandExecutionResult(replyBuilder.toString(), 2);
 	}
 
 

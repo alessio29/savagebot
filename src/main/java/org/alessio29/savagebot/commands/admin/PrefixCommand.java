@@ -1,9 +1,8 @@
 package org.alessio29.savagebot.commands.admin;
 
-import org.alessio29.savagebot.commands.Category;
-import org.alessio29.savagebot.commands.ICommand;
-import org.alessio29.savagebot.internal.CommandExecutionResult;
-import org.alessio29.savagebot.internal.Prefixes;
+import org.alessio29.savagebot.internal.commands.CommandCategory;
+import org.alessio29.savagebot.internal.commands.ICommand;
+import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 public class PrefixCommand implements ICommand {
 
@@ -18,8 +17,8 @@ public class PrefixCommand implements ICommand {
 	}
 	
 	@Override
-	public Category getCategory() {
-		return Category.ADMIN;
+	public CommandCategory getCategory() {
+		return CommandCategory.ADMIN;
 	}
 
 	@Override
@@ -29,22 +28,21 @@ public class PrefixCommand implements ICommand {
 
 	@Override
 	public String[] getArguments() {
-		String[] res = {"[<character>]"}; 
-		return res;
+		return new String[]{"[<character>]"};
 	}
 
 	@Override
 	public CommandExecutionResult execute(net.dv8tion.jda.core.events.message.MessageReceivedEvent event, String[] args) {
 		
-		CommandExecutionResult result = null;
+		CommandExecutionResult result;
 		if (args.length>0) {
 			String newPrefix = args[0].trim(); 
 			if (newPrefix.length()>1) {
 				result = new CommandExecutionResult("Prefix must be one-character long!", 1);
 			} else {
 				
-				if (newPrefix.equals("?") || newPrefix.equals("*") || newPrefix.equals("^") ) {
-					result = new CommandExecutionResult("Prefix must not be question sign, asterisk or circumflex!", 1);
+				if (newPrefix.equals("?") || newPrefix.equals("*") || newPrefix.equals("^") || newPrefix.equals("\\")  ) {
+					result = new CommandExecutionResult("Prefix must not be question sign, asterisk, backslash or circumflex!", 1);
 				} else {
 					Prefixes.setPrefix(event.getAuthor(), newPrefix);
 					result = new CommandExecutionResult("Prefix is set to "+newPrefix, 2);

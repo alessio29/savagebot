@@ -1,11 +1,11 @@
 package org.alessio29.savagebot.commands.info;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import org.alessio29.savagebot.commands.Category;
-import org.alessio29.savagebot.commands.ICommand;
-import org.alessio29.savagebot.internal.CommandExecutionResult;
-import org.alessio29.savagebot.internal.CommandRegistry;
-import org.alessio29.savagebot.internal.Messages;
+import org.alessio29.savagebot.internal.commands.CommandCategory;
+import org.alessio29.savagebot.internal.commands.ICommand;
+import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
+import org.alessio29.savagebot.internal.commands.CommandRegistry;
+import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,8 +25,8 @@ public class HelpCommand implements ICommand {
 	}
 	
 	@Override
-	public Category getCategory() {
-		return Category.INFO;
+	public CommandCategory getCategory() {
+		return CommandCategory.INFO;
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class HelpCommand implements ICommand {
 		return null;
 	}
 
-	private class CategorizedMap extends HashMap<Category, HashSet<ICommand>> {
+	private class CategorizedMap extends HashMap<CommandCategory, HashSet<ICommand>> {
 
 		private static final long serialVersionUID = 634791493137861944L;
 
@@ -56,7 +56,7 @@ public class HelpCommand implements ICommand {
 		 *         also indicate that the map previously associated <tt>null</tt> with
 		 *         <tt>key</tt>.)
 		 */
-		public ICommand put(Category key, ICommand value) {
+		public ICommand put(CommandCategory key, ICommand value) {
 			if (get(key) == null) {
 				super.put(key, new HashSet<ICommand>(Arrays.asList(value)));
 			}
@@ -73,18 +73,20 @@ public class HelpCommand implements ICommand {
 			if (c.getCategory() != null) {
 				categories.put(c.getCategory(), c);
 			} else {
-				categories.put(Category.OTHER, c);
+				categories.put(CommandCategory.OTHER, c);
 			}
 		});
 		
-		StringBuilder b = new StringBuilder();
-		categories.keySet().stream().sorted(Category::compareTo).forEach(category -> {
-			b.append(Messages.underlined(Messages.bold("\n"+category.toString()+" category\n")));
+		ReplyBuilder replyBuilder = new ReplyBuilder();
+
+
+		categories.keySet().stream().sorted(CommandCategory::compareTo).forEach(category -> {
+			replyBuilder.newLine().attach(ReplyBuilder.underlined(ReplyBuilder.bold(category.toString()+" category"))).newLine();
 			categories.get(category).stream().forEach(command -> {
-				b.append("\n" + command.asHelpString() + "\n");
+				replyBuilder.newLine().attach(command.asHelpString()).newLine();
 			});
 		});
-		return new CommandExecutionResult(b.toString(), 1, true);
+		return new CommandExecutionResult(replyBuilder.toString(), 1, true);
 	}
 	
 

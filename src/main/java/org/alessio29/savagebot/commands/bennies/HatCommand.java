@@ -1,9 +1,9 @@
 package org.alessio29.savagebot.commands.bennies;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import org.alessio29.savagebot.commands.Category;
-import org.alessio29.savagebot.commands.ICommand;
-import org.alessio29.savagebot.internal.CommandExecutionResult;
+import org.alessio29.savagebot.internal.commands.CommandCategory;
+import org.alessio29.savagebot.internal.commands.ICommand;
+import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import org.alessio29.savagebot.bennies.Hat;
 import org.alessio29.savagebot.bennies.Hats;
 import org.alessio29.savagebot.bennies.Pockets;
@@ -25,8 +25,8 @@ public class HatCommand implements ICommand {
 	}
 	
 	@Override
-	public Category getCategory() {
-		return Category.BENNIES;
+	public CommandCategory getCategory() {
+		return CommandCategory.BENNIES;
 	}
 
 	@Override

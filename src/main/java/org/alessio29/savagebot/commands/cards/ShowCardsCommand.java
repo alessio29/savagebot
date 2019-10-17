@@ -4,9 +4,10 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.cards.Card;
 import org.alessio29.savagebot.cards.Hand;
 import org.alessio29.savagebot.cards.Hands;
-import org.alessio29.savagebot.commands.Category;
-import org.alessio29.savagebot.commands.ICommand;
-import org.alessio29.savagebot.internal.CommandExecutionResult;
+import org.alessio29.savagebot.internal.builders.ReplyBuilder;
+import org.alessio29.savagebot.internal.commands.CommandCategory;
+import org.alessio29.savagebot.internal.commands.ICommand;
+import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 
 public class ShowCardsCommand implements ICommand {
@@ -17,13 +18,12 @@ public class ShowCardsCommand implements ICommand {
 	}
 
 	@Override
-	public Category getCategory() {
-		return Category.CARDS;
+	public CommandCategory getCategory() {
+		return CommandCategory.CARDS;
 	}
 
 	@Override
 	public String[] getAliases() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
@@ -40,13 +40,13 @@ public class ShowCardsCommand implements ICommand {
 	@Override
 	public CommandExecutionResult execute(MessageReceivedEvent event, String[] args) throws Exception {
 		Hand hand = Hands.getHand(event.getGuild(), event.getAuthor());
-		String message = "";
+		ReplyBuilder replyBuilder = new ReplyBuilder();
 		for (Card card : hand.getCards()) {
-			message += " "+card.toString(); 
+			replyBuilder.space().attach(card.toString());
 		}
-		if(message.trim().isEmpty()) {
-			message = "Nothing to show..";
+		if(replyBuilder.toString().trim().isEmpty()) {
+			return new CommandExecutionResult("Nothing to show..", 1);
 		}
-		return new CommandExecutionResult(message, 1);
+		return new CommandExecutionResult(replyBuilder.toString(), 1);
 	}
 }

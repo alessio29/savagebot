@@ -2,6 +2,7 @@ package org.alessio29.savagebot.characters;
 
 import net.dv8tion.jda.core.entities.Channel;
 import net.dv8tion.jda.core.entities.Guild;
+import org.alessio29.savagebot.internal.RedisClient;
 
 import java.util.*;
 
@@ -9,6 +10,7 @@ import java.util.*;
 public class Characters {
 
     private static Map<Guild, Map<Channel, Set<Character>>> storage = new HashMap<>();
+    private static final String CHARACTERS_REDIS_KEY = "characters";
 
 
     public static Set<Character> getCharacters(Guild guild, Channel channel) {
@@ -50,4 +52,15 @@ public class Characters {
         m.put(channel, chars);
         storage.put(guild, m);
     }
+
+//    public static void saveCharacters() {
+//        RedisClient.storeObject(CHARACTERS_REDIS_KEY, storage);
+//    }
+//
+//    public static void loadCharacters() {
+//        storage = RedisClient.loadObject(CHARACTERS_REDIS_KEY, HashMap.class);
+//        if (storage == null) {
+//            storage = new HashMap<>();
+//        }
+//    }
 }

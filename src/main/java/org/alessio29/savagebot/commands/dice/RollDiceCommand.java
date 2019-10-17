@@ -1,10 +1,9 @@
 package org.alessio29.savagebot.commands.dice;
 
-import org.alessio29.savagebot.commands.Category;
-import org.alessio29.savagebot.commands.ICommand;
-import org.alessio29.savagebot.commands.IParsingCommand;
-import org.alessio29.savagebot.dice.Dice;
-import org.alessio29.savagebot.internal.CommandExecutionResult;
+import org.alessio29.savagebot.internal.commands.CommandCategory;
+import org.alessio29.savagebot.internal.commands.ICommand;
+import org.alessio29.savagebot.internal.commands.IParsingCommand;
+import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import org.alessio29.savagebot.r2.eval.CommandContext;
@@ -14,17 +13,20 @@ import org.alessio29.savagebot.r2.tree.NonParsedStringStatement;
 import org.alessio29.savagebot.r2.tree.Statement;
 
 import java.util.List;
+import java.util.Random;
 
 
-public class RollDice2Command implements ICommand, IParsingCommand {
+public class RollDiceCommand implements ICommand, IParsingCommand {
+    private static final Random RANDOM = new Random();
+
     @Override
     public String getName() {
         return "r";
     }
 
     @Override
-    public Category getCategory() {
-        return Category.DICE;
+    public CommandCategory getCategory() {
+        return CommandCategory.DICE;
     }
 
     @Override
@@ -70,6 +72,6 @@ public class RollDice2Command implements ICommand, IParsingCommand {
     }
 
     private CommandContext getCommandContext() {
-        return new CommandContext(Dice.RANDOM);
+        return new CommandContext(RANDOM);
     }
 }

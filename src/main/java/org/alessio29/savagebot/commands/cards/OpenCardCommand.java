@@ -4,9 +4,10 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.cards.Card;
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.cards.Decks;
-import org.alessio29.savagebot.commands.Category;
-import org.alessio29.savagebot.commands.ICommand;
-import org.alessio29.savagebot.internal.CommandExecutionResult;
+import org.alessio29.savagebot.internal.builders.ReplyBuilder;
+import org.alessio29.savagebot.internal.commands.CommandCategory;
+import org.alessio29.savagebot.internal.commands.ICommand;
+import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 
 public class OpenCardCommand implements ICommand {
@@ -18,14 +19,13 @@ public class OpenCardCommand implements ICommand {
 
 	@Override
 	public String[] getAliases() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
 	@Override
-	public Category getCategory() {
+	public CommandCategory getCategory() {
 		
-		return Category.CARDS;
+		return CommandCategory.CARDS;
 	}
 
 	@Override
@@ -41,12 +41,7 @@ public class OpenCardCommand implements ICommand {
 	}
 
 	@Override
-	public CommandExecutionResult execute(MessageReceivedEvent event, String[] args) throws Exception {
-		Deck deck = Decks.getDeck(event.getGuild(), event.getChannel());
-		if(deck.isEmpty()) {
-			event.getChannel().sendMessage("Shuffle is needed..");
-			return new CommandExecutionResult();
-		}
+	public CommandExecutionResult execute(MessageReceivedEvent event, String[] args) {
 		int count = 1;
 		int index = 1;
 		if (args.length > 0) {
@@ -57,15 +52,20 @@ public class OpenCardCommand implements ICommand {
 				// count will be 1
 			}
 		}
-		String message = "";		
+		Deck deck = Decks.getDeck(event.getGuild(), event.getChannel());
+		if(deck.isEmpty()) {
+			return new CommandExecutionResult("Shuffle is needed..", index);
+		}
+
+		ReplyBuilder replyBuilder = new ReplyBuilder();
 		for (int i=0; i<count;i++) {
 			Card newCard = deck.getNextCard();
 			if (newCard != null) {
-				message = message+newCard.toString()+" ";
+				replyBuilder.attach(newCard.toString()).space();
 			} else {
 				break;
 			}
 		}
-		return new CommandExecutionResult(message, index);
+		return new CommandExecutionResult(replyBuilder.toString(), index);
 	}
 }

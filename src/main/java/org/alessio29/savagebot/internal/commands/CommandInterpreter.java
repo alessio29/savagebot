@@ -1,8 +1,8 @@
-package org.alessio29.savagebot.internal;
+package org.alessio29.savagebot.internal.commands;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import org.alessio29.savagebot.commands.ICommand;
-import org.alessio29.savagebot.commands.IParsingCommand;
+import org.alessio29.savagebot.internal.builders.ReplyBuilder;
+import org.alessio29.savagebot.internal.builders.ResponseBuilder;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import java.util.Arrays;
@@ -16,8 +16,7 @@ public class CommandInterpreter {
     }
 
     public void run(String rawMessage, ResponseBuilder responseBuilder, MessageReceivedEvent event) {
-        String strippedMessage = Messages.removeQuotes(Messages.removeBlocks(rawMessage));
-
+        String strippedMessage = ReplyBuilder.removeBlocks(ReplyBuilder.removeQuotes(rawMessage));
         String[] words = strippedMessage.split("\\s+");
 
         for (int i = 0; i < words.length; i++) {

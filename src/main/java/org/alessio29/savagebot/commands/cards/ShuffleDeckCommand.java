@@ -8,9 +8,10 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.cards.Decks;
 import org.alessio29.savagebot.cards.Hands;
-import org.alessio29.savagebot.commands.Category;
-import org.alessio29.savagebot.commands.ICommand;
-import org.alessio29.savagebot.internal.CommandExecutionResult;
+import org.alessio29.savagebot.internal.commands.CommandCategory;
+import org.alessio29.savagebot.internal.commands.ICommand;
+import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
+import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,13 +26,12 @@ public class ShuffleDeckCommand implements ICommand {
 
 	@Override
 	public String[] getAliases() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
 	@Override
-	public Category getCategory() {
-		return Category.CARDS;
+	public CommandCategory getCategory() {
+		return CommandCategory.CARDS;
 	}
 
 	@Override
@@ -55,8 +55,9 @@ public class ShuffleDeckCommand implements ICommand {
 				filter(m->m.getOnlineStatus()==OnlineStatus.ONLINE).map(m -> m.getUser()).collect(Collectors.toList());
 		for (User user : users) {
 			Hands.getHand(guild, user).clear();
+			Hands.saveHands();
 		}
-		return new CommandExecutionResult("\nShuffled...\n", 1);
+		return new CommandExecutionResult(new ReplyBuilder().newLine().attach("Shuffled...").newLine().toString(), 1);
 	}
 
 

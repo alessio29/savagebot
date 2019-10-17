@@ -1,7 +1,4 @@
-package org.alessio29.savagebot.internal;
-
-import org.alessio29.savagebot.commands.ICommand;
-import org.alessio29.savagebot.commands.IParsingCommand;
+package org.alessio29.savagebot.internal.commands;
 
 import java.util.*;
 
