@@ -132,6 +132,25 @@ class ExpressionExplainer implements Expression.Visitor<String> {
         return expressionContext.getExplanation(variableExpression);
     }
 
+    private boolean isRepresentedAsAdditiveExpression(Expression expression) {
+        if (expression instanceof GenericRollExpression) {
+            Expression diceCountArg = ((GenericRollExpression) expression).getDiceCountArg();
+            if (diceCountArg instanceof IntExpression) {
+                return ((IntExpression) diceCountArg).getValue() > 1;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isMultiplicativeOperator(OperatorExpression.Operator operator) {
+        return operator == OperatorExpression.Operator.MUL ||
+                operator == OperatorExpression.Operator.DIV ||
+                operator == OperatorExpression.Operator.MOD;
+    }
+
     @Override
     public String visitOperatorExpression(OperatorExpression operatorExpression) {
         OperatorExpression.Operator operator = operatorExpression.getOperator();
@@ -151,6 +170,14 @@ class ExpressionExplainer implements Expression.Visitor<String> {
         String operatorExplanation;
         switch (kind) {
             case BINARY:
+                if (isMultiplicativeOperator(operator)) {
+                    if (isRepresentedAsAdditiveExpression(argument1)) {
+                        explanation1 = "(" + explanation1 + ")";
+                    }
+                    if (isRepresentedAsAdditiveExpression(argument2)) {
+                        explanation2 = "(" + explanation2 + ")";
+                    }
+                }
                 operatorExplanation = explanation1 + " " + operator.getImage() + " " + explanation2;
                 break;
             case PREFIX:

@@ -457,6 +457,22 @@ public class TestR2Interpreter {
         );
     }
 
+    @Test
+    public void testBracketsInExplanationOfSumRollMultipliedBySomething() {
+        expect(
+                "3*3d6: 3 * (1 + 5 + 2) = **24**",
+                "3*3d6"
+        );
+        expect(
+                "3d6*3: (1 + 5 + 2) * 3 = **24**",
+                "3d6*3"
+        );
+        expect(
+                "3d6*3d6: (1 + 5 + 2) * (6 + 6 + 6) = **144**",
+                "3d6*3d6"
+        );
+    }
+
     private void expect(String result, String... args) {
         List<Statement> statements = new Parser().parse(args);
         CommandContext context = new CommandContext(new Random(0));
