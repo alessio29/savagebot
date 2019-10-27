@@ -284,12 +284,12 @@ public class TestR2Interpreter {
         expect(
                 "*Debug mode enabled.*\n" +
                         "\n" +
-                        "`shooting`:\n" +
+                        "shooting\n" +
                         "```\n" +
                         "NonParsedString text='shooting' parserErrorMessage='[1]: token recognition error at: 'h''\n" +
                         "```\n" +
                         "shooting \n" +
-                        "`2d6`:\n" +
+                        "2d6\n" +
                         "```\n" +
                         "RollOnce\n" +
                         "  expr: GenericRoll isOpenEnded=false\n" +
