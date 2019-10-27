@@ -441,6 +441,22 @@ public class TestR2Interpreter {
         );
     }
 
+    @Test
+    public void testSavageWorldsChecksWithSuccessesInExplanationsWithParenthesizedExpressions() {
+        expect(
+                "(s8+2): ([6; w5] + 2) = **8** (2)",
+                "(s8+2)"
+        );
+        expect(
+                "(s8)+2: ([6; w5]) + 2 = **8** (2)",
+                "(s8)+2"
+        );
+        expect(
+                "s8+(2): [6; w5] + (2) = **8** (2)",
+                "s8+(2)"
+        );
+    }
+
     private void expect(String result, String... args) {
         List<Statement> statements = new Parser().parse(args);
         CommandContext context = new CommandContext(new Random(0));
