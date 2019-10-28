@@ -49,6 +49,7 @@ class ExpressionExplainer implements Expression.Visitor<String> {
     }
 
     private boolean isSavageWorldsCheck(Expression expression) {
+        expression = dropBrackets(expression);
         if (isSimpleSavageWorldsRoll(expression)) {
             return true;
         } else if (expression instanceof OperatorExpression) {
@@ -57,13 +58,24 @@ class ExpressionExplainer implements Expression.Visitor<String> {
             if (operator != OperatorExpression.Operator.PLUS && operator != OperatorExpression.Operator.MINUS) {
                 return false;
             }
-            Expression arg1 = operatorExpression.getArgument1();
-            Expression arg2 = operatorExpression.getArgument2();
+            Expression arg1 = dropBrackets(operatorExpression.getArgument1());
+            Expression arg2 = dropBrackets(operatorExpression.getArgument2());
             return isTrivialExpression(arg2) && isSavageWorldsCheck(arg1) ||
                     isTrivialExpression(arg1) && isSavageWorldsCheck(arg2);
         } else {
             return false;
         }
+    }
+
+    private Expression dropBrackets(Expression expression) {
+        if (expression instanceof OperatorExpression) {
+            OperatorExpression operatorExpression = (OperatorExpression) expression;
+            if (operatorExpression.getOperator() == OperatorExpression.Operator.BRACKETS) {
+                return dropBrackets(operatorExpression.getArgument1());
+            }
+            // fall-through
+        }
+        return expression;
     }
 
     private boolean isSimpleSavageWorldsRoll(Expression expression) {
@@ -120,6 +132,25 @@ class ExpressionExplainer implements Expression.Visitor<String> {
         return expressionContext.getExplanation(variableExpression);
     }
 
+    private boolean isRepresentedAsAdditiveExpression(Expression expression) {
+        if (expression instanceof GenericRollExpression) {
+            Expression diceCountArg = ((GenericRollExpression) expression).getDiceCountArg();
+            if (diceCountArg instanceof IntExpression) {
+                return ((IntExpression) diceCountArg).getValue() > 1;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isMultiplicativeOperator(OperatorExpression.Operator operator) {
+        return operator == OperatorExpression.Operator.MUL ||
+                operator == OperatorExpression.Operator.DIV ||
+                operator == OperatorExpression.Operator.MOD;
+    }
+
     @Override
     public String visitOperatorExpression(OperatorExpression operatorExpression) {
         OperatorExpression.Operator operator = operatorExpression.getOperator();
@@ -139,6 +170,14 @@ class ExpressionExplainer implements Expression.Visitor<String> {
         String operatorExplanation;
         switch (kind) {
             case BINARY:
+                if (isMultiplicativeOperator(operator)) {
+                    if (isRepresentedAsAdditiveExpression(argument1)) {
+                        explanation1 = "(" + explanation1 + ")";
+                    }
+                    if (isRepresentedAsAdditiveExpression(argument2)) {
+                        explanation2 = "(" + explanation2 + ")";
+                    }
+                }
                 operatorExplanation = explanation1 + " " + operator.getImage() + " " + explanation2;
                 break;
             case PREFIX:

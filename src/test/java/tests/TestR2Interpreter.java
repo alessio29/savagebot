@@ -284,12 +284,12 @@ public class TestR2Interpreter {
         expect(
                 "*Debug mode enabled.*\n" +
                         "\n" +
-                        "`shooting`:\n" +
+                        "shooting\n" +
                         "```\n" +
                         "NonParsedString text='shooting' parserErrorMessage='[1]: token recognition error at: 'h''\n" +
                         "```\n" +
                         "shooting \n" +
-                        "`2d6`:\n" +
+                        "2d6\n" +
                         "```\n" +
                         "RollOnce\n" +
                         "  expr: GenericRoll isOpenEnded=false\n" +
@@ -438,6 +438,38 @@ public class TestR2Interpreter {
                         "9: s10: [1; w4] = **4** (1)\n" +
                         "10: s10: [3; w1] = **3**",
                 "10xs10"
+        );
+    }
+
+    @Test
+    public void testSavageWorldsChecksWithSuccessesInExplanationsWithParenthesizedExpressions() {
+        expect(
+                "(s8+2): ([6; w5] + 2) = **8** (2)",
+                "(s8+2)"
+        );
+        expect(
+                "(s8)+2: ([6; w5]) + 2 = **8** (2)",
+                "(s8)+2"
+        );
+        expect(
+                "s8+(2): [6; w5] + (2) = **8** (2)",
+                "s8+(2)"
+        );
+    }
+
+    @Test
+    public void testBracketsInExplanationOfSumRollMultipliedBySomething() {
+        expect(
+                "3*3d6: 3 * (1 + 5 + 2) = **24**",
+                "3*3d6"
+        );
+        expect(
+                "3d6*3: (1 + 5 + 2) * 3 = **24**",
+                "3d6*3"
+        );
+        expect(
+                "3d6*3d6: (1 + 5 + 2) * (6 + 6 + 6) = **144**",
+                "3d6*3d6"
         );
     }
 
