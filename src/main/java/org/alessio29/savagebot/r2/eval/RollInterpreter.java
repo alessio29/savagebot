@@ -7,11 +7,11 @@ import org.alessio29.savagebot.r2.tree.Statement;
 
 import java.util.List;
 
-public class Interpreter {
+public class RollInterpreter {
     private final CommandContext context;
     private boolean debugEnabled = false;
 
-    public Interpreter(CommandContext context) {
+    public RollInterpreter(CommandContext context) {
         this.context = context;
     }
 
@@ -31,10 +31,10 @@ public class Interpreter {
                 result.newLine().
                         attach(statement.getText()).
                         newLine().
-                        blockQoute().
+                        blockQuote().
                         newLine().
                         attach(Dumper.dump(statement)).
-                        blockQoute().newLine();
+                        blockQuote().newLine();
             }
 
             try {

@@ -1,6 +1,7 @@
 package org.alessio29.savagebot.r2.eval;
 
 import org.alessio29.savagebot.r2.tree.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,11 +10,19 @@ import java.util.StringJoiner;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
+public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
     private final ExpressionContext context;
     private final Roller roller;
 
-    ExpressionEvaluator(ExpressionContext context) {
+    @NotNull
+    public static IntListResult evalUnsafe(Expression expression, CommandContext context) {
+        ExpressionContext expressionContext = new ExpressionContext(expression, context);
+        List<Integer> values = new ExpressionEvaluator(expressionContext).eval(expression);
+        String explanation = new ExpressionExplainer(expressionContext).explainExpressionResult(expression, values);
+        return new IntListResult(values, explanation);
+    }
+
+    private ExpressionEvaluator(ExpressionContext context) {
         this.context = context;
         this.roller = new Roller(context.getCommandContext().getRandom());
     }

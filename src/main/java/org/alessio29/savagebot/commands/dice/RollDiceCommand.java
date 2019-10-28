@@ -7,18 +7,15 @@ import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import org.alessio29.savagebot.r2.eval.CommandContext;
-import org.alessio29.savagebot.r2.eval.Interpreter;
+import org.alessio29.savagebot.r2.eval.RollInterpreter;
 import org.alessio29.savagebot.r2.parse.Parser;
 import org.alessio29.savagebot.r2.tree.NonParsedStringStatement;
 import org.alessio29.savagebot.r2.tree.Statement;
 
 import java.util.List;
-import java.util.Random;
 
 
 public class RollDiceCommand implements ICommand, IParsingCommand {
-    private static final Random RANDOM = new Random();
-
     @Override
     public String getName() {
         return "r";
@@ -54,7 +51,7 @@ public class RollDiceCommand implements ICommand, IParsingCommand {
             return new CommandExecutionResult("No commands", args.length + 1);
         }
 
-        String result = new Interpreter(getCommandContext()).run(new Parser().parse(args));
+        String result = new RollInterpreter(new CommandContext()).run(new Parser().parse(args));
 
         return new CommandExecutionResult(result, args.length + 1);
     }
@@ -66,12 +63,9 @@ public class RollDiceCommand implements ICommand, IParsingCommand {
             return null;
         }
 
-        String result = new Interpreter(getCommandContext()).run(statements);
+        String result = new RollInterpreter(new CommandContext()).run(statements);
 
         return new CommandExecutionResult(result, 1);
     }
 
-    private CommandContext getCommandContext() {
-        return new CommandContext(RANDOM);
-    }
 }

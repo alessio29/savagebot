@@ -6,11 +6,17 @@ import java.util.Map;
 import java.util.Random;
 
 public class CommandContext {
+    public static final Random RANDOM = new Random();
+
     private final Random random;
     private final Map<String, List<Integer>> variables = new HashMap<>();
 
     public CommandContext(Random random) {
         this.random = random;
+    }
+
+    public CommandContext() {
+        this(RANDOM);
     }
 
     public Random getRandom() {
