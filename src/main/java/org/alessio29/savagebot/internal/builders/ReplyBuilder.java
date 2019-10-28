@@ -22,7 +22,7 @@ public class ReplyBuilder {
     private static final String SQUARE_BRACKET_CLOSE = "]";
     private static final String TAB = "\t";
 
-    private StringBuilder builder;
+    private final StringBuilder builder;
 
     public ReplyBuilder() {
         this.builder = new StringBuilder();
@@ -144,8 +144,7 @@ public class ReplyBuilder {
         return builder.toString();
     }
 
-    public ReplyBuilder blockQoute() {
-
+    public ReplyBuilder blockQuote() {
         builder.append(BLOCK_MARKER);
         return this;
     }

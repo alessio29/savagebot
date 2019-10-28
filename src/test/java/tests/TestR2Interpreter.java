@@ -1,7 +1,7 @@
 package tests;
 
 import org.alessio29.savagebot.r2.eval.CommandContext;
-import org.alessio29.savagebot.r2.eval.Interpreter;
+import org.alessio29.savagebot.r2.eval.RollInterpreter;
 import org.alessio29.savagebot.r2.parse.Parser;
 import org.alessio29.savagebot.r2.tree.Statement;
 import org.junit.Assert;
@@ -11,9 +11,6 @@ import java.util.List;
 import java.util.Random;
 
 public class TestR2Interpreter {
-
-    private static final String LINE_SEPARATOR = System.lineSeparator();
-
     @Test
     public void testRandomText1() {
         expect(
@@ -473,17 +470,12 @@ public class TestR2Interpreter {
         );
     }
 
-    private void expect(String result, String... args) {
+    private void expect(String expectedResult, String... args) {
         List<Statement> statements = new Parser().parse(args);
         CommandContext context = new CommandContext(new Random(0));
-        Interpreter interpreter = new Interpreter(context);
-        String actualResult = interpreter.run(statements).trim();
-        if (!LINE_SEPARATOR.equals("\n")) {
-            actualResult = actualResult
-                    .replace(LINE_SEPARATOR, "\n")
-                    .replace("\n", LINE_SEPARATOR);
-        }
-        String expected = result.replace("\n", LINE_SEPARATOR).trim();
+        RollInterpreter interpreter = new RollInterpreter(context);
+        String actualResult = TestUtils.normalize(interpreter.run(statements));
+        String expected = TestUtils.normalize(expectedResult);
         Assert.assertEquals(expected, actualResult);
     }
 }

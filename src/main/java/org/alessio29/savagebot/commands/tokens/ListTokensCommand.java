@@ -55,7 +55,7 @@ public class ListTokensCommand implements ICommand{
         ReplyBuilder replyBuilder = new ReplyBuilder();
 
         replyBuilder.newLine().
-                blockQoute().
+                blockQuote().
                 rightPad("NAME", NAME_SIZE).
                 tab().
                 rightPad("TOKENS", TOKEN_SIZE).
@@ -68,7 +68,7 @@ public class ListTokensCommand implements ICommand{
                     rightPad(String.valueOf(chr.getTokens()), TOKEN_SIZE).
                     newLine();
         }
-        replyBuilder.blockQoute();
+        replyBuilder.blockQuote();
         return new CommandExecutionResult(replyBuilder.toString(), 2);
     }
 }

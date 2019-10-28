@@ -67,7 +67,7 @@ class ExpressionExplainer implements Expression.Visitor<String> {
         }
     }
 
-    private Expression dropBrackets(Expression expression) {
+    private static Expression dropBrackets(Expression expression) {
         if (expression instanceof OperatorExpression) {
             OperatorExpression operatorExpression = (OperatorExpression) expression;
             if (operatorExpression.getOperator() == OperatorExpression.Operator.BRACKETS) {
@@ -87,8 +87,12 @@ class ExpressionExplainer implements Expression.Visitor<String> {
         return ((IntExpression) diceCount).getValue() == 1;
     }
 
-    private boolean isTrivialExpression(Expression expression) {
-        return expression instanceof IntExpression;
+    public static boolean isTrivialExpression(Expression expression) {
+        return dropBrackets(expression) instanceof IntExpression;
+    }
+
+    public static boolean isNonTrivialExpression(Expression expression) {
+        return !isTrivialExpression(expression);
     }
 
     private static boolean shouldExplanationAlreadyBeResult(Expression expression) {

@@ -7,9 +7,9 @@ import java.util.Collections;
 import java.util.List;
 
 class StatementInterpreter implements Statement.Visitor<String> {
-    private Interpreter interpreter;
+    private RollInterpreter interpreter;
 
-    StatementInterpreter(Interpreter interpreter) {
+    StatementInterpreter(RollInterpreter interpreter) {
         this.interpreter = interpreter;
     }
 
@@ -35,10 +35,6 @@ class StatementInterpreter implements Statement.Visitor<String> {
         return result.toString();
     }
 
-    private ExpressionContext getTopLevelExpressionContext(Expression topExpression) {
-        return new ExpressionContext(topExpression, interpreter.getContext());
-    }
-
     @Override
     public String visitRollTimesStatement(RollTimesStatement rollTimesStatement) {
         StringBuilder result = new StringBuilder();
@@ -61,7 +57,6 @@ class StatementInterpreter implements Statement.Visitor<String> {
 
     @Override
     public String visitRollBatchTimesStatement(RollBatchTimesStatement rollBatchTimesStatement) {
-
         StringBuilder result = new StringBuilder();
         result.append(rollBatchTimesStatement.getText()).append(": ");
         Expression timesExpression = rollBatchTimesStatement.getTimes();
@@ -81,7 +76,7 @@ class StatementInterpreter implements Statement.Visitor<String> {
 
     private int evalAndExplainTimes(StringBuilder result, Expression timesExpression) {
         IntListResult timesResult = eval(timesExpression);
-        if (!(timesExpression instanceof IntExpression)) {
+        if (ExpressionExplainer.isNonTrivialExpression(timesExpression)) {
             result.append(timesResult.getExplained());
         }
         return timesResult.getValues().get(0);
@@ -89,11 +84,7 @@ class StatementInterpreter implements Statement.Visitor<String> {
 
     private IntListResult eval(Expression expression) {
         try {
-            ExpressionContext expressionContext = getTopLevelExpressionContext(expression);
-            List<Integer> values = new ExpressionEvaluator(expressionContext).eval(expression);
-            ExpressionExplainer explainer = new ExpressionExplainer(expressionContext);
-            String explanation = explainer.explainExpressionResult(expression, values);
-            return new IntListResult(values, explanation);
+            return ExpressionEvaluator.evalUnsafe(expression, interpreter.getContext());
         } catch (EvaluationErrorException e) {
             return new IntListResult(
                     Collections.emptyList(),
@@ -101,7 +92,6 @@ class StatementInterpreter implements Statement.Visitor<String> {
             );
         }
     }
-
 
     @Override
     public String visitFlagStatement(FlagStatement flagStatement) {
