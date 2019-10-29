@@ -3,8 +3,8 @@ package org.alessio29.savagebot.commands.initiative;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.cards.Decks;
 import org.alessio29.savagebot.characters.CharacterInitCache;
-import org.alessio29.savagebot.internal.commands.CommandCategory;
-import org.alessio29.savagebot.internal.commands.ICommand;
+import org.alessio29.savagebot.commands.CommandCategory;
+import org.alessio29.savagebot.commands.ICommand;
 import org.alessio29.savagebot.initiative.Rounds;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 

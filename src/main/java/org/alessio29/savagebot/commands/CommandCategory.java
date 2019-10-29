@@ -1,4 +1,4 @@
-package org.alessio29.savagebot.internal.commands;
+package org.alessio29.savagebot.commands;
 
 public enum CommandCategory implements Comparable<CommandCategory>{
 	
