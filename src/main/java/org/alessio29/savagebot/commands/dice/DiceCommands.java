@@ -21,7 +21,7 @@ public class DiceCommands {
 
     @CommandCallback(
             name = "r",
-            description = "rolls dice. Understands complex expressions.\n" +
+            description = "rolls dice.\n" +
                     "Multiple die rolls in a single command: `!r 2d6+d4+2 d12 d6!`\n" +
                     "Repeated die rolls: `!r 6x4d6k3`\n" +
                     "Inline comments: `!r shooting s8 damage 2d6+1`" +
@@ -61,7 +61,7 @@ public class DiceCommands {
                     "Huey 10\n" +
                     "Louie 5\n" +
                     "```",
-            aliases = { "roll_sorted", "roll-sorted", "rollsorted" },
+            aliases = {},
             arguments = { "[<heading_1>] <expression_1> ... [<heading_N>] <expression_N>" }
     )
     public static CommandExecutionResult rollSorted(MessageReceivedEvent event, String[] args) {

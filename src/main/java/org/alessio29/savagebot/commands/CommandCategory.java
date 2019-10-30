@@ -9,5 +9,13 @@ public enum CommandCategory implements Comparable<CommandCategory>{
 	INFO, 
 	ADMIN,
 	TOKENS,
-	OTHER
+	OTHER;
+
+	public static CommandCategory valueOfOrNull(String string) {
+		try {
+			return valueOf(string);
+		} catch (IllegalArgumentException e) {
+			return null;
+		}
+	}
 }
