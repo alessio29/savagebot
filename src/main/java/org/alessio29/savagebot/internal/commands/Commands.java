@@ -7,9 +7,8 @@ import org.alessio29.savagebot.commands.bennies.HatCommand;
 import org.alessio29.savagebot.commands.bennies.ShowPocketCommand;
 import org.alessio29.savagebot.commands.bennies.UseBennyCommand;
 import org.alessio29.savagebot.commands.cards.*;
-import org.alessio29.savagebot.commands.dice.RollDiceCommand;
-import org.alessio29.savagebot.commands.info.HelpCommand;
-import org.alessio29.savagebot.commands.info.InviteCommand;
+import org.alessio29.savagebot.commands.dice.DiceCommands;
+import org.alessio29.savagebot.commands.info.InfoCommands;
 import org.alessio29.savagebot.commands.initiative.NewFightCommand;
 import org.alessio29.savagebot.commands.initiative.NewRoundCommand;
 import org.alessio29.savagebot.commands.initiative.ShowInitiativeCommand;
@@ -28,8 +27,7 @@ public class Commands {
 		registry.registerCommand(new PrefixCommand());
 
 		// info commands
-		registry.registerCommand(new InviteCommand());
-		registry.registerCommand(new HelpCommand());
+		registry.registerCommandsFromStaticMethods(InfoCommands.class);
 
 		// bennies commands
 		registry.registerCommand(new GetBennyCommand());
@@ -45,7 +43,7 @@ public class Commands {
 		registry.registerCommand(new ShuffleDeckCommand());
 
 		// dice commands
-		registry.registerCommand(new RollDiceCommand());
+		registry.registerCommandsFromStaticMethods(DiceCommands.class);
 
 		// initiative commands
 		registry.registerCommand(new NewFightCommand());

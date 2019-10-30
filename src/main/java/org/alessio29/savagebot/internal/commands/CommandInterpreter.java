@@ -1,6 +1,7 @@
 package org.alessio29.savagebot.internal.commands;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import org.alessio29.savagebot.commands.ICommand;
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.internal.builders.ResponseBuilder;
 import org.apache.commons.lang.StringEscapeUtils;
