@@ -8,6 +8,7 @@ import org.alessio29.savagebot.commands.bennies.ShowPocketCommand;
 import org.alessio29.savagebot.commands.bennies.UseBennyCommand;
 import org.alessio29.savagebot.commands.cards.*;
 import org.alessio29.savagebot.commands.dice.RollDiceCommand;
+import org.alessio29.savagebot.commands.dice.RollSortedCommand;
 import org.alessio29.savagebot.commands.info.HelpCommand;
 import org.alessio29.savagebot.commands.info.InviteCommand;
 import org.alessio29.savagebot.commands.initiative.NewFightCommand;
@@ -46,6 +47,7 @@ public class Commands {
 
 		// dice commands
 		registry.registerCommand(new RollDiceCommand());
+		registry.registerCommand(new RollSortedCommand());
 
 		// initiative commands
 		registry.registerCommand(new NewFightCommand());

@@ -39,9 +39,9 @@ public class SavageBotRunner {
 		RedisClient.init(redisHost, redisPort, redisPass);
 
 		Commands.registerDefaultCommands();
-		Prefixes.loadPrefixes();
-		Decks.loadDecks();
-		Hands.loadHands();
+//		Prefixes.loadPrefixes();
+//		Decks.loadDecks();
+//		Hands.loadHands();
 //		Characters.loadCharacters();
 
 	    JDA jda = new JDABuilder(token).build();
