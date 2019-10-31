@@ -1,7 +1,7 @@
 package org.alessio29.savagebot.commands.admin;
 
-import org.alessio29.savagebot.internal.commands.CommandCategory;
-import org.alessio29.savagebot.internal.commands.ICommand;
+import org.alessio29.savagebot.commands.CommandCategory;
+import org.alessio29.savagebot.commands.ICommand;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 public class PrefixCommand implements ICommand {

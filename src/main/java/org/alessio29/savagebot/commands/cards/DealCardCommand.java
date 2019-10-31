@@ -8,8 +8,8 @@ import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.cards.Decks;
 import org.alessio29.savagebot.cards.Hands;
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
-import org.alessio29.savagebot.internal.commands.CommandCategory;
-import org.alessio29.savagebot.internal.commands.ICommand;
+import org.alessio29.savagebot.commands.CommandCategory;
+import org.alessio29.savagebot.commands.ICommand;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 

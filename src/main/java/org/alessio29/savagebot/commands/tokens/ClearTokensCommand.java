@@ -5,8 +5,8 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
-import org.alessio29.savagebot.internal.commands.CommandCategory;
-import org.alessio29.savagebot.internal.commands.ICommand;
+import org.alessio29.savagebot.commands.CommandCategory;
+import org.alessio29.savagebot.commands.ICommand;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 import java.util.Set;

@@ -1,7 +1,9 @@
-package org.alessio29.savagebot.internal.commands;
+package org.alessio29.savagebot.commands;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import org.alessio29.savagebot.commands.CommandCategory;
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
+import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 import java.util.List;
 
