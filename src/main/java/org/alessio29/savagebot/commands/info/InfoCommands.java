@@ -18,6 +18,9 @@ public class InfoCommands {
 	private static final String INVITE_LINK =
 			"https://discordapp.com/oauth2/authorize?&client_id=448952545784758303&scope=bot&permissions=0";
 
+	private static final String README_LINK =
+			"https://github.com/alessio29/savagebot/blob/master/README.md";
+
 	@CommandCallback(
 			name = "help",
 			description = "Lists the description and syntax for registered commands.",
@@ -26,7 +29,7 @@ public class InfoCommands {
 	)
 	public static CommandExecutionResult help(MessageReceivedEvent event, String[] args) {
 		if (args.length == 0) {
-			return new CommandExecutionResult(getHelpForAllCommands(), 1, true);
+			return new CommandExecutionResult(getBriefHelpForAllCommands(), 1, true);
 		}
 
 		String arg0 = args[0];
@@ -42,10 +45,10 @@ public class InfoCommands {
 		}
 
 		// fallback, I don't know such command or category
-		return new CommandExecutionResult(getHelpForAllCommands(), 1, true);
+		return new CommandExecutionResult(getBriefHelpForAllCommands(), 1, true);
 	}
 
-	public static String getHelpForAllCommands() {
+	public static String getBriefHelpForAllCommands() {
 		Map<CommandCategory, List<ICommand>> byCategory =
 				CommandRegistry.getInstance().getRegisteredCommands().stream()
 						.collect(Collectors.groupingBy(ICommand::getCategory));
@@ -57,28 +60,55 @@ public class InfoCommands {
 			if (commands == null) continue;
 
 			appendCategoryHeader(replyBuilder, category);
-			appendCommands(replyBuilder, new HashSet<>(commands));
+			appendBriefHelpForCommands(replyBuilder, new HashSet<>(commands));
+
+			replyBuilder.newLine();
 		}
+
+		replyBuilder.attach("For more details, use `!help <command>` or see ").attach(README_LINK);
 
 		return replyBuilder.toString();
 	}
 
 	private static void appendCategoryHeader(ReplyBuilder replyBuilder, CommandCategory category) {
-		replyBuilder.newLine()
+		replyBuilder
 				.attach(ReplyBuilder.underlined(ReplyBuilder.bold(category.toString() + " category")))
 				.newLine();
 	}
 
-	private static void appendCommands(ReplyBuilder replyBuilder, Collection<ICommand> commands) {
+	private static void appendBriefHelpForCommands(ReplyBuilder replyBuilder, Collection<ICommand> commands) {
 		commands.stream()
 				.sorted(Comparator.comparing(ICommand::getName))
 				.forEach(
-						command -> replyBuilder.newLine().attach(getHelp(command, true)).newLine()
+						command -> replyBuilder.attach(getBriefHelp(command)).newLine()
 				);
 	}
 
+	private static String getBriefHelp(ICommand command) {
+		StringBuilder result = new StringBuilder();
+		result.append("!");
+		result.append(command.getName());
+
+		String[] arguments = command.getArguments();
+		if (arguments != null && arguments.length > 0) {
+			result.append(" ");
+			result.append(String.join(" ", arguments));
+		}
+
+		String[] aliases = command.getAliases();
+		if (aliases != null && aliases.length > 0) {
+			result.append("; aliases:");
+			for (String alias : aliases) {
+				result.append(" !");
+				result.append(alias);
+			}
+		}
+
+		return result.toString();
+	}
+
 	private static String getHelpForCommand(ICommand command) {
-		return getHelp(command, false);
+		return getHelp(command);
 	}
 
 	private static String getHelpForCategory(CommandCategory category) {
@@ -88,11 +118,11 @@ public class InfoCommands {
 
 		ReplyBuilder replyBuilder = new ReplyBuilder();
 		appendCategoryHeader(replyBuilder, category);
-		appendCommands(replyBuilder, commands);
+		appendBriefHelpForCommands(replyBuilder, commands);
 		return replyBuilder.toString();
 	}
 
-	private static String getHelp(ICommand command, boolean shortDescription) {
+	private static String getHelp(ICommand command) {
 		String name = ReplyBuilder.bold(command.getName());
 		String[] aliases1 = command.getAliases();
 		if (aliases1 != null && aliases1.length > 0) {
@@ -103,11 +133,7 @@ public class InfoCommands {
 		if (command.getArguments() != null) {
 			name += String.join(" ", command.getArguments());
 		}
-		return name + "\t" + (shortDescription ? getShortDescription(command) : command.getDescription());
-	}
-
-	private static String getShortDescription(ICommand command) {
-		return command.getDescription().split("\n")[0];
+		return name + "\t" + command.getDescription();
 	}
 
 	@CommandCallback(

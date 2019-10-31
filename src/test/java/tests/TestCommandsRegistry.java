@@ -41,65 +41,44 @@ public class TestCommandsRegistry {
     @Test
     public void testHelpText() {
         Assert.assertEquals(
-                "\n" +
-                        "__**CARDS category**__\n" +
-                        "\n" +
-                        "**deal**\tCardCount User\tsecretly deals n (1 by default) cards to user (to self by default)\n" +
-                        "\n" +
-                        "**open**\t\topenly deals several (1 by default) cards to current channel\n" +
-                        "\n" +
-                        "**show**\t\tShows your cards, previously dealt to you by 'deal' command to current channel\n" +
-                        "\n" +
-                        "**shuffle**\t\tShuffles current deck, resets secret cards dealt to all users in this channel\n" +
+                "__**CARDS category**__\n" +
+                        "!deal CardCount User\n" +
+                        "!open\n" +
+                        "!show\n" +
+                        "!shuffle\n" +
                         "\n" +
                         "__**DICE category**__\n" +
-                        "\n" +
-                        "**r**\t<expression1> ... <expressionN> \trolls dice.\n" +
-                        "\n" +
-                        "**rs**\t[<heading_1>] <expression_1> ... [<heading_N>] <expression_N>\trolls multiple dice and print them out sorted.\n" +
+                        "!r <expression1> ... <expressionN> \n" +
+                        "!rs [<heading_1>] <expression_1> ... [<heading_N>] <expression_N>\n" +
                         "\n" +
                         "__**BENNIES category**__\n" +
-                        "\n" +
-                        "**benny**\t<character>\tGet benny from hat and adds it to characker's pocket\n" +
-                        "\n" +
-                        "**hat**\t[fill]\tPuts all required bennies into the hat\n" +
-                        "\n" +
-                        "**pocket**\t<characterName>\tShows character's bennies\n" +
-                        "\n" +
-                        "**use**\t<BennyColor> <CharacterName>\tUses one of character's benny\n" +
+                        "!benny <character>\n" +
+                        "!hat [fill]\n" +
+                        "!pocket <characterName>\n" +
+                        "!use <BennyColor> <CharacterName>\n" +
                         "\n" +
                         "__**INITIATIVE category**__\n" +
-                        "\n" +
-                        "**draw**\tcharacter [ilqh]\tdraws card to character\n" +
-                        "\n" +
-                        "**fight**\t\tstarts new fight: shuffles deck, resets intiative tracker\n" +
-                        "\n" +
-                        "**init**\t\tShows initiative tracker\n" +
-                        "\n" +
-                        "**round**\t\tStarts new round: resets resets intiative tracker, shuffles deck, if joker was dealt on previous round\n" +
+                        "!draw character [ilqh]\n" +
+                        "!fight\n" +
+                        "!init\n" +
+                        "!round\n" +
                         "\n" +
                         "__**INFO category**__\n" +
-                        "\n" +
-                        "**help**\t[<command> or <category>]\tLists the description and syntax for registered commands.\n" +
-                        "\n" +
-                        "**invite**\t\tCreates invite link for this bot\n" +
+                        "!help [<command> or <category>]\n" +
+                        "!invite\n" +
                         "\n" +
                         "__**ADMIN category**__\n" +
-                        "\n" +
-                        "**ping**\t\tChecks SavageBot readiness\n" +
-                        "\n" +
-                        "**prefix**\t[<character>]\tSets <character> as custom user-defined command prefix or shows current prefix\n" +
+                        "!ping\n" +
+                        "!prefix [<character>]\n" +
                         "\n" +
                         "__**TOKENS category**__\n" +
+                        "!clear <character_name>/all\n" +
+                        "!give <character_name> [<amount of tokens>]\n" +
+                        "!take <character_name> [<amount of tokens>]\n" +
+                        "!tokens\n" +
                         "\n" +
-                        "**clear**\t<character_name>/all\tClears tokens for named character or all characters in current channel \n" +
-                        "\n" +
-                        "**give**\t<character_name> [<amount of tokens>]\tGives character token (benny, Fate point etc..)\n" +
-                        "\n" +
-                        "**take**\t<character_name> [<amount of tokens>]\tTakes tokens (benny, Fate point etc..) from  character \n" +
-                        "\n" +
-                        "**tokens**\t\tList characters and their tokens\n",
-                InfoCommands.getHelpForAllCommands()
+                        "For more details, use `!help <command>` or see https://github.com/alessio29/savagebot/blob/master/README.md",
+                InfoCommands.getBriefHelpForAllCommands()
         );
     }
 }
