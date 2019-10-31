@@ -1,5 +1,6 @@
 package org.alessio29.savagebot.internal.commands;
 
+import org.alessio29.savagebot.commands.admin.InfoCommand;
 import org.alessio29.savagebot.commands.admin.PingCommand;
 import org.alessio29.savagebot.commands.admin.PrefixCommand;
 import org.alessio29.savagebot.commands.bennies.GetBennyCommand;
@@ -25,6 +26,7 @@ public class Commands {
 		// admin commands
 		registry.registerCommand(new PingCommand());
 		registry.registerCommand(new PrefixCommand());
+        registry.registerCommand(new InfoCommand());
 
 		// info commands
 		registry.registerCommandsFromStaticMethods(InfoCommands.class);

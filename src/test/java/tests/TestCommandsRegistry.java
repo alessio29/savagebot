@@ -26,7 +26,7 @@ public class TestCommandsRegistry {
                 .collect(Collectors.toList());
         Assert.assertEquals(
                 "[" +
-                        "ADMIN:ping, ADMIN:prefix, " +
+                        "ADMIN:info, ADMIN:ping, ADMIN:prefix, " +
                         "BENNIES:benny, BENNIES:hat, BENNIES:pocket, BENNIES:use, " +
                         "CARDS:deal, CARDS:open, CARDS:show, CARDS:shuffle, " +
                         "DICE:r, DICE:rs, " +
@@ -68,6 +68,7 @@ public class TestCommandsRegistry {
                         "!invite\n" +
                         "\n" +
                         "__**ADMIN category**__\n" +
+                        "!info [<character>]\n" +
                         "!ping\n" +
                         "!prefix [<character>]\n" +
                         "\n" +
