@@ -1,22 +1,15 @@
 package org.alessio29.savagebot.internal.commands;
 
-import org.alessio29.savagebot.commands.admin.InfoCommand;
-import org.alessio29.savagebot.commands.admin.PingCommand;
-import org.alessio29.savagebot.commands.admin.PrefixCommand;
+import org.alessio29.savagebot.commands.DiceCommands;
+import org.alessio29.savagebot.commands.InfoCommands;
+import org.alessio29.savagebot.commands.InitCommands;
+import org.alessio29.savagebot.commands.TokenCommands;
+import org.alessio29.savagebot.commands.AdminCommands;
 import org.alessio29.savagebot.commands.bennies.GetBennyCommand;
 import org.alessio29.savagebot.commands.bennies.HatCommand;
 import org.alessio29.savagebot.commands.bennies.ShowPocketCommand;
 import org.alessio29.savagebot.commands.bennies.UseBennyCommand;
 import org.alessio29.savagebot.commands.cards.*;
-import org.alessio29.savagebot.commands.dice.DiceCommands;
-import org.alessio29.savagebot.commands.info.InfoCommands;
-import org.alessio29.savagebot.commands.initiative.NewFightCommand;
-import org.alessio29.savagebot.commands.initiative.NewRoundCommand;
-import org.alessio29.savagebot.commands.initiative.ShowInitiativeCommand;
-import org.alessio29.savagebot.commands.tokens.ClearTokensCommand;
-import org.alessio29.savagebot.commands.tokens.GiveTokensCommand;
-import org.alessio29.savagebot.commands.tokens.ListTokensCommand;
-import org.alessio29.savagebot.commands.tokens.TakeTokensCommand;
 
 public class Commands {
 
@@ -24,9 +17,7 @@ public class Commands {
 		CommandRegistry registry = CommandRegistry.getInstance();
 		
 		// admin commands
-		registry.registerCommand(new PingCommand());
-		registry.registerCommand(new PrefixCommand());
-        registry.registerCommand(new InfoCommand());
+		registry.registerCommandsFromStaticMethods(AdminCommands.class);
 
 		// info commands
 		registry.registerCommandsFromStaticMethods(InfoCommands.class);
@@ -48,15 +39,10 @@ public class Commands {
 		registry.registerCommandsFromStaticMethods(DiceCommands.class);
 
 		// initiative commands
-		registry.registerCommand(new NewFightCommand());
-		registry.registerCommand(new NewRoundCommand());
-		registry.registerCommand(new ShowInitiativeCommand());
+		registry.registerCommandsFromStaticMethods(InitCommands.class);
 
 		// tokens commands
-		registry.registerCommand(new ListTokensCommand());
-		registry.registerCommand(new GiveTokensCommand());
-		registry.registerCommand(new TakeTokensCommand());
-		registry.registerCommand(new ClearTokensCommand());
+		registry.registerCommandsFromStaticMethods(TokenCommands.class);
 
 	}
 }

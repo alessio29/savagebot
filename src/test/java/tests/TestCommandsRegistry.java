@@ -1,6 +1,6 @@
 package tests;
 
-import org.alessio29.savagebot.commands.info.InfoCommands;
+import org.alessio29.savagebot.commands.InfoCommands;
 import org.alessio29.savagebot.internal.commands.CommandRegistry;
 import org.alessio29.savagebot.internal.commands.Commands;
 import org.junit.Assert;
@@ -68,7 +68,7 @@ public class TestCommandsRegistry {
                         "!invite\n" +
                         "\n" +
                         "__**ADMIN category**__\n" +
-                        "!info [<character>]\n" +
+                        "!info password\n" +
                         "!ping\n" +
                         "!prefix [<character>]\n" +
                         "\n" +

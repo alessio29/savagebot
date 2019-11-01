@@ -1,4 +1,4 @@
-package org.alessio29.savagebot.commands.dice;
+package org.alessio29.savagebot.commands;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.commands.CommandCallback;

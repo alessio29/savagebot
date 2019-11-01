@@ -1,4 +1,4 @@
-package org.alessio29.savagebot.commands.admin;
+package org.alessio29.savagebot.internal;
 
 import net.dv8tion.jda.core.entities.User;
 import org.alessio29.savagebot.internal.RedisClient;
@@ -6,7 +6,7 @@ import org.alessio29.savagebot.internal.RedisClient;
 import java.util.HashMap;
 
 public class Prefixes {
-    static final String DEFAULT_PREFIX = "!";
+    public static final String DEFAULT_PREFIX = "~";
     private static final String PREFIXES_KEY = "prefixes";
 
     private static HashMap<String, String> prefixes = new HashMap<>();
@@ -16,7 +16,7 @@ public class Prefixes {
         return res == null ? DEFAULT_PREFIX : res;
     }
 
-    static void setPrefix(User user, String prefix) {
+    public static void setPrefix(User user, String prefix) {
         prefixes.put(user.getId(), prefix);
         savePrefixes();
     }
