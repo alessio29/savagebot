@@ -120,6 +120,7 @@ public class InitCommands {
             } catch (CardAlreadyDealtException e) {
                 return new CommandExecutionResult("Card already dealt!", args.length+1);
             }
+            index++;
          }
         return new CommandExecutionResult(ReplyBuilder.showOrder(event), args.length+1);
     }
