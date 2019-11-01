@@ -33,10 +33,6 @@ public class CommandRegistry {
 		registerCommandsFromMethods(null, methodClass);
 	}
 
-	public void registerCommandsFromMethods(Object methodOwner) {
-		registerCommandsFromMethods(methodOwner, methodOwner.getClass());
-	}
-
 	public void registerCommandsFromMethods(Object methodOwner, Class<?> methodClass) {
 		boolean shouldBeStatic = methodOwner == null;
 

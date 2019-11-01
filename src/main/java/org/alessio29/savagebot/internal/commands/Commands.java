@@ -5,10 +5,7 @@ import org.alessio29.savagebot.commands.InfoCommands;
 import org.alessio29.savagebot.commands.InitCommands;
 import org.alessio29.savagebot.commands.TokenCommands;
 import org.alessio29.savagebot.commands.AdminCommands;
-import org.alessio29.savagebot.commands.bennies.GetBennyCommand;
-import org.alessio29.savagebot.commands.bennies.HatCommand;
-import org.alessio29.savagebot.commands.bennies.ShowPocketCommand;
-import org.alessio29.savagebot.commands.bennies.UseBennyCommand;
+import org.alessio29.savagebot.commands.BennyCommands;
 import org.alessio29.savagebot.commands.cards.*;
 
 public class Commands {
@@ -23,10 +20,7 @@ public class Commands {
 		registry.registerCommandsFromStaticMethods(InfoCommands.class);
 
 		// bennies commands
-		registry.registerCommand(new GetBennyCommand());
-		registry.registerCommand(new HatCommand());
-		registry.registerCommand(new ShowPocketCommand());
-		registry.registerCommand(new UseBennyCommand());
+		registry.registerCommandsFromStaticMethods(BennyCommands.class);
 
 		// cards commands
 		registry.registerCommand(new DealCardCommand());

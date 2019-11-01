@@ -1,6 +1,5 @@
-package tests;
+package org.alessio29.savagebot.commands;
 
-import org.alessio29.savagebot.commands.InfoCommands;
 import org.alessio29.savagebot.internal.commands.CommandRegistry;
 import org.alessio29.savagebot.internal.commands.Commands;
 import org.junit.Assert;
@@ -52,10 +51,10 @@ public class TestCommandsRegistry {
                         "!rs [<heading_1>] <expression_1> ... [<heading_N>] <expression_N>\n" +
                         "\n" +
                         "__**BENNIES category**__\n" +
-                        "!benny <character>\n" +
+                        "!benny <character_name>\n" +
                         "!hat [fill]\n" +
-                        "!pocket <characterName>\n" +
-                        "!use <BennyColor> <CharacterName>\n" +
+                        "!pocket <character_name>\n" +
+                        "!use <benny_color> <character_name>\n" +
                         "\n" +
                         "__**INITIATIVE category**__\n" +
                         "!draw character [ilqh]\n" +
