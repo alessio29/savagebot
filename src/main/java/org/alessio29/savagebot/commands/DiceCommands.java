@@ -1,10 +1,6 @@
 package org.alessio29.savagebot.commands;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import org.alessio29.savagebot.commands.CommandCallback;
-import org.alessio29.savagebot.commands.CommandCategory;
-import org.alessio29.savagebot.commands.CommandCategoryOwner;
-import org.alessio29.savagebot.commands.ParsingCommandCallback;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import org.alessio29.savagebot.r2.eval.CommandContext;
 import org.alessio29.savagebot.r2.eval.RollInterpreter;
@@ -12,6 +8,7 @@ import org.alessio29.savagebot.r2.eval.RollSortedInterpreter;
 import org.alessio29.savagebot.r2.parse.Parser;
 import org.alessio29.savagebot.r2.tree.NonParsedStringStatement;
 import org.alessio29.savagebot.r2.tree.Statement;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -41,14 +38,34 @@ public class DiceCommands {
 
     @ParsingCommandCallback
     public static CommandExecutionResult parseAndRollDice(MessageReceivedEvent event, String command) {
-        List<Statement> statements = new Parser().parseCommandElement(command);
-        if (statements.stream().allMatch(statement -> statement instanceof NonParsedStringStatement)) {
-            return null;
-        }
+        List<Statement> statements = tryParseStatements(command);
+        if (statements == null) return null;
 
         String result = new RollInterpreter(new CommandContext()).run(statements);
 
         return new CommandExecutionResult(result, 1);
+    }
+
+    @Nullable
+    private static List<Statement> tryParseStatements(String command) {
+        Parser parser = new Parser();
+        List<Statement> statements = parser.parseCommandElement(command);
+        if (hasParsedStatements(statements)) {
+            return statements;
+        }
+
+        if ((command.startsWith("r") || command.startsWith("R")) && command.length() > 1) {
+            statements = parser.parseCommandElement(command.substring(1));
+            if (hasParsedStatements(statements)) {
+                return statements;
+            }
+        }
+
+        return null;
+    }
+
+    private static boolean hasParsedStatements(List<Statement> statements) {
+        return !statements.stream().allMatch(statement -> statement instanceof NonParsedStringStatement);
     }
 
     @CommandCallback(
