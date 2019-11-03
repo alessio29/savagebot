@@ -50,6 +50,10 @@ public class RollSortedInterpreter {
     private String generateOutput() {
         StringBuilder output = new StringBuilder();
 
+        if (results.size() > 0) {
+            output.append(":\n");
+        }
+
         for (ErrorMessage error : errors) {
             output.append("Error: `")
                     .append(error.getSourceText())
@@ -63,7 +67,7 @@ public class RollSortedInterpreter {
         }
 
         for (IntResult valueResult : results) {
-            output.append(valueResult.getExplained()).append("\n");
+            output.append(valueResult.getExplained()).append('\n');
         }
 
         if (currentHeading != null) {
