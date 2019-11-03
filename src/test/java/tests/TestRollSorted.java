@@ -1,7 +1,7 @@
 package tests;
 
 import org.alessio29.savagebot.r2.eval.CommandContext;
-import org.alessio29.savagebot.r2.eval.RollSortedInterpreter;
+import org.alessio29.savagebot.r2.eval.RollAccumulatingInterpreter;
 import org.alessio29.savagebot.r2.parse.Parser;
 import org.alessio29.savagebot.r2.tree.Statement;
 import org.junit.Assert;
@@ -10,7 +10,7 @@ import org.junit.Test;
 import java.util.List;
 import java.util.Random;
 
-public class TestRollSortedInterpreter {
+public class TestRollSorted {
     @Test
     public void testSortedSimple() {
         expect(
@@ -115,8 +115,8 @@ public class TestRollSortedInterpreter {
     private void expect(String expectedResult, String... args) {
         List<Statement> statements = new Parser().parse(args);
         CommandContext context = new CommandContext(new Random(0));
-        RollSortedInterpreter interpreter = new RollSortedInterpreter(context);
-        String actualResult = TestUtils.normalize(interpreter.run(statements));
+        RollAccumulatingInterpreter interpreter = new RollAccumulatingInterpreter(context);
+        String actualResult = TestUtils.normalize(interpreter.rollSorted(statements));
         String expected = TestUtils.normalize(expectedResult);
         Assert.assertEquals(expected, actualResult);
     }

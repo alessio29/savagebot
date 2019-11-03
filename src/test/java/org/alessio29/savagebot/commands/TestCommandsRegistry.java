@@ -28,7 +28,7 @@ public class TestCommandsRegistry {
                         "ADMIN:info, ADMIN:ping, ADMIN:prefix, " +
                         "BENNIES:benny, BENNIES:hat, BENNIES:pocket, BENNIES:use, " +
                         "CARDS:deal, CARDS:open, CARDS:show, CARDS:shuffle, " +
-                        "DICE:r, DICE:rs, " +
+                        "DICE:r, DICE:rh, DICE:rs, " +
                         "INFO:help, INFO:invite, " +
                         "INITIATIVE:draw, INITIATIVE:fight, INITIATIVE:init, INITIATIVE:round, " +
                         "TOKENS:clear, TOKENS:give, TOKENS:take, TOKENS:tokens" +
@@ -48,6 +48,7 @@ public class TestCommandsRegistry {
                         "\n" +
                         "__**DICE category**__\n" +
                         "!r <expression1> ... <expressionN> \n" +
+                        "!rh <expression_1> ... <expressionN>\n" +
                         "!rs [<heading_1>] <expression_1> ... [<heading_N>] <expression_N>\n" +
                         "\n" +
                         "__**BENNIES category**__\n" +
