@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 public class TestCommandsRegistry {
     @Before
     public void setup() {
+        CommandRegistry.getInstance().reset();
         Commands.registerDefaultCommands();
     }
 
@@ -80,6 +82,22 @@ public class TestCommandsRegistry {
                         "\n" +
                         "For more details, use `!help <command>` or see https://github.com/alessio29/savagebot/blob/master/README.md",
                 InfoCommands.getBriefHelpForAllCommands()
+        );
+    }
+
+    @Test
+    public void testRegisteredParsingCommands() {
+        List<String> commands = new HashSet<>(CommandRegistry.getInstance().getRegisteredParsingCommands())
+                .stream()
+                .map(Object::toString)
+                .sorted()
+                .collect(Collectors.toList());
+        //noinspection ArraysAsListWithZeroOrOneArgument
+        Assert.assertEquals(
+                Arrays.asList(
+                        "ParsingMethodCommand{ method: org.alessio29.savagebot.commands.DiceCommands::parseAndRollDice; methodOwner: null}"
+                ),
+                commands
         );
     }
 }

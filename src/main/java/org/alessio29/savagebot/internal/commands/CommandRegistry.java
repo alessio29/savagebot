@@ -77,4 +77,9 @@ public class CommandRegistry {
 	public ICommand getCommandByName(String command) {
 		return registeredCommands.get(command);
 	}
+
+	public void reset() {
+		registeredCommands.clear();
+		parsingCommands.clear();
+	}
 }
