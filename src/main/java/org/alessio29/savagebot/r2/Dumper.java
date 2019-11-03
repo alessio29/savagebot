@@ -199,7 +199,7 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
         println("RollTimes");
         indented(() -> {
             dump("times", rollTimesStatement.getTimes());
-            dump("epxr", rollTimesStatement.getExpression());
+            dump("expr", rollTimesStatement.getExpression());
         });
         return null;
     }

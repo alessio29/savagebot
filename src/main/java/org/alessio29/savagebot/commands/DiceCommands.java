@@ -47,7 +47,7 @@ public class DiceCommands {
     }
 
     @Nullable
-    private static List<Statement> tryParseStatements(String command) {
+    public static List<Statement> tryParseStatements(String command) {
         Parser parser = new Parser();
         List<Statement> statements = parser.parseCommandElement(command);
         if (hasParsedStatements(statements)) {

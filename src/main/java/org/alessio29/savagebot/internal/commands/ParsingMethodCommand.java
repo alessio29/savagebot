@@ -22,4 +22,12 @@ public class ParsingMethodCommand implements IParsingCommand {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() +
+                "{ method: " + method.getDeclaringClass().getName() + "::" + method.getName() +
+                "; methodOwner: " + methodOwner +
+                "}";
+    }
 }
