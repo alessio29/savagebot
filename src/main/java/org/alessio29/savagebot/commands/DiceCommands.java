@@ -4,7 +4,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import org.alessio29.savagebot.r2.eval.CommandContext;
 import org.alessio29.savagebot.r2.eval.RollInterpreter;
-import org.alessio29.savagebot.r2.eval.RollSortedInterpreter;
+import org.alessio29.savagebot.r2.eval.RollAccumulatingInterpreter;
 import org.alessio29.savagebot.r2.parse.Parser;
 import org.alessio29.savagebot.r2.tree.NonParsedStringStatement;
 import org.alessio29.savagebot.r2.tree.Statement;
@@ -86,9 +86,25 @@ public class DiceCommands {
             return new CommandExecutionResult("No commands", args.length + 1);
         }
 
-        String result = new RollSortedInterpreter(new CommandContext()).run(new Parser().parse(args));
+        String result = new RollAccumulatingInterpreter(new CommandContext()).rollSorted(new Parser().parse(args));
 
         return new CommandExecutionResult(result, args.length + 1);
     }
 
+    @CommandCallback(
+            name = "rh",
+            description = "rolls multiple dice and prints a distribution of results.\n" +
+                    "Example: `!rh 1000x2d6`",
+            aliases = {},
+            arguments = { "<expression_1> ... <expressionN>" }
+    )
+    public static CommandExecutionResult rollHistogram(MessageReceivedEvent event, String[] args) {
+        if (args.length < 1) {
+            return new CommandExecutionResult("No commands", args.length + 1);
+        }
+
+        String result = new RollAccumulatingInterpreter(new CommandContext()).rollHistogram(new Parser().parse(args));
+
+        return new CommandExecutionResult(result, args.length + 1);
+    }
 }
