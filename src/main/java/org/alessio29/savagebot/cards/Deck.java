@@ -16,7 +16,7 @@ import java.util.Collections;
  */
 public class Deck {
 
-	private static final String IMPROVED_LEVELHEADED = "il";
+	private static final String IMPROVED_LEVELHEADED = "i";
 	private static final String LEVELHEADED = "l";
 	private static final String QUICK = "q";
 	private static final String HESITANT = "h";
@@ -52,7 +52,7 @@ public class Deck {
 		DrawCardResult result;
 		Card limit = Deck.LOWEST_CARD; 
 
-		params = params.trim();
+		params = params.trim().toLowerCase();
 		
 		int count = 1;
 
@@ -84,13 +84,10 @@ public class Deck {
 	private DrawCardResult getHesitantResult() {
 
 		DrawCardResult result = new DrawCardResult();
-
 		Card c1 = getNextCard();
 		Card c2 = getNextCard();
-
 		result.combineWith(new DrawCardResult(c1), false);
 		result.combineWith(new DrawCardResult(c2), false);
-
 		return result;
 	}
 
@@ -99,9 +96,7 @@ public class Deck {
 		if (limit==null) {
 			limit = Deck.LOWEST_CARD;
 		}
-		
 		DrawCardResult result = new DrawCardResult();
-		
 		Card newCard = getNextCard();
 		result.getCards().add(newCard);
 		while (newCard!=null && newCard.compareTo(limit)==-1) {

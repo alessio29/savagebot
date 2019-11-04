@@ -1,16 +1,10 @@
 package org.alessio29.savagebot.internal.builders;
 
 import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import org.alessio29.savagebot.cards.Card;
-import org.alessio29.savagebot.characters.CharacterInitCache;
-import org.alessio29.savagebot.characters.CharacterInitiative;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class ReplyBuilder {
 
@@ -95,29 +89,9 @@ public class ReplyBuilder {
         return charName.toString().trim();
     }
 
-    public static String showOrder(MessageReceivedEvent event) {
-
-        ReplyBuilder reply = new ReplyBuilder();
-        reply.newLine();
-
-        Set<CharacterInitiative> chars = CharacterInitCache.getCharacters(event.getGuild());
-        if (!chars.isEmpty()) {
-            for (CharacterInitiative c : CharacterInitCache.getCharacters(event.getGuild())) {
-                String allCards = c.getAllCards().stream().map(Card::toString).collect(Collectors.joining(","));
-                String paramString = (c.getParams().trim().isEmpty()) ? " - " :
-                        new ReplyBuilder().squareBracketOpen().attach(c.getParams()).squareBracketClose().toString();
-                reply.attach(c.getName()).
-                        attach(paramString).
-                        attach(c.getBestCard().toString()).
-                        squareBracketOpen().
-                        attach(allCards).
-                        squareBracketClose().
-                        newLine();
-            }
-        } else {
-            reply.attach("No cards dealt!");
-        }
-        return reply.toString();
+    public ReplyBuilder leftPad(String str, int size) {
+        builder.append(StringUtils.leftPad(str, size));
+        return this;
     }
 
     public ReplyBuilder tab() {
@@ -154,12 +128,12 @@ public class ReplyBuilder {
         return this;
     }
 
-    private ReplyBuilder squareBracketOpen() {
+    public ReplyBuilder squareBracketOpen() {
         this.builder.append(SQUARE_BRACKET_OPEN);
         return this;
     }
 
-    private ReplyBuilder squareBracketClose() {
+    public ReplyBuilder squareBracketClose() {
         this.builder.append(SQUARE_BRACKET_CLOSE);
         return this;
     }

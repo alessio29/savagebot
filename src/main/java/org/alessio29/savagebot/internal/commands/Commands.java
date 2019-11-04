@@ -1,12 +1,6 @@
 package org.alessio29.savagebot.internal.commands;
 
-import org.alessio29.savagebot.commands.DiceCommands;
-import org.alessio29.savagebot.commands.InfoCommands;
-import org.alessio29.savagebot.commands.InitCommands;
-import org.alessio29.savagebot.commands.TokenCommands;
-import org.alessio29.savagebot.commands.AdminCommands;
-import org.alessio29.savagebot.commands.BennyCommands;
-import org.alessio29.savagebot.commands.cards.*;
+import org.alessio29.savagebot.commands.*;
 
 public class Commands {
 
@@ -23,11 +17,7 @@ public class Commands {
 		registry.registerCommandsFromStaticMethods(BennyCommands.class);
 
 		// cards commands
-		registry.registerCommand(new DealCardCommand());
-		registry.registerCommand(new DrawInitiativeCardCommand());
-		registry.registerCommand(new OpenCardCommand());
-		registry.registerCommand(new ShowCardsCommand());
-		registry.registerCommand(new ShuffleDeckCommand());
+		registry.registerCommandsFromStaticMethods(CardCommands.class);
 
 		// dice commands
 		registry.registerCommandsFromStaticMethods(DiceCommands.class);
