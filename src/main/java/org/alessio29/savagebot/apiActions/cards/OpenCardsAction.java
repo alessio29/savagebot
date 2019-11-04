@@ -1,16 +1,14 @@
 package org.alessio29.savagebot.apiActions.cards;
 
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import org.alessio29.savagebot.apiActions.IDiscordAction;
 import org.alessio29.savagebot.cards.Card;
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.cards.Decks;
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
-public class OpenCardsAction implements IDiscordAction {
-    @Override
-    public CommandExecutionResult doAction(MessageReceivedEvent event, String[] args) {
+public class OpenCardsAction {
+
+    public CommandExecutionResult doAction(String guildId,  String channelId, String[] args) {
         int count = 1;
         int index = 1;
         if (args.length > 0) {
@@ -21,7 +19,7 @@ public class OpenCardsAction implements IDiscordAction {
                 // count will be 1
             }
         }
-        Deck deck = Decks.getDeck(event.getGuild(), event.getChannel());
+        Deck deck = Decks.getDeck(guildId, channelId);
         if(deck.isEmpty()) {
             return new CommandExecutionResult("Shuffle is needed..", index);
         }

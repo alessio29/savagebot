@@ -1,24 +1,22 @@
 package org.alessio29.savagebot.cards;
 
-import net.dv8tion.jda.core.entities.User;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Hand {
 
-	private User user;
+	private String user;
 	private List<Card> cards = new ArrayList<Card>();
 	
-	public Hand(User user2) {
-		this.user = user2;
+	public Hand(String userId) {
+		this.user = userId;
 	}
 
-	public User getUser() {
+	public String getUserId() {
 		return user;
 	}
 	
-	public void setUser(User user) {
+	public void setUser(String user) {
 		this.user = user;
 	}
 	

@@ -1,7 +1,5 @@
 package org.alessio29.savagebot.apiActions.initiative;
 
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import org.alessio29.savagebot.apiActions.IDiscordAction;
 import org.alessio29.savagebot.cards.Card;
 import org.alessio29.savagebot.characters.CharacterInitCache;
 import org.alessio29.savagebot.characters.CharacterInitiative;
@@ -11,20 +9,19 @@ import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ShowInitiativeAction implements IDiscordAction {
+public class ShowInitiativeAction {
 
     private static final int CARDS_SIZE = 8;
     private static final int CHAR_NAME_SIZE = 25;
 
-    @Override
-    public CommandExecutionResult doAction(MessageReceivedEvent event, String[] args) {
+    public CommandExecutionResult doAction(String guildId, String[] args) {
 
         ReplyBuilder reply = new ReplyBuilder();
         reply.blockQuote().newLine();
 
-        Set<CharacterInitiative> chars = CharacterInitCache.getCharacters(event.getGuild());
+        Set<CharacterInitiative> chars = CharacterInitCache.getCharacters(guildId);
         if (!chars.isEmpty()) {
-            for (CharacterInitiative c : CharacterInitCache.getCharacters(event.getGuild())) {
+            for (CharacterInitiative c : CharacterInitCache.getCharacters(guildId)) {
                 String allCards = c.getAllCards().stream().map(Card::toString).collect(Collectors.joining(", "));
                 String paramString;
                 if (c.getParams().trim().isEmpty()) {

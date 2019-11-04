@@ -1,15 +1,13 @@
 package org.alessio29.savagebot.apiActions.diceRolls;
 
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import org.alessio29.savagebot.apiActions.IDiscordAction;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import org.alessio29.savagebot.r2.eval.CommandContext;
 import org.alessio29.savagebot.r2.eval.RollInterpreter;
 import org.alessio29.savagebot.r2.parse.Parser;
 
-public class RollDiceAction implements IDiscordAction {
-    @Override
-    public CommandExecutionResult doAction(MessageReceivedEvent event, String[] args) {
+public class RollDiceAction {
+
+    public CommandExecutionResult doAction(String userId, String[] args) {
         if (args.length < 1) {
             return new CommandExecutionResult("No commands", args.length + 1);
         }

@@ -1,18 +1,13 @@
 package org.alessio29.savagebot.bennies;
 
-import net.dv8tion.jda.core.entities.Channel;
-import net.dv8tion.jda.core.entities.Guild;
-
 import java.util.HashMap;
 import java.util.Map;
 
-
-
 public class Pockets {
 
-	private static Map<Guild, Map<Channel, Map<String, Pocket>>> pockets = new HashMap<> ();
+	private static Map<String, Map<String, Map<String, Pocket>>> pockets = new HashMap<> ();
 
-	public static Pocket getPocket(Guild guild, Channel channel, String characterName) {
+	public static Pocket getPocket(String guild, String channel, String characterName) {
 
 		if (pockets.get(guild)==null) {
 			pockets.put(guild, new HashMap<>());
@@ -32,7 +27,7 @@ public class Pockets {
 		return pockets.get(guild).get(channel).get(characterName);
 	}
 
-	public static void resetPockets(Guild guild, Channel channel) {
+	public static void resetPockets(String guild, String channel) {
 
 		if (pockets.containsKey(guild) && pockets.get(guild).containsKey(channel)) {
 			Map<String, Pocket> map = pockets.get(guild).get(channel);
@@ -41,6 +36,4 @@ public class Pockets {
 		}
 		
 	}
-
-
 }

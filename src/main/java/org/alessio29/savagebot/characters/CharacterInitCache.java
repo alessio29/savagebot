@@ -1,6 +1,5 @@
 package org.alessio29.savagebot.characters;
 
-import net.dv8tion.jda.core.entities.Guild;
 import org.alessio29.savagebot.exceptions.CardAlreadyDealtException;
 
 import java.util.*;
@@ -9,9 +8,9 @@ import java.util.*;
 
 public class CharacterInitCache {
 
-	private static Map<Guild, HashSet<CharacterInitiative>> characters = new HashMap<>();
+	private static Map<String, HashSet<CharacterInitiative>> characters = new HashMap<>();
 
-	public static Set<CharacterInitiative> getCharacters(Guild guild) {
+	public static Set<CharacterInitiative> getCharacters(String guild) {
 		
 		Set<CharacterInitiative> chars =  characters.get(guild);
 		if (chars == null) {
@@ -20,13 +19,13 @@ public class CharacterInitCache {
 		return new TreeSet<CharacterInitiative>(chars);
 	}
 
-	public static void resetCharactersInitiative(Guild guild) {
+	public static void resetCharactersInitiative(String guild) {
 		if (characters.get(guild)!=null) {
 			characters.get(guild).clear();
 		}
 	}
 	
-	public static void addCharacter(Guild guild, CharacterInitiative c) throws CardAlreadyDealtException {
+	public static void addCharacter(String guild, CharacterInitiative c) throws CardAlreadyDealtException {
 		
 		if (characters.get(guild)==null) {
 			characters.put(guild, new HashSet<CharacterInitiative>());
@@ -37,7 +36,7 @@ public class CharacterInitCache {
 		characters.get(guild).add(c);
 	}
 
-	public static boolean alreadyDealt(Guild guild, String characterName) {
+	public static boolean alreadyDealt(String guild, String characterName) {
 		if (characters.get(guild)==null) {
 			characters.put(guild, new HashSet<CharacterInitiative>());
 		}

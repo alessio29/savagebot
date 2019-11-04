@@ -18,7 +18,7 @@ public class TokenCommands {
             arguments = {"<character_name>/all"}
     )
     public static CommandExecutionResult clear(MessageReceivedEvent event, String[] args) {
-        return new ClearTokensAction().doAction(event, args);
+        return new ClearTokensAction().doAction(event.getAuthor().getId(), event.getGuild().getId(), event.getChannel().getId(), args);
     }
 
     @CommandCallback(
@@ -28,7 +28,7 @@ public class TokenCommands {
             arguments = {}
     )
     public static CommandExecutionResult list(MessageReceivedEvent event, String[] args) {
-        return new ListTokensAction().doAction(event, args);
+        return new ListTokensAction().doAction(event.getGuild().getId(), event.getChannel().getId());
     }
 
     @CommandCallback(
@@ -38,7 +38,7 @@ public class TokenCommands {
             arguments = {"<character_name>", "[<amount of tokens>]"}
     )
     public static CommandExecutionResult take(MessageReceivedEvent event, String[] args) {
-        return new TakeTokenAction().doAction(event, args);
+        return new TakeTokenAction().doAction(event.getAuthor().getId(), event.getGuild().getId(), event.getChannel().getId(), args);
     }
 
     @CommandCallback(
@@ -48,7 +48,7 @@ public class TokenCommands {
             arguments = {"<character_name>", "[<amount of tokens>]"}
     )
     public static CommandExecutionResult give(MessageReceivedEvent event, String[] args) {
-        return new GiveTokenAction().doAction(event, args);
+        return new GiveTokenAction().doAction(event.getGuild().getId(), event.getChannel().getId(), args);
     }
 
 }

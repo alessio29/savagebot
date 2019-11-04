@@ -17,7 +17,7 @@ public class BennyCommands {
             arguments = {"[fill]"}
     )
     public static CommandExecutionResult init(MessageReceivedEvent event, String[] args) {
-        return new InitBenniesAction().doAction(event, args);
+        return new InitBenniesAction().doAction(event.getGuild().getId(), event.getTextChannel().getId(), args);
     }
 
     @CommandCallback(
@@ -27,7 +27,7 @@ public class BennyCommands {
             arguments = {"<character_name>"}
     )
     public static CommandExecutionResult show(MessageReceivedEvent event, String[] args) {
-        return new ShowBenniesAction().doAction(event, args);
+        return new ShowBenniesAction().doAction(event.getGuild().getId(), event.getChannel().getId(), args);
     }
 
     @CommandCallback(
@@ -37,7 +37,7 @@ public class BennyCommands {
             arguments = {"<benny_color>", "<character_name>"}
     )
     public static CommandExecutionResult take(MessageReceivedEvent event, String[] args) {
-        return new TakeBenniesAction().doAction(event, args);
+        return new TakeBenniesAction().doAction(event.getGuild().getId(), event.getChannel().getId(), args);
     }
 
 
@@ -48,6 +48,6 @@ public class BennyCommands {
             arguments = {"<character_name>"}
     )
     public static CommandExecutionResult give(MessageReceivedEvent event, String[] args) {
-        return new GiveBenniesAction().doAction(event, args);
+        return new GiveBenniesAction().doAction(event.getGuild().getId(), event.getChannel().getId(), args);
     }
 }

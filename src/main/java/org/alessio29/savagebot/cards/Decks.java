@@ -1,7 +1,5 @@
 package org.alessio29.savagebot.cards;
 
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.MessageChannel;
 import org.alessio29.savagebot.internal.RedisClient;
 
 import java.util.HashMap;
@@ -21,23 +19,23 @@ public class Decks {
 	private static final String REDIS_DECKS_KEY = "decks";
 
 
-	private static Map<Guild, Map<MessageChannel, Deck>> decks = new HashMap<>();
+	private static Map<String, Map<String, Deck>> decks = new HashMap<>();
 
-	public static Deck getDeck(Guild guild, MessageChannel channel) { 
+	public static Deck getDeck(String guildId, String channelId) {
 
-		 Map<MessageChannel, Deck> guildDecks = decks.get(guild);
+		 Map<String, Deck> guildDecks = decks.get(guildId);
 		if(guildDecks == null) {
-			Decks.addDeck(guild, channel, Deck.createNewDeck());
+			Decks.addDeck(guildId, channelId, Deck.createNewDeck());
 		}
-		Deck result = decks.get(guild).get(channel);
+		Deck result = decks.get(guildId).get(channelId);
 		if (result == null ) {
-			Decks.addDeck(guild, channel, Deck.createNewDeck());
+			Decks.addDeck(guildId, channelId, Deck.createNewDeck());
 		}
-		return decks.get(guild).get(channel);
+		return decks.get(guildId).get(channelId);
 	}
 		
-	private static void addDeck(Guild guild, MessageChannel channel, Deck deck) {
-		Map<MessageChannel, Deck> map = decks.computeIfAbsent(guild, k -> new HashMap<>());
+	private static void addDeck(String guild, String channel, Deck deck) {
+		Map<String, Deck> map = decks.computeIfAbsent(guild, k -> new HashMap<>());
 		map.put(channel, deck);
 		saveDecks();
 	}

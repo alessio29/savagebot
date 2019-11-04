@@ -22,12 +22,12 @@ public class DiceCommands {
             arguments = { "<expression1> ... <expressionN> "}
     )
     public static CommandExecutionResult rollDice(MessageReceivedEvent event, String[] args) {
-        return new RollDiceAction().doAction(event, args);
+        return new RollDiceAction().doAction(event.getAuthor().getId(), args);
     }
 
     @ParsingCommandCallback
     public static CommandExecutionResult parseAndRollDice(MessageReceivedEvent event, String command) {
-        return new ParseAndRollAction().doAction(event, new String[]{command});
+        return new ParseAndRollAction().doAction(event.getAuthor().getId(), new String[]{command});
     }
 
     @CommandCallback(
@@ -44,7 +44,7 @@ public class DiceCommands {
             arguments = { "[<heading_1>] <expression_1> ... [<heading_N>] <expression_N>" }
     )
     public static CommandExecutionResult rollSorted(MessageReceivedEvent event, String[] args) {
-        return new RollSortedAction().doAction(event, args);
+        return new RollSortedAction().doAction(event.getAuthor().getId(), args);
     }
 
     @CommandCallback(
@@ -55,6 +55,6 @@ public class DiceCommands {
             arguments = { "<expression_1> ... <expressionN>" }
     )
     public static CommandExecutionResult rollHistogram(MessageReceivedEvent event, String[] args) {
-        return new RollHistogramAction().doAction(event, args);
+        return new RollHistogramAction().doAction(event.getAuthor().getId(), args);
     }
 }
