@@ -13,23 +13,14 @@ Start you message with `!` then type any command from the following list. Some c
 
 __**CARDS category**__
 
-**draw**		character [ilqh]	draws card to character
+**deal** or **dl**    [<card_count>]    openly deals several (1 by default) cards to current channel
 
-add q if character has edge Quick
+**draw** or **dw**    [<card_count>] [<user>]    Secretly draws several (1 by default) cards to user (to self by default)
 
-add l if character has edge Levelheaded
+**show** or **sh**    Shows your cards, previously dealt to you by 'deal' command to current channel
 
-add il if character has edge Improved Levelheaded
+**shuffle**        Shuffles current deck, resets secret cards dealt to all users in this channel
 
-add h if character has hindrance Hesitant
-
-**open**			openly deals several (1 by default) cards to current channel
-
-**show**			Shows your cards, previously dealt to you by 'deal' command to current channel
-
-**shuffle**			Shuffles current deck, resets secret cards dealt to all users in this channel
-
-**deal**		CardCount User	secretly deals n (1 by default) cards to user (to self by default)
 
 __**DICE category**__
 
