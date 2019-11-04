@@ -1,6 +1,6 @@
 package org.alessio29.savagebot.internal;
 
-import com.google.gson.Gson;
+//import com.google.gson.Gson;
 import redis.clients.jedis.Jedis;
 
 public class RedisClient {
@@ -10,7 +10,7 @@ public class RedisClient {
     private static int port;
     private static String pass;
     private static final boolean DEBUG = false;
-    private static final Gson converter = new Gson();
+//    private static final Gson converter = new Gson();
 
     public static Jedis getClient() {
         if (client == null) {
@@ -42,8 +42,8 @@ public class RedisClient {
         if (data2store == null) {
             return;
         }
-        String json = converter.toJson(data2store);
-        RedisClient.getClient().set(redisKey, json);
+//        String json = converter.toJson(data2store);
+//        RedisClient.getClient().set(redisKey, json);
     }
 
     public static <T> T loadObject(String redisKey, Class<T> clazz ) {
@@ -51,6 +51,7 @@ public class RedisClient {
         if (json == null) {
             return null;
         }
-        return converter.fromJson(json, clazz);
+//        return converter.fromJson(json, clazz);
+        return null;
     }
 }
