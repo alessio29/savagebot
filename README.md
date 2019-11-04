@@ -106,11 +106,14 @@ __**BENNIES category**__
 
 __**INITIATIVE category**__
 
-**fight**			starts new fight: shuffles deck, resets intiative tracker
+**fight** or **f**			starts new fight: shuffles deck, resets intiative tracker
 
 **init**			Shows initiative tracker
 
-**round**			Starts new round: resets resets intiative tracker, shuffles deck, if joker was dealt on previous round
+**round** or **rd**			Starts new round: resets resets intiative tracker, shuffles deck, if joker was dealt on previous round
+
+**di**      <character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]    Deal initiative card. Modifiers should start with - and be either 'q', 'l', 'i' or 'h': Quick, Levelheaded, Improved Levelheaded and Hesitant respectively.
+
 
 __**INFO category**__
 
