@@ -15,7 +15,7 @@ __**CARDS category**__
 
 **deal** or **dl**    [<card_count>]    openly deals several (1 by default) cards to current channel
 
-**draw** or **dw**    [<card_count>] [<user>]    Secretly draws several (1 by default) cards to user (to self by default)
+**draw** or **dw**    [<card_count>] [<user_name>]    Secretly draws several (1 by default) cards to user (to self by default)
 
 **show** or **sh**    Shows your cards, previously dealt to you by 'deal' command to current channel
 
