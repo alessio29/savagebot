@@ -1,12 +1,13 @@
 package org.alessio29.savagebot.internal;
 
 import net.dv8tion.jda.core.entities.User;
-import org.alessio29.savagebot.internal.RedisClient;
 
 import java.util.HashMap;
 
 public class Prefixes {
-    public static final String DEFAULT_PREFIX = "~";
+    public static final String DEFAULT_BOT_PREFIX = "!";
+    public static final String DEFAULT_TEST_PREFIX = "~";
+    public static String DEFAULT_PREFIX = DEFAULT_BOT_PREFIX;
     private static final String PREFIXES_KEY = "prefixes";
 
     private static HashMap<String, String> prefixes = new HashMap<>();
@@ -31,5 +32,9 @@ public class Prefixes {
             prefixes = new HashMap<>();
         }
 
+    }
+
+    public static void setDebugPrefix() {
+        DEFAULT_PREFIX = DEFAULT_TEST_PREFIX;
     }
 }

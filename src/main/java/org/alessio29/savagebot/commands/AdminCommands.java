@@ -68,7 +68,7 @@ public class AdminCommands {
         } else {
             String prfx = Prefixes.getPrefix(event.getAuthor());
             if (prfx == null) {
-                result = new CommandExecutionResult("Custom prefix is not set! Default prefix is "+Prefixes.DEFAULT_PREFIX, 1);
+                result = new CommandExecutionResult("Custom prefix is not set! Default prefix is "+Prefixes.DEFAULT_BOT_PREFIX, 1);
             } else {
                 result = new CommandExecutionResult("Prefix is '"+prfx+"'", 1);
             }

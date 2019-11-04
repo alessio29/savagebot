@@ -2,6 +2,7 @@ package org.alessio29.savagebot;
 
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
+import org.alessio29.savagebot.internal.Prefixes;
 import org.alessio29.savagebot.internal.commands.Commands;
 import org.alessio29.savagebot.internal.ParseInputListener;
 import org.alessio29.savagebot.internal.RedisClient;
@@ -15,7 +16,7 @@ public class SavageBotRunner {
 	public static void main(String[] args) throws LoginException {
 
 		if (args.length <5) {
-			System.out.println("Parameters must be provided: password token redisHost redisPort redisPass!");
+			System.out.println("Parameters must be provided: password token redisHost redisPort redisPass");
 			return;
 		}
 		passwd = args[0].trim();
@@ -28,7 +29,14 @@ public class SavageBotRunner {
 		RedisClient.init(redisHost, redisPort, redisPass);
 
 		Commands.registerDefaultCommands();
-//		Prefixes.loadPrefixes();
+		Prefixes.loadPrefixes();
+		if (args.length >=6) {
+			String debug = args[5].trim();
+			if (debug.equalsIgnoreCase("debug")) {
+				Prefixes.setDebugPrefix();
+			}
+		}
+
 //		Decks.loadDecks();
 //		Hands.loadHands();
 //		Characters.loadCharacters();
