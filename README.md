@@ -74,6 +74,16 @@ Bot supports limits to roll:
 
 `!r (3d8!+d6!)[6:24+6]` - this roll will give value at least 6 and no more than 30 (24+6). This used in our house-rule for damage rolls for Savage Worlds.
 
+**rh**    <expression_1> ... <expressionN>    rolls multiple dice and prints a distribution of results.
+Example: `!rh 1000x2d6`
+  
+**rs**    [<heading_1>] <expression_1> ... [<heading_N>] <expression_N>    rolls multiple dice and print them out sorted.
+This is mostly useful for rolling initiative as a single command.
+!rs Huey d20 Dewey d20 Louie d20 => 
+`Dewey 14
+Huey 10
+Louie 5`
+
 __**TOKENS category**__
 
 **tokens**			Shows characters and their tokens
