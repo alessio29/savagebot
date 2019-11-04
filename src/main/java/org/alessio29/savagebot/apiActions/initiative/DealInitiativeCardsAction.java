@@ -53,6 +53,7 @@ public class DealInitiativeCardsAction  {
                 }
             }
             if (CharacterInitCache.alreadyDealt(guildId, charName)) {
+                index++;
                 continue;
             }
             DrawCardResult cards = deck.getCardByParams(mods);
