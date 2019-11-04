@@ -1,16 +1,11 @@
 package org.alessio29.savagebot.commands;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import org.alessio29.savagebot.apiActions.diceRolls.ParseAndRollAction;
+import org.alessio29.savagebot.apiActions.diceRolls.RollDiceAction;
+import org.alessio29.savagebot.apiActions.diceRolls.RollHistogramAction;
+import org.alessio29.savagebot.apiActions.diceRolls.RollSortedAction;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
-import org.alessio29.savagebot.r2.eval.CommandContext;
-import org.alessio29.savagebot.r2.eval.RollInterpreter;
-import org.alessio29.savagebot.r2.eval.RollAccumulatingInterpreter;
-import org.alessio29.savagebot.r2.parse.Parser;
-import org.alessio29.savagebot.r2.tree.NonParsedStringStatement;
-import org.alessio29.savagebot.r2.tree.Statement;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 @SuppressWarnings("unused")
 @CommandCategoryOwner(CommandCategory.DICE)
@@ -27,45 +22,12 @@ public class DiceCommands {
             arguments = { "<expression1> ... <expressionN> "}
     )
     public static CommandExecutionResult rollDice(MessageReceivedEvent event, String[] args) {
-        if (args.length < 1) {
-            return new CommandExecutionResult("No commands", args.length + 1);
-        }
-
-        String result = new RollInterpreter(new CommandContext()).run(new Parser().parse(args));
-
-        return new CommandExecutionResult(result, args.length + 1);
+        return new RollDiceAction().doAction(event, args);
     }
 
     @ParsingCommandCallback
     public static CommandExecutionResult parseAndRollDice(MessageReceivedEvent event, String command) {
-        List<Statement> statements = tryParseStatements(command);
-        if (statements == null) return null;
-
-        String result = new RollInterpreter(new CommandContext()).run(statements);
-
-        return new CommandExecutionResult(result, 1);
-    }
-
-    @Nullable
-    public static List<Statement> tryParseStatements(String command) {
-        Parser parser = new Parser();
-        List<Statement> statements = parser.parseCommandElement(command);
-        if (hasParsedStatements(statements)) {
-            return statements;
-        }
-
-        if ((command.startsWith("r") || command.startsWith("R")) && command.length() > 1) {
-            statements = parser.parseCommandElement(command.substring(1));
-            if (hasParsedStatements(statements)) {
-                return statements;
-            }
-        }
-
-        return null;
-    }
-
-    private static boolean hasParsedStatements(List<Statement> statements) {
-        return !statements.stream().allMatch(statement -> statement instanceof NonParsedStringStatement);
+        return new ParseAndRollAction().doAction(event, new String[]{command});
     }
 
     @CommandCallback(
@@ -82,13 +44,7 @@ public class DiceCommands {
             arguments = { "[<heading_1>] <expression_1> ... [<heading_N>] <expression_N>" }
     )
     public static CommandExecutionResult rollSorted(MessageReceivedEvent event, String[] args) {
-        if (args.length < 1) {
-            return new CommandExecutionResult("No commands", args.length + 1);
-        }
-
-        String result = new RollAccumulatingInterpreter(new CommandContext()).rollSorted(new Parser().parse(args));
-
-        return new CommandExecutionResult(result, args.length + 1);
+        return new RollSortedAction().doAction(event, args);
     }
 
     @CommandCallback(
@@ -99,12 +55,6 @@ public class DiceCommands {
             arguments = { "<expression_1> ... <expressionN>" }
     )
     public static CommandExecutionResult rollHistogram(MessageReceivedEvent event, String[] args) {
-        if (args.length < 1) {
-            return new CommandExecutionResult("No commands", args.length + 1);
-        }
-
-        String result = new RollAccumulatingInterpreter(new CommandContext()).rollHistogram(new Parser().parse(args));
-
-        return new CommandExecutionResult(result, args.length + 1);
+        return new RollHistogramAction().doAction(event, args);
     }
 }

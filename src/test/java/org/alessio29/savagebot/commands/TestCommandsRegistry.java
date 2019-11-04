@@ -1,5 +1,6 @@
 package org.alessio29.savagebot.commands;
 
+import org.alessio29.savagebot.apiActions.admin.HelpAction;
 import org.alessio29.savagebot.internal.commands.CommandRegistry;
 import org.alessio29.savagebot.internal.commands.Commands;
 import org.junit.Assert;
@@ -29,10 +30,10 @@ public class TestCommandsRegistry {
                 "[" +
                         "ADMIN:info, ADMIN:ping, ADMIN:prefix, " +
                         "BENNIES:benny, BENNIES:hat, BENNIES:pocket, BENNIES:use, " +
-                        "CARDS:deal, CARDS:open, CARDS:show, CARDS:shuffle, " +
+                        "CARDS:deal, CARDS:draw, CARDS:show, CARDS:shuffle, " +
                         "DICE:r, DICE:rh, DICE:rs, " +
                         "INFO:help, INFO:invite, " +
-                        "INITIATIVE:draw, INITIATIVE:fight, INITIATIVE:init, INITIATIVE:round, " +
+                        "INITIATIVE:di, INITIATIVE:fight, INITIATIVE:init, INITIATIVE:round, " +
                         "TOKENS:clear, TOKENS:give, TOKENS:take, TOKENS:tokens" +
                         "]",
                 commands.toString()
@@ -43,9 +44,9 @@ public class TestCommandsRegistry {
     public void testHelpText() {
         Assert.assertEquals(
                 "__**CARDS category**__\n" +
-                        "!deal CardCount User\n" +
-                        "!open\n" +
-                        "!show\n" +
+                        "!deal [<card_count>]; aliases: !dl\n" +
+                        "!draw [<card_count>] [<user>]; aliases: !dw\n" +
+                        "!show; aliases: !sh\n" +
                         "!shuffle\n" +
                         "\n" +
                         "__**DICE category**__\n" +
@@ -60,10 +61,10 @@ public class TestCommandsRegistry {
                         "!use <benny_color> <character_name>\n" +
                         "\n" +
                         "__**INITIATIVE category**__\n" +
-                        "!draw character [ilqh]\n" +
-                        "!fight\n" +
+                        "!di <character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]\n" +
+                        "!fight; aliases: !f\n" +
                         "!init\n" +
-                        "!round\n" +
+                        "!round; aliases: !rd\n" +
                         "\n" +
                         "__**INFO category**__\n" +
                         "!help [<command> or <category>]\n" +
@@ -81,7 +82,7 @@ public class TestCommandsRegistry {
                         "!tokens\n" +
                         "\n" +
                         "For more details, use `!help <command>` or see https://github.com/alessio29/savagebot/blob/master/README.md",
-                InfoCommands.getBriefHelpForAllCommands()
+                HelpAction.getBriefHelpForAllCommands()
         );
     }
 

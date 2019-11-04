@@ -1,6 +1,6 @@
 package tests;
 
-import org.alessio29.savagebot.commands.DiceCommands;
+import org.alessio29.savagebot.apiActions.diceRolls.ParseAndRollAction;
 import org.alessio29.savagebot.r2.Dumper;
 import org.alessio29.savagebot.r2.tree.Statement;
 import org.junit.Assert;
@@ -89,7 +89,7 @@ public class TestTryParseExclRoll {
     }
 
     private void expect(String expectedDump, String arg) {
-        List<Statement> statements = DiceCommands.tryParseStatements(arg);
+        List<Statement> statements = ParseAndRollAction.tryParseStatements(arg);
         if (statements == null) {
             Assert.assertNull(expectedDump);
             return;
