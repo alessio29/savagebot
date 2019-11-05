@@ -1,19 +1,15 @@
 package org.alessio29.savagebot.bennies;
 
-import net.dv8tion.jda.core.entities.Channel;
-import net.dv8tion.jda.core.entities.Guild;
-
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class Hats {
 
-	private static final Map<Guild, Map<Channel, Hat>> hats = new HashMap<>();
+	private static final Map<String, Map<String, Hat>> hats = new HashMap<>();
 
-	public static Hat getHat(Guild guild, Channel channel, boolean refill) {
+	public static Hat getHat(String guild, String channel, boolean refill) {
 
-		Map<Channel, Hat> map = hats.get(guild);
+		Map<String, Hat> map = hats.get(guild);
 		if (map == null) {
 			map = new HashMap<>();
 			hats.put(guild, map);

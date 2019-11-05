@@ -1,16 +1,13 @@
 package org.alessio29.savagebot.bennies;
 
-import net.dv8tion.jda.core.entities.Channel;
-import net.dv8tion.jda.core.entities.Guild;
-
 import java.util.LinkedList;
 import java.util.List;
 
 public class Pocket {
 
 	String character;
-	Guild guild;
-	Channel channel;
+	String guild;
+	String channel;
 	List<Benny> bennies;
 	
 	public void put(Benny benny) {
@@ -29,7 +26,7 @@ public class Pocket {
 		return false;
 	}
 
-	public Pocket (String characterName, Guild guild, Channel channel) {
+	public Pocket (String characterName, String guild, String channel) {
 		
 		this.character = characterName;
 		this.guild = guild;

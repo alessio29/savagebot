@@ -1,7 +1,5 @@
 package org.alessio29.savagebot.apiActions.initiative;
 
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import org.alessio29.savagebot.apiActions.IDiscordAction;
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.cards.Decks;
 import org.alessio29.savagebot.characters.CharacterInitCache;
@@ -13,16 +11,16 @@ import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DealInitiativeCardsAction implements IDiscordAction {
+public class DealInitiativeCardsAction  {
 
     private static final String QUICK_MAKER = "q";
     private static final CharSequence HESITANT_MARKER = "h";
     private static final Pattern modPattern = Pattern.compile("^[^ilqh]$");
 
-    @Override
-    public CommandExecutionResult doAction(MessageReceivedEvent event, String[] args) {
 
-        Deck deck = Decks.getDeck(event.getGuild(), event.getChannel());
+    public CommandExecutionResult doAction(String guildId, String channelId, String[] args) {
+
+        Deck deck = Decks.getDeck(guildId, channelId);
 
         if(deck.isShuffleNeeded()) {
             return new CommandExecutionResult("Shuffle is needed..", args.length+1);
@@ -54,7 +52,8 @@ public class DealInitiativeCardsAction implements IDiscordAction {
                             "character cannot be quick and hesitant at the same time!", args.length+1);
                 }
             }
-            if (CharacterInitCache.alreadyDealt(event.getGuild(), charName)) {
+            if (CharacterInitCache.alreadyDealt(guildId, charName)) {
+                index++;
                 continue;
             }
             DrawCardResult cards = deck.getCardByParams(mods);
@@ -62,7 +61,7 @@ public class DealInitiativeCardsAction implements IDiscordAction {
                 return new CommandExecutionResult("Deck is empty!", args.length+1);
             }
             try {
-                CharacterInitCache.addCharacter(event.getGuild(), new CharacterInitiative(charName, mods, cards));
+                CharacterInitCache.addCharacter(guildId, new CharacterInitiative(charName, mods, cards));
 //				Characters.saveCharacters();
             } catch (CardAlreadyDealtException e) {
                 return new CommandExecutionResult("Card already dealt!", args.length+1);

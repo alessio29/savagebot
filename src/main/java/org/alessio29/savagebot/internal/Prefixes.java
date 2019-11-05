@@ -1,7 +1,5 @@
 package org.alessio29.savagebot.internal;
 
-import net.dv8tion.jda.core.entities.User;
-
 import java.util.HashMap;
 
 public class Prefixes {
@@ -12,13 +10,13 @@ public class Prefixes {
 
     private static HashMap<String, String> prefixes = new HashMap<>();
 
-    public static String getPrefix(User user) {
-        String res = prefixes.get(user.getId());
+    public static String getPrefix(String userId) {
+        String res = prefixes.get(userId);
         return res == null ? DEFAULT_PREFIX : res;
     }
 
-    public static void setPrefix(User user, String prefix) {
-        prefixes.put(user.getId(), prefix);
+    public static void setPrefix(String userId, String prefix) {
+        prefixes.put(userId, prefix);
         savePrefixes();
     }
 

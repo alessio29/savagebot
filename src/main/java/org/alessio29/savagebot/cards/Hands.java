@@ -1,7 +1,5 @@
 package org.alessio29.savagebot.cards;
 
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.User;
 import org.alessio29.savagebot.internal.RedisClient;
 
 import java.util.HashMap;
@@ -12,15 +10,15 @@ public class Hands {
 
 	private static final String REDIS_HANDS_KEY = "hands";
 
-	private static Map<Guild, Map<User, Hand>> hands = new HashMap<>();
+	private static Map<String, Map<String, Hand>> hands = new HashMap<>();
 
-	public static Hand getHand(Guild guild, User user) {
+	public static Hand getHand(String guildId, String userId) {
 
-		Map<User, Hand> map = hands.computeIfAbsent(guild, k -> new HashMap<>());
-		Hand hand = map.get(user);
+		Map<String, Hand> map = hands.computeIfAbsent(guildId, k -> new HashMap<>());
+		Hand hand = map.get(userId);
 		if (hand == null) {
-			hand = new Hand(user);
-			map.put(user, hand);
+			hand = new Hand(userId);
+			map.put(userId, hand);
 		}
 		return hand;
 	}

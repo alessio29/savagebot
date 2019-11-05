@@ -19,7 +19,7 @@ public class ParseInputListener extends ListenerAdapter {
 		}
         DiscordResponseBuilder responseBuilder = new DiscordResponseBuilder(author, channel);
 		String rawMessage = event.getMessage().getContentRaw();
-        String prefix = Prefixes.getPrefix(author);
+        String prefix = Prefixes.getPrefix(author.getId());
         new CommandInterpreter(prefix).run(rawMessage, responseBuilder, event);
 		responseBuilder.sendResponse();
 	}

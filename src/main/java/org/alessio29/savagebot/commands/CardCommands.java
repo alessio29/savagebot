@@ -1,11 +1,17 @@
 package org.alessio29.savagebot.commands;
 
+import net.dv8tion.jda.core.OnlineStatus;
+import net.dv8tion.jda.core.Permission;
+
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.apiActions.cards.DrawCardsAction;
 import org.alessio29.savagebot.apiActions.cards.OpenCardsAction;
 import org.alessio29.savagebot.apiActions.cards.ShowCardsAction;
 import org.alessio29.savagebot.apiActions.cards.ShuffleCardsAction;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @CommandCategoryOwner(CommandCategory.CARDS)
 public class CardCommands {
@@ -17,7 +23,7 @@ public class CardCommands {
             arguments = { "[<card_count>]"}
     )
     public static CommandExecutionResult open(MessageReceivedEvent event, String[] args) {
-        return new OpenCardsAction().doAction(event, args);
+        return new OpenCardsAction().doAction(event.getGuild().getId(), event.getChannel().getId(), args);
     }
 
     @CommandCallback(
@@ -27,7 +33,7 @@ public class CardCommands {
             arguments = {}
     )
     public static CommandExecutionResult show(MessageReceivedEvent event, String[] args) {
-        return new ShowCardsAction().doAction(event, args);
+        return new ShowCardsAction().doAction(event.getGuild().getId(), event.getChannel().getId(), args);
     }
 
     @CommandCallback(
@@ -37,7 +43,7 @@ public class CardCommands {
             arguments = {"[<card_count>]", "[<user>]"}
     )
     public static CommandExecutionResult draw(MessageReceivedEvent event, String[] args) {
-        return new DrawCardsAction().doAction(event, args);
+        return new DrawCardsAction().doAction(event.getGuild().getId(), event.getChannel().getId(), event.getAuthor().getId(), args);
     }
 
     @CommandCallback(
@@ -47,7 +53,11 @@ public class CardCommands {
             arguments = {}
     )
     public static CommandExecutionResult shuffle(MessageReceivedEvent event, String[] args) {
-        return new ShuffleCardsAction().doAction(event, args);
+
+        List<String> users = event.getGuild().getMembers().stream().
+                filter(m -> m.hasPermission(event.getTextChannel(), Permission.MESSAGE_READ)).
+                filter(m->m.getOnlineStatus()== OnlineStatus.ONLINE).map(m -> m.getUser().getId()).collect(Collectors.toList());
+        return new ShuffleCardsAction().doAction(users, event.getGuild().getId(), event.getChannel().getId(), args);
     }
 
 }

@@ -17,7 +17,7 @@ public class InitCommands {
             arguments = {}
     )
     public static CommandExecutionResult fight(MessageReceivedEvent event, String[] args) {
-        return new NewFightAction().doAction(event, args);
+        return new NewFightAction().doAction(event.getAuthor().getId(), event.getGuild().getId(), event.getChannel().getId(), args);
     }
 
     @CommandCallback(
@@ -27,7 +27,7 @@ public class InitCommands {
             arguments = {}
     )
     public static CommandExecutionResult round(MessageReceivedEvent event, String[] args) {
-        return new NewRoundAction().doAction(event, args);
+        return new NewRoundAction().doAction(event.getAuthor().getId(), event.getGuild().getId(), args);
     }
 
     @CommandCallback(
@@ -37,7 +37,7 @@ public class InitCommands {
             arguments = {}
     )
     public static CommandExecutionResult init(MessageReceivedEvent event, String[] args) {
-        return new ShowInitiativeAction().doAction(event, args);
+        return new ShowInitiativeAction().doAction(event.getGuild().getId(), args);
     }
 
     @CommandCallback(
@@ -47,7 +47,7 @@ public class InitCommands {
             arguments = { "<character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]" }
     )
     public static CommandExecutionResult dealInitCards(MessageReceivedEvent event, String[] args) {
-        new DealInitiativeCardsAction().doAction(event, args);
-        return new ShowInitiativeAction().doAction(event, args);
+        new DealInitiativeCardsAction().doAction(event.getGuild().getId(), event.getChannel().getId(), args);
+        return new ShowInitiativeAction().doAction(event.getGuild().getId(), args);
     }
 }
