@@ -18,7 +18,7 @@ public class ClearTokensAction {
             chars.clear();
             text = "Removed all characters";
         } else {
-            chars.remove(new Character(args[0],0));
+            chars.remove(new Character(args[0]));
             text = "Removed character "+args[0];
         }
         Characters.storeAllCharacters(guildId, channelId, chars);

@@ -21,7 +21,7 @@ public class GiveTokenAction {
 
         Character character = Characters.getCharacterByName(guildId, channelId, args[0]);
         if (character == null) {
-            character = new Character(args[0], 0);
+            character = new Character(args[0]);
         }
         if (tokens>0) {
             character.addTokens(tokens);
