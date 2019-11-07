@@ -30,6 +30,8 @@ expression
         # SavageWorldsRollExpr
     |   fudgeRoll
         # FudgeRollExpr
+    |   carcosaRoll
+        # CarcosaRollExpr
     |   e1=expression '[' (e2=expression)? ':' (e3=expression)? ']'
         # BoundedExpr
     |   v=VAR ':=' e1=expression
@@ -63,6 +65,10 @@ savageWorldsRoll
 
 fudgeRoll
     :   (t=term)? ('dF'|'df'|'DF')
+    ;
+
+carcosaRoll
+    :   (t=term)? ('dC'|'dc'|'DC')
     ;
 
 term
