@@ -52,7 +52,7 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
         atLineStart = true;
     }
 
-    public void println() {
+    private void println() {
         out.println();
         atLineStart = true;
     }
@@ -63,15 +63,6 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
             for (int i = 0; i < indent; ++i) {
                 out.print(' ');
             }
-        }
-    }
-
-    private void dump(String label, Statement statement) {
-        print(label+ ": ");
-        if (statement != null) {
-            statement.accept(this);
-        } else {
-            println("null");
         }
     }
 
@@ -149,6 +140,13 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
     public Void visitFudgeRollExpression(FudgeRollExpression fudgeRollExpression) {
         println("FudgeRoll");
         indented(() -> dump("diceCount", fudgeRollExpression.getDiceCountArg()));
+        return null;
+    }
+
+    @Override
+    public Void visitCarcosaRollExpression(CarcosaRollExpression carcosaRollExpression) {
+        println("CarcosaRoll");
+        indented(() -> dump("diceCount", carcosaRollExpression.getDiceCountArg()));
         return null;
     }
 

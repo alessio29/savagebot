@@ -201,6 +201,14 @@ class ExpressionDesugarer extends Desugarer<Expression> {
     }
 
     @Override
+    public Expression visitCarcosaRollExpr(R2Parser.CarcosaRollExprContext ctx) {
+        return new CarcosaRollExpression(
+                getOriginalText(ctx),
+                visitOrNull(ctx.carcosaRoll().t)
+        );
+    }
+
+    @Override
     public Expression visitSavageWorldsRollExpr(R2Parser.SavageWorldsRollExprContext ctx) {
         R2Parser.SavageWorldsRollContext swrc = ctx.savageWorldsRoll();
 

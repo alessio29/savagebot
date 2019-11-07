@@ -470,6 +470,26 @@ public class TestR2Interpreter {
         );
     }
 
+    @Test
+    public void testCarcosaRolls() {
+        expect(
+                "dC: 4 = **4**",
+                "dC"
+        );
+        expect(
+                "4dc: 4 + 1 + 3 + 3 = **11**",
+                "4dc"
+        );
+        expect(
+                "2dc*4: (4 + 1) * 4 = **20**",
+                "2dc*4"
+        );
+        expect(
+                "4*2DC: 4 * (4 + 1) = **20**",
+                "4*2DC"
+        );
+    }
+
     private void expect(String expectedResult, String... args) {
         List<Statement> statements = new Parser().parse(args);
         CommandContext context = new CommandContext(new Random(0));

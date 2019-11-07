@@ -266,6 +266,14 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
     }
 
     @Override
+    public List<Integer> visitCarcosaRollExpression(CarcosaRollExpression carcosaRollExpression) {
+        int diceCount = evalInt(carcosaRollExpression.getDiceCountArg(), 1);
+        IntResult diceResult = roller.rollCarcosa(diceCount);
+        context.putExplanation(carcosaRollExpression, diceResult.getExplained());
+        return Collections.singletonList(diceResult.getValue());
+    }
+
+    @Override
     public List<Integer> visitSavageWorldsRollExpression(SavageWorldsRollExpression savageWorldsRollExpression) {
         int diceCount = evalInt(savageWorldsRollExpression.getDiceCountArg(), 1);
 
