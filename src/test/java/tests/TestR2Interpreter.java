@@ -488,6 +488,20 @@ public class TestR2Interpreter {
                 "4*2DC: 4 * (4 + 1) = **20**",
                 "4*2DC"
         );
+        expect(
+                "10x2dc: \n" +
+                        "1: 2dc: 4 + 1 = **5**\n" +
+                        "2: 2dc: 6 + 6 = **12**\n" +
+                        "3: 2dc: 1 + 5 = **6**\n" +
+                        "4: 2dc: 8 + 8 = **16**\n" +
+                        "5: 2dc: 3 + 6 = **9**\n" +
+                        "6: 2dc: 5 + 4 = **9**\n" +
+                        "7: 2dc: 1 + 2 = **3**\n" +
+                        "8: 2dc: 2 + 3 = **5**\n" +
+                        "9: 2dc: 1 + 4 = **5**\n" +
+                        "10: 2dc: 3 + 1 = **4**",
+                "10x2dc"
+        );
     }
 
     private void expect(String expectedResult, String... args) {
