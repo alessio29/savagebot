@@ -14,8 +14,7 @@ public class TestRollSorted {
     @Test
     public void testSortedSimple() {
         expect(
-                ":\n" +
-                        "Charlie: d20: **10**\n" +
+                "Charlie: d20: **10**\n" +
                         "Betty: d20: **9**\n" +
                         "Dorothee: d20: **8**\n" +
                         "Alex: d20: **1**",
@@ -25,8 +24,7 @@ public class TestRollSorted {
                 "Dorothee", "d20"
         );
         expect(
-                ":\n" +
-                        "Betty: d20+3: 9 + 3 = **12**\n" +
+                "Betty: d20+3: 9 + 3 = **12**\n" +
                         "Charlie: d20+1: 10 + 1 = **11**\n" +
                         "Dorothee: d20: **8**\n" +
                         "Alex: d20+5: 1 + 5 = **6**",
@@ -52,8 +50,7 @@ public class TestRollSorted {
     @Test
     public void testSortedWithTimes() {
         expect(
-                ":\n" +
-                        "Bad guys 3 of 4: d20: **16**\n" +
+                "Bad guys 3 of 4: d20: **16**\n" +
                         "Bad guys 4 of 4: d20: **14**\n" +
                         "Bad guys 1 of 4: d20: **10**\n" +
                         "Player B: d20+1: 9 + 1 = **10**\n" +
@@ -68,8 +65,7 @@ public class TestRollSorted {
     @Test
     public void testSortedWithNonTrivialTimes() {
         expect(
-                ":\n" +
-                        "(d6): (2) = **2**\n" +
+                "(d6): (2) = **2**\n" +
                         "Bad guys 2 of 2: d20: **16**\n" +
                         "Player B: d20+1: 9 + 1 = **10**\n" +
                         "Bad guys 1 of 2: d20: **8**\n" +
@@ -83,8 +79,7 @@ public class TestRollSorted {
     @Test
     public void testSortedWithBatchTimes() {
         expect(
-                ":\n" +
-                        "Bad guy teams 2 of 3: d20+2: 16 + 2 = **18**\n" +
+                "Bad guy teams 2 of 3: d20+2: 16 + 2 = **18**\n" +
                         "Bad guy teams 2 of 3: d20: **14**\n" +
                         "Bad guy teams 3 of 3: d20+2: 12 + 2 = **14**\n" +
                         "Bad guy teams 1 of 3: d20+2: 10 + 2 = **12**\n" +
@@ -97,8 +92,7 @@ public class TestRollSorted {
                 "Bad guy teams", "3x[d20+2; d20]"
         );
         expect(
-                ":\n" +
-                        "Bad guy teams 2 of 3 fast guy: d20+2: 16 + 2 = **18**\n" +
+                "Bad guy teams 2 of 3 fast guy: d20+2: 16 + 2 = **18**\n" +
                         "Bad guy teams 2 of 3 slow guy: d20: **14**\n" +
                         "Bad guy teams 3 of 3 fast guy: d20+2: 12 + 2 = **14**\n" +
                         "Bad guy teams 1 of 3 fast guy: d20+2: 10 + 2 = **12**\n" +
