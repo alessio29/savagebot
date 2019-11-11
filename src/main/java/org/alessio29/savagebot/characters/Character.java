@@ -9,7 +9,6 @@ public class Character {
     private String name;
     private Map<String, Object> attributes = new HashMap<>();
 
-
     public Character(String name) {
         this.name = name;
     }
@@ -33,8 +32,8 @@ public class Character {
         return name.hashCode();
     }
 
-    public void addTokens(int tokens) {
-        attributes.put(TOKENS, String.valueOf(tokens));
+    public void addTokens(Integer tokens) {
+        attributes.put(TOKENS, tokens);
     }
 
     private <T> T getAttribute(String attribute, Class<T> clazz) {
@@ -53,7 +52,7 @@ public class Character {
         return getAttribute(TOKENS, Integer.class);
     }
 
-    public void removeTokens(int amount) {
+    public void removeTokens(Integer amount) {
 
         Integer tokens = getTokens();
         tokens = (tokens == null) ? 0 : tokens;
