@@ -205,4 +205,21 @@ public class Roller {
                 .map(IntResult::getExplained)
                 .collect(Collectors.joining(", "));
     }
+
+    public IntResult rollCarcosa(int diceCount) {
+        int d20 = roll(20);
+        int die;
+        if (d20 <= 4) {
+            die = 4;
+        } else if (d20 <= 8) {
+            die = 6;
+        } else if (d20 <= 12) {
+            die = 8;
+        } else if (d20 <= 16) {
+            die = 10;
+        } else {
+            die = 12;
+        }
+        return rollAndKeep(diceCount, die, false, null, 0);
+    }
 }

@@ -118,9 +118,6 @@ public class RollAccumulatingInterpreter {
             results.sort(VALUE_RESULT_COMPARATOR);
 
             StringBuilder output = new StringBuilder();
-            if (results.size() > 0) {
-                output.append(":\n");
-            }
 
             prefixInfo(output);
 

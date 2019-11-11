@@ -504,6 +504,30 @@ public class TestR2Parser {
     }
 
     @Test
+    public void testCarcosaRollExpr() {
+        expect(
+                "RollOnce\n" +
+                        "  expr: CarcosaRoll\n" +
+                        "    diceCount: null",
+                "dC"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: CarcosaRoll\n" +
+                        "    diceCount: Int 4",
+                "4dc"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: Operator PLUS\n" +
+                        "    arg1: CarcosaRoll\n" +
+                        "      diceCount: Int 4\n" +
+                        "    arg2: Int 1",
+                "4dc+1"
+        );
+    }
+
+    @Test
     public void testBoundedExpr() {
         expect(
                 "RollOnce\n" +
