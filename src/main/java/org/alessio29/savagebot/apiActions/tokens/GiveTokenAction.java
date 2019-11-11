@@ -11,7 +11,7 @@ public class GiveTokenAction {
             return new CommandExecutionResult("Character name missing!", 1);
         }
 
-        int tokens = 1;
+        Integer tokens = 1;
         if (args.length > 1) {
             try {
                 tokens = Integer.parseInt(args[1]);
