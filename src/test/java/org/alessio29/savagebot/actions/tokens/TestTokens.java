@@ -1,4 +1,4 @@
-package org.alessio29.savagebot.tokens;
+package org.alessio29.savagebot.actions.tokens;
 
 import org.alessio29.savagebot.apiActions.tokens.ClearTokensAction;
 import org.alessio29.savagebot.apiActions.tokens.GiveTokenAction;

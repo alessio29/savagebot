@@ -1,4 +1,4 @@
-package tests;
+package org.alessio29.savagebot.utils;
 
 import org.alessio29.savagebot.internal.RedisClient;
 import org.junit.Test;

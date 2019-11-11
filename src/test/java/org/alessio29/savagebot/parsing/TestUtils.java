@@ -1,4 +1,4 @@
-package tests;
+package org.alessio29.savagebot.parsing;
 
 public class TestUtils {
     private static final String LINE_SEPARATOR = System.lineSeparator();

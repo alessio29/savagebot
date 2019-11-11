@@ -1,4 +1,4 @@
-package tests;
+package org.alessio29.savagebot.parsing;
 
 import org.alessio29.savagebot.r2.Dumper;
 import org.alessio29.savagebot.r2.parse.Parser;

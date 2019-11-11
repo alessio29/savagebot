@@ -1,4 +1,4 @@
-package tests;
+package org.alessio29.savagebot.cards;
 
 import org.alessio29.savagebot.cards.Deck;
 import org.junit.Assert;

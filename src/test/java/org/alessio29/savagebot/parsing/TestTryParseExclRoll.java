@@ -1,11 +1,10 @@
-package org.alessio29.savagebot.rolls;
+package org.alessio29.savagebot.parsing;
 
 import org.alessio29.savagebot.apiActions.diceRolls.ParseAndRollAction;
 import org.alessio29.savagebot.r2.Dumper;
 import org.alessio29.savagebot.r2.tree.Statement;
 import org.junit.Assert;
 import org.junit.Test;
-import tests.TestUtils;
 
 import java.io.StringWriter;
 import java.util.List;

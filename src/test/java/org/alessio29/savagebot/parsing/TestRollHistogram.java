@@ -1,4 +1,4 @@
-package org.alessio29.savagebot.rolls;
+package org.alessio29.savagebot.parsing;
 
 import org.alessio29.savagebot.r2.eval.CommandContext;
 import org.alessio29.savagebot.r2.eval.RollAccumulatingInterpreter;
@@ -6,7 +6,6 @@ import org.alessio29.savagebot.r2.parse.Parser;
 import org.alessio29.savagebot.r2.tree.Statement;
 import org.junit.Assert;
 import org.junit.Test;
-import tests.TestUtils;
 
 import java.util.List;
 import java.util.Random;
