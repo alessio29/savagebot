@@ -11,6 +11,11 @@ import java.util.List;
 public class DiscordResponseBuilder extends ResponseBuilder {
 
     private final static int MESSAGE_LENGTH_LIMIT = 2000;
+
+    @SuppressWarnings("ConstantConditions")
+    private static final int RESERVED_SUFFIX_LENGTH =
+            Math.max(ReplyBuilder.SPACE.length(), ReplyBuilder.NEWLINE.length());
+
     private final User user;
     private final MessageChannel channel;
 
@@ -23,34 +28,43 @@ public class DiscordResponseBuilder extends ResponseBuilder {
         String privatePart = this.privatePart.toString();
         String publicPart = this.publicPart.toString();
         if (publicPart.length() > 0 && hasCommandResult) {
-            sendMessage(user, channel, publicPart, false);
+            sendMessage(user, channel, publicPart);
         }
         if (privatePart.length() > 0) {
-            sendMessage(user, channel, privatePart, true);
+            sendPrivateMessage(user, privatePart);
         }
     }
 
     public void reportError(String word, Exception e) {
-        sendMessage(user, channel, "Error while executing command " + word + ". Details: " + e.getMessage(), false);
+        sendMessage(user, channel, "Error while executing command " + word + ". Details: " + e.getMessage());
     }
 
     private static void sendMessage(
             User user,
             MessageChannel messageChannel,
-            String message,
-            boolean isPrivate
+            String message
     ) {
-        if (isPrivate) {
-            List<String> messageParts = splitMessage(message, MESSAGE_LENGTH_LIMIT);
-            for (String part : messageParts) {
-                user.openPrivateChannel().queue(channel -> channel.sendMessage(part).queue());
-            }
+        String asMention = user.getAsMention();
+        int reservedHeaderLength = asMention.length() + RESERVED_SUFFIX_LENGTH;
+
+        List<String> messageParts = splitMessage(message, MESSAGE_LENGTH_LIMIT - reservedHeaderLength);
+
+        String header;
+        if (message.contains("\n") || messageParts.size() > 1) {
+            header = asMention + ReplyBuilder.NEWLINE;
         } else {
-            String asMention = user.getAsMention() + ReplyBuilder.SPACE;
-            List<String> messageParts = splitMessage(message, MESSAGE_LENGTH_LIMIT - asMention.length());
-            for (String part : messageParts) {
-                messageChannel.sendMessage(asMention + part).queue();
-            }
+            header = asMention + ReplyBuilder.SPACE;
+        }
+
+        for (String part : messageParts) {
+            messageChannel.sendMessage(header + part).queue();
+        }
+    }
+
+    private static void sendPrivateMessage(User user, String message) {
+        List<String> messageParts = splitMessage(message, MESSAGE_LENGTH_LIMIT);
+        for (String part : messageParts) {
+            user.openPrivateChannel().queue(channel -> channel.sendMessage(part).queue());
         }
     }
 
