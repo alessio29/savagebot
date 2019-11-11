@@ -9,7 +9,7 @@ import java.util.List;
 public class ReplyBuilder {
 
     static final String NEWLINE = "\n";
-    static final String SPACE = " ";
+    public static final String SPACE = " ";
     private static final String BLOCK_MARKER = "```";
     private static final String QUOTE_MARKER = ">";
     private static final String SQUARE_BRACKET_OPEN = "[";

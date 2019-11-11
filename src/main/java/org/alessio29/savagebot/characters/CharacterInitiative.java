@@ -74,7 +74,7 @@ public class CharacterInitiative implements Comparable<CharacterInitiative> {
         return allCards;
     }
 
-    public void setAllCards(List<Card> allCards) {
+    private void setAllCards(List<Card> allCards) {
         this.allCards = allCards;
     }
 
@@ -82,7 +82,7 @@ public class CharacterInitiative implements Comparable<CharacterInitiative> {
         return bestCard;
     }
 
-	public void findBestCard() {
+	private void findBestCard() {
     	if (isHesitant) {
             Collections.sort(this.allCards, Card::compareTo);
             this.bestCard = this.allCards.get(0);

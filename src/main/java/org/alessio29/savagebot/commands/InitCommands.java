@@ -1,10 +1,7 @@
 package org.alessio29.savagebot.commands;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import org.alessio29.savagebot.apiActions.initiative.DealInitiativeCardsAction;
-import org.alessio29.savagebot.apiActions.initiative.NewFightAction;
-import org.alessio29.savagebot.apiActions.initiative.NewRoundAction;
-import org.alessio29.savagebot.apiActions.initiative.ShowInitiativeAction;
+import org.alessio29.savagebot.apiActions.initiative.*;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 @CommandCategoryOwner(CommandCategory.INITIATIVE)
@@ -17,17 +14,19 @@ public class InitCommands {
             arguments = {}
     )
     public static CommandExecutionResult fight(MessageReceivedEvent event, String[] args) {
-        return new NewFightAction().doAction(event.getAuthor().getId(), event.getGuild().getId(), event.getChannel().getId(), args);
+        return new NewFightAction().doAction(event.getGuild().getId(), event.getChannel().getId(), event.getAuthor().getId(), args);
     }
 
     @CommandCallback(
             name = "round",
-            description = "Starts new round: resets initiative tracker, shuffles deck, if joker was dealt on previous round",
+            description = "Starts new round: resets initiative tracker, shuffles deck, if joker was dealt on previous round. " +
+                    "If '+' provided as parameter - new cards are dealto to characters according to their edges/hindrances. " +
+                    "If provided character name preceded by '-' - this character removed from fight (dropped, left, ran away etc).",
             aliases = {"rd"},
-            arguments = {}
+            arguments = {"[+] [-<char_name>]"}
     )
     public static CommandExecutionResult round(MessageReceivedEvent event, String[] args) {
-        return new NewRoundAction().doAction(event.getAuthor().getId(), event.getGuild().getId(), args);
+        return new NewRoundAction().doAction(event.getGuild().getId(), event.getChannel().getId(), args);
     }
 
     @CommandCallback(
@@ -37,7 +36,17 @@ public class InitCommands {
             arguments = {}
     )
     public static CommandExecutionResult init(MessageReceivedEvent event, String[] args) {
-        return new ShowInitiativeAction().doAction(event.getGuild().getId(), args);
+        return new ShowInitiativeAction().doAction(event.getGuild().getId(), event.getChannel().getId(), args);
+    }
+
+    @CommandCallback(
+            name = "drop",
+            description = "Drops character out of fight",
+            aliases = {},
+            arguments = {"<character_name>"}
+    )
+    public static CommandExecutionResult drop(MessageReceivedEvent event, String[] args) {
+        return new DropCharacterAction().doAction(event.getGuild().getId(), event.getChannel().getId(), args);
     }
 
     @CommandCallback(
@@ -48,6 +57,6 @@ public class InitCommands {
     )
     public static CommandExecutionResult dealInitCards(MessageReceivedEvent event, String[] args) {
         new DealInitiativeCardsAction().doAction(event.getGuild().getId(), event.getChannel().getId(), args);
-        return new ShowInitiativeAction().doAction(event.getGuild().getId(), args);
+        return new ShowInitiativeAction().doAction(event.getGuild().getId(), event.getChannel().getId(), args);
     }
 }

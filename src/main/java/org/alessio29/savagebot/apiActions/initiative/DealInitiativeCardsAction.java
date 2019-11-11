@@ -2,16 +2,15 @@ package org.alessio29.savagebot.apiActions.initiative;
 
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.cards.Decks;
-import org.alessio29.savagebot.characters.CharacterInitCache;
-import org.alessio29.savagebot.characters.CharacterInitiative;
-import org.alessio29.savagebot.exceptions.CardAlreadyDealtException;
+import org.alessio29.savagebot.characters.Character;
+import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.initiative.DrawCardResult;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DealInitiativeCardsAction  {
+public class DealInitiativeCardsAction {
 
     private static final String QUICK_MAKER = "q";
     private static final CharSequence HESITANT_MARKER = "h";
@@ -22,8 +21,8 @@ public class DealInitiativeCardsAction  {
 
         Deck deck = Decks.getDeck(guildId, channelId);
 
-        if(deck.isShuffleNeeded()) {
-            return new CommandExecutionResult("Shuffle is needed..", args.length+1);
+        if (deck.isShuffleNeeded()) {
+            return new CommandExecutionResult("Shuffle is needed..", args.length + 1);
         }
 
         if (args.length < 1) {
@@ -34,7 +33,7 @@ public class DealInitiativeCardsAction  {
         while (index < args.length) {
             String charName = args[index];
             String mods = "";
-            if (index+1<args.length && args[index+1].startsWith("-")) {
+            if (index + 1 < args.length && args[index + 1].startsWith("-")) {
                 // this is initiative modifiers
                 index++;
                 mods = args[index].trim().toLowerCase().substring(1);
@@ -44,28 +43,30 @@ public class DealInitiativeCardsAction  {
                             "Mod parameter must be a combination of letters: " +
                                     "h - for Hesitant hindrance, " +
                                     "q - for Quick edge, " +
-                                    "l - for Levelheaded edge and" +
-                                    " i for Improved Levelheaded edge!", args.length+1);
+                                    "l - for Levelheaded edge and " +
+                                    "i for Improved Levelheaded edge!", args.length + 1);
                 }
                 if (mods.contains(QUICK_MAKER) && mods.contains(HESITANT_MARKER)) {
                     return new CommandExecutionResult("Impossible modifiers combination: " +
-                            "character cannot be quick and hesitant at the same time!", args.length+1);
+                            "character cannot be quick and hesitant at the same time!", args.length + 1);
                 }
             }
-            if (CharacterInitCache.alreadyDealt(guildId, charName)) {
+            Character character = Characters.getCharacterByName(guildId, channelId, charName);
+            if (character == null) {
+                character = new Character(charName, mods);
+            }
+            if ( character.alreadyDealt() || character.isOutOfFight()) {
                 index++;
                 continue;
             }
             DrawCardResult cards = deck.getCardByParams(mods);
-            if(cards == null) {
-                return new CommandExecutionResult("Deck is empty!", args.length+1);
+            if (cards == null) {
+                return new CommandExecutionResult("Deck is empty!", args.length + 1);
             }
-            try {
-                CharacterInitCache.addCharacter(guildId, new CharacterInitiative(charName, mods, cards));
+            character.setAllCards(cards.getCards());
+            character.setOutOfFight(false);
+            Characters.storeCharacter(guildId, channelId, character);
 //				Characters.saveCharacters();
-            } catch (CardAlreadyDealtException e) {
-                return new CommandExecutionResult("Card already dealt!", args.length+1);
-            }
             index++;
         }
         return null;
