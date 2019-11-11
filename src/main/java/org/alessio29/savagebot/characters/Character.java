@@ -34,7 +34,12 @@ public class Character {
     }
 
     public void addTokens(int tokens) {
-        attributes.put(TOKENS, String.valueOf(tokens));
+
+        Integer oldTokens = 0;
+        if (attributes.containsKey(TOKENS)) {
+            oldTokens = (Integer) attributes.get(TOKENS);
+        }
+        attributes.put(TOKENS, tokens + oldTokens);
     }
 
     private <T> T getAttribute(String attribute, Class<T> clazz) {
@@ -45,7 +50,7 @@ public class Character {
         return (T) result;
     }
 
-    private <T> void setAttribute (String attribute, T value) {
+    private <T> void setAttribute(String attribute, T value) {
         attributes.put(attribute, value);
     }
 
