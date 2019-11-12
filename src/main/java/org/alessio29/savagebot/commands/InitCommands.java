@@ -37,7 +37,7 @@ public class InitCommands {
             arguments = {}
     )
     public static CommandExecutionResult init(IMessageReceived message, String[] args) {
-~        return new ShowInitiativeAction().doAction(message.getGuildId(), message.getChannelId(), args);
+        return new ShowInitiativeAction().doAction(message.getGuildId(), message.getChannelId(), args);
     }
 
     @CommandCallback(
