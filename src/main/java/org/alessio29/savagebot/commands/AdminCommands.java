@@ -4,6 +4,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.apiActions.admin.InfoAction;
 import org.alessio29.savagebot.apiActions.admin.PingAction;
 import org.alessio29.savagebot.apiActions.admin.PrefixAction;
+import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 @CommandCategoryOwner(CommandCategory.ADMIN)
@@ -15,8 +16,8 @@ public class AdminCommands {
             aliases = {},
             arguments = {"password"}
     )
-    public static CommandExecutionResult info(MessageReceivedEvent event, String[] args) {
-        int serversCount = event.getJDA().getGuilds().size();
+    public static CommandExecutionResult info(IMessageReceived<MessageReceivedEvent> message, String[] args) {
+        int serversCount = message.getOriginalEvent().getJDA().getGuilds().size();
         return new InfoAction().doAction(serversCount, args);
     }
 
@@ -26,8 +27,8 @@ public class AdminCommands {
             aliases = {},
             arguments = {}
     )
-    public static CommandExecutionResult ping(MessageReceivedEvent event, String[] args) {
-        return new PingAction().doAction(event.getAuthor().getAsMention());
+    public static CommandExecutionResult ping(IMessageReceived message, String[] args) {
+        return new PingAction().doAction(message.getAuthorMention());
     }
 
     @CommandCallback(
@@ -36,7 +37,7 @@ public class AdminCommands {
             aliases = {},
             arguments = {"[<character>]"}
     )
-    public static CommandExecutionResult prefix(MessageReceivedEvent event, String[] args) {
-        return new PrefixAction().doAction(event.getAuthor().getId(), args);
+    public static CommandExecutionResult prefix(IMessageReceived message, String[] args) {
+        return new PrefixAction().doAction(message.getAuthorId(), args);
     }
 }

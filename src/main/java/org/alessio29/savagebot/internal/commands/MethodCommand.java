@@ -1,7 +1,7 @@
 package org.alessio29.savagebot.internal.commands;
 
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.commands.CommandCategory;
+import org.alessio29.savagebot.internal.IMessageReceived;
 
 import java.lang.reflect.Method;
 
@@ -24,7 +24,7 @@ public class MethodCommand extends AbstractCommand {
     }
 
     @Override
-    public CommandExecutionResult execute(MessageReceivedEvent event, String[] args) throws Exception {
-        return (CommandExecutionResult) method.invoke(methodOwner, event, args);
+    public CommandExecutionResult execute(IMessageReceived message, String[] args) throws Exception {
+        return (CommandExecutionResult) method.invoke(methodOwner, message, args);
     }
 }

@@ -1,18 +1,13 @@
 package org.alessio29.savagebot.commands;
 
-import org.alessio29.savagebot.apiActions.admin.HelpAction;
+import org.alessio29.savagebot.TestUtils;
 import org.alessio29.savagebot.internal.commands.CommandRegistry;
 import org.alessio29.savagebot.internal.commands.Commands;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.stream.Collectors;
-
-public class TestCommandsRegistry {
+public class TestInfoCommands {
     @Before
     public void setup() {
         CommandRegistry.getInstance().reset();
@@ -20,30 +15,12 @@ public class TestCommandsRegistry {
     }
 
     @Test
-    public void testDefaultCommandsAreRegistered() {
-        List<String> commands = new HashSet<>(CommandRegistry.getInstance().getRegisteredCommands())
-                .stream()
-                .map(cmd -> cmd.getCategory() + ":" + cmd.getName())
-                .sorted()
-                .collect(Collectors.toList());
+    public void testHelp() {
+        TestUtils.MessageBuilder mp = TestUtils.createDefaultForTests();
         Assert.assertEquals(
-                "[" +
-                        "ADMIN:info, ADMIN:ping, ADMIN:prefix, " +
-                        "BENNIES:benny, BENNIES:hat, BENNIES:pocket, BENNIES:use, " +
-                        "CARDS:deal, CARDS:draw, CARDS:show, CARDS:shuffle, " +
-                        "DICE:r, DICE:rh, DICE:rs, " +
-                        "INFO:help, INFO:invite, " +
-                        "INITIATIVE:di, INITIATIVE:drop, INITIATIVE:fight, INITIATIVE:init, INITIATIVE:round, " +
-                        "TOKENS:clear, TOKENS:give, TOKENS:take, TOKENS:tokens" +
-                        "]",
-                commands.toString()
-        );
-    }
-
-    @Test
-    public void testHelpText() {
-        Assert.assertEquals(
-                "__**CARDS category**__\n" +
+                "<< [guildId='test-guild', channelId='test-channel', userId='test-user', isPrivate=false] '!help'\n" +
+                        ">> [private: userId: test-user]\n" +
+                        "__**CARDS category**__\n" +
                         "!deal [<card_count>]; aliases: !dl\n" +
                         "!draw [<card_count>] [<user>]; aliases: !dw\n" +
                         "!show; aliases: !sh\n" +
@@ -83,23 +60,19 @@ public class TestCommandsRegistry {
                         "!tokens\n" +
                         "\n" +
                         "For more details, use `!help <command>` or see https://github.com/alessio29/savagebot/blob/master/README.md",
-                HelpAction.getBriefHelpForAllCommands()
+                TestUtils.processMessages(mp.message("!help"))
         );
     }
 
     @Test
-    public void testRegisteredParsingCommands() {
-        List<String> commands = new HashSet<>(CommandRegistry.getInstance().getRegisteredParsingCommands())
-                .stream()
-                .map(Object::toString)
-                .sorted()
-                .collect(Collectors.toList());
-        //noinspection ArraysAsListWithZeroOrOneArgument
+    public void testInvite() {
+        TestUtils.MessageBuilder mp = TestUtils.createDefaultForTests();
         Assert.assertEquals(
-                Arrays.asList(
-                        "ParsingMethodCommand{ method: org.alessio29.savagebot.commands.DiceCommands::parseAndRollDice; methodOwner: null}"
-                ),
-                commands
+                "<< [guildId='test-guild', channelId='test-channel', userId='test-user', isPrivate=false] '!invite'\n" +
+                        ">> [guildId: test-guild; channelId: test-channel; userId: test-user]\n" +
+                        "@test-user\n" +
+                        "Invite link: https://discordapp.com/oauth2/authorize?&client_id=448952545784758303&scope=bot&permissions=0",
+                TestUtils.processMessages(mp.message("!invite"))
         );
     }
 }
