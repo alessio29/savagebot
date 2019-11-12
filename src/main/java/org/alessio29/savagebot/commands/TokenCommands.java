@@ -1,10 +1,10 @@
 package org.alessio29.savagebot.commands;
 
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.apiActions.tokens.ClearTokensAction;
 import org.alessio29.savagebot.apiActions.tokens.GiveTokenAction;
 import org.alessio29.savagebot.apiActions.tokens.ListTokensAction;
 import org.alessio29.savagebot.apiActions.tokens.TakeTokenAction;
+import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 @CommandCategoryOwner(CommandCategory.TOKENS)
@@ -17,8 +17,8 @@ public class TokenCommands {
             aliases = {},
             arguments = {"<character_name>/all"}
     )
-    public static CommandExecutionResult clear(MessageReceivedEvent event, String[] args) {
-        return new ClearTokensAction().doAction(event.getAuthor().getId(), event.getGuild().getId(), event.getChannel().getId(), args);
+    public static CommandExecutionResult clear(IMessageReceived message, String[] args) {
+        return new ClearTokensAction().doAction(message.getAuthorId(), message.getGuildId(), message.getChannelId(), args);
     }
 
     @CommandCallback(
@@ -27,8 +27,8 @@ public class TokenCommands {
             aliases = {},
             arguments = {}
     )
-    public static CommandExecutionResult list(MessageReceivedEvent event, String[] args) {
-        return new ListTokensAction().doAction(event.getGuild().getId(), event.getChannel().getId());
+    public static CommandExecutionResult list(IMessageReceived message, String[] args) {
+        return new ListTokensAction().doAction(message.getGuildId(), message.getChannelId());
     }
 
     @CommandCallback(
@@ -37,8 +37,8 @@ public class TokenCommands {
             aliases = {},
             arguments = {"<character_name>", "[<amount of tokens>]"}
     )
-    public static CommandExecutionResult take(MessageReceivedEvent event, String[] args) {
-        return new TakeTokenAction().doAction(event.getAuthor().getId(), event.getGuild().getId(), event.getChannel().getId(), args);
+    public static CommandExecutionResult take(IMessageReceived message, String[] args) {
+        return new TakeTokenAction().doAction(message.getAuthorId(), message.getGuildId(), message.getChannelId(), args);
     }
 
     @CommandCallback(
@@ -47,8 +47,8 @@ public class TokenCommands {
             aliases = {},
             arguments = {"<character_name>", "[<amount of tokens>]"}
     )
-    public static CommandExecutionResult give(MessageReceivedEvent event, String[] args) {
-        return new GiveTokenAction().doAction(event.getGuild().getId(), event.getChannel().getId(), args);
+    public static CommandExecutionResult give(IMessageReceived message, String[] args) {
+        return new GiveTokenAction().doAction(message.getGuildId(), message.getChannelId(), args);
     }
 
 }

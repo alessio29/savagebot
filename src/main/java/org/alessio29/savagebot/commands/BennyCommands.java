@@ -1,10 +1,10 @@
 package org.alessio29.savagebot.commands;
 
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.apiActions.bennies.GiveBenniesAction;
 import org.alessio29.savagebot.apiActions.bennies.InitBenniesAction;
 import org.alessio29.savagebot.apiActions.bennies.ShowBenniesAction;
 import org.alessio29.savagebot.apiActions.bennies.TakeBenniesAction;
+import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 @CommandCategoryOwner(CommandCategory.BENNIES)
@@ -16,8 +16,12 @@ public class BennyCommands {
             aliases = {},
             arguments = {"[fill]"}
     )
-    public static CommandExecutionResult init(MessageReceivedEvent event, String[] args) {
-        return new InitBenniesAction().doAction(event.getGuild().getId(), event.getTextChannel().getId(), args);
+    public static CommandExecutionResult init(IMessageReceived message, String[] args) {
+        if (message.isPrivateMessage()) {
+            // This just threw NPE originally
+            throw new RuntimeException("No bennies for private channels");
+        }
+        return new InitBenniesAction().doAction(message.getGuildId(), message.getChannelId(), args);
     }
 
     @CommandCallback(
@@ -26,8 +30,8 @@ public class BennyCommands {
             aliases = {},
             arguments = {"<character_name>"}
     )
-    public static CommandExecutionResult show(MessageReceivedEvent event, String[] args) {
-        return new ShowBenniesAction().doAction(event.getGuild().getId(), event.getChannel().getId(), args);
+    public static CommandExecutionResult show(IMessageReceived message, String[] args) {
+        return new ShowBenniesAction().doAction(message.getGuildId(), message.getChannelId(), args);
     }
 
     @CommandCallback(
@@ -36,8 +40,8 @@ public class BennyCommands {
             aliases = {},
             arguments = {"<benny_color>", "<character_name>"}
     )
-    public static CommandExecutionResult take(MessageReceivedEvent event, String[] args) {
-        return new TakeBenniesAction().doAction(event.getGuild().getId(), event.getChannel().getId(), args);
+    public static CommandExecutionResult take(IMessageReceived message, String[] args) {
+        return new TakeBenniesAction().doAction(message.getGuildId(), message.getChannelId(), args);
     }
 
 
@@ -47,7 +51,7 @@ public class BennyCommands {
             aliases = {},
             arguments = {"<character_name>"}
     )
-    public static CommandExecutionResult give(MessageReceivedEvent event, String[] args) {
-        return new GiveBenniesAction().doAction(event.getGuild().getId(), event.getChannel().getId(), args);
+    public static CommandExecutionResult give(IMessageReceived message, String[] args) {
+        return new GiveBenniesAction().doAction(message.getGuildId(), message.getChannelId(), args);
     }
 }

@@ -1,6 +1,6 @@
 package org.alessio29.savagebot.utils;
 
-import org.alessio29.savagebot.internal.builders.DiscordResponseBuilder;
+import org.alessio29.savagebot.internal.builders.MessageSplitter;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -12,7 +12,7 @@ public class TestMessageSplitting {
     public void testEmptyMessage() {
         Assert.assertEquals(
                 Collections.singletonList(""),
-                DiscordResponseBuilder.splitMessage("", 40)
+                MessageSplitter.splitMessage("", 40)
         );
     }
 
@@ -20,7 +20,7 @@ public class TestMessageSplitting {
     public void testShortMessage() {
         Assert.assertEquals(
                 Collections.singletonList("abc"),
-                DiscordResponseBuilder.splitMessage("abc", 40)
+                MessageSplitter.splitMessage("abc", 40)
         );
     }
 
@@ -37,7 +37,7 @@ public class TestMessageSplitting {
                         "17 18 19 20 21 22 23 24 25 26 27 28 29",
                         "30 31 32 33 34 35 36 37 38 39"
                 ),
-                DiscordResponseBuilder.splitMessage(lineBuilder.toString(), 40)
+                MessageSplitter.splitMessage(lineBuilder.toString(), 40)
         );
     }
 
@@ -54,7 +54,7 @@ public class TestMessageSplitting {
                         "16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28",
                         "29\n30\n31\n32\n33\n34\n35\n36\n37\n38\n39"
                 ),
-                DiscordResponseBuilder.splitMessage(lineBuilder.toString(), 40)
+                MessageSplitter.splitMessage(lineBuilder.toString(), 40)
         );
     }
 
@@ -83,7 +83,7 @@ public class TestMessageSplitting {
                         "26\n27\n28\n29\n30\n31\n32\n33\n34",
                         "35 36 37 38 39"
                 ),
-                DiscordResponseBuilder.splitMessage(lineBuilder.toString(), 40)
+                MessageSplitter.splitMessage(lineBuilder.toString(), 40)
         );
     }
 }

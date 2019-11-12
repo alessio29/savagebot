@@ -21,4 +21,8 @@ public abstract class ResponseBuilder {
     }
 
     public abstract void reportError(String word, Exception e);
+
+    protected abstract String getUserMention();
+    protected abstract void sendReplyToOrigin(String message);
+    protected abstract void sendPrivateReply(String message);
 }

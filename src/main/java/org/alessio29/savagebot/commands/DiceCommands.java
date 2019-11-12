@@ -1,10 +1,10 @@
 package org.alessio29.savagebot.commands;
 
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.apiActions.diceRolls.ParseAndRollAction;
 import org.alessio29.savagebot.apiActions.diceRolls.RollDiceAction;
 import org.alessio29.savagebot.apiActions.diceRolls.RollHistogramAction;
 import org.alessio29.savagebot.apiActions.diceRolls.RollSortedAction;
+import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 @SuppressWarnings("unused")
@@ -21,13 +21,13 @@ public class DiceCommands {
             aliases = {},
             arguments = { "<expression1> ... <expressionN> "}
     )
-    public static CommandExecutionResult rollDice(MessageReceivedEvent event, String[] args) {
-        return new RollDiceAction().doAction(event.getAuthor().getId(), args);
+    public static CommandExecutionResult rollDice(IMessageReceived message, String[] args) {
+        return new RollDiceAction().doAction(message.getAuthorId(), args);
     }
 
     @ParsingCommandCallback
-    public static CommandExecutionResult parseAndRollDice(MessageReceivedEvent event, String command) {
-        return new ParseAndRollAction().doAction(event.getAuthor().getId(), new String[]{command});
+    public static CommandExecutionResult parseAndRollDice(IMessageReceived message, String command) {
+        return new ParseAndRollAction().doAction(message.getAuthorId(), new String[]{command});
     }
 
     @CommandCallback(
@@ -43,8 +43,8 @@ public class DiceCommands {
             aliases = {},
             arguments = { "[<heading_1>] <expression_1> ... [<heading_N>] <expression_N>" }
     )
-    public static CommandExecutionResult rollSorted(MessageReceivedEvent event, String[] args) {
-        return new RollSortedAction().doAction(event.getAuthor().getId(), args);
+    public static CommandExecutionResult rollSorted(IMessageReceived message, String[] args) {
+        return new RollSortedAction().doAction(message.getAuthorId(), args);
     }
 
     @CommandCallback(
@@ -54,7 +54,7 @@ public class DiceCommands {
             aliases = {},
             arguments = { "<expression_1> ... <expressionN>" }
     )
-    public static CommandExecutionResult rollHistogram(MessageReceivedEvent event, String[] args) {
-        return new RollHistogramAction().doAction(event.getAuthor().getId(), args);
+    public static CommandExecutionResult rollHistogram(IMessageReceived message, String[] args) {
+        return new RollHistogramAction().doAction(message.getAuthorId(), args);
     }
 }

@@ -1,7 +1,8 @@
 package org.alessio29.savagebot.internal.commands;
 
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.commands.ICommand;
+import org.alessio29.savagebot.internal.IMessageReceived;
+import org.alessio29.savagebot.internal.Prefixes;
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.internal.builders.ResponseBuilder;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -10,13 +11,11 @@ import java.util.Arrays;
 
 public class CommandInterpreter {
     private final CommandRegistry registry = CommandRegistry.getInstance();
-    private final String prefix;
 
-    public CommandInterpreter(String prefix) {
-        this.prefix = prefix;
-    }
+    public void run(IMessageReceived message, ResponseBuilder responseBuilder) {
+        String prefix = Prefixes.getPrefix(message.getAuthorId());
 
-    public void run(String rawMessage, ResponseBuilder responseBuilder, MessageReceivedEvent event) {
+        String rawMessage = message.getRawMessage();
         String strippedMessage = ReplyBuilder.removeBlocks(ReplyBuilder.removeQuotes(rawMessage));
         String[] words = strippedMessage.split("\\s+");
 
@@ -37,7 +36,7 @@ public class CommandInterpreter {
                     isCommand = true;
                     String[] args = Arrays.copyOfRange(words, index + 1, words.length);
                     try {
-                        CommandExecutionResult res = cmd.execute(event, args);
+                        CommandExecutionResult res = cmd.execute(message, args);
                         responseBuilder.addResult(res);
                         index += res.getToSkip();
                     } catch (Exception e) {
@@ -47,7 +46,7 @@ public class CommandInterpreter {
                 } else {
                     for (IParsingCommand pcmd : registry.getRegisteredParsingCommands()) {
                         try {
-                            CommandExecutionResult res = pcmd.parseAndExecuteOrNull(event, command);
+                            CommandExecutionResult res = pcmd.parseAndExecuteOrNull(message, command);
                             if (res != null) {
                                 isCommand = true;
                                 index++;

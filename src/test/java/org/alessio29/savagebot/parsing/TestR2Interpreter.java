@@ -1,5 +1,6 @@
 package org.alessio29.savagebot.parsing;
 
+import org.alessio29.savagebot.TestUtils;
 import org.alessio29.savagebot.r2.eval.CommandContext;
 import org.alessio29.savagebot.r2.eval.RollInterpreter;
 import org.alessio29.savagebot.r2.parse.Parser;

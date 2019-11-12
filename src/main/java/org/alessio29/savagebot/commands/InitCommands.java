@@ -1,10 +1,10 @@
 package org.alessio29.savagebot.commands;
 
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.apiActions.initiative.DealInitiativeCardsAction;
 import org.alessio29.savagebot.apiActions.initiative.NewFightAction;
 import org.alessio29.savagebot.apiActions.initiative.NewRoundAction;
 import org.alessio29.savagebot.apiActions.initiative.ShowInitiativeAction;
+import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 @CommandCategoryOwner(CommandCategory.INITIATIVE)
@@ -16,8 +16,8 @@ public class InitCommands {
             aliases = {"f"},
             arguments = {}
     )
-    public static CommandExecutionResult fight(MessageReceivedEvent event, String[] args) {
-        return new NewFightAction().doAction(event.getAuthor().getId(), event.getGuild().getId(), event.getChannel().getId(), args);
+    public static CommandExecutionResult fight(IMessageReceived message, String[] args) {
+        return new NewFightAction().doAction(message.getAuthorId(), message.getGuildId(), message.getChannelId(), args);
     }
 
     @CommandCallback(
@@ -26,8 +26,8 @@ public class InitCommands {
             aliases = {"rd"},
             arguments = {}
     )
-    public static CommandExecutionResult round(MessageReceivedEvent event, String[] args) {
-        return new NewRoundAction().doAction(event.getAuthor().getId(), event.getGuild().getId(), args);
+    public static CommandExecutionResult round(IMessageReceived message, String[] args) {
+        return new NewRoundAction().doAction(message.getAuthorId(), message.getGuildId(), args);
     }
 
     @CommandCallback(
@@ -36,8 +36,8 @@ public class InitCommands {
             aliases = {},
             arguments = {}
     )
-    public static CommandExecutionResult init(MessageReceivedEvent event, String[] args) {
-        return new ShowInitiativeAction().doAction(event.getGuild().getId(), args);
+    public static CommandExecutionResult init(IMessageReceived message, String[] args) {
+        return new ShowInitiativeAction().doAction(message.getGuildId(), args);
     }
 
     @CommandCallback(
@@ -46,8 +46,8 @@ public class InitCommands {
             aliases = {},
             arguments = { "<character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]" }
     )
-    public static CommandExecutionResult dealInitCards(MessageReceivedEvent event, String[] args) {
-        new DealInitiativeCardsAction().doAction(event.getGuild().getId(), event.getChannel().getId(), args);
-        return new ShowInitiativeAction().doAction(event.getGuild().getId(), args);
+    public static CommandExecutionResult dealInitCards(IMessageReceived message, String[] args) {
+        new DealInitiativeCardsAction().doAction(message.getGuildId(), message.getChannelId(), args);
+        return new ShowInitiativeAction().doAction(message.getGuildId(), args);
     }
 }
