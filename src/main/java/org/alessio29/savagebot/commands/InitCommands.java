@@ -27,7 +27,7 @@ public class InitCommands {
     )
 
     public static CommandExecutionResult round(IMessageReceived message, String[] args) {
-        return new NewRoundAction().doAction(message.getAuthorId(), message.getGuildId(), args);
+        return new NewRoundAction().doAction(message.getGuildId(), message.getChannelId(), args);
     }
 
     @CommandCallback(
@@ -37,7 +37,7 @@ public class InitCommands {
             arguments = {}
     )
     public static CommandExecutionResult init(IMessageReceived message, String[] args) {
-        return new ShowInitiativeAction().doAction(message.getGuildId(), message.getChannelId(), args);
+~        return new ShowInitiativeAction().doAction(message.getGuildId(), message.getChannelId(), args);
     }
 
     @CommandCallback(

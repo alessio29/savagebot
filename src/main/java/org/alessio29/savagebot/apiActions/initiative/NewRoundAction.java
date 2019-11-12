@@ -27,14 +27,11 @@ public class NewRoundAction {
             message = " Joker was dealt in last round, deck is shuffled.\n";
         }
 
-
         if (args.length == 0) {
             return new CommandExecutionResult(message, 1);
         }
-
         boolean reDeal = false;
         List<String> characters2Remove = new ArrayList<>();
-
         for (String arg : args) {
             if (arg.trim().equals("+")) {
                 reDeal = true;
@@ -45,14 +42,11 @@ public class NewRoundAction {
                 characters2Remove.add(charName);
             }
         }
-
         for (String charName : characters2Remove) {
             Character ch = Characters.getCharacterByName(guildId, channelId, charName);
             ch.setOutOfFight(true);
             Characters.storeCharacter(guildId, channelId, ch);
         }
-
-
         if (reDeal) {
             // deal cards again according to parameters
             StringBuilder newArgs = new StringBuilder();
@@ -64,11 +58,9 @@ public class NewRoundAction {
                 }
             }
             String[] str = newArgs.toString().trim().split(ReplyBuilder.SPACE);
-            new DealInitiativeCardsAction().doAction(guildId, channelId,  str);
+            new DealInitiativeCardsAction().doAction(guildId, channelId, str);
             CommandExecutionResult res = new ShowInitiativeAction().doAction(guildId, channelId, str);
             message += res.getResult();
-        } else {
-            message += " ========== Round " + round + " ========== ";
         }
         return new CommandExecutionResult(message, args.length+1);
     }
