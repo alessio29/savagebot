@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class Characters {
 
+    //                 guildId,    channelId
     private static Map<String, Map<String, Set<Character>>> storage = new HashMap<>();
     private static final String CHARACTERS_REDIS_KEY = "characters";
 
@@ -52,14 +54,30 @@ public class Characters {
         storage.put(guild, m);
     }
 
-//    public static void saveCharacters() {
-//        RedisClient.storeObject(CHARACTERS_REDIS_KEY, storage);
-//    }
-//
-//    public static void loadCharacters() {
-//        storage = RedisClient.loadObject(CHARACTERS_REDIS_KEY, HashMap.class);
-//        if (storage == null) {
-//            storage = new HashMap<>();
-//        }
-//    }
+    public static void resetCharactersInitiative(String guildId, String channelId) {
+
+        for (Character c : getCharacters(guildId, channelId)) {
+            c.clearCards();
+            c.setOutOfFight(true);
+        }
+    }
+
+    public static Set<Character> getFightingCharacters(String guildId, String channelId) {
+        return getCharacters(guildId, channelId).stream().
+                filter(character -> !character.isOutOfFight()).
+                collect(Collectors.toSet());
+    }
+
+    public static Set<Character> getFightingCharactersWithCards(String guildId, String channelId) {
+        return getCharacters(guildId, channelId).stream().
+                filter(character -> !character.isOutOfFight()).
+                filter(character -> character.getBestCard()!=null).
+                collect(Collectors.toSet());
+    }
+
+    public static void clearCharactersCards(String guildId, String channelId) {
+        for (Character c : getCharacters(guildId, channelId)) {
+            c.clearCards();
+        }
+    }
 }

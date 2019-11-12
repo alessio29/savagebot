@@ -39,9 +39,10 @@ public class TestInfoCommands {
                         "\n" +
                         "__**INITIATIVE category**__\n" +
                         "!di <character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]\n" +
+                        "!drop <character_name>\n"+
                         "!fight; aliases: !f\n" +
                         "!init\n" +
-                        "!round; aliases: !rd\n" +
+                        "!round [+] [-<char_name>]; aliases: !rd\n" +
                         "\n" +
                         "__**INFO category**__\n" +
                         "!help [<command> or <category>]\n" +

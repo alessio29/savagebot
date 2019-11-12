@@ -33,7 +33,7 @@ public class TestCommandsRegistry {
                         "CARDS:deal, CARDS:draw, CARDS:show, CARDS:shuffle, " +
                         "DICE:r, DICE:rh, DICE:rs, " +
                         "INFO:help, INFO:invite, " +
-                        "INITIATIVE:di, INITIATIVE:fight, INITIATIVE:init, INITIATIVE:round, " +
+                        "INITIATIVE:di, INITIATIVE:drop, INITIATIVE:fight, INITIATIVE:init, INITIATIVE:round, " +
                         "TOKENS:clear, TOKENS:give, TOKENS:take, TOKENS:tokens" +
                         "]",
                 commands.toString()
@@ -62,9 +62,10 @@ public class TestCommandsRegistry {
                         "\n" +
                         "__**INITIATIVE category**__\n" +
                         "!di <character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]\n" +
+                        "!drop <character_name>\n"+
                         "!fight; aliases: !f\n" +
                         "!init\n" +
-                        "!round; aliases: !rd\n" +
+                        "!round [+] [-<char_name>]; aliases: !rd\n" +
                         "\n" +
                         "__**INFO category**__\n" +
                         "!help [<command> or <category>]\n" +
