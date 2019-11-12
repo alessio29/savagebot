@@ -23,7 +23,7 @@ public class InitCommands {
                     "If '+' provided as parameter - new cards are dealto to characters according to their edges/hindrances. " +
                     "If provided character name preceded by '-' - this character removed from fight (dropped, left, ran away etc).",
             aliases = {"rd"},
-            arguments = {"[+] [-<char_name>]"}
+            arguments = {"[+]", "[-<char_name>]"}
     )
 
     public static CommandExecutionResult round(IMessageReceived message, String[] args) {
