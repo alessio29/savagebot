@@ -1,6 +1,6 @@
 package org.alessio29.savagebot.internal.commands;
 
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import org.alessio29.savagebot.internal.IMessageReceived;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -15,9 +15,9 @@ public class ParsingMethodCommand implements IParsingCommand {
     }
 
     @Override
-    public CommandExecutionResult parseAndExecuteOrNull(MessageReceivedEvent event, String command) {
+    public CommandExecutionResult parseAndExecuteOrNull(IMessageReceived message, String command) {
         try {
-            return (CommandExecutionResult) method.invoke(methodOwner, event, command);
+            return (CommandExecutionResult) method.invoke(methodOwner, message, command);
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }

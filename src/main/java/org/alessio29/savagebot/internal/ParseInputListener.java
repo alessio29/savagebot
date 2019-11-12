@@ -17,10 +17,9 @@ public class ParseInputListener extends ListenerAdapter {
 			// do not respond to bots (including myself :) ) 
 			return;
 		}
+
         DiscordResponseBuilder responseBuilder = new DiscordResponseBuilder(author, channel);
-		String rawMessage = event.getMessage().getContentRaw();
-        String prefix = Prefixes.getPrefix(author.getId());
-        new CommandInterpreter(prefix).run(rawMessage, responseBuilder, event);
+		new CommandInterpreter().run(new DiscordMessageReceived(event), responseBuilder);
 		responseBuilder.sendResponse();
 	}
 }

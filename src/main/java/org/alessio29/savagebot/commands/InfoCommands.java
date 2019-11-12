@@ -1,8 +1,8 @@
 package org.alessio29.savagebot.commands;
 
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.apiActions.admin.HelpAction;
 import org.alessio29.savagebot.apiActions.admin.InviteAction;
+import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 
@@ -15,7 +15,7 @@ public class InfoCommands {
 			aliases = {},
 			arguments = {"[<command> or <category>]"}
 	)
-	public static CommandExecutionResult help(MessageReceivedEvent event, String[] args) {
+	public static CommandExecutionResult help(IMessageReceived message, String[] args) {
 		return new HelpAction().doAction(args);
 	}
 
@@ -25,7 +25,7 @@ public class InfoCommands {
 			aliases = {},
 			arguments = {}
 	)
-	public static CommandExecutionResult invite(MessageReceivedEvent event, String[] args) {
+	public static CommandExecutionResult invite(IMessageReceived message, String[] args) {
 		return new InviteAction().doAction();
 	}
 }

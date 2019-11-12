@@ -1,5 +1,6 @@
 package org.alessio29.savagebot.parsing;
 
+import org.alessio29.savagebot.TestUtils;
 import org.alessio29.savagebot.apiActions.diceRolls.ParseAndRollAction;
 import org.alessio29.savagebot.r2.Dumper;
 import org.alessio29.savagebot.r2.tree.Statement;
