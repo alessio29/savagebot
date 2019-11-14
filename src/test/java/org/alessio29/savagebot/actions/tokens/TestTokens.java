@@ -42,8 +42,7 @@ public class TestTokens {
         Assert.assertEquals("1 token(s) taken from character Test3", afterTakeResult1.getResult());
 
         CommandExecutionResult result1 = new ListTokensAction().doAction(TEST_GUILD_ID, TEST_CHANNEL_ID);
-        Assert.assertEquals("\n" +
-                "```NAME           \tTOKENS\n" +
+        Assert.assertEquals("```NAME           \tTOKENS\n" +
                 "Test1          \t1    \n" +
                 "Test3          \t3    \n" +
                 "Test2          \t1    \n" +
@@ -54,8 +53,7 @@ public class TestTokens {
         Assert.assertEquals("2 token(s) taken from character Test3", afterTakeResult2.getResult());
 
         CommandExecutionResult result2 = new ListTokensAction().doAction(TEST_GUILD_ID, TEST_CHANNEL_ID);
-        Assert.assertEquals("\n" +
-                "```NAME           \tTOKENS\n" +
+        Assert.assertEquals("```NAME           \tTOKENS\n" +
                 "Test1          \t1    \n" +
                 "Test3          \t1    \n" +
                 "Test2          \t1    \n" +
@@ -66,8 +64,7 @@ public class TestTokens {
         Assert.assertEquals("2 token(s) given to character Test1", afterGiveResult4.getResult());
 
         CommandExecutionResult result3 = new ListTokensAction().doAction(TEST_GUILD_ID, TEST_CHANNEL_ID);
-        Assert.assertEquals("\n" +
-                "```NAME           \tTOKENS\n" +
+        Assert.assertEquals("```NAME           \tTOKENS\n" +
                 "Test1          \t3    \n" +
                 "Test3          \t1    \n" +
                 "Test2          \t1    \n" +
@@ -78,8 +75,7 @@ public class TestTokens {
         Assert.assertEquals("Removed character Test1", afterClearResult1.getResult());
 
         CommandExecutionResult resultAfterClearChar = new ListTokensAction().doAction(TEST_GUILD_ID, TEST_CHANNEL_ID);
-        Assert.assertEquals("\n" +
-                "```NAME           \tTOKENS\n" +
+        Assert.assertEquals("```NAME           \tTOKENS\n" +
                 "Test3          \t1    \n" +
                 "Test2          \t1    \n" +
                 "```", resultAfterClearChar.getResult());

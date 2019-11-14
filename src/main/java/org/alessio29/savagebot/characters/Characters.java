@@ -80,4 +80,10 @@ public class Characters {
             c.clearCards();
         }
     }
+
+    public static Set<Character> getCharactersWithTokens(String guildId, String channelId) {
+        return getCharacters(guildId, channelId).stream().
+                filter(character -> character.getTokens()!=null).
+                collect(Collectors.toSet());
+    }
 }

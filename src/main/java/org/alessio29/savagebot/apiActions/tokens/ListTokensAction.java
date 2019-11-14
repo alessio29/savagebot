@@ -14,13 +14,12 @@ public class ListTokensAction {
 
     public CommandExecutionResult doAction(String guildId, String channelId) {
 
-        Set<Character> chars = Characters.getCharacters(guildId, channelId);
+        Set<Character> chars = Characters.getCharactersWithTokens(guildId, channelId);
         if (chars.isEmpty()) {
             return new CommandExecutionResult("No characters with tokens defined!",1);
         }
         ReplyBuilder replyBuilder = new ReplyBuilder();
-        replyBuilder.newLine().
-                blockQuote().
+        replyBuilder.blockQuote().
                 rightPad("NAME", NAME_SIZE).
                 tab().
                 rightPad("TOKENS", TOKEN_SIZE).
