@@ -74,6 +74,8 @@ Bot supports limits to roll:
 
 `!r (3d8!+d6!)[6:24+6]` - this roll will give value at least 6 and no more than 30 (24+6). This used in our house-rule for damage rolls for Savage Worlds.
 
+`!dC` - Carcosa roll. First d20 is rolled to determine size of dice - then this dice is rolled.
+
 **rh**    <expression_1> ... <expressionN>    rolls multiple dice and prints a distribution of results.
 Example: `!rh 1000x2d6`
   
@@ -110,7 +112,9 @@ __**INITIATIVE category**__
 
 **init**			Shows initiative tracker
 
-**round** or **rd**			Starts new round: resets resets intiative tracker, shuffles deck, if joker was dealt on previous round
+**round** or **rd**	[+] [-<char_name1> .. -<char_nameN>]		Starts new round: resets resets intiative tracker, shuffles deck, if joker was dealt on previous round. If `+` provided initiative cards will be dealt again to characters. If character names preceded by `-` were provided - characters will be removed from initiative tracker.
+
+**drop** <char_name1> ... <char_nameN>  Removes characters from initiative tracker.
 
 **di**      <character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]    Deal initiative card. Modifiers should start with - and be either 'q', 'l', 'i' or 'h': Quick, Levelheaded, Improved Levelheaded and Hesitant respectively.
 
