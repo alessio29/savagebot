@@ -6,7 +6,7 @@ import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 public class TakeTokenAction {
 
-    public CommandExecutionResult doAction( String guildId, String channelId,String[] args) {
+    public CommandExecutionResult doAction(String guildId, String channelId, String[] args) {
 
         if (args.length < 1) {
             return new CommandExecutionResult("Character name missing!", 1);

@@ -38,7 +38,7 @@ public class TestTokens {
 
         //take
         CommandExecutionResult afterTakeResult1 = new TakeTokenAction().
-                doAction(TEST_USER_ID, TEST_GUILD_ID, TEST_CHANNEL_ID, new String[]{TEST_CHAR3, "1"});
+                doAction(TEST_GUILD_ID, TEST_CHANNEL_ID, new String[]{TEST_CHAR3, "1"});
         Assert.assertEquals("1 token(s) taken from character Test3", afterTakeResult1.getResult());
 
         CommandExecutionResult result1 = new ListTokensAction().doAction(TEST_GUILD_ID, TEST_CHANNEL_ID);
@@ -49,7 +49,7 @@ public class TestTokens {
                 "```", result1.getResult());
 
         CommandExecutionResult afterTakeResult2 = new TakeTokenAction().
-                doAction(TEST_USER_ID, TEST_GUILD_ID, TEST_CHANNEL_ID, new String[]{TEST_CHAR3, "2"});
+                doAction(TEST_GUILD_ID, TEST_CHANNEL_ID, new String[]{TEST_CHAR3, "2"});
         Assert.assertEquals("2 token(s) taken from character Test3", afterTakeResult2.getResult());
 
         CommandExecutionResult result2 = new ListTokensAction().doAction(TEST_GUILD_ID, TEST_CHANNEL_ID);
@@ -71,7 +71,7 @@ public class TestTokens {
                 "```", result3.getResult());
 
         CommandExecutionResult afterClearResult1 = new ClearTokensAction().
-                doAction(TEST_USER_ID, TEST_GUILD_ID, TEST_CHANNEL_ID, new String[] {TEST_CHAR1});
+                doAction(TEST_GUILD_ID, TEST_CHANNEL_ID, new String[] {TEST_CHAR1});
         Assert.assertEquals("Removed character Test1", afterClearResult1.getResult());
 
         CommandExecutionResult resultAfterClearChar = new ListTokensAction().doAction(TEST_GUILD_ID, TEST_CHANNEL_ID);
@@ -82,7 +82,7 @@ public class TestTokens {
 
 
         CommandExecutionResult afterClearResult2 =new ClearTokensAction().
-                doAction(TEST_USER_ID, TEST_GUILD_ID, TEST_CHANNEL_ID, new String[] {"all"});
+                doAction(TEST_GUILD_ID, TEST_CHANNEL_ID, new String[] {"all"});
         Assert.assertEquals("Removed all characters", afterClearResult2.getResult());
 
         CommandExecutionResult resultAfterClearAll = new ListTokensAction().doAction(TEST_GUILD_ID, TEST_CHANNEL_ID);
