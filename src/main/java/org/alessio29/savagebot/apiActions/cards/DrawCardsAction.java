@@ -1,16 +1,18 @@
 package org.alessio29.savagebot.apiActions.cards;
 
+import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.cards.Card;
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.cards.Decks;
 import org.alessio29.savagebot.cards.Hands;
+import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
-public class DrawCardsAction  {
+public class DrawCardsAction implements IBotAction {
 
-    public CommandExecutionResult doAction(String guildId, String channelId, String userId, String[] args) {
-        Deck deck = Decks.getDeck(guildId, channelId);
+    public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
+        Deck deck = Decks.getDeck(message.getGuildId(), message.getChannelId());
         if(deck.isEmpty()) {
             return new CommandExecutionResult("Shuffle is needed..", 2);
         }
@@ -27,7 +29,7 @@ public class DrawCardsAction  {
         for (int i=0; i<count;i++) {
             Card newCard = deck.getNextCard();
             if (newCard!=null) {
-                Hands.getHand(guildId, userId).getCards().add(newCard);
+                Hands.getHand(message.getGuildId(), message.getChannelId(), message.getAuthorId()).getCards().add(newCard);
                 replyBuilder.attach(newCard.toString()).space();
             } else {
                 break;

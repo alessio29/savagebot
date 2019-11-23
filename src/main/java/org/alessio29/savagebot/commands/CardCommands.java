@@ -23,7 +23,7 @@ public class CardCommands {
             arguments = { "[<card_count>]"}
     )
     public static CommandExecutionResult open(IMessageReceived message, String[] args) {
-        return new OpenCardsAction().doAction(message.getGuildId(), message.getChannelId(), args);
+        return new OpenCardsAction().doAction(message, args);
     }
 
     @CommandCallback(
@@ -33,7 +33,7 @@ public class CardCommands {
             arguments = {}
     )
     public static CommandExecutionResult show(IMessageReceived message, String[] args) {
-        return new ShowCardsAction().doAction(message.getGuildId(), message.getChannelId(), args);
+        return new ShowCardsAction().doAction(message, args);
     }
 
     @CommandCallback(
@@ -43,7 +43,7 @@ public class CardCommands {
             arguments = {"[<card_count>]", "[<user>]"}
     )
     public static CommandExecutionResult draw(IMessageReceived message, String[] args) {
-        return new DrawCardsAction().doAction(message.getGuildId(), message.getChannelId(), message.getAuthorId(), args);
+        return new DrawCardsAction().doAction(message, args);
     }
 
     @CommandCallback(
@@ -57,7 +57,7 @@ public class CardCommands {
         List<String> users = event.getGuild().getMembers().stream().
                 filter(m -> m.hasPermission(event.getTextChannel(), Permission.MESSAGE_READ)).
                 filter(m -> m.getOnlineStatus() == OnlineStatus.ONLINE).map(m -> m.getUser().getId()).collect(Collectors.toList());
-        return new ShuffleCardsAction().doAction(users, message.getGuildId(), message.getChannelId(), args);
+        return new ShuffleCardsAction().doAction(message, args);
     }
 
 }

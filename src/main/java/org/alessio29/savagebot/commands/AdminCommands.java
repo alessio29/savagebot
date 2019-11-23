@@ -17,8 +17,7 @@ public class AdminCommands {
             arguments = {"password"}
     )
     public static CommandExecutionResult info(IMessageReceived<MessageReceivedEvent> message, String[] args) {
-        int serversCount = message.getOriginalEvent().getJDA().getGuilds().size();
-        return new InfoAction().doAction(serversCount, args);
+        return new InfoAction().doAction(message, args);
     }
 
     @CommandCallback(
@@ -28,7 +27,7 @@ public class AdminCommands {
             arguments = {}
     )
     public static CommandExecutionResult ping(IMessageReceived message, String[] args) {
-        return new PingAction().doAction(message.getAuthorMention());
+        return new PingAction().doAction(message, args);
     }
 
     @CommandCallback(
@@ -38,6 +37,6 @@ public class AdminCommands {
             arguments = {"[<character>]"}
     )
     public static CommandExecutionResult prefix(IMessageReceived message, String[] args) {
-        return new PrefixAction().doAction(message.getAuthorId(), args);
+        return new PrefixAction().doAction(message, args);
     }
 }

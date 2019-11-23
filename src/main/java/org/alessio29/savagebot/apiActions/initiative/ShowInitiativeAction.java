@@ -1,27 +1,29 @@
 package org.alessio29.savagebot.apiActions.initiative;
 
+import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.cards.Card;
 import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.initiative.Rounds;
+import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ShowInitiativeAction {
+public class ShowInitiativeAction implements IBotAction {
 
     private static final int CARDS_SIZE = 8;
     private static final int CHAR_NAME_SIZE = 25;
 
-    public CommandExecutionResult doAction(String guildId, String channelId, String[] args) {
+    public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
 
         ReplyBuilder reply = new ReplyBuilder();
-        Integer round = Rounds.getGuildRound(guildId, channelId);
+        Integer round = Rounds.getGuildRound(message.getGuildId(), message.getChannelId());
         reply.attach(" ========== Round " + round + " ========== ");
         reply.blockQuote().newLine();
-        Set<Character> chars = Characters.getFightingCharactersWithCards(guildId, channelId);
+        Set<Character> chars = Characters.getFightingCharactersWithCards(message.getGuildId(), message.getChannelId());
         if (!chars.isEmpty()) {
             List<Character> sortedList = new ArrayList<>(chars);
             sortedList.sort((o1, o2) -> -o1.getBestCard().compareTo(o2.getBestCard()));

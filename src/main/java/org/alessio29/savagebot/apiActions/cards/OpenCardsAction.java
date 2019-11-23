@@ -1,14 +1,16 @@
 package org.alessio29.savagebot.apiActions.cards;
 
+import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.cards.Card;
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.cards.Decks;
+import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
-public class OpenCardsAction {
+public class OpenCardsAction implements IBotAction {
 
-    public CommandExecutionResult doAction(String guildId,  String channelId, String[] args) {
+    public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
         int count = 1;
         int index = 1;
         if (args.length > 0) {
@@ -19,7 +21,7 @@ public class OpenCardsAction {
                 // count will be 1
             }
         }
-        Deck deck = Decks.getDeck(guildId, channelId);
+        Deck deck = Decks.getDeck(message.getGuildId(), message.getChannelId());
         if(deck.isEmpty()) {
             return new CommandExecutionResult("Shuffle is needed..", index);
         }

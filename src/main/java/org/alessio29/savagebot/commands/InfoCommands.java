@@ -16,7 +16,7 @@ public class InfoCommands {
 			arguments = {"[<command> or <category>]"}
 	)
 	public static CommandExecutionResult help(IMessageReceived message, String[] args) {
-		return new HelpAction().doAction(args);
+		return new HelpAction().doAction(message, args);
 	}
 
 	@CommandCallback(
@@ -26,6 +26,6 @@ public class InfoCommands {
 			arguments = {}
 	)
 	public static CommandExecutionResult invite(IMessageReceived message, String[] args) {
-		return new InviteAction().doAction();
+		return new InviteAction().doAction(message, args);
 	}
 }

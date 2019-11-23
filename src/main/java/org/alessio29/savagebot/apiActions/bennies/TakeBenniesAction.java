@@ -1,19 +1,21 @@
 package org.alessio29.savagebot.apiActions.bennies;
 
+import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.bennies.BennyColor;
 import org.alessio29.savagebot.bennies.Pocket;
 import org.alessio29.savagebot.bennies.Pockets;
+import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
-public class TakeBenniesAction  {
+public class TakeBenniesAction implements IBotAction {
 
-    public CommandExecutionResult doAction(String guildId, String channelId, String[] args) {
+    public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
         if (args.length < 2) {
             return new CommandExecutionResult("Command syntax: use/take <BennyColor> <CharName>", args.length + 1);
         }
         String charName = ReplyBuilder.createNameFromArgs(args, 1);
-        Pocket pocket = Pockets.getPocket(guildId, channelId, charName);
+        Pocket pocket = Pockets.getPocket(message.getGuildId(), message.getChannelId(), charName);
         BennyColor color = BennyColor.getColor(args[0].trim());
         if (color == null) {
             return new CommandExecutionResult("Something wrong with benny color.", 3);

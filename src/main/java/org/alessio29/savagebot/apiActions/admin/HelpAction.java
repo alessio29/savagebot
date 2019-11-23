@@ -1,7 +1,9 @@
 package org.alessio29.savagebot.apiActions.admin;
 
+import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.commands.CommandCategory;
 import org.alessio29.savagebot.commands.ICommand;
+import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import org.alessio29.savagebot.internal.commands.CommandRegistry;
@@ -9,12 +11,12 @@ import org.alessio29.savagebot.internal.commands.CommandRegistry;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class HelpAction {
+public class HelpAction implements IBotAction {
 
     private static final String README_LINK =
             "https://github.com/alessio29/savagebot/blob/master/README.md";
 
-    public CommandExecutionResult doAction(String[] args) {
+    public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
         if (args.length == 0) {
             return new CommandExecutionResult(getBriefHelpForAllCommands(), 1, true);
         }

@@ -1,25 +1,27 @@
 package org.alessio29.savagebot.apiActions.initiative;
 
+import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.cards.Decks;
 import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.initiative.DrawCardResult;
+import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DealInitiativeCardsAction {
+public class DealInitiativeCardsAction implements IBotAction {
 
     private static final String QUICK_MAKER = "q";
     private static final CharSequence HESITANT_MARKER = "h";
     private static final Pattern modPattern = Pattern.compile("^[^ilqh]$");
 
 
-    public CommandExecutionResult doAction(String guildId, String channelId, String[] args) {
+    public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
 
-        Deck deck = Decks.getDeck(guildId, channelId);
+        Deck deck = Decks.getDeck(message.getGuildId(), message.getChannelId());
 
         if (deck.isShuffleNeeded()) {
             return new CommandExecutionResult("Shuffle is needed..", args.length + 1);
@@ -51,7 +53,7 @@ public class DealInitiativeCardsAction {
                             "character cannot be quick and hesitant at the same time!", args.length + 1);
                 }
             }
-            Character character = Characters.getCharacterByName(guildId, channelId, charName);
+            Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), charName);
             if (character == null) {
                 character = new Character(charName, mods);
             }
@@ -65,7 +67,7 @@ public class DealInitiativeCardsAction {
             }
             character.setAllCards(cards.getCards());
             character.setOutOfFight(false);
-            Characters.storeCharacter(guildId, channelId, character);
+            Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
 //				Characters.saveCharacters();
             index++;
         }
