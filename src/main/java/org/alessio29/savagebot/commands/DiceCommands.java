@@ -44,6 +44,7 @@ public class DiceCommands {
             arguments = { "[<heading_1>] <expression_1> ... [<heading_N>] <expression_N>" }
     )
     public static CommandExecutionResult rollSorted(IMessageReceived message, String[] args) {
+
         return new RollSortedAction().doAction(message, args);
     }
 

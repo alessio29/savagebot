@@ -57,6 +57,7 @@ public class CardCommands {
         List<String> users = event.getGuild().getMembers().stream().
                 filter(m -> m.hasPermission(event.getTextChannel(), Permission.MESSAGE_READ)).
                 filter(m -> m.getOnlineStatus() == OnlineStatus.ONLINE).map(m -> m.getUser().getId()).collect(Collectors.toList());
+
         return new ShuffleCardsAction().doAction(message, args);
     }
 

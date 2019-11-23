@@ -10,6 +10,7 @@ import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 public class ShowCardsAction implements IBotAction {
 
+
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
         Hand hand = Hands.getHand(message.getGuildId(), message.getChannelId(), message.getAuthorId());
         ReplyBuilder replyBuilder = new ReplyBuilder();

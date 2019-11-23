@@ -18,6 +18,7 @@ public class TokenCommands {
             arguments = {"<character_name>/all"}
     )
     public static CommandExecutionResult clear(IMessageReceived message, String[] args) {
+
         return new ClearTokensAction().doAction(message, args);
     }
 

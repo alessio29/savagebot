@@ -10,6 +10,7 @@ import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 public class ShuffleCardsAction implements IBotAction {
 
+
     public CommandExecutionResult doAction(IMessageReceived message, String [] args) {
         Deck deck = Decks.getDeck(message.getGuildId(), message.getChannelId());
         deck.shuffle();

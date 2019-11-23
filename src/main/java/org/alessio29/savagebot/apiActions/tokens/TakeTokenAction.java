@@ -8,6 +8,7 @@ import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 public class TakeTokenAction implements IBotAction {
 
+
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
 
         if (args.length < 1) {

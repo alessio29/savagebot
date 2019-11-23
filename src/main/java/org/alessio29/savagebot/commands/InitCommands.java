@@ -14,6 +14,7 @@ public class InitCommands {
             arguments = {}
     )
     public static CommandExecutionResult fight(IMessageReceived message, String[] args) {
+
         return new NewFightAction().doAction(message, args);
     }
 

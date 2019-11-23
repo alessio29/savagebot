@@ -10,6 +10,7 @@ import java.util.Set;
 
 public class ClearTokensAction implements IBotAction {
 
+
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
         if (args.length <1) {
             return new CommandExecutionResult("Please provide character name or 'all' to clear all characters", 1);
