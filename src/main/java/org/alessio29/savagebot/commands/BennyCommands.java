@@ -21,7 +21,7 @@ public class BennyCommands {
             // This just threw NPE originally
             throw new RuntimeException("No bennies for private channels");
         }
-        return new InitBenniesAction().doAction(message.getGuildId(), message.getChannelId(), args);
+        return new InitBenniesAction().doAction(message, args);
     }
 
     @CommandCallback(
@@ -31,7 +31,7 @@ public class BennyCommands {
             arguments = {"<character_name>"}
     )
     public static CommandExecutionResult show(IMessageReceived message, String[] args) {
-        return new ShowBenniesAction().doAction(message.getGuildId(), message.getChannelId(), args);
+        return new ShowBenniesAction().doAction(message, args);
     }
 
     @CommandCallback(
@@ -41,7 +41,7 @@ public class BennyCommands {
             arguments = {"<benny_color>", "<character_name>"}
     )
     public static CommandExecutionResult take(IMessageReceived message, String[] args) {
-        return new TakeBenniesAction().doAction(message.getGuildId(), message.getChannelId(), args);
+        return new TakeBenniesAction().doAction(message, args);
     }
 
 
@@ -52,6 +52,6 @@ public class BennyCommands {
             arguments = {"<character_name>"}
     )
     public static CommandExecutionResult give(IMessageReceived message, String[] args) {
-        return new GiveBenniesAction().doAction(message.getGuildId(), message.getChannelId(), args);
+        return new GiveBenniesAction().doAction(message, args);
     }
 }

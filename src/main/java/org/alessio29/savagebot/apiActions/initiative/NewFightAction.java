@@ -1,17 +1,19 @@
 package org.alessio29.savagebot.apiActions.initiative;
 
+import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.cards.Decks;
 import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.initiative.Rounds;
+import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
-public class NewFightAction {
+public class NewFightAction implements IBotAction {
 
-    public CommandExecutionResult doAction(String guildId, String channelId, String userId, String[] args) {
-        Decks.getDeck(guildId, channelId).shuffle();
-        Characters.resetCharactersInitiative(guildId, channelId);
+    public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
+        Decks.getDeck(message.getGuildId(), message.getChannelId()).shuffle();
+        Characters.resetCharactersInitiative(message.getGuildId(), message.getChannelId());
 
-        Rounds.resetRounds(guildId, channelId);
+        Rounds.resetRounds(message.getGuildId(), message.getChannelId());
         return new CommandExecutionResult("Deck is shuffled, initiative tracker reset, starting new fight.\n  ========== Round 1 ========== ", 1);
     }
 }

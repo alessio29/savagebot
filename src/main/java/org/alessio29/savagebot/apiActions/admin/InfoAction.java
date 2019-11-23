@@ -1,12 +1,15 @@
 package org.alessio29.savagebot.apiActions.admin;
 
 import org.alessio29.savagebot.SavageBotRunner;
+import org.alessio29.savagebot.apiActions.IBotAction;
+import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
-public class InfoAction {
+public class InfoAction implements IBotAction {
 
-    public CommandExecutionResult doAction(int count, String[] args) {
+    public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
         CommandExecutionResult result = null;
+        int count = -1;
         if (args.length>0) {
             String password = args[0].trim();
             if (SavageBotRunner.passwdOk(password)) {

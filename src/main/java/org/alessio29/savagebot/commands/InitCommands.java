@@ -14,7 +14,8 @@ public class InitCommands {
             arguments = {}
     )
     public static CommandExecutionResult fight(IMessageReceived message, String[] args) {
-        return new NewFightAction().doAction(message.getGuildId(), message.getChannelId(), message.getAuthorId(), args);
+
+        return new NewFightAction().doAction(message, args);
     }
 
     @CommandCallback(
@@ -27,7 +28,8 @@ public class InitCommands {
     )
 
     public static CommandExecutionResult round(IMessageReceived message, String[] args) {
-        return new NewRoundAction().doAction(message.getGuildId(), message.getChannelId(), args);
+        new NewRoundAction().doAction(message, args);
+        return new ShowInitiativeAction().doAction(message, args);
     }
 
     @CommandCallback(
@@ -37,7 +39,7 @@ public class InitCommands {
             arguments = {}
     )
     public static CommandExecutionResult init(IMessageReceived message, String[] args) {
-        return new ShowInitiativeAction().doAction(message.getGuildId(), message.getChannelId(), args);
+        return new ShowInitiativeAction().doAction(message, args);
     }
 
     @CommandCallback(
@@ -46,8 +48,8 @@ public class InitCommands {
             aliases = {},
             arguments = {"<character_name>"}
     )
-    public static CommandExecutionResult drop(IMessageReceived event, String[] args) {
-        return new DropCharacterAction().doAction(event.getGuildId(), event.getChannelId(), args);
+    public static CommandExecutionResult drop(IMessageReceived message, String[] args) {
+        return new DropCharacterAction().doAction(message, args);
     }
 
     @CommandCallback(
@@ -57,7 +59,7 @@ public class InitCommands {
             arguments = { "<character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]" }
     )
     public static CommandExecutionResult dealInitCards(IMessageReceived message, String[] args) {
-        new DealInitiativeCardsAction().doAction(message.getGuildId(), message.getChannelId(), args);
-        return new ShowInitiativeAction().doAction(message.getGuildId(), message.getChannelId(), args);
+        new DealInitiativeCardsAction().doAction(message, args);
+        return new ShowInitiativeAction().doAction(message, args);
     }
 }
