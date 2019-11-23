@@ -14,7 +14,7 @@ public class InitCommands {
             arguments = {}
     )
     public static CommandExecutionResult fight(IMessageReceived message, String[] args) {
-        return new NewFightAction().doAction(message.getAuthorId(), message.getGuildId(), message.getChannelId(), args);
+        return new NewFightAction().doAction(message.getGuildId(), message.getChannelId(), message.getAuthorId(), args);
     }
 
     @CommandCallback(

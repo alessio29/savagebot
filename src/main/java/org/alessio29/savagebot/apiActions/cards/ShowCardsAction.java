@@ -8,7 +8,7 @@ import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 public class ShowCardsAction {
 
-    public CommandExecutionResult doAction(String userId, String guildId, String[] args) {
+    public CommandExecutionResult doAction(String guildId, String userId, String[] args) {
         Hand hand = Hands.getHand(guildId, userId);
         ReplyBuilder replyBuilder = new ReplyBuilder();
         for (Card card : hand.getCards()) {

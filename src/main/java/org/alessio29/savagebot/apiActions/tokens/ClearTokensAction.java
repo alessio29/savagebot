@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class ClearTokensAction {
 
-    public CommandExecutionResult doAction(String userId, String guildId, String channelId, String[] args) {
+    public CommandExecutionResult doAction(String guildId, String channelId, String[] args) {
         if (args.length <1) {
             return new CommandExecutionResult("Please provide character name or 'all' to clear all characters", 1);
         }

@@ -18,7 +18,7 @@ public class TokenCommands {
             arguments = {"<character_name>/all"}
     )
     public static CommandExecutionResult clear(IMessageReceived message, String[] args) {
-        return new ClearTokensAction().doAction(message.getAuthorId(), message.getGuildId(), message.getChannelId(), args);
+        return new ClearTokensAction().doAction(message.getGuildId(), message.getChannelId(), args);
     }
 
     @CommandCallback(
@@ -38,7 +38,7 @@ public class TokenCommands {
             arguments = {"<character_name>", "[<amount of tokens>]"}
     )
     public static CommandExecutionResult take(IMessageReceived message, String[] args) {
-        return new TakeTokenAction().doAction(message.getAuthorId(), message.getGuildId(), message.getChannelId(), args);
+        return new TakeTokenAction().doAction(message.getGuildId(), message.getChannelId(), args);
     }
 
     @CommandCallback(

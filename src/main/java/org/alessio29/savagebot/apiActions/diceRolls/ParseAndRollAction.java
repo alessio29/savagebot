@@ -31,7 +31,7 @@ public class ParseAndRollAction  {
         return !statements.stream().allMatch(statement -> statement instanceof NonParsedStringStatement);
     }
 
-    public CommandExecutionResult doAction(String userId, String[] args) {
+    public CommandExecutionResult doAction(String[] args) {
         String command = args[0];
         List<Statement> statements = tryParseStatements(command);
         if (statements == null) return null;

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ShuffleCardsAction {
 
-    public CommandExecutionResult doAction(List<String> users, String guildId, String channelId, String [] args) {
+    public CommandExecutionResult doAction(String guildId, String channelId, List<String> users, String [] args) {
         Deck deck = Decks.getDeck(guildId, channelId);
         deck.shuffle();
 
