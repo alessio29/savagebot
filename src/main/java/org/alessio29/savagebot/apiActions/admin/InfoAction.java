@@ -13,6 +13,9 @@ public class InfoAction implements IBotAction {
         if (args.length>0) {
             String password = args[0].trim();
             if (SavageBotRunner.passwdOk(password)) {
+                if(args.length>1) {
+                    count = Integer.valueOf(args[1]);
+                }
                 result = new CommandExecutionResult("Bot registered at "+count + " servers.", 2);
             }
         } else {

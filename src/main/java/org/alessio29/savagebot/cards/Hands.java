@@ -16,6 +16,9 @@ public class Hands {
 
 		Map<String, Map<String, Hand>> map = hands.computeIfAbsent(guildId, k -> new HashMap<>());
 		Map<String, Hand> map1 = map.get(channelId);
+		if (map1 == null) {
+            map1 = new HashMap<>();
+        }
 		Hand hand = null;
 		if (map1 != null) {
 			hand = map1.get(userId);
