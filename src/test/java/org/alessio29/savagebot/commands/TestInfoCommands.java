@@ -21,8 +21,10 @@ public class TestInfoCommands {
                 "<< [guildId='test-guild', channelId='test-channel', userId='test-user', isPrivate=false] '!help'\n" +
                         ">> [private: userId: test-user]\n" +
                         "__**CARDS category**__\n" +
-                        "!deal [<card_count>]; aliases: !dl\n" +
+                        "!card <character_name>; aliases: !cd\n" +
+//                        "!deal [<card_count>]; aliases: !dl\n" +
                         "!draw [<card_count>] [<user>]; aliases: !dw\n" +
+                        "!open [<card_count>]; aliases: !op\n" +
                         "!show; aliases: !sh\n" +
                         "!shuffle\n" +
                         "\n" +

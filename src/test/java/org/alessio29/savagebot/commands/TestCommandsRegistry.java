@@ -30,7 +30,7 @@ public class TestCommandsRegistry {
                 "[" +
                         "ADMIN:info, ADMIN:ping, ADMIN:prefix, " +
                         "BENNIES:benny, BENNIES:hat, BENNIES:pocket, BENNIES:use, " +
-                        "CARDS:deal, CARDS:draw, CARDS:show, CARDS:shuffle, " +
+                        "CARDS:card, CARDS:draw, CARDS:open, CARDS:show, CARDS:shuffle, " +
                         "DICE:r, DICE:rh, DICE:rs, " +
                         "INFO:help, INFO:invite, " +
                         "INITIATIVE:di, INITIATIVE:drop, INITIATIVE:fight, INITIATIVE:init, INITIATIVE:round, " +
@@ -44,8 +44,10 @@ public class TestCommandsRegistry {
     public void testHelpText() {
         Assert.assertEquals(
                 "__**CARDS category**__\n" +
-                        "!deal [<card_count>]; aliases: !dl\n" +
+                        "!card <character_name>; aliases: !cd\n" +
+//                        "!deal [<card_count>]; aliases: !dl\n" +
                         "!draw [<card_count>] [<user>]; aliases: !dw\n" +
+                        "!open [<card_count>]; aliases: !op\n" +
                         "!show; aliases: !sh\n" +
                         "!shuffle\n" +
                         "\n" +
