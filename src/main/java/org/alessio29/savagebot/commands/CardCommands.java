@@ -3,10 +3,7 @@ package org.alessio29.savagebot.commands;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import org.alessio29.savagebot.apiActions.cards.DrawCardsAction;
-import org.alessio29.savagebot.apiActions.cards.OpenCardsAction;
-import org.alessio29.savagebot.apiActions.cards.ShowCardsAction;
-import org.alessio29.savagebot.apiActions.cards.ShuffleCardsAction;
+import org.alessio29.savagebot.apiActions.cards.*;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
@@ -17,13 +14,23 @@ import java.util.stream.Collectors;
 public class CardCommands {
 
     @CommandCallback(
-            name = "deal",
+            name = "open",
             description = "openly deals several (1 by default) cards to current channel",
-            aliases = {"dl"},
+            aliases = {"op"},
             arguments = { "[<card_count>]"}
     )
     public static CommandExecutionResult open(IMessageReceived message, String[] args) {
         return new OpenCardsAction().doAction(message, args);
+    }
+
+    @CommandCallback(
+            name = "card",
+            description = "gives one more card to character",
+            aliases = {"cd"},
+            arguments = { "<character_name>"}
+    )
+    public static CommandExecutionResult card(IMessageReceived message, String[] args) {
+        return new GiveCardsAction().doAction(message, args);
     }
 
     @CommandCallback(
