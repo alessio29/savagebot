@@ -28,8 +28,7 @@ public class InitCommands {
     )
 
     public static CommandExecutionResult round(IMessageReceived message, String[] args) {
-        new NewRoundAction().doAction(message, args);
-        return new ShowInitiativeAction().doAction(message, args);
+        return new NewRoundAction().doAction(message, args);
     }
 
     @CommandCallback(

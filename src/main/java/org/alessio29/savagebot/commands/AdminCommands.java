@@ -7,6 +7,10 @@ import org.alessio29.savagebot.apiActions.admin.PrefixAction;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @CommandCategoryOwner(CommandCategory.ADMIN)
 public class AdminCommands {
 
@@ -17,7 +21,9 @@ public class AdminCommands {
             arguments = {"password"}
     )
     public static CommandExecutionResult info(IMessageReceived<MessageReceivedEvent> message, String[] args) {
-        return new InfoAction().doAction(message, args);
+        ArrayList<String> arr = new ArrayList<String>(Arrays.asList(args));
+        arr.add(message.getOriginalEvent().getJDA().getGuilds().size()+"");
+        return new InfoAction().doAction(message, arr.toArray(new String[]{}));
     }
 
     @CommandCallback(

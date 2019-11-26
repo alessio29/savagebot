@@ -56,6 +56,8 @@ public class DealInitiativeCardsAction implements IBotAction {
             Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), charName);
             if (character == null) {
                 character = new Character(charName, mods);
+            } else {
+                mods = character.getParams();
             }
             if ( character.alreadyDealt() || character.isOutOfFight()) {
                 index++;

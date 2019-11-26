@@ -28,7 +28,7 @@ public class CardCommands {
 
     @CommandCallback(
             name = "show",
-            description = "Shows your cards, previously dealt to you by 'deal' command to current channel",
+            description = "Shows your cards, previously dealt to you by 'draw' command to current channel",
             aliases = {"sh"},
             arguments = {}
     )
