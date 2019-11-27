@@ -118,7 +118,7 @@ __**INITIATIVE category**__
 
 **di**      <character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]    Deal initiative card. Modifiers should start with - and be either 'q', 'l', 'i' or 'h': Quick, Levelheaded, Improved Levelheaded and Hesitant respectively.
 
-**card** <character_name> gives character <character_name1> new intiative card. Used as 'Card for benny' rule.
+**card** <character_name> gives character <character_name> new intiative card. Used as 'Card for benny' rule.
 
 __**INFO category**__
 
