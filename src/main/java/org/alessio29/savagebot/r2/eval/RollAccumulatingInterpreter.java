@@ -3,6 +3,7 @@ package org.alessio29.savagebot.r2.eval;
 import org.alessio29.savagebot.r2.tree.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class RollAccumulatingInterpreter {
     private final CommandContext context;
@@ -83,7 +84,7 @@ public class RollAccumulatingInterpreter {
             internalExplanations.add(explanation);
         }
 
-        public abstract void addResult(IntResult result);
+        public abstract void addResult(Expression expression, IntResult result);
 
         void prefixInfo(StringBuilder output) {
             for (ErrorMessage error : errors) {
@@ -110,7 +111,7 @@ public class RollAccumulatingInterpreter {
         final ArrayList<IntResult> results = new ArrayList<>();
 
         @Override
-        public void addResult(IntResult result) {
+        public void addResult(Expression expression, IntResult result) {
             results.add(result);
         }
 
@@ -148,13 +149,16 @@ public class RollAccumulatingInterpreter {
         }
 
         private final List<Histogram> histograms = new ArrayList<>();
-        private Histogram histogram = null;
+        private final Map<Expression, Histogram> histogramByExpression = new HashMap<>();
 
         @Override
-        public void addResult(IntResult result) {
+        public void addResult(Expression expression, IntResult result) {
+            Histogram histogram = histogramByExpression.get(expression);
             if (histogram == null) {
-                histogram = new Histogram(getHeading());
+                String heading = getHeading();
+                histogram = new Histogram(heading == null ? expression.getText() : heading);
                 histograms.add(histogram);
+                histogramByExpression.put(expression, histogram);
             }
             histogram.addResult(result);
         }
@@ -162,9 +166,6 @@ public class RollAccumulatingInterpreter {
         @Override
         void seeString(String heading) {
             super.seeString(heading);
-            if (heading != null) {
-                histogram = null;
-            }
         }
 
         String generateOutput() {
@@ -176,7 +177,9 @@ public class RollAccumulatingInterpreter {
             StringBuilder output = new StringBuilder();
 
             if (histograms.size() > 0) {
-                output.append(":\n");
+                output.append(
+                        histograms.stream().map(h -> h.name).collect(Collectors.joining(", "))
+                ).append(":\n");
             }
 
             prefixInfo(output);
@@ -229,12 +232,16 @@ public class RollAccumulatingInterpreter {
         @Override
         public Void visitRollOnceStatement(RollOnceStatement rollOnceStatement) {
             try {
-                IntListResult result = ExpressionEvaluator.evalUnsafe(rollOnceStatement.getExpression(), context);
+                Expression expression = rollOnceStatement.getExpression();
+                IntListResult result = ExpressionEvaluator.evalUnsafe(expression, context);
                 List<Integer> values = result.getValues();
                 if (values.size() != 1) {
                     state.addError(new ErrorMessage(rollOnceStatement, "Expected single result: " + values));
                 } else {
-                    state.addResult(new IntResult(values.get(0), state.getHeading() + ": " + result.getExplained()));
+                    state.addResult(
+                            expression,
+                            new IntResult(values.get(0), state.getHeading() + ": " + result.getExplained())
+                    );
                 }
             } catch (EvaluationErrorException e) {
                 state.addError(new ErrorMessage(rollOnceStatement, e.getMessage()));
@@ -301,13 +308,16 @@ public class RollAccumulatingInterpreter {
                             continue;
                         }
 
-                        state.addResult(new IntResult(
-                                values.get(0),
-                                headingPrefix +
-                                        (i + 1) + " of " + times +
-                                        expressionHeadingSuffix + ": " +
-                                        rollResult.getExplained()
-                        ));
+                        state.addResult(
+                                rollExpression,
+                                new IntResult(
+                                        values.get(0),
+                                        headingPrefix +
+                                                (i + 1) + " of " + times +
+                                                expressionHeadingSuffix + ": " +
+                                                rollResult.getExplained()
+                                )
+                        );
                     } catch (EvaluationErrorException e) {
                         state.addError(new ErrorMessage(rollExpression, i + ": " + e.getMessage()));
                         return;
