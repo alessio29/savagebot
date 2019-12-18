@@ -5,7 +5,7 @@ import java.util.Map;
 
 
 public class Rounds {
-
+	// GuildId, ChannelId, round
 	private static Map<String, Map<String, Integer>> rounds = new HashMap<>();
 	
 	public static Integer getGuildRound(String guild, String channel) {
@@ -27,8 +27,8 @@ public class Rounds {
 		return map;
 	}
 		
-	private static void setRound(String guild, String channel, int i) {
-		rounds.get(guild).put(channel, i);
+	private static void setRound(String guild, String channel, int round) {
+		rounds.get(guild).put(channel, round);
 	}
 
 	public static void resetRounds(String guild, String channel) {

@@ -30,7 +30,9 @@ public class NewRoundAction implements IBotAction {
         }
 
         if (args.length == 0) {
-            return new CommandExecutionResult(txtMessage, 1);
+            Integer round = Rounds.getGuildRound(message.getGuildId(), message.getChannelId());
+            txtMessage += " ========== Round " + round + " ========== ";
+            return new CommandExecutionResult( txtMessage, 1);
         }
         boolean reDeal = false;
         List<String> characters2Remove = new ArrayList<>();

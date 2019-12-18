@@ -13,13 +13,15 @@ public class Characters {
     private static Map<String, Map<String, Set<Character>>> storage = new HashMap<>();
     private static final String CHARACTERS_REDIS_KEY = "characters";
 
-
     public static Set<Character> getCharacters(String guild, String channel) {
+
+        Set<Character> result = null;
         if (storage.get(guild) == null) {
-            return new HashSet<>();
+            storage.put(guild, new HashMap<>());
         }
-        if ((storage.get(guild).get(channel) == null)) {
-            return new HashSet<>();
+        if (storage.get(guild).get(channel) == null)  {
+            result = new HashSet<>();
+            storage.get(guild).put(channel, result);
         }
         return storage.get(guild).get(channel);
     }
@@ -37,21 +39,11 @@ public class Characters {
     public static void storeCharacter(String guild, String channel, Character character) {
         Set<Character> characters = getCharacters(guild, channel);
         characters.add(character);
-        Map<String, Set<Character>> m = storage.get(guild);
-        if (m == null) {
-            m = new HashMap();
-        }
-        m.put(channel, characters);
-        storage.put(guild, m);
     }
 
     public static void storeAllCharacters(String guild, String channel, Set<Character> chars) {
-        Map<String, Set<Character>> m = storage.get(guild);
-        if (m == null) {
-            m = new HashMap();
-        }
-        m.put(channel, chars);
-        storage.put(guild, m);
+        Set<Character> characters = getCharacters(guild, channel);
+        characters.addAll(chars);
     }
 
     public static void resetCharactersInitiative(String guildId, String channelId) {

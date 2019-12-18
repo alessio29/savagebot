@@ -193,7 +193,6 @@ public class Character {
         Card bestCard = cards.findBestCard();
         List<Card> allCards = getAllCards();
         allCards.addAll(cards.getCards());
-//        setAllCards(allCards);
         if (isHesitant() && getBestCard().compareTo(bestCard)<0) {
             attributes.put(BEST_INIT_CARD, bestCard);
         } else {
