@@ -16,7 +16,10 @@ public class DealInitiativeCardsAction implements IBotAction {
 
     private static final String QUICK_MAKER = "q";
     private static final CharSequence HESITANT_MARKER = "h";
+    private static final CharSequence LEVELHEADED_MARKER = "l";
+    private static final CharSequence IMPROVEDLEVELHEADED_MARKER = "i";
     private static final Pattern modPattern = Pattern.compile("^[^ilqh]$");
+
 
 
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
@@ -51,6 +54,14 @@ public class DealInitiativeCardsAction implements IBotAction {
                 if (mods.contains(QUICK_MAKER) && mods.contains(HESITANT_MARKER)) {
                     return new CommandExecutionResult("Impossible modifiers combination: " +
                             "character cannot be quick and hesitant at the same time!", args.length + 1);
+                }
+                if (mods.contains(LEVELHEADED_MARKER) && mods.contains(HESITANT_MARKER)) {
+                    return new CommandExecutionResult("Impossible modifiers combination: " +
+                            "character cannot be levelheaded and hesitant at the same time!", args.length + 1);
+                }
+                if (mods.contains(IMPROVEDLEVELHEADED_MARKER) && mods.contains(HESITANT_MARKER)) {
+                    return new CommandExecutionResult("Impossible modifiers combination: " +
+                            "character cannot be improved levelheaded and hesitant at the same time!", args.length + 1);
                 }
             }
             Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), charName);
