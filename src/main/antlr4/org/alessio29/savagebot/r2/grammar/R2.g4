@@ -47,8 +47,10 @@ expression
     ;
 
 genericRoll
-    :   (t1=term)? ('d'|'D') t2=term (excl='!')? genericRollSuffix?
+    :   (t1=term)? ('d'|'D') (t2=dieFacetsTerm) (excl='!')? genericRollSuffix?
     ;
+
+dieFacetsTerm: term | '%';
 
 genericRollSuffix
     :   op=('k'|'K'|'kl'|'KL'|'adv'|'dis') (n=term)?

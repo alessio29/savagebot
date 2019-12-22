@@ -664,6 +664,28 @@ public class TestR2Parser {
         );
     }
 
+    @Test
+    public void testD100AsPercent() {
+        expect(
+                "RollOnce\n" +
+                        "  expr: GenericRoll isOpenEnded=false\n" +
+                        "    diceCount: null\n" +
+                        "    facetsCount: Int 100\n" +
+                        "    suffixArg1: null\n" +
+                        "    suffixArg2: null",
+                "d%"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: GenericRoll isOpenEnded=false suffixOperator=KEEP\n" +
+                        "    diceCount: Int 2\n" +
+                        "    facetsCount: Int 100\n" +
+                        "    suffixArg1: Int 1\n" +
+                        "    suffixArg2: null",
+                "2d%k1"
+        );
+    }
+
     private void expect(String expectedDump, String... args) {
         List<Statement> statements = new Parser().parse(args);
         StringWriter sw = new StringWriter();
