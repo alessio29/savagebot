@@ -148,6 +148,10 @@ public class Character {
 
     private void findBestCard() {
         List<Card> allCards = getAllCards();
+        if (allCards.isEmpty()) {
+            attributes.put(BEST_INIT_CARD, null);
+            return;
+        }
         Card bestCard;
         if (isHesitant()) {
             Collections.sort(allCards, Card::compareTo);
@@ -198,5 +202,10 @@ public class Character {
         } else {
             findBestCard();
         }
+    }
+
+    public void removeFroFight() {
+        setOutOfFight(true);
+        setAllCards(Collections.EMPTY_LIST);
     }
 }
