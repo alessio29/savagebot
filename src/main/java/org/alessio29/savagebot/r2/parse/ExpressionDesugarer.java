@@ -116,12 +116,20 @@ class ExpressionDesugarer extends Desugarer<Expression> {
         );
     }
 
+    private Expression desugarDieFacets(R2Parser.DieFacetsTermContext ctx) {
+        if (ctx.getText().equals("%")) {
+            return new IntExpression(getOriginalText(ctx), 100);
+        } else {
+            return visit(ctx.term());
+        }
+    }
+
     @Override
     public Expression visitGenericRollExpr(R2Parser.GenericRollExprContext ctx) {
         R2Parser.GenericRollContext gr = ctx.genericRoll();
 
         Expression arg1 = visitOrNull(gr.t1);
-        Expression arg2 = visit(gr.t2);
+        Expression arg2 = desugarDieFacets(gr.t2);
         boolean isOpenEnded = gr.excl != null;
 
         R2Parser.GenericRollSuffixContext grs = gr.genericRollSuffix();

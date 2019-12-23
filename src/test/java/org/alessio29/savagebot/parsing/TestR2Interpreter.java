@@ -505,6 +505,14 @@ public class TestR2Interpreter {
         );
     }
 
+    @Test
+    public void testD100AsPercent() {
+        expect(
+                "10d%: 61 + 49 + 30 + 48 + 16 + 54 + 92 + 62 + 20 + 55 = **487**",
+                "10d%"
+        );
+    }
+
     private void expect(String expectedResult, String... args) {
         List<Statement> statements = new Parser().parse(args);
         CommandContext context = new CommandContext(new Random(0));
