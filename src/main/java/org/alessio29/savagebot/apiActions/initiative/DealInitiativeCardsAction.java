@@ -79,7 +79,7 @@ public class DealInitiativeCardsAction implements IBotAction {
                 return new CommandExecutionResult("Deck is empty!", args.length + 1);
             }
             character.setAllCards(cards.getCards());
-            character.setOutOfFight(false);
+            character.backToFight();
             Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
 //				Characters.saveCharacters();
             index++;

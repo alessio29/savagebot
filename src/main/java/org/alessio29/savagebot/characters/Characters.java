@@ -49,7 +49,7 @@ public class Characters {
     public static void resetCharactersInitiative(String guildId, String channelId) {
 
         for (Character c : getCharacters(guildId, channelId)) {
-            c.removeFroFight();
+            c.resetInitiative();
         }
     }
 

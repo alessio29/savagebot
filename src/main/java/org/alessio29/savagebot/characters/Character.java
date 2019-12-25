@@ -13,16 +13,7 @@ public class Character {
     private static final String SAWO_INIT_PARAMS = "sawoInitParams";
     private static final String OUT_OF_FIGHT = "outOfFight";
 
-//    private static final String HESITANT = "HH";
-//    private static final String QUICK = "QUI";
-//    private static final String LEVELHEADED = "LH";
-//    private static final String IMPROVED_LEVELHEADED = "ILH";
-
     private static final String HESITANT = "h";
-    private static final String QUICK = "q";
-    private static final String LEVELHEADED = "l";
-    private static final String IMPROVED_LEVELHEADED = "i";
-
 
     private String name;
     private Map<String, Object> attributes = new HashMap<>();
@@ -64,11 +55,7 @@ public class Character {
     }
 
     public List<Card> getAllCards() {
-        Object result = attributes.get(ALL_INIT_CARDS);
-        if (result == null) {
-            result = new ArrayList<Card>();
-            attributes.put(ALL_INIT_CARDS, result);
-        }
+        Object result = attributes.computeIfAbsent(ALL_INIT_CARDS, k -> new ArrayList<Card>());
         return (List<Card>) result;
     }
 
@@ -122,20 +109,8 @@ public class Character {
         attributes.put(attribute, value);
     }
 
-    private boolean isImpLevelheaded () {
-        return paramContains(IMPROVED_LEVELHEADED);
-    }
-
-    private boolean isLevelheaded () {
-        return paramContains(LEVELHEADED);
-    }
-
     private boolean isHesitant() {
         return paramContains(HESITANT);
-    }
-
-    private boolean isQuick() {
-        return paramContains(QUICK);
     }
 
     private boolean paramContains(String str) {
@@ -182,9 +157,8 @@ public class Character {
         return name.hashCode();
     }
 
-    public void setOutOfFight(boolean b) {
+    private void setOutOfFight(boolean b) {
         attributes.put(OUT_OF_FIGHT, b);
-
     }
 
     public boolean isOutOfFight() {
@@ -204,8 +178,17 @@ public class Character {
         }
     }
 
-    public void removeFroFight() {
+    public void removeFromFight() {
         setOutOfFight(true);
-        setAllCards(Collections.EMPTY_LIST);
+        clearCards();
+    }
+
+    public void resetInitiative() {
+        clearCards();
+        setOutOfFight(false);
+    }
+
+    public void backToFight() {
+        setOutOfFight(false);
     }
 }

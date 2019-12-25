@@ -48,8 +48,10 @@ public class NewRoundAction implements IBotAction {
         }
         for (String charName : characters2Remove) {
             Character ch = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), charName);
-            ch.setOutOfFight(true);
-            Characters.storeCharacter(message.getGuildId(), message.getChannelId(), ch);
+            if (ch != null) {
+                ch.removeFromFight();
+                Characters.storeCharacter(message.getGuildId(), message.getChannelId(), ch);
+            }
         }
         if (reDeal) {
             // deal cards again according to parameters
