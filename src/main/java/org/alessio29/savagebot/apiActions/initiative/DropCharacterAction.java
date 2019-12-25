@@ -24,7 +24,7 @@ public class DropCharacterAction implements IBotAction {
             return new CommandExecutionResult("Character " + name + " is already out of fight.", 2);
         }
 
-        ch.setOutOfFight(true);
+        ch.removeFromFight();
         Characters.storeCharacter(message.getGuildId(), message.getChannelId(), ch);
         return new CommandExecutionResult("Character " + name + " is out of fight.", 2);
     }
