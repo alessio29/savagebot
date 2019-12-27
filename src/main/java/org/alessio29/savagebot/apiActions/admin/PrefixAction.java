@@ -15,8 +15,8 @@ public class PrefixAction implements IBotAction {
                 result = new CommandExecutionResult("Prefix must be one-character long!", 1);
             } else {
 
-                if (newPrefix.equals("?") || newPrefix.equals("*") || newPrefix.equals("^") || newPrefix.equals("\\")  ) {
-                    result = new CommandExecutionResult("Prefix must not be question sign, asterisk, backslash or circumflex!", 1);
+                if (newPrefix.equals("?") || newPrefix.equals("*") || newPrefix.equals("^") || newPrefix.equals("\\") || newPrefix.equals("$")) {
+                    result = new CommandExecutionResult("Prefix must not be dollar sign, question sign, asterisk, backslash or circumflex!", 1);
                 } else {
                     Prefixes.setPrefix(message.getAuthorId(), newPrefix);
                     result = new CommandExecutionResult("Prefix is set to "+newPrefix, 2);
