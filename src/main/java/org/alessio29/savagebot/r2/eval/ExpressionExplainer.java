@@ -88,7 +88,15 @@ class ExpressionExplainer implements Expression.Visitor<String> {
     }
 
     public static boolean isTrivialExpression(Expression expression) {
-        return dropBrackets(expression) instanceof IntExpression;
+        expression = dropBrackets(expression);
+        return expression instanceof IntExpression || isD1(expression);
+    }
+
+    private static boolean isD1(Expression expression) {
+        if (!(expression instanceof GenericRollExpression)) return false;
+        Expression facetsCount = ((GenericRollExpression) expression).getFacetsCountArg();
+        if (!(facetsCount instanceof IntExpression)) return false;
+        return ((IntExpression) facetsCount).getValue() == 1;
     }
 
     public static boolean isNonTrivialExpression(Expression expression) {

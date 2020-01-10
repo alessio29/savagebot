@@ -62,6 +62,10 @@ public class Roller {
             keptDice = suffixArg;
         }
 
+        if (facetsCount == 1) {
+            return new IntResult(keptDice, Integer.toString(keptDice));
+        }
+
         List<IntResult> dice = IntStream.range(0, nDice)
                 .mapToObj(it -> roll(facetsCount, isOpenEnded))
                 .collect(Collectors.toList());
