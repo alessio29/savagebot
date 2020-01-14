@@ -45,6 +45,11 @@ public class TestR2Interpreter {
     }
 
     @Test
+    public void testD1() {
+        expect("10", "10d1");
+    }
+
+    @Test
     public void testGenericRolls() {
         expect(
                 "2d6: 1 + 5 = **6**",
