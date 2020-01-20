@@ -25,6 +25,15 @@ public class TestR2Interpreter {
     }
 
     @Test
+    public void testStrangeDiceArguments() {
+        expect("d0: Facets count should be >0: 0", "d0");
+        expect("d(1-2): Facets count should be >0: -1", "d(1-2)");
+        expect("0", "0d1");
+        expect("0d0:  = **0**", "0d0");
+        expect("2d6k0: ~~1~~ + ~~5~~ = **0**", "2d6k0");
+    }
+
+    @Test
     public void testArithmetic() {
         expect(
                 "2+2: 2 + 2 = **4**",
