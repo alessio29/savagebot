@@ -1,7 +1,6 @@
 package org.alessio29.savagebot.apiActions.cards;
 
 import org.alessio29.savagebot.apiActions.IBotAction;
-import org.alessio29.savagebot.cards.Card;
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.cards.Decks;
 import org.alessio29.savagebot.characters.Character;

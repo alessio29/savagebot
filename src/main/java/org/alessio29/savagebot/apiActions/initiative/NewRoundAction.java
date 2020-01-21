@@ -59,8 +59,8 @@ public class NewRoundAction implements IBotAction {
             Set<Character> chars = Characters.getFightingCharacters(message.getGuildId(), message.getChannelId());
             for (Character c : chars) {
                 newArgs.append(c.getName()).append(ReplyBuilder.SPACE);
-                if (!c.getParams().isEmpty()) {
-                    newArgs.append("-").append(c.getParams()).append(ReplyBuilder.SPACE);
+                if (!c.getSaWoInitParams().isEmpty()) {
+                    newArgs.append("-").append(c.getSaWoInitParams()).append(ReplyBuilder.SPACE);
                 }
             }
             String[] str = newArgs.toString().trim().split(ReplyBuilder.SPACE);

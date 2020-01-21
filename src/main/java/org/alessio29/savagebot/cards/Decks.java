@@ -5,7 +5,6 @@ import org.alessio29.savagebot.internal.RedisClient;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * 
  * @author aless
@@ -15,15 +14,13 @@ import java.util.Map;
  */
 
 public class Decks {
-
 	private static final String REDIS_DECKS_KEY = "decks";
-
 
 	private static Map<String, Map<String, Deck>> decks = new HashMap<>();
 
 	public static Deck getDeck(String guildId, String channelId) {
 
-		 Map<String, Deck> guildDecks = decks.get(guildId);
+		Map<String, Deck> guildDecks = decks.get(guildId);
 		if(guildDecks == null) {
 			Decks.addDeck(guildId, channelId, Deck.createNewDeck());
 		}
@@ -31,6 +28,7 @@ public class Decks {
 		if (result == null ) {
 			Decks.addDeck(guildId, channelId, Deck.createNewDeck());
 		}
+		saveDecks();
 		return decks.get(guildId).get(channelId);
 	}
 		

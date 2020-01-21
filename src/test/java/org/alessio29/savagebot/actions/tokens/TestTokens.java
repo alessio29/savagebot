@@ -5,6 +5,7 @@ import org.alessio29.savagebot.apiActions.tokens.ClearTokensAction;
 import org.alessio29.savagebot.apiActions.tokens.GiveTokenAction;
 import org.alessio29.savagebot.apiActions.tokens.ListTokensAction;
 import org.alessio29.savagebot.apiActions.tokens.TakeTokenAction;
+import org.alessio29.savagebot.internal.RedisClient;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,6 +18,8 @@ public class TestTokens {
 
     @Test
     public void testTokensScenario() {
+
+        RedisClient.setTestMode(true);
 
         TestUtils.MessageBuilder mb = TestUtils.createDefaultForTests();
 
@@ -74,8 +77,8 @@ public class TestTokens {
                 "```", result3.getResult());
 
         CommandExecutionResult afterClearResult1 = new ClearTokensAction().
-
                 doAction(mb.message(""), new String[]{TEST_CHAR1});
+
         Assert.assertEquals("Removed character Test1", afterClearResult1.getResult());
 
         CommandExecutionResult resultAfterClearChar = new ListTokensAction().doAction(mb.message(""), new String[]{});

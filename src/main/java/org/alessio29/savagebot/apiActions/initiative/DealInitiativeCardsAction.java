@@ -68,7 +68,7 @@ public class DealInitiativeCardsAction implements IBotAction {
             if (character == null) {
                 character = new Character(charName, mods);
             } else {
-                mods = character.getParams();
+                mods = character.getSaWoInitParams();
             }
             if ( character.alreadyDealt() || character.isOutOfFight()) {
                 index++;
