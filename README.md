@@ -54,11 +54,11 @@ Currently supported dice codes are:
 
 `!12d10s7` - roll 12 d10s, 7+ is a success, count successes
 
-`!12d10f1s7` - roll 12 d10s, 7+ is a success, 1- is a failure, substract failures from successes
+`!12d10f1s7` - roll 12 d10s, 7+ is a success, 1- is a failure, subtract failures from successes
 
 `!12d10s7f1` -  same as above
 
-`!28d6!f1s10` - roll 28 open-ended d6s, 10+ is a success, 1- is a failure, substract failures from successes
+`!28d6!f1s10` - roll 28 open-ended d6s, 10+ is a success, 1- is a failure, subtract failures from successes
 
 `!6x4d6k3` - roll 4 dice keeping 3 highest 6 times
 
