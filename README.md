@@ -17,7 +17,7 @@ __**CARDS category**__
 
 **draw** or **dw**    [<card_count>] [<user_name>]    Secretly draws several (1 by default) cards to user (to self by default)
 
-**show** or **sh**    Shows your cards, previously dealt to you by 'deal' command to current channel
+**show** or **sh**    Shows your cards, previously dealt to you by 'draw' command to current channel
 
 **shuffle**        Shuffles current deck, resets secret cards dealt to all users in this channel
 
