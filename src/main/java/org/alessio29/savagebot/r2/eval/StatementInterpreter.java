@@ -85,7 +85,7 @@ class StatementInterpreter implements Statement.Visitor<String> {
     private IntListResult eval(Expression expression) {
         try {
             return ExpressionEvaluator.evalUnsafe(expression, interpreter.getContext());
-        } catch (EvaluationErrorException e) {
+        } catch (Throwable e) {
             return new IntListResult(
                     Collections.emptyList(),
                     expression.getText() + ": " + e.getMessage()

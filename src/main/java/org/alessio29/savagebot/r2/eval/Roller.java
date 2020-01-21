@@ -18,6 +18,9 @@ public class Roller {
     }
 
     private int roll(int facetsCount) {
+        if (facetsCount <= 0) {
+            throw new EvaluationErrorException("Facets count should be >0: " + facetsCount);
+        }
         return random.nextInt(facetsCount) + 1;
     }
 
