@@ -27,5 +27,7 @@ public abstract class Expression extends Node {
         V visitVariableExpression(VariableExpression variableExpression);
 
         V visitCarcosaRollExpression(CarcosaRollExpression carcosaRollExpression);
+
+        V visitWegD6Expression(WegD6RollExpression wegD6RollExpression);
     }
 }
