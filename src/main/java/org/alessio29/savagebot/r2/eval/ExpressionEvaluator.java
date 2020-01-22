@@ -300,6 +300,14 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
         return Collections.singletonList(result.getValue());
     }
 
+    @Override
+    public List<Integer> visitWegD6Expression(WegD6RollExpression wegD6RollExpression) {
+        int diceCount = evalInt(wegD6RollExpression.getDiceCountArg(), 1);
+        IntResult result = roller.rollWegD6(diceCount);
+        context.putExplanation(wegD6RollExpression, result.getExplained());
+        return Collections.singletonList(result.getValue());
+    }
+
     public List<Integer> eval(Expression expression) {
         return expression == null ? null : expression.accept(this);
     }

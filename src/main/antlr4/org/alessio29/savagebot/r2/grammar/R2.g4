@@ -32,6 +32,8 @@ expression
         # FudgeRollExpr
     |   carcosaRoll
         # CarcosaRollExpr
+    |   wegD6Roll
+        # WegD6RollExpr
     |   e1=expression '[' (e2=expression)? ':' (e3=expression)? ']'
         # BoundedExpr
     |   v=VAR ':=' e1=expression
@@ -71,6 +73,10 @@ fudgeRoll
 
 carcosaRoll
     :   (t=term)? ('dC'|'dc'|'DC')
+    ;
+
+wegD6Roll
+    :   (t=term) ('w'|'W')
     ;
 
 term

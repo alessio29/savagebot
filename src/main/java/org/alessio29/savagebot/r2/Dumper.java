@@ -151,6 +151,13 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
     }
 
     @Override
+    public Void visitWegD6Expression(WegD6RollExpression wegD6RollExpression) {
+        println("WegD6Roll");
+        indented(() -> dump("diceCount", wegD6RollExpression.getDiceCountArg()));
+        return null;
+    }
+
+    @Override
     public Void visitSavageWorldsRollExpression(SavageWorldsRollExpression savageWorldsRollExpression) {
         println("SavageWorldsRoll");
         indented(() -> {

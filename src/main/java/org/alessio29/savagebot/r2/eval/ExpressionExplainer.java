@@ -152,7 +152,8 @@ class ExpressionExplainer implements Expression.Visitor<String> {
             } else {
                 return true;
             }
-        } else return expression instanceof CarcosaRollExpression;
+        } else return expression instanceof CarcosaRollExpression ||
+                expression instanceof WegD6RollExpression;
     }
 
     private boolean isMultiplicativeOperator(OperatorExpression.Operator operator) {
@@ -287,5 +288,10 @@ class ExpressionExplainer implements Expression.Visitor<String> {
     @Override
     public String visitCarcosaRollExpression(CarcosaRollExpression carcosaRollExpression) {
         return getKnownExplanation(carcosaRollExpression);
+    }
+
+    @Override
+    public String visitWegD6Expression(WegD6RollExpression wegD6RollExpression) {
+        return getKnownExplanation(wegD6RollExpression);
     }
 }
