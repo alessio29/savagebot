@@ -217,6 +217,14 @@ class ExpressionDesugarer extends Desugarer<Expression> {
     }
 
     @Override
+    public Expression visitWegD6RollExpr(R2Parser.WegD6RollExprContext ctx) {
+        return new WegD6RollExpression(
+                getOriginalText(ctx),
+                visitOrNull(ctx.wegD6Roll().t)
+        );
+    }
+
+    @Override
     public Expression visitSavageWorldsRollExpr(R2Parser.SavageWorldsRollExprContext ctx) {
         R2Parser.SavageWorldsRollContext swrc = ctx.savageWorldsRoll();
 

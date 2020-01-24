@@ -1,12 +1,10 @@
 package org.alessio29.savagebot.r2.eval;
 
+import org.alessio29.savagebot.internal.builders.MessageSplitter;
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.r2.tree.GenericRollExpression;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -228,5 +226,52 @@ public class Roller {
             die = 12;
         }
         return rollAndKeep(diceCount, die, false, null, 0);
+    }
+
+    public IntResult rollWegD6(int diceCount) {
+        if (diceCount < 1) {
+            throw new EvaluationErrorException("Dice count should be at least 1: " + diceCount);
+        }
+
+        int wildDieValue = roll(6, true).getValue();
+
+        List<Integer> regularDiceValues = IntStream.range(0, diceCount - 1)
+                .mapToObj(it -> roll(6))
+                .collect(Collectors.toList());
+
+        int crossedOutValue;
+        int total;
+        if (wildDieValue == 1) {
+            if (diceCount == 1) {
+                return new IntResult(0, ReplyBuilder.strikeout("1"));
+            }
+            crossedOutValue = Collections.max(regularDiceValues);
+            total = 0;
+        } else {
+            crossedOutValue = -1;
+            total = wildDieValue;
+        }
+
+        StringJoiner regularDiceValuesText = new StringJoiner(" + ");
+        if (wildDieValue != 1) {
+            regularDiceValuesText.add("w" + String.valueOf(wildDieValue));
+        }
+
+        boolean crossedOut = false;
+        for (int regularDieValue : regularDiceValues) {
+            if (!crossedOut && regularDieValue == crossedOutValue) {
+                crossedOut = true;
+                regularDiceValuesText.add(ReplyBuilder.strikeout(String.valueOf(regularDieValue)));
+            } else {
+                total += regularDieValue;
+                regularDiceValuesText.add(String.valueOf(regularDieValue));
+            }
+        }
+
+        if (wildDieValue == 1) {
+            return new IntResult(total, "w1; " + regularDiceValuesText.toString());
+        } else {
+            return new IntResult(total, regularDiceValuesText.toString());
+        }
     }
 }

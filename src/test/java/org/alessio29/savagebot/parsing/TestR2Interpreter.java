@@ -527,6 +527,29 @@ public class TestR2Interpreter {
         );
     }
 
+    @Test
+    public void testWegD6() {
+        expect("0w: Dice count should be at least 1: 0", "0w");
+        expect("1w: ~~1~~ = **0**", "1w");
+        expect("5w: w1; 5 + 2 + ~~6~~ + 6 = **13**", "5w");
+        expect("4w+2: w1; 5 + 2 + ~~6~~ + 2 = **9**", "4w+2");
+        expect("4w*2: (w1; 5 + 2 + ~~6~~) * 2 = **14**", "4w*2");
+        expect(
+                "10x4w: \n" +
+                        "1: 4w: w1; 5 + 2 + ~~6~~ = **7**\n" +
+                        "2: 4w: w22 + 4 + 3 + 6 = **35**\n" +
+                        "3: 4w: w17 + 6 + 3 + 5 = **31**\n" +
+                        "4: 4w: w4 + 6 + 3 + 2 = **15**\n" +
+                        "5: 4w: w1; 3 + ~~6~~ + 3 = **6**\n" +
+                        "6: 4w: w5 + 4 + 5 + 1 = **15**\n" +
+                        "7: 4w: w33 + 3 + 4 + 6 = **46**\n" +
+                        "8: 4w: w5 + 4 + 3 + 2 = **14**\n" +
+                        "9: 4w: w9 + 5 + 4 + 5 = **23**\n" +
+                        "10: 4w: w5 + 5 + 1 + 2 = **13**",
+                "10x4w"
+        );
+    }
+
     private void expect(String expectedResult, String... args) {
         List<Statement> statements = new Parser().parse(args);
         CommandContext context = new CommandContext(new Random(0));
