@@ -50,6 +50,8 @@ Currently supported dice codes are:
 
 `!3s8w8` - Savage Worlds roll with three trait die d8 and wild die d8 (bursts with non-default wild die)
 
+`!Nw[+1/+2]` - West End Games D6 System roll. Rolls N d6's one of which is 'wild': it explodes on 6 and subtracts highest number on 1.
+
 `!6d6s4` - WoD, Lady Blackbird roll - rolls 6 d6 and returns how many dice rolled 4 or more
 
 `!12d10s7` - roll 12 d10s, 7+ is a success, count successes
