@@ -67,19 +67,12 @@ public class DealInitiativeCardsAction implements IBotAction {
             Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), charName);
             if (character == null) {
                 character = new Character(charName, mods);
-            } else {
-                mods = character.getSaWoInitParams();
             }
-            if ( character.alreadyDealt() || character.isOutOfFight()) {
+            if ( character.alreadyDealt()) {
                 index++;
                 continue;
             }
-            DrawCardResult cards = deck.getCardByParams(mods);
-            if (cards == null) {
-                return new CommandExecutionResult("Deck is empty!", args.length + 1);
-            }
-            character.setAllCards(cards.getCards());
-            character.backToFight();
+            character.dealInitiativeCards(deck);
             Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
 //				Characters.saveCharacters();
             index++;

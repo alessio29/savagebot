@@ -24,7 +24,7 @@ public class TakeTokenAction implements IBotAction {
 
         Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), args[0]);
         if (character == null) {
-            return new CommandExecutionResult("Cannot find character named " + args[0], 1);
+            return new CommandExecutionResult("Cannot find character named " + args[0], args.length);
         }
         if (tokens > 0) {
             character.removeTokens(tokens);

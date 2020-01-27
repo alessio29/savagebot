@@ -30,7 +30,7 @@ public class Characters {
     public static void storeCharacter(String guild, String channel, Character character) {
         Map<String, Character> map = getCharacters(guild, channel);
         map.put(character.getName(), character);
-        saveCharactersToRedis();
+//        saveCharactersToRedis();
     }
 
     public static void storeAllCharacters(String guild, String channel, Collection<Character> chars) {
@@ -38,7 +38,7 @@ public class Characters {
         for (Character c : chars) {
             map.put(c.getName(), c);
         }
-        saveCharactersToRedis();
+//        saveCharactersToRedis();
     }
 
     public static void resetCharactersInitiative(String guildId, String channelId) {
@@ -49,7 +49,7 @@ public class Characters {
                 map.remove(e);
             }
         }
-        saveCharactersToRedis();
+//        saveCharactersToRedis();
     }
 
     public static Set<Character> getFightingCharacters(String guildId, String channelId) {
@@ -69,7 +69,7 @@ public class Characters {
         for (Character c : getCharacters(guildId, channelId).values()) {
             c.clearCards();
         }
-        saveCharactersToRedis();
+//        saveCharactersToRedis();
     }
 
     public static Set<Character> getCharactersWithTokens(String guildId, String channelId) {
@@ -84,7 +84,7 @@ public class Characters {
             for (String channelId : characters.get(guildId).keySet()) {
                 for (Character character : characters.get(guildId).get(channelId).values()) {
                     String key = REDIS_CHARACTERS_KEY+"#"+guildId+"#"+channelId+"#"+character.getName();
-                    saveCharacter(key, character);
+                    RedisClient.storeObject(key, character);
                 }
             }
         }
@@ -97,9 +97,5 @@ public class Characters {
         if (characters == null) {
             characters = new HashMap<>();
         }
-    }
-
-    private static void saveCharacter(String key, Character character) {
-        RedisClient.storeObject(key, character);
     }
 }

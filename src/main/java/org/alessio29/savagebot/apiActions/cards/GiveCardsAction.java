@@ -9,8 +9,6 @@ import org.alessio29.savagebot.initiative.DrawCardResult;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
-import java.util.List;
-
 public class GiveCardsAction implements IBotAction {
 
     @Override

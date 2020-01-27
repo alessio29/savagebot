@@ -3,6 +3,7 @@ package org.alessio29.savagebot.characters;
 import org.alessio29.savagebot.cards.Card;
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.initiative.DrawCardResult;
+import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import org.alessio29.savagebot.internal.utils.Utils;
 
 import java.util.*;
@@ -114,7 +115,10 @@ public class Character {
 
     public boolean isOutOfFight() {
         Boolean res = getAttribute(OUT_OF_FIGHT);
-        return Utils.notNullValue(res);
+        if (res == null) {
+            res = true; // this is right!
+        }
+        return res;
     }
 
     public void giveCard(DrawCardResult cards) {
@@ -206,5 +210,11 @@ public class Character {
             }
         }
         return true;
+    }
+
+    public void dealInitiativeCards(Deck deck) {
+        DrawCardResult cards = deck.getCardByParams(this.getSaWoInitParams());
+        this.setAllCards(cards.getCards());
+        this.backToFight();
     }
 }
