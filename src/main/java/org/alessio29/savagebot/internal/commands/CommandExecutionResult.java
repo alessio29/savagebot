@@ -40,4 +40,12 @@ public class CommandExecutionResult {
 		this.privateMessage = privateMessage;
 	}
 
+	@Override
+	public String toString() {
+		return "CommandExecutionResult{" +
+				"result='" + result + '\'' +
+				", toSkip=" + toSkip +
+				", privateMessage=" + privateMessage +
+				'}';
+	}
 }

@@ -1,7 +1,6 @@
 package org.alessio29.savagebot.apiActions.cards;
 
 import org.alessio29.savagebot.apiActions.IBotAction;
-import org.alessio29.savagebot.cards.Card;
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.cards.Decks;
 import org.alessio29.savagebot.characters.Character;
@@ -9,8 +8,6 @@ import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.initiative.DrawCardResult;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
-
-import java.util.List;
 
 public class GiveCardsAction implements IBotAction {
 

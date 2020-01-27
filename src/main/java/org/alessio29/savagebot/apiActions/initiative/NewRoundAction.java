@@ -35,37 +35,28 @@ public class NewRoundAction implements IBotAction {
             return new CommandExecutionResult( txtMessage, 1);
         }
         boolean reDeal = false;
-        List<String> characters2Remove = new ArrayList<>();
         for (String arg : args) {
             if (arg.trim().equals("+")) {
                 reDeal = true;
             }
             if (arg.startsWith("-")) {
                 String charName = arg.substring(1);
-                if (Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), charName) != null)
-                characters2Remove.add(charName);
+                Character ch = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), charName);
+                if ( ch!= null) {
+                    ch.removeFromFight();
+                    Characters.storeCharacter(message.getGuildId(), message.getChannelId(), ch);
+                }
             }
         }
-        for (String charName : characters2Remove) {
-            Character ch = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), charName);
-            if (ch != null) {
-                ch.removeFromFight();
-                Characters.storeCharacter(message.getGuildId(), message.getChannelId(), ch);
-            }
-        }
+
         if (reDeal) {
             // deal cards again according to parameters
             StringBuilder newArgs = new StringBuilder();
             Set<Character> chars = Characters.getFightingCharacters(message.getGuildId(), message.getChannelId());
             for (Character c : chars) {
-                newArgs.append(c.getName()).append(ReplyBuilder.SPACE);
-                if (!c.getParams().isEmpty()) {
-                    newArgs.append("-").append(c.getParams()).append(ReplyBuilder.SPACE);
-                }
+                c.dealInitiativeCards(deck);
             }
-            String[] str = newArgs.toString().trim().split(ReplyBuilder.SPACE);
-            new DealInitiativeCardsAction().doAction(message, str);
-            CommandExecutionResult res = new ShowInitiativeAction().doAction(message, str);
+            CommandExecutionResult res = new ShowInitiativeAction().doAction(message, args);
             txtMessage += res.getResult();
         }
         return new CommandExecutionResult(txtMessage, args.length+1);

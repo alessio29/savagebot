@@ -3,6 +3,8 @@ package org.alessio29.savagebot.characters;
 import org.alessio29.savagebot.cards.Card;
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.initiative.DrawCardResult;
+import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
+import org.alessio29.savagebot.internal.utils.Utils;
 
 import java.util.*;
 
@@ -25,27 +27,34 @@ public class Character {
     public Character(String name, String params, DrawCardResult cards) {
         this.setAllCards(cards.getCards());
         this.name = name;
-        attributes.put(SAWO_INIT_PARAMS, params);
+        setAttribute(SAWO_INIT_PARAMS, params);
         findBestCard();
     }
 
-    public Character(String charName, String mods) {
+    public Character(String charName, String saWoInitParams) {
         this(charName);
-        this.setParams(mods);
+        this.setSaWoInitParams(saWoInitParams);
     }
 
-    private void setParams(String mods) {
+    public String getName() {
+        return this.name;
+    }
+
+
+    // ==================== CARDS & INITIATIVE ========================
+
+    private void setSaWoInitParams(String mods) {
         attributes.put(SAWO_INIT_PARAMS, mods);
     }
 
     public void clearCards() {
-        attributes.put(ALL_INIT_CARDS, new ArrayList<Card>());
-        attributes.put(BEST_INIT_CARD, null);
+        setAttribute(ALL_INIT_CARDS, new ArrayList<Card>());
+        setAttribute(BEST_INIT_CARD, null);
     }
 
-    public String getParams() {
+    public String getSaWoInitParams() {
         String s = (String) attributes .get(SAWO_INIT_PARAMS);
-        return (s == null) ? "" : s;
+        return Utils.notNullValue(s);
     }
 
 
@@ -55,8 +64,11 @@ public class Character {
     }
 
     public List<Card> getAllCards() {
-        Object result = attributes.computeIfAbsent(ALL_INIT_CARDS, k -> new ArrayList<Card>());
-        return (List<Card>) result;
+        List<Card> result = getAttribute(ALL_INIT_CARDS);
+        if (result == null) {
+            result = new ArrayList<>();
+        }
+        return result;
     }
 
     public void setAllCards(List<Card> allCards) {
@@ -64,72 +76,25 @@ public class Character {
         findBestCard();
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-
-    public void addTokens(Integer tokens) {
-        Integer oldTokens = 0;
-        if (attributes.containsKey(TOKENS)) {
-            oldTokens = (Integer) attributes.get(TOKENS);
-        }
-        attributes.put(TOKENS, tokens + oldTokens);
-    }
-
-    public Integer getTokens() {
-        return getAttribute(TOKENS, Integer.class);
-    }
-
-    public void removeTokens(Integer amount) {
-        Integer tokens = getTokens();
-        tokens = (tokens == null) ? 0 : tokens;
-        if (tokens <= amount) {
-            tokens = 0;
-        } else {
-            tokens -= amount;
-        }
-        setAttribute(TOKENS, tokens);
-    }
-
     public boolean alreadyDealt() {
-        List<Card> cards = (List<Card>) attributes.get(ALL_INIT_CARDS);
+        List<Card> cards = getAttribute(ALL_INIT_CARDS);
         return cards != null && !cards.isEmpty();
     }
 
-    private <T> T getAttribute(String attribute, Class<T> clazz) {
-        if (!attributes.containsKey(attribute)) {
-            return null;
-        }
-        Object result = attributes.get(attribute);
-        return (T) result;
-    }
-
-    private <T> void setAttribute(String attribute, T value) {
-        attributes.put(attribute, value);
-    }
 
     private boolean isHesitant() {
-        return paramContains(HESITANT);
-    }
-
-    private boolean paramContains(String str) {
-        String params = (String) attributes.get(SAWO_INIT_PARAMS);
-        if (params == null || params.isEmpty()) {
-            return false;
-        }
-        return params.trim().contains(str);
+        return getSaWoInitParams().trim().contains(HESITANT);
     }
 
     private void findBestCard() {
         List<Card> allCards = getAllCards();
         if (allCards.isEmpty()) {
-            attributes.put(BEST_INIT_CARD, null);
+            setAttribute(BEST_INIT_CARD, null);
             return;
         }
         Card bestCard;
         if (isHesitant()) {
-            Collections.sort(allCards, Card::compareTo);
+            allCards.sort(Card::compareTo);
             bestCard = allCards.get(0);
             if (allCards.contains(Deck.BLACK_JOKER)) {
                 bestCard = Deck.BLACK_JOKER;
@@ -138,10 +103,88 @@ public class Character {
                 bestCard = Deck.COLOR_JOKER;
             }
         } else {
-            Collections.sort(allCards, Card::compareTo);
+            allCards.sort(Card::compareTo);
             bestCard = allCards.get(allCards.size() - 1);
         }
-        attributes.put(BEST_INIT_CARD, bestCard);
+        setAttribute(BEST_INIT_CARD, bestCard);
+    }
+
+    private void setOutOfFight(boolean b) {
+        attributes.put(OUT_OF_FIGHT, b);
+    }
+
+    public boolean isOutOfFight() {
+        Boolean res = getAttribute(OUT_OF_FIGHT);
+        if (res == null) {
+            res = true; // this is right!
+        }
+        return res;
+    }
+
+    public void giveCard(DrawCardResult cards) {
+
+        Card bestCard = cards.findBestCard();
+        List<Card> allCards = getAllCards();
+        allCards.addAll(cards.getCards());
+        if (isHesitant() && getBestCard().compareTo(bestCard)<0) {
+            setAttribute(BEST_INIT_CARD, bestCard);
+        } else {
+            findBestCard();
+        }
+    }
+
+    public void removeFromFight() {
+        setOutOfFight(true);
+        clearCards();
+    }
+
+    public void backToFight() {
+        setOutOfFight(false);
+    }
+
+    // ==================== TOKENS ========================
+
+    public void addTokens(Integer tokens) {
+        Integer oldTokens = getTokens();
+        oldTokens = Utils.notNullValue(oldTokens);
+        tokens = Utils.notNullValue(tokens);
+        tokens = Math.max(oldTokens + tokens, 0);
+        setAttribute(TOKENS, tokens);
+    }
+
+    public Integer getTokens() {
+        return getAttribute(TOKENS);
+    }
+
+    public void removeTokens(Integer amount) {
+        Integer tokens = getTokens();
+        tokens = Utils.notNullValue(tokens);
+        if (tokens <= amount) {
+            tokens = 0;
+        } else {
+            tokens -= amount;
+        }
+        setAttribute(TOKENS, tokens);
+    }
+
+    public void removeAllTokens() {
+        setAttribute(TOKENS, null);
+    }
+
+    // ==================== PRIVATE  ========================
+
+    private <T> T getAttribute(String attribute) {
+
+        if (!attributes.containsKey(attribute)) {
+            return null;
+        }
+        Object result = attributes.get(attribute);
+
+        return (T) result;
+    }
+
+    private <T> void setAttribute(String attribute, T value) {
+        attributes.put(attribute, value);
     }
 
     @Override
@@ -157,38 +200,21 @@ public class Character {
         return name.hashCode();
     }
 
-    private void setOutOfFight(boolean b) {
-        attributes.put(OUT_OF_FIGHT, b);
-    }
-
-    public boolean isOutOfFight() {
-        Boolean res = (Boolean) attributes.get(OUT_OF_FIGHT);
-        return (res == null )? false : res ;
-    }
-
-    public void giveCard(DrawCardResult cards) {
-
-        Card bestCard = cards.findBestCard();
-        List<Card> allCards = getAllCards();
-        allCards.addAll(cards.getCards());
-        if (isHesitant() && getBestCard().compareTo(bestCard)<0) {
-            attributes.put(BEST_INIT_CARD, bestCard);
-        } else {
-            findBestCard();
+    public boolean isEmpty() {
+        if (attributes.isEmpty()) {
+            return true;
         }
+        for (Map.Entry<String, Object> e : attributes.entrySet()) {
+            if (e.getValue() != null) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    public void removeFromFight() {
-        setOutOfFight(true);
-        clearCards();
-    }
-
-    public void resetInitiative() {
-        clearCards();
-        setOutOfFight(false);
-    }
-
-    public void backToFight() {
-        setOutOfFight(false);
+    public void dealInitiativeCards(Deck deck) {
+        DrawCardResult cards = deck.getCardByParams(this.getSaWoInitParams());
+        this.setAllCards(cards.getCards());
+        this.backToFight();
     }
 }

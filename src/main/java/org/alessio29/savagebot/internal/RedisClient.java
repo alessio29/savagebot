@@ -1,6 +1,6 @@
 package org.alessio29.savagebot.internal;
 
-//import com.google.gson.Gson;
+import com.google.gson.Gson;
 import redis.clients.jedis.Jedis;
 
 public class RedisClient {
@@ -10,7 +10,8 @@ public class RedisClient {
     private static int port;
     private static String pass;
     private static final boolean DEBUG = false;
-//    private static final Gson converter = new Gson();
+    private static final Gson converter = new Gson();
+    private static boolean testMode = false;
 
     public static Jedis getClient() {
         if (client == null) {
@@ -19,7 +20,10 @@ public class RedisClient {
         return client;
     }
 
-    public static void init(String redisHost, int redisPort, String redisPass) {
+    private static void init(String redisHost, int redisPort, String redisPass) {
+        if (testMode) {
+            return;
+        }
         client = new Jedis(redisHost, redisPort);
         if (DEBUG) {
             System.out.println("Redis connection established.");
@@ -33,25 +37,35 @@ public class RedisClient {
     }
 
     public static void setup(String redisHost, int redisPort, String redisPass) {
+        if (testMode) {
+            return;
+        }
         RedisClient.host = redisHost;
         RedisClient.port = redisPort;
         RedisClient.pass = redisPass;
     }
 
     public static void storeObject(String redisKey, Object data2store) {
-        if (data2store == null) {
+        if (testMode || data2store == null) {
             return;
         }
-//        String json = converter.toJson(data2store);
-//        RedisClient.getClient().set(redisKey, json);
+        String json = converter.toJson(data2store);
+        RedisClient.getClient().set(redisKey, json);
     }
 
     public static <T> T loadObject(String redisKey, Class<T> clazz ) {
+
+        if (testMode) {
+            return null;
+        }
         String json = RedisClient.getClient().get(redisKey);
         if (json == null) {
             return null;
         }
-//        return converter.fromJson(json, clazz);
-        return null;
+        return converter.fromJson(json, clazz);
+    }
+
+    public static void setTestMode(boolean b) {
+        testMode = b;
     }
 }

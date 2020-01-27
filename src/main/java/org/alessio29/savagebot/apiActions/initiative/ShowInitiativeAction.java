@@ -30,12 +30,12 @@ public class ShowInitiativeAction implements IBotAction {
             for (Character c : sortedList) {
                 String allCards = c.getAllCards().stream().map(Card::toString).collect(Collectors.joining(", "));
                 String paramString;
-                if (c.getParams().trim().isEmpty()) {
+                if (c.getSaWoInitParams().trim().isEmpty()) {
                     paramString = "    ";
                 } else {
                     paramString = new ReplyBuilder().
                             squareBracketOpen().
-                            rightPad(c.getParams(), 2).
+                            rightPad(c.getSaWoInitParams(), 2).
                             squareBracketClose().
                             toString();
                 }
