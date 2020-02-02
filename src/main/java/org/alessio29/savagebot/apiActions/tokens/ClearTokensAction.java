@@ -27,7 +27,7 @@ public class ClearTokensAction implements IBotAction {
             chars.get(args[0]).removeAllTokens();
             text = "Removed character "+args[0];
         }
-        Characters.storeAllCharacters(message.getGuildId(), message.getChannelId(), chars.values());
+//        Characters.storeAllCharacters(message.getGuildId(), message.getChannelId(), chars.values());
         return new CommandExecutionResult(text, args.length+1);
     }
 }
