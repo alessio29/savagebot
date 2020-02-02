@@ -33,13 +33,13 @@ public class Characters {
 //        saveCharactersToRedis();
     }
 
-    public static void storeAllCharacters(String guild, String channel, Collection<Character> chars) {
-        Map<String, Character> map = getCharacters(guild, channel);
-        for (Character c : chars) {
-            map.put(c.getName(), c);
-        }
-//        saveCharactersToRedis();
-    }
+//    public static void storeAllCharacters(String guild, String channel, Collection<Character> chars) {
+//        Map<String, Character> map = getCharacters(guild, channel);
+//        for (Character c : chars) {
+//            map.put(c.getName(), c);
+//        }
+////        saveCharactersToRedis();
+//    }
 
     public static void resetCharactersInitiative(String guildId, String channelId) {
         Map<String, Character> map = getCharacters(guildId, channelId);
@@ -88,8 +88,6 @@ public class Characters {
                 }
             }
         }
-
-        RedisClient.storeObject(REDIS_CHARACTERS_KEY, characters);
     }
 
     public static void loadCharactersFromRedis() {
