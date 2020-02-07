@@ -3,8 +3,8 @@ package org.alessio29.savagebot.characters;
 import org.alessio29.savagebot.cards.Card;
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.initiative.DrawCardResult;
-import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import org.alessio29.savagebot.internal.utils.Utils;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.*;
 
@@ -14,6 +14,7 @@ public class Character {
     private static final String BEST_INIT_CARD = "bestCard";
     private static final String SAWO_INIT_PARAMS = "sawoInitParams";
     private static final String OUT_OF_FIGHT = "outOfFight";
+    private static final String STATES = "states";
 
     private static final String HESITANT = "h";
 
@@ -40,7 +41,31 @@ public class Character {
         return this.name;
     }
 
+    // ==================== STATES ========================
+    public String getStatesString() {
+        return Utils.notNullValue(StringUtils.join((Collection)getAttribute(STATES), ", "));
+    }
 
+    public void setStates(Set<State> states) {
+        setAttribute(STATES, states);
+    }
+
+    public void removeState(State s) {
+        ((Set<State>)getAttribute(STATES)).remove(s);
+    }
+
+    public void addState(State s) {
+        Set<State> states = getAttribute(STATES);
+        if (states == null) {
+            states = new HashSet<State>();
+            setAttribute(STATES, states);
+        }
+        states.add(s);
+    }
+
+    public void clearStates() {
+        setAttribute(STATES, null);
+    }
     // ==================== CARDS & INITIATIVE ========================
 
     private void setSaWoInitParams(String mods) {
@@ -145,10 +170,8 @@ public class Character {
     // ==================== TOKENS ========================
 
     public void addTokens(Integer tokens) {
-        Integer oldTokens = getTokens();
-        oldTokens = Utils.notNullValue(oldTokens);
-        tokens = Utils.notNullValue(tokens);
-        tokens = Math.max(oldTokens + tokens, 0);
+
+        tokens = Math.max(Utils.notNullValue(getTokens()) + Utils.notNullValue(tokens), 0);
         setAttribute(TOKENS, tokens);
     }
 
@@ -157,13 +180,9 @@ public class Character {
     }
 
     public void removeTokens(Integer amount) {
-        Integer tokens = getTokens();
-        tokens = Utils.notNullValue(tokens);
-        if (tokens <= amount) {
-            tokens = 0;
-        } else {
-            tokens -= amount;
-        }
+
+        Integer tokens = Utils.notNullValue(getTokens());
+        tokens = (tokens <= amount)? 0 : tokens-amount;
         setAttribute(TOKENS, tokens);
     }
 
@@ -179,7 +198,6 @@ public class Character {
             return null;
         }
         Object result = attributes.get(attribute);
-
         return (T) result;
     }
 

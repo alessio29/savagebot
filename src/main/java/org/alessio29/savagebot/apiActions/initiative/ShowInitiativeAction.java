@@ -8,14 +8,19 @@ import org.alessio29.savagebot.initiative.Rounds;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
+import org.alessio29.savagebot.internal.utils.Utils;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class ShowInitiativeAction implements IBotAction {
 
-    private static final int CARDS_SIZE = 8;
+    private static final int CARDS_SIZE = 10;
     private static final int CHAR_NAME_SIZE = 25;
+    private static final int TOKENS_SIZE = 5;
+    private static final int STATES_SIZE = 35;
+    private static final int ALL_CARDS_SIZE = 50;
+    private static final int PARAMS_SIZE = 5;
 
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
 
@@ -39,12 +44,12 @@ public class ShowInitiativeAction implements IBotAction {
                             squareBracketClose().
                             toString();
                 }
-                reply.rightPad(c.getName(), CHAR_NAME_SIZE).tab().
-                        attach(paramString).tab().
-                        leftPad(c.getBestCard().toString(), CARDS_SIZE).tab().
-                        squareBracketOpen().
-                        attach(allCards).
-                        squareBracketClose().
+                reply.rightPad(c.getName(), CHAR_NAME_SIZE).
+                        rightPad(c.getStatesString(), STATES_SIZE).
+                        rightPad(" ["+ Utils.notNullValue(c.getTokens())+"]", TOKENS_SIZE).tab().
+                        rightPad(paramString, PARAMS_SIZE).tab().
+                        rightPad(c.getBestCard().toString(), CARDS_SIZE).tab().
+                        rightPad("["+allCards+"]", ALL_CARDS_SIZE).
                         newLine();
             }
         } else {

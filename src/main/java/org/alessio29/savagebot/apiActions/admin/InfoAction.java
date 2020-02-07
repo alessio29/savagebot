@@ -10,13 +10,13 @@ public class InfoAction implements IBotAction {
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
         CommandExecutionResult result = null;
         int count = -1;
-        if (args.length>0) {
+        if (args.length>1) {
             String password = args[0].trim();
             if (SavageBotRunner.passwdOk(password)) {
-                if(args.length>1) {
-                    count = Integer.valueOf(args[1]);
-                }
+                count = Integer.valueOf(args[1]);
                 result = new CommandExecutionResult("Bot registered at "+count + " servers.", 2);
+            } else {
+                result = new CommandExecutionResult("Wrong password provided!", 2);
             }
         } else {
             result = new CommandExecutionResult("Password must be provided!", 1);

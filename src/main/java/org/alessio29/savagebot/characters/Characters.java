@@ -1,8 +1,5 @@
 package org.alessio29.savagebot.characters;
 
-import org.alessio29.savagebot.internal.RedisClient;
-
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -30,16 +27,7 @@ public class Characters {
     public static void storeCharacter(String guild, String channel, Character character) {
         Map<String, Character> map = getCharacters(guild, channel);
         map.put(character.getName(), character);
-//        saveCharactersToRedis();
     }
-
-//    public static void storeAllCharacters(String guild, String channel, Collection<Character> chars) {
-//        Map<String, Character> map = getCharacters(guild, channel);
-//        for (Character c : chars) {
-//            map.put(c.getName(), c);
-//        }
-////        saveCharactersToRedis();
-//    }
 
     public static void resetCharactersInitiative(String guildId, String channelId) {
         Map<String, Character> map = getCharacters(guildId, channelId);
@@ -49,7 +37,6 @@ public class Characters {
                 map.remove(e);
             }
         }
-//        saveCharactersToRedis();
     }
 
     public static Set<Character> getFightingCharacters(String guildId, String channelId) {
@@ -69,7 +56,6 @@ public class Characters {
         for (Character c : getCharacters(guildId, channelId).values()) {
             c.clearCards();
         }
-//        saveCharactersToRedis();
     }
 
     public static Set<Character> getCharactersWithTokens(String guildId, String channelId) {
@@ -78,22 +64,4 @@ public class Characters {
                 collect(Collectors.toSet());
     }
 
-    public static void saveCharactersToRedis() {
-
-        for (String guildId : characters.keySet()) {
-            for (String channelId : characters.get(guildId).keySet()) {
-                for (Character character : characters.get(guildId).get(channelId).values()) {
-                    String key = REDIS_CHARACTERS_KEY+"#"+guildId+"#"+channelId+"#"+character.getName();
-                    RedisClient.storeObject(key, character);
-                }
-            }
-        }
-    }
-
-    public static void loadCharactersFromRedis() {
-        characters = RedisClient.loadObject(REDIS_CHARACTERS_KEY, HashMap.class);
-        if (characters == null) {
-            characters = new HashMap<>();
-        }
-    }
 }
