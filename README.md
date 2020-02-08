@@ -108,6 +108,8 @@ __**STATES category**__
 **remstate** or **rst** <character_name> <state1> [...] removes states from character
 
 **state** or **st** <character_name> <state1> [...] sets states to character
+  
+  States are Savage Worlds states: Shaken, Stunned, Entangled, Bound, Distracted and Vulnerable. You can write them in any case even like sTuNnEd. You can use abbreviations: sha, stn, ent, bnd, dis, vul.
 
 __**BENNIES category**__
 
