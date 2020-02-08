@@ -25,17 +25,13 @@ public class ListCharactersAction implements IBotAction {
         ReplyBuilder replyBuilder = new ReplyBuilder();
         replyBuilder.blockQuote().
                 rightPad("NAME", NAME_SIZE).
-                tab().
                 rightPad("TOKENS", TOKEN_SIZE).
-                tab().
                 rightPad("STATES", STATES_SIZE).
                 newLine();
         for (Character chr : chars) {
             replyBuilder.rightPad(chr.getName(), NAME_SIZE).
-                    tab().
                     rightPad(String.valueOf(Utils.notNullValue(chr.getTokens())), TOKEN_SIZE).
-                    tab().
-                    rightPad(String.valueOf(Utils.notNullValue(chr.getStatesString())), STATES_SIZE).
+                    rightPad(Utils.notNullValue(chr.getStatesString()), STATES_SIZE).
                     newLine();
         }
         replyBuilder.blockQuote();

@@ -29,11 +29,13 @@ public class ShowInitiativeAction implements IBotAction {
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
 
         ReplyBuilder reply = new ReplyBuilder();
+        ReplyBuilder header = new ReplyBuilder();
+        header.blockQuote();
         Integer round = Rounds.getGuildRound(message.getGuildId(), message.getChannelId());
         Set<Character> chars = Characters.getFightingCharactersWithCards(message.getGuildId(), message.getChannelId());
-        int statesStize = MIN_STATES_SIZE;
-        int cardsSize = MIN_CARDS_SIZE;
-        int charNameSize= MIN_CHAR_NAME_SIZE;
+        int statesStize;
+        int cardsSize;
+        int charNameSize;
 
         if (!chars.isEmpty()) {
             List<Character> sortedList = new ArrayList<>(chars);
@@ -76,21 +78,17 @@ public class ShowInitiativeAction implements IBotAction {
                         rightPad("[" + allCards + "]", ALL_CARDS_SIZE).
                         newLine();
             }
+            header.attach(" ========== Round " + round + " ========== ");
+            header.newLine();
+            header.rightPad("NAME [MODS]", charNameSize).
+                    rightPad("TOKENS", TOKENS_SIZE).
+                    rightPad("STATES", statesStize).
+                    rightPad("CARD", cardsSize).
+                    rightPad("ALL CARDS", ALL_CARDS_SIZE).
+                    newLine();
         } else {
             reply.attach("No cards dealt!");
         }
-
-        ReplyBuilder header = new ReplyBuilder();
-        header.attach(" ========== Round " + round + " ========== ");
-        header.blockQuote().newLine();
-
-        header.rightPad("NAME [MODS]", charNameSize).
-                rightPad("TOKENS", TOKENS_SIZE).
-                rightPad("STATES", statesStize).
-                rightPad("CARD", cardsSize).
-                rightPad("ALL CARDS", ALL_CARDS_SIZE).
-                newLine();
-
         reply.newLine().blockQuote();
         return new CommandExecutionResult(header.toString()+reply.toString(), args.length + 1);
 

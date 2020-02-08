@@ -21,11 +21,9 @@ public class AddStatesAction implements IBotAction {
         if (args.length < 2) {
             return new CommandExecutionResult("State(s) name missing!", 2);
         }
-
         List<State> states2add = new ArrayList<>();
-
         for (int i=1; i<args.length; i++) {
-            State s = State.valueOfOrNull(args[i].trim().toUpperCase());
+            State s = State.getStateFromString(args[i]);
             if (s!=null) {
                 states2add.add(s);
             }

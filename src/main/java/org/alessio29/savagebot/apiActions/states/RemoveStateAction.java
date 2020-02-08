@@ -25,7 +25,7 @@ public class RemoveStateAction implements IBotAction {
         List<State> states2remove = new ArrayList<>();
 
         for (int i=1; i<args.length; i++) {
-            State s = State.valueOfOrNull(args[i].trim().toUpperCase());
+            State s = State.getStateFromString(args[i]);
             if (s!=null) {
                 states2remove.add(s);
             }
