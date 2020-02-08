@@ -101,6 +101,14 @@ __**TOKENS category**__
 
 **clear** character/all Clears token(s) for sprecified character or for all characters in channel
 
+__**STATES category**__
+
+**clstate** or **cs** <character_name>/all clears all states of character/all characters in channel
+
+**remstate** or **rst** <character_name> <state1> [...] removes states from character
+
+**state** or **st** <character_name> <state1> [...] sets states to character
+
 __**BENNIES category**__
 
 **pocket**		<characterName>	Shows character's bennies
