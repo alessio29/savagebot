@@ -1,36 +1,24 @@
 package org.alessio29.savagebot.commands;
 
-import net.dv8tion.jda.core.OnlineStatus;
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import org.alessio29.savagebot.apiActions.cards.*;
+import org.alessio29.savagebot.apiActions.cards.DrawCardsAction;
+import org.alessio29.savagebot.apiActions.cards.PutCardsAction;
+import org.alessio29.savagebot.apiActions.cards.ShowCardsAction;
+import org.alessio29.savagebot.apiActions.cards.ShuffleCardsAction;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @CommandCategoryOwner(CommandCategory.CARDS)
 public class CardCommands {
 
     @CommandCallback(
-            name = "open",
-            description = "openly deals several (1 by default) cards to current channel",
-            aliases = {"op"},
-            arguments = { "[<card_count>]"}
+            name = "put",
+            description = "puts on table (to current channel) several (1 by default) cards",
+            aliases = {""},
+            arguments = {"[<card_count>]"}
     )
     public static CommandExecutionResult open(IMessageReceived message, String[] args) {
-        return new OpenCardsAction().doAction(message, args);
-    }
-
-    @CommandCallback(
-            name = "card",
-            description = "gives one more card to character",
-            aliases = {"cd"},
-            arguments = { "<character_name>"}
-    )
-    public static CommandExecutionResult card(IMessageReceived message, String[] args) {
-        return new GiveCardsAction().doAction(message, args);
+        return new PutCardsAction().doAction(message, args);
     }
 
     @CommandCallback(
@@ -44,9 +32,9 @@ public class CardCommands {
     }
 
     @CommandCallback(
-            name = "draw",
-            description = "Secretly draws several (1 by default) cards to user (to self by default)",
-            aliases = {"dw"},
+            name = "deal",
+            description = "Secretly deals several (1 by default) cards to user (to self by default)",
+            aliases = {"dl"},
             arguments = {"[<card_count>]", "[<user>]"}
     )
     public static CommandExecutionResult draw(IMessageReceived message, String[] args) {
@@ -60,10 +48,6 @@ public class CardCommands {
             arguments = {}
     )
     public static CommandExecutionResult shuffle(IMessageReceived<MessageReceivedEvent> message, String[] args) {
-        MessageReceivedEvent event = message.getOriginalEvent();
-        List<String> users = event.getGuild().getMembers().stream().
-                filter(m -> m.hasPermission(event.getTextChannel(), Permission.MESSAGE_READ)).
-                filter(m -> m.getOnlineStatus() == OnlineStatus.ONLINE).map(m -> m.getUser().getId()).collect(Collectors.toList());
 
         return new ShuffleCardsAction().doAction(message, args);
     }

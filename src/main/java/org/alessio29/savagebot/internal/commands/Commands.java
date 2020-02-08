@@ -31,5 +31,9 @@ public class Commands {
 		// states commands
 		registry.registerCommandsFromStaticMethods(StatesCommands.class);
 
+		// characters commands
+		registry.registerCommandsFromStaticMethods(CharacterCommands.class);
+
+
 	}
 }

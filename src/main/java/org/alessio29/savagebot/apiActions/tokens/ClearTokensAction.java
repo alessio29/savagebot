@@ -21,10 +21,10 @@ public class ClearTokensAction implements IBotAction {
             for (Character c : chars.values()) {
                 c.removeAllTokens();
             }
-            text = "Removed all characters";
+            text = "Removed tokens for all characters";
         } else {
             chars.get(args[0]).removeAllTokens();
-            text = "Removed character "+args[0];
+            text = "Removed tokens for character "+args[0];
         }
 //        Characters.storeAllCharacters(message.getGuildId(), message.getChannelId(), chars.values());
         return new CommandExecutionResult(text, args.length+1);

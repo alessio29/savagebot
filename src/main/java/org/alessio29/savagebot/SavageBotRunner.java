@@ -24,24 +24,15 @@ public class SavageBotRunner {
 		}
 		passwd = args[0].trim();
 		String token = args[1].trim();
-		String redisHost = args[2].trim();
-		int redisPort = Integer.parseInt(args[3].trim());
-		String redisPass = args[4].trim();
-
-		RedisClient.setup(redisHost, redisPort, redisPass);
 
 		Commands.registerDefaultCommands();
-		Prefixes.loadPrefixes();
+//		Prefixes.loadPrefixes();
 		if (args.length >=6) {
 			String debug = args[5].trim();
 			if (debug.equalsIgnoreCase("debug")) {
 				Prefixes.setDebugPrefix();
 			}
 		}
-
-		// Decks.loadDecks();
-		//Hands.loadHands();
-//		Characters.loadCharactersFromRedis();
 
 	    JDA jda = new JDABuilder(token).build();
         jda.addEventListener(new ParseInputListener());

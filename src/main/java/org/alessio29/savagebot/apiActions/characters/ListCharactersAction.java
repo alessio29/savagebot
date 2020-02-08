@@ -1,4 +1,4 @@
-package org.alessio29.savagebot.apiActions.states;
+package org.alessio29.savagebot.apiActions.characters;
 
 import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.characters.Character;
@@ -10,7 +10,7 @@ import org.alessio29.savagebot.internal.utils.Utils;
 
 import java.util.Collection;
 
-public class ListStatesAction implements IBotAction {
+public class ListCharactersAction implements IBotAction {
 
     private static final int NAME_SIZE = 20;
     private static final int TOKEN_SIZE = 10;

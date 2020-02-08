@@ -27,15 +27,12 @@ public class DropCharacterAction implements IBotAction {
             if (ch == null) {
                 notFound.add(name);
                 continue;
-//                return new CommandExecutionResult("No character with name " + name + " found.", 2);
             }
 
             if (ch.isOutOfFight()) {
                 alreadyOut.add(name);
                 continue;
-//                return new CommandExecutionResult("Character " + name + " is already out of fight.", 2);
             }
-
             ch.removeFromFight();
             removed.add(name);
             Characters.storeCharacter(message.getGuildId(), message.getChannelId(), ch);

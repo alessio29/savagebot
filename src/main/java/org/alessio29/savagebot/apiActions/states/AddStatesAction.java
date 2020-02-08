@@ -19,7 +19,7 @@ public class AddStatesAction implements IBotAction {
             return new CommandExecutionResult("Character name missing!", 1);
         }
         if (args.length < 2) {
-            return new CommandExecutionResult("State(s) name missing!", 1);
+            return new CommandExecutionResult("State(s) name missing!", 2);
         }
 
         List<State> states2add = new ArrayList<>();

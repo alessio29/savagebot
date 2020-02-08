@@ -3,6 +3,7 @@ package org.alessio29.savagebot.commands;
 public enum CommandCategory implements Comparable<CommandCategory>{
 	
 	CARDS,
+	CHARACTERS,
 	DICE,
 	BENNIES,
 	INITIATIVE,
@@ -11,6 +12,8 @@ public enum CommandCategory implements Comparable<CommandCategory>{
 	TOKENS,
 	STATES,
 	OTHER;
+
+
 
     public static CommandCategory valueOfOrNull(String string) {
 		try {

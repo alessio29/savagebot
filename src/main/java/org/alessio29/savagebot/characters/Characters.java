@@ -64,4 +64,8 @@ public class Characters {
                 collect(Collectors.toSet());
     }
 
+    public static void removeCharacter(String guildId, String channelId, String charName) {
+        Map<String, Character> charMap = getCharacters(guildId, channelId);
+        charMap.remove(charName);
+    }
 }

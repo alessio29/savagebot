@@ -8,7 +8,7 @@ import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
-public class OpenCardsAction implements IBotAction {
+public class PutCardsAction implements IBotAction {
 
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
         int count = 1;
@@ -29,11 +29,10 @@ public class OpenCardsAction implements IBotAction {
         ReplyBuilder replyBuilder = new ReplyBuilder();
         for (int i=0; i<count;i++) {
             Card newCard = deck.getNextCard();
-            if (newCard != null) {
-                replyBuilder.attach(newCard.toString()).space();
-            } else {
+            if (newCard == null) {
                 break;
             }
+            replyBuilder.attach(newCard.toString()).space();
         }
         return new CommandExecutionResult(replyBuilder.toString(), index);
     }

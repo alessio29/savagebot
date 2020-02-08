@@ -68,7 +68,7 @@ public class Character {
     }
     // ==================== CARDS & INITIATIVE ========================
 
-    private void setSaWoInitParams(String mods) {
+    public void setSaWoInitParams(String mods) {
         attributes.put(SAWO_INIT_PARAMS, mods);
     }
 

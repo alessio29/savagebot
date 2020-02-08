@@ -1,4 +1,4 @@
-package org.alessio29.savagebot.apiActions.cards;
+package org.alessio29.savagebot.apiActions.initiative;
 
 import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.cards.Deck;

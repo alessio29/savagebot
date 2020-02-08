@@ -21,11 +21,12 @@ public class ClearStatesAction implements IBotAction {
 
             for (Character c : chars.values()) {
                 c.clearStates();
+                Characters.storeCharacter(message.getGuildId(), message.getChannelId(), c);
             }
-            text = "Removed all characters";
+            text = "Cleared states for all characters";
         } else {
             chars.get(args[0]).clearStates();
-            text = "Removed character "+args[0];
+            text = "Cleared states for character "+args[0];
         }
         return new CommandExecutionResult(text, args.length+1);
     }

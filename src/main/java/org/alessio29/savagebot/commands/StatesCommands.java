@@ -2,7 +2,6 @@ package org.alessio29.savagebot.commands;
 
 import org.alessio29.savagebot.apiActions.states.AddStatesAction;
 import org.alessio29.savagebot.apiActions.states.ClearStatesAction;
-import org.alessio29.savagebot.apiActions.states.ListStatesAction;
 import org.alessio29.savagebot.apiActions.states.RemoveStateAction;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
@@ -43,15 +42,6 @@ public class StatesCommands {
         return new RemoveStateAction().doAction(message, args);
     }
 
-    @CommandCallback(
-            name = "list",
-            description = "List characters with states",
-            aliases = {""},
-            arguments = {""}
-    )
-    public static CommandExecutionResult list(IMessageReceived message, String[] args) {
 
-        return new ListStatesAction().doAction(message, args);
-    }
 
 }
