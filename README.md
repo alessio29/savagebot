@@ -13,14 +13,19 @@ Start you message with `!` then type any command from the following list. Some c
 
 __**CARDS category**__
 
-**deal** or **dl**    [<card_count>]    openly deals several (1 by default) cards to current channel
+**deal** or **dl**    [<card_count>] [<user_name>]    Secretly deals several (1 by default) cards to user (to self by default)
 
-**draw** or **dw**    [<card_count>] [<user_name>]    Secretly draws several (1 by default) cards to user (to self by default)
+**show** or **sh**    Shows your cards, previously dealt to you by 'deal' command to current channel
 
-**show** or **sh**    Shows your cards, previously dealt to you by 'draw' command to current channel
+**put**         Deals card and "puts it on table" (current channel). 
 
 **shuffle**        Shuffles current deck, resets secret cards dealt to all users in this channel
 
+__**CHARACTERS category**__
+
+**list**        Lists characters with tokens and states
+
+**remove**      <charName1> [<charName2> ...] removes character(s)
 
 __**DICE category**__
 
@@ -89,8 +94,6 @@ Huey 10
 Louie 5`
 
 __**TOKENS category**__
-
-**tokens**			Shows characters and their tokens
 
 **give** character [token count]		Gives token(s) to <character>
 
