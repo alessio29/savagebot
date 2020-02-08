@@ -28,5 +28,12 @@ public class Commands {
 		// tokens commands
 		registry.registerCommandsFromStaticMethods(TokenCommands.class);
 
+		// states commands
+		registry.registerCommandsFromStaticMethods(StatesCommands.class);
+
+		// characters commands
+		registry.registerCommandsFromStaticMethods(CharacterCommands.class);
+
+
 	}
 }

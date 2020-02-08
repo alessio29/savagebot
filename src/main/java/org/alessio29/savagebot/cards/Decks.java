@@ -28,14 +28,12 @@ public class Decks {
 		if (result == null ) {
 			Decks.addDeck(guildId, channelId, Deck.createNewDeck());
 		}
-		saveDecks();
 		return decks.get(guildId).get(channelId);
 	}
 		
 	private static void addDeck(String guild, String channel, Deck deck) {
 		Map<String, Deck> map = decks.computeIfAbsent(guild, k -> new HashMap<>());
 		map.put(channel, deck);
-		saveDecks();
 	}
 
 	public static void saveDecks() {

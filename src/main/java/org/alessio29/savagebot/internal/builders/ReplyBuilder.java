@@ -128,13 +128,8 @@ public class ReplyBuilder {
         return this;
     }
 
-    public ReplyBuilder squareBracketOpen() {
-        this.builder.append(SQUARE_BRACKET_OPEN);
-        return this;
-    }
-
-    public ReplyBuilder squareBracketClose() {
-        this.builder.append(SQUARE_BRACKET_CLOSE);
+    public ReplyBuilder addSquareBrackets(String value) {
+        this.builder.append(SQUARE_BRACKET_OPEN).append(value).append(SQUARE_BRACKET_CLOSE) ;
         return this;
     }
 }

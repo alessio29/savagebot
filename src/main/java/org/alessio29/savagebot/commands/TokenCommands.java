@@ -2,7 +2,6 @@ package org.alessio29.savagebot.commands;
 
 import org.alessio29.savagebot.apiActions.tokens.ClearTokensAction;
 import org.alessio29.savagebot.apiActions.tokens.GiveTokenAction;
-import org.alessio29.savagebot.apiActions.tokens.ListTokensAction;
 import org.alessio29.savagebot.apiActions.tokens.TakeTokenAction;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
@@ -20,16 +19,6 @@ public class TokenCommands {
     public static CommandExecutionResult clear(IMessageReceived message, String[] args) {
 
         return new ClearTokensAction().doAction(message, args);
-    }
-
-    @CommandCallback(
-            name = "tokens",
-            description = "List all characters and their tokens",
-            aliases = {},
-            arguments = {}
-    )
-    public static CommandExecutionResult list(IMessageReceived message, String[] args) {
-        return new ListTokensAction().doAction(message, args);
     }
 
     @CommandCallback(

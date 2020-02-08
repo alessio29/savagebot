@@ -52,6 +52,16 @@ public class InitCommands {
     }
 
     @CommandCallback(
+            name = "card",
+            description = "gives one more card to character",
+            aliases = {"cd"},
+            arguments = { "<character_name>"}
+    )
+    public static CommandExecutionResult card(IMessageReceived message, String[] args) {
+        return new GiveCardsAction().doAction(message, args);
+    }
+
+    @CommandCallback(
             name = "di",
             description = "Deal initiative card",
             aliases = {},

@@ -1,4 +1,4 @@
-package org.alessio29.savagebot.apiActions.tokens;
+package org.alessio29.savagebot.apiActions.states;
 
 import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.characters.Character;
@@ -8,8 +8,9 @@ import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
 import java.util.Map;
 
-public class ClearTokensAction implements IBotAction {
+public class ClearStatesAction implements IBotAction {
 
+    @Override
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
         if (args.length <1) {
             return new CommandExecutionResult("Please provide character name or 'all' to clear all characters", 1);
@@ -19,14 +20,14 @@ public class ClearTokensAction implements IBotAction {
         if (args[0].trim().toLowerCase().equals("all")) {
 
             for (Character c : chars.values()) {
-                c.removeAllTokens();
+                c.clearStates();
+                Characters.storeCharacter(message.getGuildId(), message.getChannelId(), c);
             }
-            text = "Removed tokens for all characters";
+            text = "Cleared states for all characters";
         } else {
-            chars.get(args[0]).removeAllTokens();
-            text = "Removed tokens for character "+args[0];
+            chars.get(args[0]).clearStates();
+            text = "Cleared states for character "+args[0];
         }
-//        Characters.storeAllCharacters(message.getGuildId(), message.getChannelId(), chars.values());
         return new CommandExecutionResult(text, args.length+1);
     }
 }
