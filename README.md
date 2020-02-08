@@ -4,7 +4,7 @@ Supports various dice-rolling, Savage Worlds initiative cards and other RPG stuf
 
 
 **Installation:**
-Click on the following link and authorize bot on your sever: https://discordapp.com/oauth2/authorize?&client_id=448952545784758303&scope=bot&permissions=0
+Click on the following link and authorize bot on your server: https://discordapp.com/oauth2/authorize?&client_id=448952545784758303&scope=bot&permissions=0
 
 **How to use it:**
 
@@ -13,14 +13,19 @@ Start you message with `!` then type any command from the following list. Some c
 
 __**CARDS category**__
 
-**deal** or **dl**    [<card_count>]    openly deals several (1 by default) cards to current channel
+**deal** or **dl**    [<card_count>] [<user_name>]    Secretly deals several (1 by default) cards to user (to self by default)
 
-**draw** or **dw**    [<card_count>] [<user_name>]    Secretly draws several (1 by default) cards to user (to self by default)
+**show** or **sh**    Shows your cards, previously dealt to you by 'deal' command to current channel
 
-**show** or **sh**    Shows your cards, previously dealt to you by 'draw' command to current channel
+**put**         Deals card and "puts it on table" (current channel). 
 
 **shuffle**        Shuffles current deck, resets secret cards dealt to all users in this channel
 
+__**CHARACTERS category**__
+
+**list**        Lists characters with tokens and states
+
+**remove**      <charName1> [<charName2> ...] Removes character(s)
 
 __**DICE category**__
 
@@ -90,13 +95,21 @@ Louie 5`
 
 __**TOKENS category**__
 
-**tokens**			Shows characters and their tokens
-
 **give** character [token count]		Gives token(s) to <character>
 
 **take** character [token count]		Takes token(s) from <character>
 
 **clear** character/all Clears token(s) for sprecified character or for all characters in channel
+
+__**STATES category**__
+
+**clstate** or **cs** <character_name>/all clears all states of character/all characters in channel
+
+**remstate** or **rst** <character_name> <state1> [...] removes states from character
+
+**state** or **st** <character_name> <state1> [...] sets states to character
+  
+  States are Savage Worlds states: Shaken, Stunned, Entangled, Bound, Distracted and Vulnerable. You can write them in any case even like sTuNnEd. You can use abbreviations: sha, stn, ent, bnd, dis, vul.
 
 __**BENNIES category**__
 
