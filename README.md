@@ -25,7 +25,7 @@ __**CHARACTERS category**__
 
 **list**        Lists characters with tokens and states
 
-**remove**      <charName1> [<charName2> ...] removes character(s)
+**remove**      <charName1> [<charName2> ...] Removes character(s)
 
 __**DICE category**__
 
