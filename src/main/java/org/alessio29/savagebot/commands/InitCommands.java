@@ -68,7 +68,6 @@ public class InitCommands {
             arguments = { "<character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]" }
     )
     public static CommandExecutionResult dealInitCards(IMessageReceived message, String[] args) {
-        new DealInitiativeCardsAction().doAction(message, args);
-        return new ShowInitiativeAction().doAction(message, args);
+        return new DealInitiativeCardsAction().doAction(message, args);
     }
 }

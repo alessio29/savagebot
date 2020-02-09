@@ -8,6 +8,11 @@ import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.initiative.DrawCardResult;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
+import org.alessio29.savagebot.internal.iterators.GiveCardsParamIterator;
+import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GiveCardsAction implements IBotAction {
 
@@ -17,12 +22,19 @@ public class GiveCardsAction implements IBotAction {
         if (args.length <1 ) {
             return new CommandExecutionResult("Provide character name!", 1);
         }
-        String charName = args[0];
-        Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), charName);
+        List<String> list = new ArrayList<>();
         Deck deck = Decks.getDeck(message.getGuildId(), message.getChannelId());
-        DrawCardResult cards = deck.getCardByParams("");
-        character.giveCard(cards);
-        return new CommandExecutionResult("Card " +cards.getCards().toString()+
-                " given to character "+character.getName(), args.length + 1);
+        GiveCardsParamIterator it = new GiveCardsParamIterator(args);
+
+        while (it.hasNext()) {
+            String value = it.next();
+            if (it.isEntity(value)) {
+                Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), value);
+                DrawCardResult cards = deck.getCardByParams("");
+                character.giveCard(cards);
+                list.add(it.process(value, null, character));
+            }
+        }
+        return new CommandExecutionResult(StringUtils.join(list, ", "), args.length + 1);
     }
 }

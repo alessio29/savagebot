@@ -11,8 +11,8 @@ public class CharacterCommands {
     @CommandCallback(
             name = "list",
             description = "List characters with states",
-            aliases = {""},
-            arguments = {""}
+            aliases = {},
+            arguments = {}
     )
     public static CommandExecutionResult list(IMessageReceived message, String[] args) {
 
@@ -23,7 +23,7 @@ public class CharacterCommands {
             name = "remove",
             description = "Remove characters totally",
             aliases = {"rm"},
-            arguments = {""}
+            arguments = {}
     )
     public static CommandExecutionResult remove(IMessageReceived message, String[] args) {
 

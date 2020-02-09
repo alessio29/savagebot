@@ -5,6 +5,7 @@ import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
+import org.alessio29.savagebot.internal.iterators.DropCharacterParamsIterator;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
@@ -17,30 +18,33 @@ public class DropCharacterAction implements IBotAction {
         if (args.length < 1) {
             return new CommandExecutionResult("Character name should be provided.", 1);
         }
+
         List<String> removed = new ArrayList<>();
         List<String> notFound =  new ArrayList<>();
         List<String> alreadyOut =  new ArrayList<>();
 
-        for (int i = 0; i<args.length; i++) {
-            String name = args[i].trim();
-            Character ch = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), name);
-            if (ch == null) {
-                notFound.add(name);
-                continue;
+        DropCharacterParamsIterator it = new DropCharacterParamsIterator(args);
+        while (it.hasNext()) {
+            String value = it.next();
+            Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), value);
+            DropCharacterParamsIterator.DropProcessResult result = it.process(value, null, character);
+            switch (result) {
+                case REMOVED:
+                    removed.add(value);
+                    break;
+                case ALREADY_OUT:
+                    alreadyOut.add(value);
+                    break;
+                case NOT_FOUND:
+                    notFound.add(value);
+                    break;
             }
-
-            if (ch.isOutOfFight()) {
-                alreadyOut.add(name);
-                continue;
-            }
-            ch.removeFromFight();
-            removed.add(name);
-            Characters.storeCharacter(message.getGuildId(), message.getChannelId(), ch);
+            Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
         }
 
         String response = "";
         if (!notFound.isEmpty()) {
-            response = "Character(s) " +StringUtils.join(notFound, ", ")+ " not found!\n";
+            response = "Character(s) " + StringUtils.join(notFound, ", ")+ " not found!\n";
         }
         if (!alreadyOut.isEmpty()) {
             response = response + "Character(s) " +StringUtils.join(alreadyOut, ", ")+ " already out of fight!\n";
@@ -48,7 +52,6 @@ public class DropCharacterAction implements IBotAction {
         if (!removed.isEmpty()) {
             response = response + "Character(s) " +StringUtils.join(removed, ", ")+ " removed from fight!\n";
         }
-
         return new CommandExecutionResult(response, args.length+1);
     }
 }

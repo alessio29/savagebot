@@ -5,6 +5,10 @@ import org.alessio29.savagebot.internal.builders.DiscordResponseBuilder;
 import org.alessio29.savagebot.internal.builders.SplittingResponseBuilder;
 import org.alessio29.savagebot.internal.commands.CommandInterpreter;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 public class TestUtils {
     private static final String LINE_SEPARATOR = System.lineSeparator();
 
@@ -54,6 +58,11 @@ public class TestUtils {
         public String getAuthorMention() {
             return "@" + userId;
         }
+
+//        @Override
+//        public List<String> getMentions() {
+//            return Collections.EMPTY_LIST;
+//        }
 
         @Override
         public String getRawMessage() {
