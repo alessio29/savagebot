@@ -3,9 +3,10 @@ package org.alessio29.savagebot.apiActions.states;
 import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
-import org.alessio29.savagebot.characters.State;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
+import org.alessio29.savagebot.internal.iterators.AddStatesParamIterator;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,25 +22,27 @@ public class AddStatesAction implements IBotAction {
         if (args.length < 2) {
             return new CommandExecutionResult("State(s) name missing!", 2);
         }
-        List<State> states2add = new ArrayList<>();
-        for (int i=1; i<args.length; i++) {
-            State s = State.getStateFromString(args[i]);
-            if (s!=null) {
-                states2add.add(s);
-            }
-        }
-        if (states2add.isEmpty()) {
-            return new CommandExecutionResult("No valid states to add!", args.length+1);
-        }
+        AddStatesParamIterator it = new AddStatesParamIterator(args);
+        List<String> list = new ArrayList<>();
 
-        Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), args[0]);
-        if (character == null) {
-            character = new Character(args[0]);
+        while (it.hasNext()) {
+            String value = it.next();
+            if (!it.isEntity(value)) {
+                return new CommandExecutionResult("Provide character name!", args.length + 1);
+            }
+            Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), value);
+            if (character == null) {
+                character = new Character(value);
+            }
+            if (!it.nextIsModifier()) {
+                return new CommandExecutionResult("No valid states to add for character " + value, args.length + 1);
+            }
+            while (it.nextIsModifier()) {
+                list.add(it.process(value, it.next(), character));
+            }
             Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
         }
-        String messageStr = "State(s) added for character "+character.getName();
-        for (State s : states2add) {
-            character.addState(s);
-        }
-        return new CommandExecutionResult(messageStr, args.length+1);    }
+        String response = "State(s) added for character(s) " + StringUtils.join(list, ", ");
+        return new CommandExecutionResult(response, args.length + 1);
+    }
 }

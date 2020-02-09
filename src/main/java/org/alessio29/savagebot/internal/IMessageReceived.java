@@ -1,5 +1,7 @@
 package org.alessio29.savagebot.internal;
 
+import java.util.List;
+
 public interface IMessageReceived<E> {
 
     boolean isPrivateMessage();
@@ -11,6 +13,8 @@ public interface IMessageReceived<E> {
     String getAuthorId();
 
     String getAuthorMention();
+
+//    List<String> getMentions();
 
     String getRawMessage();
 

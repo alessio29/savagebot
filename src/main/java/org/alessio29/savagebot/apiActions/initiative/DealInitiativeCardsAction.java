@@ -7,6 +7,7 @@ import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
+import org.alessio29.savagebot.internal.iterators.DealInitiativeParamsIterator;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.regex.Pattern;
@@ -28,7 +29,6 @@ public class DealInitiativeCardsAction implements IBotAction {
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
 
         Deck deck = Decks.getDeck(message.getGuildId(), message.getChannelId());
-
         if (deck.isShuffleNeeded()) {
             deck.shuffle();
         }
@@ -37,38 +37,24 @@ public class DealInitiativeCardsAction implements IBotAction {
             return new CommandExecutionResult("Provide at least one character name!", 1);
         }
 
-        int index = 0;
-        while (index < args.length) {
-            String charName = args[index];
-            String mods = "";
-            if (index + 1 < args.length && args[index + 1].startsWith("-")) {
-                // this is initiative modifiers
-                index++;
-                mods = args[index].trim().toLowerCase().substring(1);
-                if (modPattern.matcher(mods).matches()) {
+        DealInitiativeParamsIterator it = new DealInitiativeParamsIterator(args, deck);
+        while (it.hasNext()) {
+            String value = it.next();
+            if (!it.isEntity(value)) {
+                return new CommandExecutionResult("Provide at least one character name!", args.length+1);
+            }
+            String modifier = null;
+            if (it.nextIsModifier()) {
+                modifier = it.next().trim().toLowerCase();
+                if (modPattern.matcher(modifier).matches()) {
                     return new CommandExecutionResult(helpString, args.length + 1);
                 }
-                CommandExecutionResult modsInvalidResult = getCheckModsValidity(mods, args.length +1);
-                if (modsInvalidResult != null) {
-                    return modsInvalidResult;
-                }
             }
-            Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), charName);
-            if (character == null) {
-                character = new Character(charName, mods);
-            } else {
-                character.setSaWoInitParams(mods);
-            }
-            if ( character.alreadyDealt()) {
-                index++;
-                continue;
-            }
-            character.dealInitiativeCards(deck);
+            Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), value);
+            character = it.process(value, modifier, character);
             Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
-//				Characters.saveCharacters();
-            index++;
         }
-        return null;
+        return new ShowInitiativeAction().doAction(message, args);
     }
 
     @Nullable

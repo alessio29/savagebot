@@ -5,6 +5,14 @@ import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
+import org.alessio29.savagebot.internal.iterators.ClearTokensParamsIterator;
+import org.alessio29.savagebot.internal.iterators.GiveTokensParamsIterator;
+import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class GiveTokenAction implements IBotAction {
 
@@ -12,24 +20,29 @@ public class GiveTokenAction implements IBotAction {
         if (args.length < 1) {
             return new CommandExecutionResult("Character name missing!", 1);
         }
+        List<String> given = new ArrayList<>();
+        GiveTokensParamsIterator it = new GiveTokensParamsIterator(args);
 
-        Integer tokens = 1;
-        if (args.length > 1) {
-            try {
-                tokens = Integer.parseInt(args[1]);
-            } catch ( Exception ignored) {
+        while (it.hasNext()) {
+            String value = it.next();
+            if (!it.isEntity(value)) {
+                return new CommandExecutionResult("Provide character name!", args.length+1);
+            }
+            Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), value);
+            if(character == null) {
+                character = new Character(value);
+            }
+            String modifier = null;
+            Integer tokens = 1;
+            if (it.nextIsModifier()) {
+                modifier = it.next().trim();
+                 tokens = Integer.parseInt(modifier);
+            }
+            if (tokens>0) {
+                given.add(it.process(value, modifier, character));
+                Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
             }
         }
-
-        Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), args[0]);
-        if (character == null) {
-            character = new Character(args[0]);
-        }
-        if (tokens>0) {
-            character.addTokens(tokens);
-            Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
-            return new CommandExecutionResult( tokens+" token(s) given to character "+character.getName() , args.length+1);
-        }
-        return new CommandExecutionResult("Only positive values can be added!", 2);
+        return new CommandExecutionResult("Given tokens to character(s): "+ StringUtils.join(given, ", "), args.length + 1);
     }
 }

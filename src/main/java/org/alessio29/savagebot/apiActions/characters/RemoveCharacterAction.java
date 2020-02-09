@@ -5,6 +5,7 @@ import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
+import org.alessio29.savagebot.internal.iterators.RemoveCharacterParamsIterator;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
@@ -17,6 +18,11 @@ public class RemoveCharacterAction implements IBotAction {
         if (args.length < 1) {
             return new CommandExecutionResult("No character name(s) provided!", 1);
         }
+
+        RemoveCharacterParamsIterator it = new RemoveCharacterParamsIterator(args);
+
+
+
 
         List<String> charsNotFound = new ArrayList<>();
         List<String> charsToRemove = new ArrayList<>();

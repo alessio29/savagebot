@@ -1,7 +1,7 @@
 package org.alessio29.savagebot.commands;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import org.alessio29.savagebot.apiActions.cards.DrawCardsAction;
+import org.alessio29.savagebot.apiActions.cards.DealCardsAction;
 import org.alessio29.savagebot.apiActions.cards.PutCardsAction;
 import org.alessio29.savagebot.apiActions.cards.ShowCardsAction;
 import org.alessio29.savagebot.apiActions.cards.ShuffleCardsAction;
@@ -14,7 +14,7 @@ public class CardCommands {
     @CommandCallback(
             name = "put",
             description = "puts on table (to current channel) several (1 by default) cards",
-            aliases = {""},
+            aliases = {},
             arguments = {"[<card_count>]"}
     )
     public static CommandExecutionResult open(IMessageReceived message, String[] args) {
@@ -38,7 +38,7 @@ public class CardCommands {
             arguments = {"[<card_count>]", "[<user>]"}
     )
     public static CommandExecutionResult draw(IMessageReceived message, String[] args) {
-        return new DrawCardsAction().doAction(message, args);
+        return new DealCardsAction().doAction(message, args);
     }
 
     @CommandCallback(

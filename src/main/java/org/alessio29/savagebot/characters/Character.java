@@ -34,7 +34,9 @@ public class Character {
 
     public Character(String charName, String saWoInitParams) {
         this(charName);
-        this.setSaWoInitParams(saWoInitParams);
+        if (saWoInitParams != null) {
+            this.setSaWoInitParams(saWoInitParams);
+        }
     }
 
     public String getName() {
@@ -234,5 +236,13 @@ public class Character {
         DrawCardResult cards = deck.getCardByParams(this.getSaWoInitParams());
         this.setAllCards(cards.getCards());
         this.backToFight();
+    }
+
+    @Override
+    public String toString() {
+        return "Character{" +
+                "name='" + name + '\'' +
+                ", attributes=" + attributes +
+                '}';
     }
 }

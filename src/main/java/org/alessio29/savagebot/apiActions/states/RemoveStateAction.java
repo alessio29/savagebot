@@ -3,9 +3,10 @@ package org.alessio29.savagebot.apiActions.states;
 import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
-import org.alessio29.savagebot.characters.State;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
+import org.alessio29.savagebot.internal.iterators.RemoveStatesParamIterator;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,27 +23,27 @@ public class RemoveStateAction implements IBotAction {
             return new CommandExecutionResult("State(s) name missing!", 2);
         }
 
-        List<State> states2remove = new ArrayList<>();
+        RemoveStatesParamIterator it = new RemoveStatesParamIterator(args);
+        List<String> list = new ArrayList<>();
 
-        for (int i=1; i<args.length; i++) {
-            State s = State.getStateFromString(args[i]);
-            if (s!=null) {
-                states2remove.add(s);
+        while (it.hasNext()) {
+            String value = it.next();
+            if (!it.isEntity(value)) {
+                return new CommandExecutionResult("Provide character name!", args.length + 1);
             }
+            Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), value);
+            if (character == null) {
+                continue;
+            }
+            if (!it.nextIsModifier()) {
+                return new CommandExecutionResult("No valid states to remove for character " + value, args.length + 1);
+            }
+            while (it.nextIsModifier()) {
+                list.add(it.process(value, it.next(), character));
+            }
+            Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
         }
-        if (states2remove.isEmpty()) {
-            return new CommandExecutionResult("No valid states to remove!", args.length);
-        }
-
-        Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), args[0]);
-        if (character == null) {
-            return new CommandExecutionResult("Cannot find character named " + args[0], args.length+1);
-        }
-        String messageStr = "State(s) removed from character "+character.getName();
-        for (State s : states2remove) {
-            character.removeState(s);
-        }
-        return new CommandExecutionResult(messageStr, args.length+1);
-
+        String response = "State(s) removed from character(s) " + StringUtils.join(list, ", ");
+        return new CommandExecutionResult(response, args.length + 1);
     }
 }
