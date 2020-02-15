@@ -136,8 +136,7 @@ Examples:
 **drop** <char_name1> ... <char_nameN>  Removes characters from initiative tracker.
 
 **di**      <character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]    Deal initiative card. Modifiers should start with `-` and be either 'q', 'l', 'i' or 'h': Quick, Levelheaded, Improved Levelheaded and Hesitant respectively.
-Example: 
-`!di Huey -q Dewey Louie -i Scrooge -h Ma_Beagle -iq`
+Example: `!di Huey -q Dewey Louie -l Scrooge -h Ma_Beagle -iq`
 
 **card** <character_name>   Simply gives character <character_name> new intiative card. Used as 'Card for benny' rule or 'Tactician' edge .
 
