@@ -95,9 +95,15 @@ Louie 5`
 
 __**TOKENS category**__
 
-**give** character1 [token count1] [character2 [token count2]] [...]		Gives token(s) to character(s). Example: `!give Huey 2 Louie Dewey 3` - gives 2 tokens to Huey, 1 to Louie and 3 to Dewey. 
+**give** character1 [token count1] [character2 [token count2]] [...]		Gives token(s) to character(s). 
 
-**take** character [token count] [character2 [token count2]] [...]    Takes token(s) from character(s).  Example: `!give Huey Louie Dewey 2` - takes 1 tokens from Huey, 1 from Louie and 2 from Dewey.
+Example: `!give Huey 2 Louie Dewey 3` - gives 2 tokens to Huey, 1 to Louie and 3 to Dewey. 
+
+
+**take** character [token count] [character2 [token count2]] [...]    Takes token(s) from character(s).  
+
+Example: `!give Huey Louie Dewey 2` - takes 1 tokens from Huey, 1 from Louie and 2 from Dewey.
+
 
 **clear** character1 [character2] [...] /all    Clears token(s) for sprecified character or for all characters in channel
 
@@ -105,9 +111,13 @@ __**STATES category**__
 
 **clstate** or **cs** <character_name>/all clears all states of character/all characters in channel
 
-**remstate** or **rst** <character_name1> <state1> [<state2>] [...]   Removes states from character. Example: `!remstate Huey stunned vul Dewey dis`
+**remstate** or **rst** <character_name1> <state1> [<state2>] [...]   Removes states from character. 
+  
+  Example: `!remstate Huey stunned vul Dewey dis`
 
-**state** or **st** <character_name1> <state1> [<state2>] [...]   Sets states to character. Example: `!state Huey stunned vul dis Dewey dis ent`
+**state** or **st** <character_name1> <state1> [<state2>] [...]   Sets states to character.
+  
+  Example: `!state Huey stunned vul dis Dewey dis ent`
   
   States are Savage Worlds states: Shaken, Stunned, Entangled, Bound, Distracted and Vulnerable. You can write them in any case even like sTuNnEd. You can use abbreviations: sha, stn, ent, bnd, dis, vul.
 
@@ -128,6 +138,7 @@ __**INITIATIVE category**__
 **init**			Shows current initiative tracker
 
 **round** or **rd**	[+] [-<char_name1> .. -<char_nameN>]		Starts new round: resets resets intiative tracker, shuffles deck, if joker was dealt on previous round. If `+` provided initiative cards will be dealt again to characters. If character names preceded by `-` were provided - characters will be removed from initiative tracker.
+
 Examples:
 
 `!rd` - starts new round
@@ -135,6 +146,7 @@ Examples:
 `!rd +` - starts new round and deals initiative cards to all characters in initiative tracker. 
 
 `!rd + -Dewey -Scrooge` - starts new round, removes characters Dewey and Scrooge from initiative tracker and deals initiative cards to all remaing characters.
+
 
 **drop** <char_name1> ... <char_nameN>  Removes characters from initiative tracker.
 
