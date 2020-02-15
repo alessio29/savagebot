@@ -1,5 +1,7 @@
 package org.alessio29.savagebot.cards;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * 
  * @author aless
@@ -10,26 +12,6 @@ package org.alessio29.savagebot.cards;
 
 public class Rank implements Comparable<Rank>{
 	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + rank;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Rank other = (Rank) obj;
-		return rank == other.rank;
-	}
-
 	public static final String[] names = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A", "Joker" };
 	
 	public static final Rank TWO 	= new Rank(2);
@@ -48,12 +30,11 @@ public class Rank implements Comparable<Rank>{
 	public static final Rank JOKER 	= new Rank(15);
 	
 	private int rank;
-	
+
 	private Rank(int rank) {
 		if (rank<2 || rank>15) {
 			throw new IllegalArgumentException();
 		}
-			
 		this.rank=rank;
 	}
 
@@ -62,6 +43,15 @@ public class Rank implements Comparable<Rank>{
 		return names[rank-2];
 	}
 
+	public Rank() {
+	}
+
+	@JsonProperty
+	public void setRank(int newRank) {
+		rank = newRank;
+	}
+
+	@JsonProperty
 	public int getRank() {
 		return rank;
 	}
@@ -76,6 +66,26 @@ public class Rank implements Comparable<Rank>{
 			return 1;
 		}
 		return 0;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + rank;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Rank other = (Rank) obj;
+		return rank == other.rank;
 	}
 
 }

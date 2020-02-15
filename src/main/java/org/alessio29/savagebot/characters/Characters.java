@@ -1,5 +1,8 @@
 package org.alessio29.savagebot.characters;
 
+import org.alessio29.savagebot.internal.RedisClient;
+import org.alessio29.savagebot.internal.utils.JsonConverter;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -9,6 +12,7 @@ import java.util.stream.Collectors;
 public class Characters {
 
     private static final String REDIS_CHARACTERS_KEY = "characters";
+
     //                 guildId,    channelId    charName
     private static Map<String, Map<String, Map<String, Character>>> characters = new HashMap<>();
 
@@ -27,10 +31,14 @@ public class Characters {
     public static void storeCharacter(String guild, String channel, Character character) {
         Map<String, Character> map = getCharacters(guild, channel);
         map.put(character.getName(), character);
+        save2Redis();
     }
 
     public static void resetCharactersInitiative(String guildId, String channelId) {
         Map<String, Character> map = getCharacters(guildId, channelId);
+        if (map.entrySet().isEmpty()) {
+            return;
+        }
         for (Map.Entry<String, Character> e :  map.entrySet()) {
             e.getValue().clearCards();
             if (e.getValue().isEmpty()) {
@@ -58,14 +66,47 @@ public class Characters {
         }
     }
 
-    public static Set<Character> getCharactersWithTokens(String guildId, String channelId) {
-        return getCharacters(guildId, channelId).values().stream().
-                filter(character -> character.getTokens() != null).
-                collect(Collectors.toSet());
-    }
-
     public static void removeCharacter(String guildId, String channelId, String charName) {
         Map<String, Character> charMap = getCharacters(guildId, channelId);
         charMap.remove(charName);
+    }
+
+    public static void save2Redis() {
+
+        Map<String, String> map = new HashMap<>();
+        if (characters.keySet().isEmpty()) {
+            return;
+        }
+        for (String guildID : characters.keySet()) {
+            if (characters.get(guildID)==null || characters.get(guildID).keySet().isEmpty()) {
+                continue;
+            }
+            for (String channelID : characters.get(guildID).keySet()) {
+                if (characters.get(guildID).get(channelID)==null || characters.get(guildID).get(channelID).keySet().isEmpty()) {
+                    continue;
+                }
+                for (String charName : characters.get(guildID).get(channelID).keySet()){
+                    Character ch = characters.get(guildID).get(channelID).get(charName);
+                    if (ch == null) {
+                        continue;
+                    }
+                    String key = guildID+RedisClient.DELIMITER+channelID+RedisClient.DELIMITER+charName;
+                    map.put(key, RedisClient.asJson(ch));
+                }
+            }
+        }
+        RedisClient.saveMapAtKey(REDIS_CHARACTERS_KEY, map);
+    }
+
+    public static void loadFromRedis() {
+        Map<String, String> map = RedisClient.loadMapAtKey(REDIS_CHARACTERS_KEY);
+        for (String key : map.keySet()) {
+            String[] keyParts = key.split(RedisClient.DELIMITER);
+            if (keyParts.length <3 ) {
+                // key is wrong
+                continue;
+            }
+            storeCharacter(keyParts[0], keyParts[1], JsonConverter.getInstance().fromJson(map.get(key), Character.class));
+        }
     }
 }

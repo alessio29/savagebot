@@ -11,12 +11,12 @@ public class RemoveStatesParamIterator extends ParamsIterator {
 
     @Override
     public boolean isModifier(String param) {
-        return false;
+        return State.getStateFromString(param)!=null;
     }
 
     @Override
     public boolean isEntity(String param) {
-        return false;
+        return !isModifier(param);
     }
 
     @Override
@@ -30,6 +30,6 @@ public class RemoveStatesParamIterator extends ParamsIterator {
         Character character = (Character)entity;
         State state = State.getStateFromString(modifier);
         character.removeState(state);
-        return state.toString()+" to "+value;
+        return state.toString()+" from "+value;
     }
 }

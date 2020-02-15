@@ -8,7 +8,6 @@ import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.internal.Prefixes;
 import org.alessio29.savagebot.internal.commands.Commands;
 import org.alessio29.savagebot.internal.ParseInputListener;
-import org.alessio29.savagebot.internal.RedisClient;
 
 import javax.security.auth.login.LoginException;
 
@@ -26,7 +25,11 @@ public class SavageBotRunner {
 		String token = args[1].trim();
 
 		Commands.registerDefaultCommands();
-//		Prefixes.loadPrefixes();
+		Prefixes.loadFromRedis();
+		Decks.loadFromRedis();
+		Hands.loadFromRedis();
+		Characters.loadFromRedis();
+
 		if (args.length >=6) {
 			String debug = args[5].trim();
 			if (debug.equalsIgnoreCase("debug")) {

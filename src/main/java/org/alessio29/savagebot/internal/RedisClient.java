@@ -1,19 +1,23 @@
 package org.alessio29.savagebot.internal;
 
-import com.google.gson.Gson;
+import org.alessio29.savagebot.internal.utils.JsonConverter;
 import redis.clients.jedis.Jedis;
+
+import java.util.Map;
 
 public class RedisClient {
 
+    private static final boolean DEBUG = false;
+    private static final String defaultHost = "localhost";
+    private static final int defaultPort = 6379;
     private static Jedis client;
     private static String host;
     private static int port;
     private static String pass;
-    private static final boolean DEBUG = false;
-    private static final Gson converter = new Gson();
     private static boolean testMode = false;
+    public static final String DELIMITER = ":";
 
-    public static Jedis getClient() {
+    private static Jedis getClient() {
         if (client == null) {
             init(host, port, pass);
         }
@@ -24,6 +28,9 @@ public class RedisClient {
         if (testMode) {
             return;
         }
+
+        redisHost = (redisHost == null || redisHost.trim().isEmpty()) ? defaultHost : redisHost;
+        redisPort = (redisPort == 0) ? defaultPort : redisPort;
         client = new Jedis(redisHost, redisPort);
         if (DEBUG) {
             System.out.println("Redis connection established.");
@@ -45,27 +52,41 @@ public class RedisClient {
         RedisClient.pass = redisPass;
     }
 
-    public static void storeObject(String redisKey, Object data2store) {
-        if (testMode || data2store == null) {
-            return;
-        }
-        String json = converter.toJson(data2store);
-        RedisClient.getClient().set(redisKey, json);
+    public static void saveMapAtKey(String key, Map map) {
+        getClient().hmset(key, map);
     }
 
-    public static <T> T loadObject(String redisKey, Class<T> clazz ) {
-
-        if (testMode) {
-            return null;
-        }
-        String json = RedisClient.getClient().get(redisKey);
-        if (json == null) {
-            return null;
-        }
-        return converter.fromJson(json, clazz);
+    public static Map<String, String> loadMapAtKey(String key) {
+        return getClient().hgetAll(key);
     }
+
+    public static String asJson (Object o) {
+        return JsonConverter.getInstance().toJson(o);
+    }
+
+//    public static void storeObject(String redisKey, Object data2store) {
+//        if (testMode || data2store == null) {
+//            return;
+//        }
+//        String json = JsonConverter.getInstance().toJson(data2store);
+//        RedisClient.getClient().set(redisKey, json);
+//    }
+//
+//    public static <T> T loadObject(String redisKey, Class<T> clazz ) {
+//
+//        if (testMode) {
+//            return null;
+//        }
+//        String json = RedisClient.getClient().get(redisKey);
+//        if (json == null) {
+//            return null;
+//        }
+//        return JsonConverter.getInstance().fromJson(json, clazz);
+//    }
 
     public static void setTestMode(boolean b) {
         testMode = b;
     }
+
+
 }

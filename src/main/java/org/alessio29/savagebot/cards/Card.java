@@ -1,5 +1,7 @@
 package org.alessio29.savagebot.cards;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * 
  * @author aless
@@ -10,6 +12,50 @@ package org.alessio29.savagebot.cards;
  */
 
 public class Card implements Comparable<Card> {
+
+	private Suit suit;
+	private Rank rank;
+
+	public Card() {
+	}
+
+	public Card(Suit suit, Rank rank) {
+		
+		this.suit = suit;
+		this.rank = rank;
+	}
+
+	@JsonProperty
+	public Suit getSuit() {
+		return suit;
+	}
+
+	@JsonProperty
+	public void setSuit(Suit s) {
+		suit = s;
+	}
+
+	@JsonProperty
+	public Rank getRank() {
+		return rank;
+	}
+
+	@JsonProperty
+	public void setRank(Rank r) {
+		rank = r;
+	}
+
+	@Override
+	public int compareTo(Card other) {
+
+		int result = this.getRank().compareTo(other.getRank());
+		
+		if (result == 0) {
+			result = this.getSuit().compareTo(other.getSuit());
+		}
+		return result;
+	}
+
 
 	@Override
 	public int hashCode() {
@@ -44,32 +90,4 @@ public class Card implements Comparable<Card> {
 		return rank.toString()+" "+suit.toString();
 	}
 
-	private Suit suit;
-	private Rank rank;
-	
-	public Card(Suit suit, Rank rank) {
-		
-		this.suit = suit;
-		this.rank = rank;
-	}
-	
-	public Suit getSuit() {
-		return suit;
-	}
-
-	
-	public Rank getRank() {
-		return rank;
-	}
-
-	@Override
-	public int compareTo(Card other) {
-
-		int result = this.getRank().compareTo(other.getRank());
-		
-		if (result == 0) {
-			result = this.getSuit().compareTo(other.getSuit());
-		}
-		return result;
-	}
 }
