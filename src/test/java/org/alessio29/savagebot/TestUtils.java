@@ -59,11 +59,6 @@ public class TestUtils {
             return "@" + userId;
         }
 
-//        @Override
-//        public List<String> getMentions() {
-//            return Collections.EMPTY_LIST;
-//        }
-
         @Override
         public String getRawMessage() {
             return message;

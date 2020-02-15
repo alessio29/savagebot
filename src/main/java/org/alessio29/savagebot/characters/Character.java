@@ -1,25 +1,32 @@
 package org.alessio29.savagebot.characters;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.alessio29.savagebot.cards.Card;
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.initiative.DrawCardResult;
 import org.alessio29.savagebot.internal.utils.Utils;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Character {
-    private static final String TOKENS = "tokens";
-    private static final String ALL_INIT_CARDS = "allCards";
-    private static final String BEST_INIT_CARD = "bestCard";
-    private static final String SAWO_INIT_PARAMS = "sawoInitParams";
-    private static final String OUT_OF_FIGHT = "outOfFight";
-    private static final String STATES = "states";
-
     private static final String HESITANT = "h";
 
     private String name;
-    private Map<String, Object> attributes = new HashMap<>();
+    private String sawoInitParams;
+    private Integer tokens;
+    private Set<State> states = new HashSet<>();
+    private Boolean outOfFight;
+    private List<Card> initCards = new ArrayList<>();
+    private Card bestCard;
+
+
+    public Character() {
+    }
 
     public Character(String name) {
         this.name = name;
@@ -28,7 +35,7 @@ public class Character {
     public Character(String name, String params, DrawCardResult cards) {
         this.setAllCards(cards.getCards());
         this.name = name;
-        setAttribute(SAWO_INIT_PARAMS, params);
+        this.sawoInitParams = params;
         findBestCard();
     }
 
@@ -39,76 +46,121 @@ public class Character {
         }
     }
 
+    @JsonProperty
+    public String getSaWoInitParams() {
+        return Utils.notNullValue(sawoInitParams);
+    }
+
+    @JsonProperty
+    public void setSaWoInitParams(String sawoInitParams) {
+        this.sawoInitParams = sawoInitParams;
+    }
+
+    @JsonProperty
+    public Integer getTokens() {
+        return  Utils.notNullValue(tokens);
+    }
+
+    @JsonProperty
+    public void setTokens(Integer tokens) {
+        this.tokens = tokens;
+    }
+
+    @JsonProperty
     public String getName() {
-        return this.name;
+        return  Utils.notNullValue(this.name);
+    }
+
+    @JsonProperty
+    public void setName(String newName) {
+        this.name = newName;
+    }
+
+    @JsonProperty
+    public Set<State> getStates() {
+        return  Utils.notNullValue(states);
+    }
+
+    @JsonProperty
+    public void setStates(Set<State> states) {
+        this.states = states;
+    }
+
+    @JsonProperty
+    public List<Card> getInitCards() {
+        return initCards;
+    }
+
+    @JsonProperty
+    public void setInitCards(ArrayList<Card> initCards) {
+        this.initCards = initCards;
+    }
+
+    @JsonProperty
+    public Card getBestCard() {
+        return this.bestCard;
+    }
+
+    @JsonProperty
+    public void setBestCard(Card bestCard) {
+        this.bestCard = bestCard;
+    }
+
+    @JsonProperty
+    public List<Card> getAllCards() {
+        return this.initCards;
+    }
+
+    @JsonProperty
+    public void setAllCards(List<Card> allCards) {
+        this.initCards = allCards;
+        findBestCard();
+    }
+
+    @JsonProperty
+    public Boolean getOutOfFight() {
+        return outOfFight;
     }
 
     // ==================== STATES ========================
+    @JsonIgnore
     public String getStatesString() {
-        return Utils.notNullValue(StringUtils.join((Collection)getAttribute(STATES), ", "));
+        return Utils.notNullValue(StringUtils.join(states, ", "));
     }
 
-    public void setStates(Set<State> states) {
-        setAttribute(STATES, states);
-    }
-
+    @JsonIgnore
     public void removeState(State s) {
-        ((Set<State>)getAttribute(STATES)).remove(s);
+        states.remove(s);
     }
 
+    @JsonIgnore
     public void addState(State s) {
-        Set<State> states = getAttribute(STATES);
         if (states == null) {
-            states = new HashSet<State>();
-            setAttribute(STATES, states);
+            states = new HashSet<>();
         }
         states.add(s);
     }
 
+    @JsonIgnore
     public void clearStates() {
-        setAttribute(STATES, null);
+        states.clear();
+//        states = null; // previous version
+
     }
+
     // ==================== CARDS & INITIATIVE ========================
-
-    public void setSaWoInitParams(String mods) {
-        attributes.put(SAWO_INIT_PARAMS, mods);
-    }
-
+    @JsonIgnore
     public void clearCards() {
-        setAttribute(ALL_INIT_CARDS, new ArrayList<Card>());
-        setAttribute(BEST_INIT_CARD, null);
+        this.initCards = new ArrayList<>();
+        this.bestCard = null;
     }
 
-    public String getSaWoInitParams() {
-        String s = (String) attributes .get(SAWO_INIT_PARAMS);
-        return Utils.notNullValue(s);
-    }
-
-
-    public Card getBestCard() {
-        Object result = attributes.get(BEST_INIT_CARD);
-        return (Card) result;
-    }
-
-    public List<Card> getAllCards() {
-        List<Card> result = getAttribute(ALL_INIT_CARDS);
-        if (result == null) {
-            result = new ArrayList<>();
-        }
-        return result;
-    }
-
-    public void setAllCards(List<Card> allCards) {
-        attributes.put(ALL_INIT_CARDS, allCards);
-        findBestCard();
-    }
-
+    @JsonIgnore
     public boolean alreadyDealt() {
-        List<Card> cards = getAttribute(ALL_INIT_CARDS);
-        return cards != null && !cards.isEmpty();
+        return initCards != null && !initCards.isEmpty();
     }
 
-
+    @JsonIgnore
     private boolean isHesitant() {
         return getSaWoInitParams().trim().contains(HESITANT);
     }
@@ -116,7 +168,7 @@ public class Character {
     private void findBestCard() {
         List<Card> allCards = getAllCards();
         if (allCards.isEmpty()) {
-            setAttribute(BEST_INIT_CARD, null);
+            this.bestCard = null;
             return;
         }
         Card bestCard;
@@ -133,28 +185,32 @@ public class Character {
             allCards.sort(Card::compareTo);
             bestCard = allCards.get(allCards.size() - 1);
         }
-        setAttribute(BEST_INIT_CARD, bestCard);
+        this.bestCard = bestCard;
     }
 
-    private void setOutOfFight(boolean b) {
-        attributes.put(OUT_OF_FIGHT, b);
-    }
-
+    @JsonIgnore
     public boolean isOutOfFight() {
-        Boolean res = getAttribute(OUT_OF_FIGHT);
-        if (res == null) {
-            res = true; // this is right!
+
+        if (this.outOfFight == null) {
+            return true; // this is right!
         }
-        return res;
+        return this.outOfFight;
     }
 
+    @JsonProperty
+    public void setOutOfFight(Boolean outOfFight) {
+        this.outOfFight = outOfFight;
+    }
+
+    @JsonIgnore
     public void giveCard(DrawCardResult cards) {
 
         Card bestCard = cards.findBestCard();
         List<Card> allCards = getAllCards();
         allCards.addAll(cards.getCards());
-        if (isHesitant() && getBestCard().compareTo(bestCard)<0) {
-            setAttribute(BEST_INIT_CARD, bestCard);
+        this.initCards = allCards;
+        if (isHesitant() && getBestCard().compareTo(bestCard) < 0) {
+            this.bestCard = bestCard;
         } else {
             findBestCard();
         }
@@ -172,40 +228,22 @@ public class Character {
     // ==================== TOKENS ========================
 
     public void addTokens(Integer tokens) {
-
         tokens = Math.max(Utils.notNullValue(getTokens()) + Utils.notNullValue(tokens), 0);
-        setAttribute(TOKENS, tokens);
-    }
-
-    public Integer getTokens() {
-        return getAttribute(TOKENS);
+        this.tokens = tokens;
     }
 
     public void removeTokens(Integer amount) {
 
         Integer tokens = Utils.notNullValue(getTokens());
-        tokens = (tokens <= amount)? 0 : tokens-amount;
-        setAttribute(TOKENS, tokens);
+        tokens = (tokens <= amount) ? 0 : tokens - amount;
+        this.tokens = tokens;
     }
 
     public void removeAllTokens() {
-        setAttribute(TOKENS, null);
+        this.tokens = null;
     }
 
     // ==================== PRIVATE  ========================
-
-    private <T> T getAttribute(String attribute) {
-
-        if (!attributes.containsKey(attribute)) {
-            return null;
-        }
-        Object result = attributes.get(attribute);
-        return (T) result;
-    }
-
-    private <T> void setAttribute(String attribute, T value) {
-        attributes.put(attribute, value);
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -220,15 +258,37 @@ public class Character {
         return name.hashCode();
     }
 
+    @JsonIgnore
     public boolean isEmpty() {
-        if (attributes.isEmpty()) {
-            return true;
+
+        if (this.tokens != null) {
+            return false;
         }
-        for (Map.Entry<String, Object> e : attributes.entrySet()) {
-            if (e.getValue() != null) {
-                return false;
-            }
+
+        if (this.bestCard != null) {
+            return false;
         }
+
+        if (this.initCards != null) {
+            return false;
+        }
+
+        if (this.sawoInitParams != null) {
+            return false;
+        }
+
+        if (this.states != null) {
+            return false;
+        }
+
+        if (this.name != null) {
+            return false;
+        }
+
+        if (this.outOfFight != null) {
+            return false;
+        }
+
         return true;
     }
 
@@ -242,7 +302,14 @@ public class Character {
     public String toString() {
         return "Character{" +
                 "name='" + name + '\'' +
-                ", attributes=" + attributes +
+                ", sawoInitParams='" + sawoInitParams + '\'' +
+                ", tokens=" + tokens +
+                ", states=" + states +
+                ", outOfFight=" + outOfFight +
+                ", initCards=" + initCards +
+                ", bestCard=" + bestCard +
                 '}';
     }
+
+
 }

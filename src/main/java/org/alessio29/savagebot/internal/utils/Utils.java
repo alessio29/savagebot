@@ -1,5 +1,10 @@
 package org.alessio29.savagebot.internal.utils;
 
+import org.alessio29.savagebot.characters.State;
+
+import java.util.HashSet;
+import java.util.Set;
+
 public class Utils {
 
     public static Integer notNullValue(Integer value) {
@@ -38,4 +43,10 @@ public class Utils {
         return true;
     }
 
+    public static Set notNullValue(Set set) {
+        if (set == null) {
+            return new HashSet();
+        }
+        return set;
+    }
 }

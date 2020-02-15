@@ -1,5 +1,7 @@
 package org.alessio29.savagebot.cards;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * 
  * @author aless
@@ -9,6 +11,61 @@ package org.alessio29.savagebot.cards;
  */
 
 public class Suit implements Comparable<Suit>{
+
+	public static final Suit CLUBS = new Suit("\u2663", 1);
+	public static final Suit DIAMONDS = new Suit("\u2666", 2);
+	public static final Suit HEARTS = new Suit("\u2665", 3);
+	public static final Suit SPADES = new Suit("\u2660", 4);
+	public static final Suit COLOR = new Suit("\uD83C\uDCCF", 5);
+	public static final Suit BLACK = new Suit("\uD83C\uDCBF", 6);
+
+	private String name;
+	private int value;
+
+	public Suit() {
+	}
+
+	private Suit(String suitName, int value) {
+		this.name = suitName;
+		this.value = value;
+	}
+
+	@JsonProperty
+	public void setValue(int newValue) {
+		value = newValue;
+	}
+
+	@JsonProperty
+	public int getValue() {
+		return value;
+	}
+
+	@JsonProperty
+	public String getName() {
+		return name;
+	}
+
+	@JsonProperty
+	public void setName(String s) {
+		name = s;
+	}
+
+	@Override
+	public int compareTo(Suit other) {
+		
+		if (this.value < other.value) {
+			return -1;
+		}
+		if (this.value > other.value) {
+			return 1;
+		}
+		return 0;
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
 
 	@Override
 	public int hashCode() {
@@ -35,43 +92,4 @@ public class Suit implements Comparable<Suit>{
 			return false;
 		return value == other.value;
 	}
-
-	public static final Suit CLUBS = new Suit("\u2663", 1);
-	public static final Suit DIAMONDS = new Suit("\u2666", 2);
-	public static final Suit HEARTS = new Suit("\u2665", 3);
-	public static final Suit SPADES = new Suit("\u2660", 4);
-	public static final Suit COLOR = new Suit("\uD83C\uDCCF", 5);
-	public static final Suit BLACK = new Suit("\uD83C\uDCBF", 6);
-
-	private String name;
-	private int value;
-	
-	private Suit(String suitName, int value) {
-		
-		this.name = suitName;
-		this.value = value;
-		
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public int compareTo(Suit other) {
-		
-		if (this.value < other.value) {
-			return -1;
-		}
-		if (this.value > other.value) {
-			return 1;
-		}
-		return 0;
-	}
-
-	@Override
-	public String toString() {
-		return name;
-	}
-
 }
