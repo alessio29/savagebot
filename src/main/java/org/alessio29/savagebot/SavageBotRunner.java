@@ -6,6 +6,7 @@ import org.alessio29.savagebot.cards.Decks;
 import org.alessio29.savagebot.cards.Hands;
 import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.internal.Prefixes;
+import org.alessio29.savagebot.internal.RedisClient;
 import org.alessio29.savagebot.internal.commands.Commands;
 import org.alessio29.savagebot.internal.ParseInputListener;
 
@@ -25,6 +26,13 @@ public class SavageBotRunner {
 		String token = args[1].trim();
 
 		Commands.registerDefaultCommands();
+
+		String host = args[2].trim();
+		int port = Integer.parseInt(args[3].trim());
+		String pass = args[4];
+
+		RedisClient.setup(host, port, pass);
+
 		Prefixes.loadFromRedis();
 		Decks.loadFromRedis();
 		Hands.loadFromRedis();
