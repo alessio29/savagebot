@@ -83,7 +83,7 @@ Bot supports limits to roll:
 
 `!dC` - Carcosa roll. First d20 is rolled to determine size of dice - then this dice is rolled.
 
-**rh**    <expression_1> ... <expressionN>    creates data for histogram: rolls dice multiple times and shows result distribution. 
+**rh**    <expression_1> ... <expressionN>    creates data for histogram: rolls dice multiple times and shows resulting distribution. 
 Example: `!rh 1000x2d6` - rolls 2d6 1000 times and shows results table.
   
 **rs**    [<heading_1>] <expression_1> ... [<heading_N>] <expression_N>    rolls multiple dice and print them out sorted.
