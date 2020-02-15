@@ -13,11 +13,11 @@ Start you message with `!` then type any command from the following list. Some c
 
 __**CARDS category**__
 
-**deal** or **dl**    [<card_count>] [<user_name>]    Secretly deals several (1 by default) cards to user (to self by default)
+**deal** or **dl**    [<card_count>] Secretly deals several (1 by default) cards to user's private channel
 
 **show** or **sh**    Shows your cards, previously dealt to you by 'deal' command to current channel
 
-**put**         Deals card and "puts it on table" (current channel). 
+**put**         Deals card and "puts it on table" (shows in current channel). 
 
 **shuffle**        Shuffles current deck, resets secret cards dealt to all users in this channel
 
@@ -25,15 +25,15 @@ __**CHARACTERS category**__
 
 **list**        Lists characters with tokens and states
 
-**remove**      <charName1> [<charName2> ...] Removes character(s)
+**remove**      <charName1> [<charName2> ...] Removes character(s) totally. This command could be used to erase defeated extras.
 
 __**DICE category**__
 
-**r**	or **roll**	rolls dice
+**r**	or **roll**	die_code1 [die_code2] [...] rolls dice
 
-You can totally omit command and roll dice with `!3d10`
+You can totally omit command **roll** itself and roll dice with simple `!3d10`
 
-You can use multiple rolls in one command separated by space: `!r d6 d4! d10+d12`
+You can make multiple rolls in one command separated by space: `!r d6 d4! d10+d12`
 
 You can use comments in roll: `!r shooting at vampire s8 damage 2d6+1`
 
@@ -49,7 +49,7 @@ Currently supported dice codes are:
 
 `!s8` - Savage Worlds roll with trait die d8 and wild die d6
 
-`!3s8` - Savage Worlds roll with three trait die d8 (bursts)
+`!3s8` - Savage Worlds roll with three trait die d8 (Can be used for bursts)
 
 `!s8w10` - Savage Worlds roll with trait die d8 and wild die d10
 
@@ -59,17 +59,17 @@ Currently supported dice codes are:
 
 `!6d6s4` - WoD, Lady Blackbird roll - rolls 6 d6 and returns how many dice rolled 4 or more
 
-`!12d10s7` - roll 12 d10s, 7+ is a success, count successes
+`!12d10s7` - roll 12 d10s, each 7+ result is a success, shows count of successes
 
-`!12d10f1s7` - roll 12 d10s, 7+ is a success, 1- is a failure, subtract failures from successes
+`!12d10f1s7` - roll 12 d10s, each 7+ result is a success, each 1- result is a failure, shows (successes-failures)
 
-`!12d10s7f1` -  same as above
+`!12d10s7f1` -  same as above (you can provide success or failure condition in any order)
 
-`!28d6!f1s10` - roll 28 open-ended d6s, 10+ is a success, 1- is a failure, subtract failures from successes
+`!28d6!f1s10` - roll 28 open-ended d6s, each 10+ is a success, each 1- is a failure, show (successes-failures)
 
 `!6x4d6k3` - roll 4 dice keeping 3 highest 6 times
 
-`!d66` - rolls two d6 and returns values from 11 to 66 to support random choice from 6x6 table
+`!d66` - rolls two d6 and returns values from 11 to 66 to support random choice from 6x6 table (for example in Coriolis)
 
 `!4dF` - rolls four Fudge/FATE dice
 
@@ -83,8 +83,8 @@ Bot supports limits to roll:
 
 `!dC` - Carcosa roll. First d20 is rolled to determine size of dice - then this dice is rolled.
 
-**rh**    <expression_1> ... <expressionN>    rolls multiple dice and prints a distribution of results.
-Example: `!rh 1000x2d6`
+**rh**    <expression_1> ... <expressionN>    creates data for histogram: rolls dice multiple times and shows result distribution. 
+Example: `!rh 1000x2d6` - rolls 2d6 1000 times and shows results table.
   
 **rs**    [<heading_1>] <expression_1> ... [<heading_N>] <expression_N>    rolls multiple dice and print them out sorted.
 This is mostly useful for rolling initiative as a single command.
@@ -95,19 +95,19 @@ Louie 5`
 
 __**TOKENS category**__
 
-**give** character [token count]		Gives token(s) to <character>
+**give** character1 [token count1] [character2 [token count2]] [...]		Gives token(s) to character(s). Example: `!give Huey 2 Louie Dewey 3` - gives 2 tokens to Huey, 1 to Louie and 3 to Dewey. 
 
-**take** character [token count]		Takes token(s) from <character>
+**take** character [token count] [character2 [token count2]] [...]    Takes token(s) from character(s).  Example: `!give Huey Louie Dewey 2` - takes 1 tokens from Huey, 1 from Louie and 2 from Dewey.
 
-**clear** character/all Clears token(s) for sprecified character or for all characters in channel
+**clear** character1 [character2] [...] /all    Clears token(s) for sprecified character or for all characters in channel
 
 __**STATES category**__
 
 **clstate** or **cs** <character_name>/all clears all states of character/all characters in channel
 
-**remstate** or **rst** <character_name> <state1> [...] removes states from character
+**remstate** or **rst** <character_name1> <state1> [<state2>] [...]   Removes states from character. Example: `!remstate Huey stunned vul Dewey dis`
 
-**state** or **st** <character_name> <state1> [...] sets states to character
+**state** or **st** <character_name1> <state1> [<state2>] [...]   Sets states to character. Example: `!state Huey stunned vul dis Dewey dis ent`
   
   States are Savage Worlds states: Shaken, Stunned, Entangled, Bound, Distracted and Vulnerable. You can write them in any case even like sTuNnEd. You can use abbreviations: sha, stn, ent, bnd, dis, vul.
 
@@ -125,15 +125,21 @@ __**INITIATIVE category**__
 
 **fight** or **f**			starts new fight: shuffles deck, resets intiative tracker
 
-**init**			Shows initiative tracker
+**init**			Shows current initiative tracker
 
 **round** or **rd**	[+] [-<char_name1> .. -<char_nameN>]		Starts new round: resets resets intiative tracker, shuffles deck, if joker was dealt on previous round. If `+` provided initiative cards will be dealt again to characters. If character names preceded by `-` were provided - characters will be removed from initiative tracker.
+Examples:
+`!rd` - starts new round
+`!rd +` - starts new round and deals initiative cards to all characters in initiative tracker. 
+`!rd + -Dewey -Scrooge` - starts new round, removes characters Dewey and Scrooge from initiative tracker and deals initiative cards to all remaing characters.
 
 **drop** <char_name1> ... <char_nameN>  Removes characters from initiative tracker.
 
-**di**      <character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]    Deal initiative card. Modifiers should start with - and be either 'q', 'l', 'i' or 'h': Quick, Levelheaded, Improved Levelheaded and Hesitant respectively.
+**di**      <character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]    Deal initiative card. Modifiers should start with `-` and be either 'q', 'l', 'i' or 'h': Quick, Levelheaded, Improved Levelheaded and Hesitant respectively.
+Example: 
+`!di Huey -q Dewey Louie -i Scrooge -h Ma_Beagle -iq`
 
-**card** <character_name> gives character <character_name> new intiative card. Used as 'Card for benny' rule.
+**card** <character_name>   Simply gives character <character_name> new intiative card. Used as 'Card for benny' rule or 'Tactician' edge .
 
 __**INFO category**__
 
@@ -145,4 +151,4 @@ __**ADMIN category**__
 
 **ping**			Checks SavageBot readiness
 
-**prefix**		[character]	Sets <character> as custom user-defined command prefix or shows current prefix
+**prefix**		[symbol]	Sets <symbol> as custom user-defined command prefix or shows current prefix if no parameters provided.
