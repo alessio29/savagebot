@@ -129,14 +129,19 @@ __**INITIATIVE category**__
 
 **round** or **rd**	[+] [-<char_name1> .. -<char_nameN>]		Starts new round: resets resets intiative tracker, shuffles deck, if joker was dealt on previous round. If `+` provided initiative cards will be dealt again to characters. If character names preceded by `-` were provided - characters will be removed from initiative tracker.
 Examples:
+
 `!rd` - starts new round
+
 `!rd +` - starts new round and deals initiative cards to all characters in initiative tracker. 
+
 `!rd + -Dewey -Scrooge` - starts new round, removes characters Dewey and Scrooge from initiative tracker and deals initiative cards to all remaing characters.
 
 **drop** <char_name1> ... <char_nameN>  Removes characters from initiative tracker.
 
 **di**      <character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]    Deal initiative card. Modifiers should start with `-` and be either 'q', 'l', 'i' or 'h': Quick, Levelheaded, Improved Levelheaded and Hesitant respectively.
+
 Example: `!di Huey -q Dewey Louie -l Scrooge -h Ma_Beagle -iq`
+
 
 **card** <character_name>   Simply gives character <character_name> new intiative card. Used as 'Card for benny' rule or 'Tactician' edge .
 
