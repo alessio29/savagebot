@@ -27,7 +27,7 @@ public class DropCharacterAction implements IBotAction {
         while (it.hasNext()) {
             String value = it.next();
             Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), value);
-            DropCharacterParamsIterator.DropProcessResult result = it.process(value, null, character);
+            DropCharacterParamsIterator.DropProcessResult result = it.process(null, character);
             switch (result) {
                 case REMOVED:
                     removed.add(value);

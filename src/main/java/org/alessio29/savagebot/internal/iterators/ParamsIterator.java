@@ -36,5 +36,5 @@ public abstract class ParamsIterator {
         return this.params.get(index).trim();
     }
 
-    public abstract Object process(String value, String modifier, Object entity);
+    public abstract Object process(String modifier, Object entity);
 }

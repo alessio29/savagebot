@@ -33,7 +33,7 @@ public class ManageStatesParamIterator extends ParamsIterator {
     }
 
     @Override
-    public String process(String value, String modifier, Object entity) {
+    public String process(String modifier, Object entity) {
 
         String result = "";
         if (entity == null) {
@@ -47,13 +47,14 @@ public class ManageStatesParamIterator extends ParamsIterator {
         if (modifier.equalsIgnoreCase("clear")) {
             // clear states for character
             character.clearStates();
+            result = "All states cleared for "+character.getName();
         }
 
         if (modifier.startsWith("-")) {
             State state = State.getStateFromString(modifier.substring(1));
             if (state != null ) {
                 character.removeState(state);
-                result = state.toString()+" removed from "+value;
+                result = state.toString()+" removed from "+character.getName();
             }
         }
 
@@ -61,7 +62,7 @@ public class ManageStatesParamIterator extends ParamsIterator {
             State state = State.getStateFromString(modifier.substring(1));
             if (state != null) {
                 character.removeState(state);
-                result = state.toString() + " removed from " + value;
+                result = state.toString() + " removed from " + character.getName();
 
             }
         }
@@ -69,7 +70,7 @@ public class ManageStatesParamIterator extends ParamsIterator {
         State state = State.getStateFromString(modifier);
         if (state!= null) {
             character.addState(state);
-            result = state.toString()+" added to "+value;
+            result = state.toString()+" added to "+character.getName();
         }
 
         return result;

@@ -51,7 +51,10 @@ public class DealInitiativeCardsAction implements IBotAction {
                 }
             }
             Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), value);
-            character = it.process(value, modifier, character);
+            if (character == null) {
+                character = new Character(value);
+            }
+            character = it.process(modifier, character);
             Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
         }
         return new ShowInitiativeAction().doAction(message, args);

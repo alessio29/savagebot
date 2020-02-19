@@ -17,7 +17,7 @@ public class GiveCardsParamIterator extends ParamsIterator {
     }
 
     @Override
-    public String process(String value, String modifier, Object entity) {
+    public String process(String modifier, Object entity) {
         return null;
     }
 }
