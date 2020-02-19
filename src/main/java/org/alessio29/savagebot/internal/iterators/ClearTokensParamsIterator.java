@@ -21,7 +21,7 @@ public class ClearTokensParamsIterator extends ParamsIterator {
     }
 
     @Override
-    public Collection<String> process(String value, String modifier, Object entity) {
+    public Collection<String> process(String modifier, Object entity) {
         if (entity == null) {
             return null;
         }

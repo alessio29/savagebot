@@ -19,7 +19,7 @@ public class DealCardsParamsIterator extends  ParamsIterator {
     }
 
     @Override
-    public Object process(String value, String modifier, Object entity) {
+    public Object process(String modifier, Object entity) {
         return null;
     }
 }

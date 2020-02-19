@@ -3,9 +3,6 @@ package org.alessio29.savagebot.internal;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class DiscordMessageReceived implements IMessageReceived<MessageReceivedEvent> {
     private final MessageReceivedEvent event;
 

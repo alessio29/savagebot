@@ -38,7 +38,7 @@ public class TakeTokenAction implements IBotAction {
                 tokens = Integer.parseInt(modifier);
             }
             if (tokens > 0) {
-                taken.add(it.process(value, modifier, character));
+                taken.add(it.process(modifier, character));
                 Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
             }
         }

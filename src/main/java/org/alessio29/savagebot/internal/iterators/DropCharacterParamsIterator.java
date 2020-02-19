@@ -18,7 +18,7 @@ public class DropCharacterParamsIterator extends ParamsIterator {
     }
 
     @Override
-    public DropProcessResult process(String value, String modifier, Object entity) {
+    public DropProcessResult process(String modifier, Object entity) {
 
         if (entity == null || !(entity instanceof Character)) {
             return DropProcessResult.ERROR;

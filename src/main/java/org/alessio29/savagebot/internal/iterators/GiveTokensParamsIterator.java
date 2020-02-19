@@ -20,7 +20,7 @@ public class GiveTokensParamsIterator extends ParamsIterator{
     }
 
     @Override
-    public String process(String value, String modifier, Object entity) {
+    public String process(String modifier, Object entity) {
         if (entity == null) {
             return null;
         }
@@ -32,6 +32,6 @@ public class GiveTokensParamsIterator extends ParamsIterator{
         }
         Character character = (Character)entity;
         character.addTokens(Integer.parseInt(modifier));
-        return modifier+" to "+value;
+        return modifier+" to "+character.getName();
     }
 }
