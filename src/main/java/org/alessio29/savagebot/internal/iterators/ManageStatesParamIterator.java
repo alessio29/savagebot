@@ -21,10 +21,10 @@ public class ManageStatesParamIterator extends ParamsIterator {
         }
 
         if (param.startsWith("+") || param.startsWith("-")) {
-            return State.getStateFromString(param.substring(1))!=null;
+            return State.getStateFromString(param.substring(1)) != null;
         }
 
-        return State.getStateFromString(param)!=null;
+        return State.getStateFromString(param) != null;
     }
 
     @Override
@@ -42,37 +42,33 @@ public class ManageStatesParamIterator extends ParamsIterator {
         if (!(entity instanceof Character)) {
             return null;
         }
-        Character character = (Character)entity;
+        Character character = (Character) entity;
 
         if (modifier.equalsIgnoreCase("clear")) {
             // clear states for character
             character.clearStates();
-            result = "All states cleared for "+character.getName();
+            result = "All states cleared for " + character.getName();
         }
 
         if (modifier.startsWith("-")) {
             State state = State.getStateFromString(modifier.substring(1));
-            if (state != null ) {
-                character.removeState(state);
-                result = state.toString()+" removed from "+character.getName();
+            if (state != null) {
+                if (character.removeState(state)) {
+                    result = state.toString() + " removed from " + character.getName();
+                }
             }
         }
 
         if (modifier.startsWith("+")) {
-            State state = State.getStateFromString(modifier.substring(1));
-            if (state != null) {
-                character.removeState(state);
-                result = state.toString() + " removed from " + character.getName();
-
-            }
+            modifier = modifier.substring(1);
         }
 
         State state = State.getStateFromString(modifier);
-        if (state!= null) {
-            character.addState(state);
-            result = state.toString()+" added to "+character.getName();
+        if (state != null) {
+            if (character.addState(state)) {
+                result = state.toString() + " added to " + character.getName();
+            }
         }
-
         return result;
     }
 }

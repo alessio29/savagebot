@@ -38,7 +38,10 @@ public class ManageStatesAction implements IBotAction {
                 return new CommandExecutionResult("No valid state commands provided " + value, args.length + 1);
             }
             while (it.nextIsModifier()) {
-                list.add(it.process(it.next(), character));
+                String s = it.process(it.next(), character);
+                if (!s.trim().isEmpty()) {
+                    list.add(s);
+                }
             }
             Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
         }

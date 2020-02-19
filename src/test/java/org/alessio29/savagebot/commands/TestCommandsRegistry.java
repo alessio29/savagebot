@@ -36,7 +36,7 @@ public class TestCommandsRegistry {
                         "DICE:r, DICE:rh, DICE:rs, " +
                         "INFO:help, INFO:invite, " +
                         "INITIATIVE:card, INITIATIVE:di, INITIATIVE:drop, INITIATIVE:fight, INITIATIVE:init, INITIATIVE:round, " +
-                        "STATES:clstate, STATES:remstate, STATES:state, "+
+                        "STATES:state, "+
                         "TOKENS:clear, TOKENS:give, TOKENS:take" +
                         "]",
                 commands.toString()

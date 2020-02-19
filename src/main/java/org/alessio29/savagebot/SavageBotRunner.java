@@ -29,7 +29,8 @@ public class SavageBotRunner {
 
 		String host = args[2].trim();
 		int port = Integer.parseInt(args[3].trim());
-		String pass = args[4];
+		String pass = (args[4].equals("dummyPass"))?null:args[4];
+
 
 		RedisClient.setup(host, port, pass);
 
