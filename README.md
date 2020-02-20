@@ -6,6 +6,10 @@ Supports various dice-rolling, Savage Worlds initiative cards and other RPG stuf
 **Installation:**
 Click on the following link and authorize bot on your server: https://discordapp.com/oauth2/authorize?&client_id=448952545784758303&scope=bot&permissions=0
 
+**Patreon**
+
+In case you like this bot so much - you can support development via Patreon: https://www.patreon.com/savagebot
+
 **How to use it:**
 
 Start you message with `!` then type any command from the following list. Some commands may require additional parameters.
