@@ -29,9 +29,10 @@ public class GiveCardsAction implements IBotAction {
         while (it.hasNext()) {
             String value = it.next();
             if (it.isEntity(value)) {
-                Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), value);
+                Character character = Characters.getByNameOrCreate(message.getGuildId(), message.getChannelId(), value);
                 DrawCardResult cards = deck.getCardByParams("");
                 character.giveCard(cards);
+                character.backToFight();
                 list.add(it.process(null, character));
             }
         }

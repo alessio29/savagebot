@@ -30,10 +30,7 @@ public class ManageStatesAction implements IBotAction {
             if (!it.isEntity(value)) {
                 return new CommandExecutionResult("Provide character name!", args.length + 1);
             }
-            Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), value);
-            if (character == null) {
-                character = new Character(value);
-            }
+            Character character = Characters.getByNameOrCreate(message.getGuildId(), message.getChannelId(), value);
             if (!it.nextIsModifier()) {
                 return new CommandExecutionResult("No valid state commands provided " + value, args.length + 1);
             }

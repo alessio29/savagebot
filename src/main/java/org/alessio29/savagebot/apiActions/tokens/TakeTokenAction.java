@@ -27,10 +27,7 @@ public class TakeTokenAction implements IBotAction {
             if (!it.isEntity(value)) {
                 return new CommandExecutionResult("Provide character name!", args.length + 1);
             }
-            Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), value);
-            if (character == null) {
-                character = new Character(value);
-            }
+            Character character = Characters.getByNameOrCreate(message.getGuildId(), message.getChannelId(), value);
             String modifier = null;
             Integer tokens = 1;
             if (it.nextIsModifier()) {
