@@ -28,6 +28,16 @@ public class Characters {
         return map.get(name);
     }
 
+    public static Character getByNameOrCreate(String guild, String channel, String name) {
+        Map<String, Character> map = getCharacters(guild, channel);
+        Character ch = map.get(name);
+        if (ch == null) {
+            ch = new Character(name);
+            map.put(name, ch);
+        }
+        return ch;
+    }
+
     public static void storeCharacter(String guild, String channel, Character character) {
         Map<String, Character> map = getCharacters(guild, channel);
         map.put(character.getName(), character);
@@ -69,6 +79,7 @@ public class Characters {
     public static void removeCharacter(String guildId, String channelId, String charName) {
         Map<String, Character> charMap = getCharacters(guildId, channelId);
         charMap.remove(charName);
+        save2Redis();
     }
 
     public static void save2Redis() {
