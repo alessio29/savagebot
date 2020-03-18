@@ -6,6 +6,7 @@ import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.characters.State;
 import org.alessio29.savagebot.initiative.DrawCardResult;
 import org.alessio29.savagebot.internal.RedisClient;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
 public class TestRedis {
@@ -20,17 +21,9 @@ public class TestRedis {
 
         RedisClient.setup("localhost", 6379, null);
 
-        Character ch = new Character(TEST_CHAR_NAME, TEST_CHAR_PARAMS);
-        ch.addTokens(4);
-        ch.addState(State.DISTRACTED);
-        ch.addState(State.STUNNED);
-        ch.giveCard(new DrawCardResult(Deck.HEARTS_JACK));
-        ch.giveCard(new DrawCardResult(Deck.DIAMONDS_KING));
-        ch.setSaWoInitParams(TEST_CHAR_PARAMS);
-        ch.setOutOfFight(false);
+        Character ch = getCharacter();
 
         Characters.storeCharacter(TEST_GUILD, TEST_CHANNEL, ch);
-        Characters.save2Redis();
         Characters.getCharacters(TEST_GUILD, TEST_CHANNEL).clear();
         Characters.loadFromRedis();
         Character newChar = Characters.getCharacterByName(TEST_GUILD, TEST_CHANNEL, TEST_CHAR_NAME);
@@ -44,4 +37,33 @@ public class TestRedis {
         assert ch.getStates().equals(newChar.getStates());
         assert ch.getInitCards().equals(newChar.getInitCards());
     }
+
+    @NotNull
+    private Character getCharacter() {
+        Character ch = new Character(TEST_CHAR_NAME, TEST_CHAR_PARAMS);
+        ch.addTokens(4);
+        ch.addState(State.DISTRACTED);
+        ch.addState(State.STUNNED);
+        ch.giveCard(new DrawCardResult(Deck.HEARTS_JACK));
+        ch.giveCard(new DrawCardResult(Deck.DIAMONDS_KING));
+        ch.setSaWoInitParams(TEST_CHAR_PARAMS);
+        ch.setOutOfFight(false);
+        return ch;
+    }
+
+    @Test
+    public void testRedisDelete() {
+        Character ch = getCharacter();
+        Characters.storeCharacter(TEST_GUILD, TEST_CHANNEL, ch);
+        Characters.getCharacters(TEST_GUILD, TEST_CHANNEL).clear();
+        Characters.loadFromRedis();
+        Character newChar1 = Characters.getCharacterByName(TEST_GUILD, TEST_CHANNEL, TEST_CHAR_NAME);
+        assert newChar1!=null;
+        Characters.removeCharacter(TEST_GUILD, TEST_CHANNEL, TEST_CHAR_NAME);
+        Characters.getCharacters(TEST_GUILD, TEST_CHANNEL).clear();
+        Characters.loadFromRedis();
+        Character newChar2 = Characters.getCharacterByName(TEST_GUILD, TEST_CHANNEL, TEST_CHAR_NAME);
+        assert newChar2==null;
+    }
+
 }

@@ -2,6 +2,7 @@ package org.alessio29.savagebot.characters;
 
 import org.alessio29.savagebot.internal.RedisClient;
 import org.alessio29.savagebot.internal.utils.JsonConverter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -79,10 +80,14 @@ public class Characters {
     public static void removeCharacter(String guildId, String channelId, String charName) {
         Map<String, Character> charMap = getCharacters(guildId, channelId);
         charMap.remove(charName);
-        save2Redis();
+        removeFromRedis(guildId, channelId, charName);
     }
 
-    public static void save2Redis() {
+    private static void removeFromRedis(String guildId, String channelId, String charName) {
+       RedisClient.remove(Characters.REDIS_CHARACTERS_KEY, getKey(guildId, channelId, charName));
+    }
+
+    private static void save2Redis() {
 
         Map<String, String> map = new HashMap<>();
         if (characters.keySet().isEmpty()) {
@@ -101,12 +106,17 @@ public class Characters {
                     if (ch == null) {
                         continue;
                     }
-                    String key = guildID+RedisClient.DELIMITER+channelID+RedisClient.DELIMITER+charName;
+                    String key = getKey(guildID, channelID, charName);
                     map.put(key, RedisClient.asJson(ch));
                 }
             }
         }
         RedisClient.saveMapAtKey(REDIS_CHARACTERS_KEY, map);
+    }
+
+    @NotNull
+    private static String getKey(String guildID, String channelID, String charName) {
+        return guildID+ RedisClient.DELIMITER+channelID+RedisClient.DELIMITER+charName;
     }
 
     public static void loadFromRedis() {

@@ -20,10 +20,6 @@ public class RemoveCharacterAction implements IBotAction {
         }
 
         RemoveCharacterParamsIterator it = new RemoveCharacterParamsIterator(args);
-
-
-
-
         List<String> charsNotFound = new ArrayList<>();
         List<String> charsToRemove = new ArrayList<>();
 
