@@ -52,6 +52,7 @@ public class Characters {
         }
         for (Map.Entry<String, Character> e :  map.entrySet()) {
             e.getValue().clearCards();
+            e.getValue().setOutOfFight(true);
             if (e.getValue().isEmpty()) {
                 map.remove(e);
             }
