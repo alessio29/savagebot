@@ -45,7 +45,7 @@ public class DealInitiativeCardsAction implements IBotAction {
             }
             String modifier = null;
             if (it.nextIsModifier()) {
-                modifier = it.next().trim().toLowerCase();
+                modifier = it.next().trim().toLowerCase().substring(1);
                 if (modPattern.matcher(modifier).matches()) {
                     return new CommandExecutionResult(helpString, args.length + 1);
                 }
