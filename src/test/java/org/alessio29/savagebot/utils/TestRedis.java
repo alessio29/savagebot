@@ -23,7 +23,7 @@ public class TestRedis {
 
         Character ch = getCharacter();
 
-        Characters.storeCharacter(TEST_GUILD, TEST_CHANNEL, ch);
+        Characters.storeCharacter(TEST_GUILD, TEST_CHANNEL, ch, true);
         Characters.getCharacters(TEST_GUILD, TEST_CHANNEL).clear();
         Characters.loadFromRedis();
         Character newChar = Characters.getCharacterByName(TEST_GUILD, TEST_CHANNEL, TEST_CHAR_NAME);
@@ -54,7 +54,7 @@ public class TestRedis {
     @Test
     public void testRedisDelete() {
         Character ch = getCharacter();
-        Characters.storeCharacter(TEST_GUILD, TEST_CHANNEL, ch);
+        Characters.storeCharacter(TEST_GUILD, TEST_CHANNEL, ch, true);
         Characters.getCharacters(TEST_GUILD, TEST_CHANNEL).clear();
         Characters.loadFromRedis();
         Character newChar1 = Characters.getCharacterByName(TEST_GUILD, TEST_CHANNEL, TEST_CHAR_NAME);

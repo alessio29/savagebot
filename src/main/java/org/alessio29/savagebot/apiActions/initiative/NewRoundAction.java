@@ -44,7 +44,7 @@ public class NewRoundAction implements IBotAction {
                 Character ch = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), charName);
                 if ( ch!= null) {
                     ch.removeFromFight();
-                    Characters.storeCharacter(message.getGuildId(), message.getChannelId(), ch);
+                    Characters.storeCharacter(message.getGuildId(), message.getChannelId(), ch, true);
                 }
             }
         }
