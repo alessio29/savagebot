@@ -24,9 +24,9 @@ public class DealInitiativeParamsIterator extends ParamsIterator {
 
     @Override
     public Character process(String modifier, Object entity) {
-        Character character = null;
+
         assert entity instanceof Character;
-        character = (Character) entity;
+        Character character = (Character) entity;
 
         if (modifier != null) {
             character.setSaWoInitParams(modifier);

@@ -115,7 +115,6 @@ public class Deck {
 
     public DrawCardResult getCardByParams(String params) {
 
-        DrawCardResult result;
         Card limit = Deck.LOWEST_CARD;
 
         params = params.trim().toLowerCase();
@@ -134,15 +133,16 @@ public class Deck {
             params = params.replace(LEVELHEADED, "");
         }
 
-        if (params.contains(QUICK)) {
-            limit = Deck.LOWEST_QUICK_CARD;
-            params = params.replace(QUICK, "");
+        DrawCardResult result = new DrawCardResult();
+        for (int i = 0; i < count; i++) {
+            result = result.combineWith(getCard(), false);
         }
 
-        result = getCard(limit);
-
-        for (int i = 1; i < count; i++) {
-            result = result.combineWith(getCard(limit), false);
+        if (params.contains(QUICK)) {
+            limit = Deck.LOWEST_QUICK_CARD;
+        }
+        while (result.getBestCard().compareTo(limit) <0 ) {
+            result = result.combineWith(getCard(), true);
         }
         return result;
     }
@@ -157,18 +157,15 @@ public class Deck {
         return result;
     }
 
-    public DrawCardResult getCard(Card limit) {
+    public DrawCardResult getCard() {
 
-        if (limit == null) {
-            limit = Deck.LOWEST_CARD;
-        }
         DrawCardResult result = new DrawCardResult();
         Card newCard = getNextCard();
         result.getCards().add(newCard);
-        while (newCard != null && newCard.compareTo(limit) == -1) {
-            newCard = getNextCard();
-            result.getCards().add(newCard);
-        }
+//        while (newCard != null && newCard.compareTo(limit) == -1) {
+//            newCard = getNextCard();
+//            result.getCards().add(newCard);
+//        }
         result.setBestCard(result.findBestCard());
         return result;
     }

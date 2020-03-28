@@ -49,10 +49,14 @@ public class DealInitiativeCardsAction implements IBotAction {
                 if (modPattern.matcher(modifier).matches()) {
                     return new CommandExecutionResult(helpString, args.length + 1);
                 }
+                CommandExecutionResult res = getCheckModsValidity(modifier, args.length + 1);
+                if (res != null) {
+                    return  res;
+                }
             }
             Character character = Characters.getByNameOrCreate(message.getGuildId(), message.getChannelId(), value);
             character = it.process(modifier, character);
-            Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
+            Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character, true);
         }
         return new ShowInitiativeAction().doAction(message, args);
     }

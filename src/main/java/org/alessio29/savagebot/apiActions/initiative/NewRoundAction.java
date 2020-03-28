@@ -44,14 +44,13 @@ public class NewRoundAction implements IBotAction {
                 Character ch = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), charName);
                 if ( ch!= null) {
                     ch.removeFromFight();
-                    Characters.storeCharacter(message.getGuildId(), message.getChannelId(), ch);
+                    Characters.storeCharacter(message.getGuildId(), message.getChannelId(), ch, true);
                 }
             }
         }
 
         if (reDeal) {
             // deal cards again according to parameters
-            StringBuilder newArgs = new StringBuilder();
             Set<Character> chars = Characters.getFightingCharacters(message.getGuildId(), message.getChannelId());
             for (Character c : chars) {
                 c.dealInitiativeCards(deck);

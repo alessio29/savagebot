@@ -21,13 +21,19 @@ public class Decks {
 
 	public static Deck getDeck(String guildId, String channelId) {
 
+		boolean deckCreated = false;
 		Map<String, Deck> guildDecks = decks.get(guildId);
 		if(guildDecks == null) {
 			Decks.addDeck(guildId, channelId, Deck.createNewDeck());
+			deckCreated = true;
 		}
 		Deck result = decks.get(guildId).get(channelId);
-		if (result == null ) {
+		if (result == null || result.isEmpty()) {
 			Decks.addDeck(guildId, channelId, Deck.createNewDeck());
+			deckCreated = true;
+		}
+		if (deckCreated) {
+			save2Redis();
 		}
 		return decks.get(guildId).get(channelId);
 	}
