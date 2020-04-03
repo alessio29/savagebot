@@ -26,7 +26,7 @@ public class RemoveCharacterAction implements IBotAction {
         for (int i = 0; i < args.length; i++) {
             Character ch = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), args[i].trim());
             if (ch == null) {
-                charsNotFound.add(ch.getName());
+                charsNotFound.add(args[i].trim());
                 continue;
             }
             charsToRemove.add(ch.getName());
