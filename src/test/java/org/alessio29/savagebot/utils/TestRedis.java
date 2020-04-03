@@ -6,8 +6,12 @@ import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.characters.State;
 import org.alessio29.savagebot.initiative.DrawCardResult;
 import org.alessio29.savagebot.internal.RedisClient;
+import org.junit.*;
 import org.jetbrains.annotations.NotNull;
-import org.junit.Test;
+
+import redis.embedded.RedisServer;
+
+import java.io.IOException;
 
 public class TestRedis {
 
@@ -15,6 +19,18 @@ public class TestRedis {
     private static final String TEST_CHANNEL = "TEST_CHANNEL";
     private static final String TEST_CHAR_NAME = "TEST_CHAR_1";
     private static final String TEST_CHAR_PARAMS = "q";
+    private static RedisServer server;
+
+    @BeforeClass
+    public static void init () throws IOException {
+        server = new RedisServer(6379);
+        server.start();
+    }
+
+    @AfterClass
+    public static void destroy () {
+        server.stop();
+    }
 
     @Test
     public void testRedisConnect() {
@@ -23,7 +39,7 @@ public class TestRedis {
 
         Character ch = getCharacter();
 
-        Characters.storeCharacter(TEST_GUILD, TEST_CHANNEL, ch, true);
+        Characters.storeCharacter(TEST_GUILD, TEST_CHANNEL, ch);
         Characters.getCharacters(TEST_GUILD, TEST_CHANNEL).clear();
         Characters.loadFromRedis();
         Character newChar = Characters.getCharacterByName(TEST_GUILD, TEST_CHANNEL, TEST_CHAR_NAME);
@@ -54,7 +70,7 @@ public class TestRedis {
     @Test
     public void testRedisDelete() {
         Character ch = getCharacter();
-        Characters.storeCharacter(TEST_GUILD, TEST_CHANNEL, ch, true);
+        Characters.storeCharacter(TEST_GUILD, TEST_CHANNEL, ch);
         Characters.getCharacters(TEST_GUILD, TEST_CHANNEL).clear();
         Characters.loadFromRedis();
         Character newChar1 = Characters.getCharacterByName(TEST_GUILD, TEST_CHANNEL, TEST_CHAR_NAME);

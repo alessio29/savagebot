@@ -41,7 +41,7 @@ public class DropCharacterAction implements IBotAction {
                         break;
                 }
                 if (result != DropCharacterParamsIterator.DropProcessResult.ERROR) {
-                    Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character, true);
+                    Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
                 }
             }
         }

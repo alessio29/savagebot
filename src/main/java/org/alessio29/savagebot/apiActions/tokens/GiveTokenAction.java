@@ -37,7 +37,7 @@ public class GiveTokenAction implements IBotAction {
             }
             if (tokens>0) {
                 given.add(it.process(modifier, character));
-                Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character, true);
+                Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
             }
         }
         return new CommandExecutionResult("Given tokens to character(s): "+ StringUtils.join(given, ", "), args.length + 1);

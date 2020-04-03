@@ -40,7 +40,7 @@ public class ManageStatesAction implements IBotAction {
                     list.add(s);
                 }
             }
-            Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character, true);
+            Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
         }
         String response = "State(s) changed: " + StringUtils.join(list, ", ");
         return new CommandExecutionResult(response, args.length + 1);

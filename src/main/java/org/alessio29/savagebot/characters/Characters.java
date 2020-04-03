@@ -39,12 +39,10 @@ public class Characters {
         return ch;
     }
 
-    public static void storeCharacter(String guild, String channel, Character character, boolean save) {
+    public static void storeCharacter(String guild, String channel, Character character) {
         Map<String, Character> map = getCharacters(guild, channel);
         map.put(character.getName(), character);
-        if (save) {
-            save2Redis();
-        }
+        save2Redis();
     }
 
     public static void resetCharactersInitiative(String guildId, String channelId) {
@@ -130,7 +128,8 @@ public class Characters {
                 // key is wrong
                 continue;
             }
-            storeCharacter(keyParts[0], keyParts[1], JsonConverter.getInstance().fromJson(map.get(key), Character.class), false);
+            Character character = JsonConverter.getInstance().fromJson(map.get(key), Character.class);
+            getCharacters(keyParts[0], keyParts[1]).put(character.getName(), character);
         }
     }
 }

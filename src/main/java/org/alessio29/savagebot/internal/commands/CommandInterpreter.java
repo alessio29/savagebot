@@ -6,11 +6,15 @@ import org.alessio29.savagebot.internal.Prefixes;
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.internal.builders.ResponseBuilder;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.log4j.Logger;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 public class CommandInterpreter {
     private final CommandRegistry registry = CommandRegistry.getInstance();
+
+    private static Logger log = Logger.getLogger(CommandInterpreter.class);
 
     public void run(IMessageReceived message, ResponseBuilder responseBuilder) {
         String prefix = Prefixes.getPrefix(message.getAuthorId());
@@ -40,7 +44,9 @@ public class CommandInterpreter {
                         responseBuilder.addResult(res);
                         index += res.getToSkip();
                     } catch (Exception e) {
-                        responseBuilder.reportError(word, e);
+                        UUID errorId = UUID.randomUUID();
+                        log.debug("Exception Id: "+errorId.toString()+"\nException while executing command: ", e);
+                        responseBuilder.reportError(errorId, word, e);
                         index++;
                     }
                 } else {
@@ -54,7 +60,9 @@ public class CommandInterpreter {
                                 break;
                             }
                         } catch (Exception e) {
-                            responseBuilder.reportError(word, e);
+                            UUID errorId = UUID.randomUUID();
+                            log.debug("Exception while executing command: ", e);
+                            responseBuilder.reportError(errorId, word, e);
                             index++;
                         }
                     }
