@@ -100,7 +100,6 @@ public class Characters {
 
     public static void loadFromRedis() {
         Map<String, String> map = RedisClient.loadMapAtKey(REDIS_CHARACTERS_KEY);
-
         for (String key : map.keySet()) {
             String[] keyParts = key.split(RedisClient.DELIMITER);
             if (keyParts.length <3 ) {
