@@ -51,7 +51,6 @@ public class NewRoundAction implements IBotAction {
 
         if (reDeal) {
             // deal cards again according to parameters
-            StringBuilder newArgs = new StringBuilder();
             Set<Character> chars = Characters.getFightingCharacters(message.getGuildId(), message.getChannelId());
             for (Character c : chars) {
                 c.dealInitiativeCards(deck);

@@ -56,6 +56,10 @@ public class RedisClient {
         getClient().hmset(key, map);
     }
 
+    public static void remove(String key, String fieldKey) {
+         getClient().hdel(key, fieldKey);
+    }
+
     public static Map<String, String> loadMapAtKey(String key) {
         return getClient().hgetAll(key);
     }
@@ -63,26 +67,6 @@ public class RedisClient {
     public static String asJson (Object o) {
         return JsonConverter.getInstance().toJson(o);
     }
-
-//    public static void storeObject(String redisKey, Object data2store) {
-//        if (testMode || data2store == null) {
-//            return;
-//        }
-//        String json = JsonConverter.getInstance().toJson(data2store);
-//        RedisClient.getClient().set(redisKey, json);
-//    }
-//
-//    public static <T> T loadObject(String redisKey, Class<T> clazz ) {
-//
-//        if (testMode) {
-//            return null;
-//        }
-//        String json = RedisClient.getClient().get(redisKey);
-//        if (json == null) {
-//            return null;
-//        }
-//        return JsonConverter.getInstance().fromJson(json, clazz);
-//    }
 
     public static void setTestMode(boolean b) {
         testMode = b;

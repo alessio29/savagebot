@@ -45,13 +45,17 @@ public class DealInitiativeCardsAction implements IBotAction {
             }
             String modifier = null;
             if (it.nextIsModifier()) {
-                modifier = it.next().trim().toLowerCase();
+                modifier = it.next().trim().toLowerCase().substring(1);
                 if (modPattern.matcher(modifier).matches()) {
                     return new CommandExecutionResult(helpString, args.length + 1);
                 }
+                CommandExecutionResult res = getCheckModsValidity(modifier, args.length + 1);
+                if (res != null) {
+                    return  res;
+                }
             }
-            Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), value);
-            character = it.process(value, modifier, character);
+            Character character = Characters.getByNameOrCreate(message.getGuildId(), message.getChannelId(), value);
+            character = it.process(modifier, character);
             Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
         }
         return new ShowInitiativeAction().doAction(message, args);

@@ -91,6 +91,5 @@ public class ShowInitiativeAction implements IBotAction {
         }
         reply.newLine().blockQuote();
         return new CommandExecutionResult(header.toString()+reply.toString(), args.length + 1);
-
     }
 }

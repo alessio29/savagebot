@@ -6,6 +6,10 @@ Supports various dice-rolling, Savage Worlds initiative cards and other RPG stuf
 **Installation:**
 Click on the following link and authorize bot on your server: https://discordapp.com/oauth2/authorize?&client_id=448952545784758303&scope=bot&permissions=0
 
+**Patreon**
+
+In case you like this bot so much - you can support development via Patreon: https://www.patreon.com/savagebot
+
 **How to use it:**
 
 Start you message with `!` then type any command from the following list. Some commands may require additional parameters.
@@ -109,15 +113,9 @@ Example: `!give Huey Louie Dewey 2` - takes 1 tokens from Huey, 1 from Louie and
 
 __**STATES category**__
 
-**clstate** or **cs** <character_name>/all clears all states of character/all characters in channel
-
-**remstate** or **rst** <character_name1> <state1> [<state2>] [...]   Removes states from character. 
+**state** or **st** <character_name1> [+/-]<state1> [+/-][<state2>] [...]   Sets and removes states of character.
   
-  Example: `!remstate Huey stunned vul Dewey dis`
-
-**state** or **st** <character_name1> <state1> [<state2>] [...]   Sets states to character.
-  
-  Example: `!state Huey stunned vul dis Dewey dis ent`
+  Example: `!state Huey +stunned -vul dis Dewey dis -ent Louie clear`
   
   States are Savage Worlds states: Shaken, Stunned, Entangled, Bound, Distracted and Vulnerable. You can write them in any case even like sTuNnEd. You can use abbreviations: sha, stn, ent, bnd, dis, vul.
 

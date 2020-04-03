@@ -129,16 +129,16 @@ public class Character {
     }
 
     @JsonIgnore
-    public void removeState(State s) {
-        states.remove(s);
+    public boolean removeState(State s) {
+        return states.remove(s);
     }
 
     @JsonIgnore
-    public void addState(State s) {
+    public boolean addState(State s) {
         if (states == null) {
             states = new HashSet<>();
         }
-        states.add(s);
+        return states.add(s);
     }
 
     @JsonIgnore

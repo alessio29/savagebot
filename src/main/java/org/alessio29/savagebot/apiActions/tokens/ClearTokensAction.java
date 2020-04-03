@@ -27,7 +27,7 @@ public class ClearTokensAction implements IBotAction {
             } else {
                 chars = Collections.singletonList(Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), value));
             }
-            Collection<String> names = it.process(value, null, chars);
+            Collection<String> names = it.process(null, chars);
             if (names!=null) {
                 removed.addAll(names);
             }
