@@ -100,13 +100,15 @@ public class Characters {
 
     public static void loadFromRedis() {
         Map<String, String> map = RedisClient.loadMapAtKey(REDIS_CHARACTERS_KEY);
+
         for (String key : map.keySet()) {
             String[] keyParts = key.split(RedisClient.DELIMITER);
             if (keyParts.length <3 ) {
                 // key is wrong
                 continue;
             }
-            storeCharacter(keyParts[0], keyParts[1], JsonConverter.getInstance().fromJson(map.get(key), Character.class));
+            Character character = JsonConverter.getInstance().fromJson(map.get(key), Character.class);
+            getCharacters(keyParts[0], keyParts[1]).put(character.getName(), character);
         }
     }
 }

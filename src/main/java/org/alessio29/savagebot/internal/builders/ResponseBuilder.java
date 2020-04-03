@@ -2,6 +2,8 @@ package org.alessio29.savagebot.internal.builders;
 
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
+import java.util.UUID;
+
 public abstract class ResponseBuilder {
     protected boolean hasCommandResult = false;
     protected final StringBuilder publicPart = new StringBuilder();
@@ -31,7 +33,7 @@ public abstract class ResponseBuilder {
         return !Character.isWhitespace(last);
     }
 
-    public abstract void reportError(String word, Exception e);
+    public abstract void reportError(UUID id, String word, Exception e);
 
     protected abstract String getUserMention();
     protected abstract void sendReplyToOrigin(String message);

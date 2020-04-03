@@ -6,7 +6,12 @@ import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.characters.State;
 import org.alessio29.savagebot.initiative.DrawCardResult;
 import org.alessio29.savagebot.internal.RedisClient;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import redis.embedded.RedisServer;
+
+import java.io.IOException;
 
 public class TestRedis {
 
@@ -14,6 +19,18 @@ public class TestRedis {
     private static final String TEST_CHANNEL = "TEST_CHANNEL";
     private static final String TEST_CHAR_NAME = "TEST_CHAR_1";
     private static final String TEST_CHAR_PARAMS = "q";
+    private static RedisServer server;
+
+    @Before
+    public void init () throws IOException {
+        server = new RedisServer(6379);
+        server.start();
+    }
+
+    @After
+    public void destroy () {
+        server.stop();
+    }
 
     @Test
     public void testRedisConnect() {

@@ -1,6 +1,7 @@
 package org.alessio29.savagebot.internal.builders;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.alessio29.savagebot.internal.builders.MessageSplitter.splitMessage;
 
@@ -27,8 +28,8 @@ public abstract class SplittingResponseBuilder extends ResponseBuilder {
         }
     }
 
-    public void reportError(String word, Exception e) {
-        splitAndSendToOrigin("Error while executing command " + word + ". Details: " + e.getMessage());
+    public void reportError(UUID id, String word, Exception e) {
+        splitAndSendToOrigin("Error while executing command " + word + ". Details: " + e.getMessage()+"\n["+id.toString()+"]");
     }
 
     private void splitAndSendToOrigin(String message) {
