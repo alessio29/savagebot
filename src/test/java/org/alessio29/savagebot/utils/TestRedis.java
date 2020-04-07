@@ -47,8 +47,7 @@ public class TestRedis {
         assert ch.getName().equals(newChar.getName());
         assert ch.getSaWoInitParams().equals(newChar.getSaWoInitParams());
         assert ch.getTokens().equals(newChar.getTokens());
-        assert ch.getOutOfFight().equals(newChar.isOutOfFight());
-        assert ch.getBestCard().equals(newChar.getBestCard());
+        assert ch.isOutOfFight().equals(newChar.isOutOfFight());
         assert ch.getAllCards().equals(newChar.getAllCards());
         assert ch.getStates().equals(newChar.getStates());
         assert ch.getInitCards().equals(newChar.getInitCards());
@@ -63,7 +62,7 @@ public class TestRedis {
         ch.giveCard(new DrawCardResult(Deck.HEARTS_JACK));
         ch.giveCard(new DrawCardResult(Deck.DIAMONDS_KING));
         ch.setSaWoInitParams(TEST_CHAR_PARAMS);
-        ch.setOutOfFight(false);
+        ch.removeFromFight();
         return ch;
     }
 

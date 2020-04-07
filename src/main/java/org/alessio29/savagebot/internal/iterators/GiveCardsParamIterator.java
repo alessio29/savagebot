@@ -1,5 +1,9 @@
 package org.alessio29.savagebot.internal.iterators;
 
+import org.alessio29.savagebot.characters.Character;
+import org.alessio29.savagebot.characters.Characters;
+import org.alessio29.savagebot.initiative.DrawCardResult;
+
 public class GiveCardsParamIterator extends ParamsIterator {
 
     public GiveCardsParamIterator(String[] args) {

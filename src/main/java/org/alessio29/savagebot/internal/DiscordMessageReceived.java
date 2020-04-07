@@ -6,8 +6,20 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 public class DiscordMessageReceived implements IMessageReceived<MessageReceivedEvent> {
     private final MessageReceivedEvent event;
 
+    private final String guildId;
+    private final String channelId;
+    private final String authorId;
+    private final String authorMention;
+    private final String rawMessage;
+
+
     public DiscordMessageReceived(MessageReceivedEvent event) {
         this.event = event;
+        this.guildId = event.getGuild().getId();
+        this.channelId = event.getChannel().getId();
+        this.authorId = event.getAuthor().getId();
+        this.authorMention = event.getAuthor().getAsMention();
+        this.rawMessage = event.getMessage().getContentRaw();
     }
 
     @Override
@@ -17,17 +29,17 @@ public class DiscordMessageReceived implements IMessageReceived<MessageReceivedE
 
     @Override
     public String getGuildId() {
-        return event.getGuild().getId();
+        return this.guildId;
     }
 
     @Override
     public String getChannelId() {
-        return event.getChannel().getId();
+        return this.channelId;
     }
 
     @Override
     public String getAuthorId() {
-        return event.getAuthor().getId();
+        return this.authorId;
     }
 
 //    @Override
@@ -41,12 +53,12 @@ public class DiscordMessageReceived implements IMessageReceived<MessageReceivedE
 
     @Override
     public String getAuthorMention() {
-        return event.getAuthor().getAsMention();
+        return this.authorMention;
     }
 
     @Override
     public String getRawMessage() {
-        return event.getMessage().getContentRaw();
+        return rawMessage;
     }
 
     @Override

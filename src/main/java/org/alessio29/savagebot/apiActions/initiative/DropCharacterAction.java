@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class DropCharacterAction implements IBotAction {
 
@@ -17,6 +18,14 @@ public class DropCharacterAction implements IBotAction {
 
         if (args.length < 1) {
             return new CommandExecutionResult("Character name should be provided.", 1);
+        }
+
+        if (args[0].equalsIgnoreCase("all")) {
+            Set<Character> allChars = Characters.getFightingCharacters(message.getGuildId(), message.getChannelId());
+            for (Character ch : allChars ) {
+                ch.removeFromFight();
+            }
+            return new CommandExecutionResult("All characters dropped from fight.", args.length+1);
         }
 
         List<String> removed = new ArrayList<>();
@@ -48,13 +57,13 @@ public class DropCharacterAction implements IBotAction {
 
         String response = "";
         if (!notFound.isEmpty()) {
-            response = "Character(s) " + StringUtils.join(notFound, ", ")+ " not found!\n";
+            response = "Character(s) " + StringUtils.join(notFound, ", ")+ " not found.\n";
         }
         if (!alreadyOut.isEmpty()) {
-            response = response + "Character(s) " +StringUtils.join(alreadyOut, ", ")+ " already out of fight!\n";
+            response = response + "Character(s) " +StringUtils.join(alreadyOut, ", ")+ " already out of fight.\n";
         }
         if (!removed.isEmpty()) {
-            response = response + "Character(s) " +StringUtils.join(removed, ", ")+ " removed from fight!\n";
+            response = response + "Character(s) " +StringUtils.join(removed, ", ")+ " removed from fight.\n";
         }
         return new CommandExecutionResult(response, args.length+1);
     }

@@ -51,8 +51,7 @@ public class Characters {
             return;
         }
         for (Map.Entry<String, Character> e :  map.entrySet()) {
-            e.getValue().clearCards();
-            e.getValue().setOutOfFight(true);
+            e.getValue().removeFromFight();
             if (e.getValue().isEmpty()) {
                 map.remove(e);
             }
@@ -83,6 +82,15 @@ public class Characters {
         charMap.remove(charName);
         removeFromRedis(guildId, channelId, charName);
     }
+
+    public static void removeAllCharacters(String guildId, String channelId) {
+        Map<String, Character> charMap = getCharacters(guildId, channelId);
+        for (String name : charMap.keySet()) {
+            removeFromRedis(guildId, channelId, name);
+        }
+        charMap.clear();
+    }
+
 
     private static void removeFromRedis(String guildId, String channelId, String charName) {
        RedisClient.remove(Characters.REDIS_CHARACTERS_KEY, getKey(guildId, channelId, charName));
