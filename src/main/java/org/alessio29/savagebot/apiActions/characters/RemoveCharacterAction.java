@@ -10,6 +10,8 @@ import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class RemoveCharacterAction implements IBotAction {
 
@@ -19,7 +21,10 @@ public class RemoveCharacterAction implements IBotAction {
             return new CommandExecutionResult("No character name(s) provided!", 1);
         }
 
-        RemoveCharacterParamsIterator it = new RemoveCharacterParamsIterator(args);
+        if (args[0].equalsIgnoreCase("all")) {
+            Characters.removeAllCharacters(message.getGuildId(), message.getChannelId());
+            return new CommandExecutionResult("All characters removed.", args.length+1);
+        }
         List<String> charsNotFound = new ArrayList<>();
         List<String> charsToRemove = new ArrayList<>();
 

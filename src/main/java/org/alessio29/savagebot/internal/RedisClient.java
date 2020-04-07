@@ -1,8 +1,11 @@
 package org.alessio29.savagebot.internal;
 
+import jdk.nashorn.internal.runtime.ECMAException;
 import org.alessio29.savagebot.internal.utils.JsonConverter;
+import org.apache.log4j.Logger;
 import redis.clients.jedis.Jedis;
 
+import java.util.Collections;
 import java.util.Map;
 
 public class RedisClient {
@@ -16,6 +19,7 @@ public class RedisClient {
     private static String pass;
     private static boolean testMode = false;
     public static final String DELIMITER = ":";
+    private static Logger log = Logger.getLogger(RedisClient.class);
 
     private static Jedis getClient() {
         if (client == null) {
@@ -53,15 +57,29 @@ public class RedisClient {
     }
 
     public static void saveMapAtKey(String key, Map map) {
-        getClient().hmset(key, map);
+        try {
+            getClient().hmset(key, map);
+        } catch (Exception e) {
+            log.debug("Error while saving map to Redis storage.", e);
+        }
+
     }
 
     public static void remove(String key, String fieldKey) {
-         getClient().hdel(key, fieldKey);
+        try {
+            getClient().hdel(key, fieldKey);
+        } catch (Exception e) {
+            log.debug("Error while deleting value from Redis storage.", e);
+        }
     }
 
     public static Map<String, String> loadMapAtKey(String key) {
-        return getClient().hgetAll(key);
+        try {
+            return getClient().hgetAll(key);
+        } catch (Exception e) {
+            log.debug("Error while loading value from Redis storage.", e);
+            return Collections.emptyMap();
+        }
     }
 
     public static String asJson (Object o) {

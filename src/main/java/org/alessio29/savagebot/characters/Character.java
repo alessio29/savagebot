@@ -117,10 +117,8 @@ public class Character {
         findBestCard();
     }
 
-    @JsonProperty
-    public Boolean getOutOfFight() {
-        return outOfFight;
-    }
+
+
 
     // ==================== STATES ========================
     @JsonIgnore
@@ -188,8 +186,8 @@ public class Character {
         this.bestCard = bestCard;
     }
 
-    @JsonIgnore
-    public boolean isOutOfFight() {
+    @JsonProperty
+    public Boolean isOutOfFight() {
 
         if (this.outOfFight == null) {
             return true; // this is right!
@@ -198,17 +196,16 @@ public class Character {
     }
 
     @JsonProperty
-    public void setOutOfFight(Boolean outOfFight) {
+    private void setOutOfFight(Boolean outOfFight) {
         this.outOfFight = outOfFight;
     }
 
     @JsonIgnore
     public void giveCard(DrawCardResult cards) {
-
-        Card bestCard = cards.findBestCard();
         List<Card> allCards = getAllCards();
         allCards.addAll(cards.getCards());
         this.initCards = allCards;
+        Card bestCard = cards.findBestCard();
         if (isHesitant() && getBestCard().compareTo(bestCard) < 0) {
             this.bestCard = bestCard;
         } else {

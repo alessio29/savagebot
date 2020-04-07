@@ -33,9 +33,9 @@ public class GiveCardsAction implements IBotAction {
                 DrawCardResult cards = deck.getCardByParams("");
                 character.giveCard(cards);
                 character.backToFight();
-                list.add(it.process(null, character));
+                list.add(character.getName());
             }
         }
-        return new CommandExecutionResult(StringUtils.join(list, ", "), args.length + 1);
+        return new CommandExecutionResult("Card(s) given to character(s): "+StringUtils.join(list, ", "), args.length + 1);
     }
 }
