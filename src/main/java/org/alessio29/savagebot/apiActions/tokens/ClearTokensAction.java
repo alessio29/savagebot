@@ -16,7 +16,6 @@ public class ClearTokensAction implements IBotAction {
         if (args.length < 1) {
             return new CommandExecutionResult("Please provide character name or 'all' to clear all characters", 1);
         }
-        List<String> removed = new ArrayList<>();
         ClearTokensParamsIterator it = new ClearTokensParamsIterator(args);
         List<Character> chars = new ArrayList<>();
         if (args[0].trim().toLowerCase().equals("all")) {
@@ -28,9 +27,10 @@ public class ClearTokensAction implements IBotAction {
             }
         }
         Collection<String> names = it.process(null, chars);
-        if (names != null) {
-            removed.addAll(names);
+        if (names != null && !names.isEmpty()) {
+            return new CommandExecutionResult("Removed tokens for character(s) " + StringUtils.join(names, ", "), args.length + 1);
+        } else {
+            return new CommandExecutionResult("Character(s) with provided name(s) not found.", args.length + 1);
         }
-        return new CommandExecutionResult("Removed tokens for character(s) " + StringUtils.join(removed, ", "), args.length + 1);
     }
 }
