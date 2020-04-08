@@ -12,7 +12,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 @Ignore
-public class TestTokens {
+public class TestTokenActions {
     private static final String TEST_CHAR1 = "Test1";
     private static final String TEST_CHAR2 = "Test2";
     private static final String TEST_CHAR3 = "Test3";
