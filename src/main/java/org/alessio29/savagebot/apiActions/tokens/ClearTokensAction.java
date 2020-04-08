@@ -18,20 +18,19 @@ public class ClearTokensAction implements IBotAction {
         }
         List<String> removed = new ArrayList<>();
         ClearTokensParamsIterator it = new ClearTokensParamsIterator(args);
-
-        while (it.hasNext()) {
-            String value = it.next();
-            Collection<Character> chars;
-            if (args[0].trim().toLowerCase().equals("all")) {
-                chars = Characters.getCharacters(message.getGuildId(), message.getChannelId()).values();
-            } else {
-                chars = Collections.singletonList(Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), value));
-            }
-            Collection<String> names = it.process(null, chars);
-            if (names!=null) {
-                removed.addAll(names);
+        List<Character> chars = new ArrayList<>();
+        if (args[0].trim().toLowerCase().equals("all")) {
+            chars.addAll(Characters.getCharacters(message.getGuildId(), message.getChannelId()).values());
+        } else {
+            while (it.hasNext()) {
+                String value = it.next();
+                chars.add(Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), value));
             }
         }
-        return new CommandExecutionResult("Removed tokens for character(s) "+ StringUtils.join(removed, ", "), args.length + 1);
+        Collection<String> names = it.process(null, chars);
+        if (names != null) {
+            removed.addAll(names);
+        }
+        return new CommandExecutionResult("Removed tokens for character(s) " + StringUtils.join(removed, ", "), args.length + 1);
     }
 }
