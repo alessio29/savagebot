@@ -4,17 +4,20 @@ public class SavageWorldsRollExpression extends Expression {
     private final Expression diceCountArg;
     private final Expression abilityDieArg;
     private final Expression wildDieArg;
+    private final Expression targetNumberArg;
 
     public SavageWorldsRollExpression(
             String text,
             Expression diceCountArg,
             Expression abilityDieArg,
-            Expression wildDieArg
+            Expression wildDieArg,
+            Expression targetNumberArg
     ) {
         super(text);
         this.diceCountArg = diceCountArg;
         this.abilityDieArg = abilityDieArg;
         this.wildDieArg = wildDieArg;
+        this.targetNumberArg = targetNumberArg;
     }
 
     public Expression getDiceCountArg() {
@@ -27,6 +30,10 @@ public class SavageWorldsRollExpression extends Expression {
 
     public Expression getWildDieArg() {
         return wildDieArg;
+    }
+
+    public Expression getTargetNumberArg() {
+        return targetNumberArg;
     }
 
     @Override

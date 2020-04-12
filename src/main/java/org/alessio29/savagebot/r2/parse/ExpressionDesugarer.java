@@ -232,7 +232,8 @@ class ExpressionDesugarer extends Desugarer<Expression> {
                 getOriginalText(ctx),
                 visitOrNull(swrc.t1),
                 visit(swrc.t2),
-                visitOrNull(swrc.t3)
+                visitOrNull(swrc.t3),
+                visitOrNull(swrc.t4)
         );
     }
 

@@ -41,10 +41,16 @@ class ExpressionExplainer implements Expression.Visitor<String> {
     }
 
     private String getSuccessesIfAny(int intValue) {
-        if (intValue < 4) {
+        int targetNumber = expressionContext.getSavageWorldsTargetNumber();
+        int marginOfSuccess = intValue - targetNumber;
+        if (marginOfSuccess < 0) {
             return "";
         } else {
-            return " (" + (intValue / 4) + ")";
+            StringBuilder sb = new StringBuilder().append(" (").append(marginOfSuccess / 4 + 1);
+            if (targetNumber != 4) {
+                sb.append("; TN: ").append(targetNumber);
+            }
+            return sb.append(")").toString();
         }
     }
 
