@@ -206,7 +206,7 @@ public class Character {
         allCards.addAll(cards.getCards());
         this.initCards = allCards;
         Card bestCard = cards.findBestCard();
-        if (isHesitant() && getBestCard().compareTo(bestCard) < 0) {
+        if (isHesitant() && bestCard.compareTo(getBestCard()) >0 ){
             this.bestCard = bestCard;
         } else {
             findBestCard();
