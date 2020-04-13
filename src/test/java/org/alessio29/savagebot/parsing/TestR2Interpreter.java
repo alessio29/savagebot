@@ -470,6 +470,23 @@ public class TestR2Interpreter {
     }
 
     @Test
+    public void testSavageWorldsChecksWithAlternativeTargetNumber() {
+        expect(
+                "s8t6+4: [6; w5] + 4 = **10** (2; TN: 6)",
+                "s8t6+4"
+        );
+    }
+
+    @Test
+    public void testMultipleSavageWorldChecksWithTargetNumbers() {
+        // We treat such expression as a basic expression, and don't count number of successes.
+        expect(
+                "s8t4+s8t6: [6; w5] + [2; w28] = **34**",
+                "s8t4+s8t6"
+        );
+    }
+
+    @Test
     public void testBracketsInExplanationOfSumRollMultipliedBySomething() {
         expect(
                 "3*3d6: 3 * (1 + 5 + 2) = **24**",

@@ -288,6 +288,9 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
 
         context.putExplanation(savageWorldsRollExpression, result.getExplained());
 
+        int targetNumber = evalInt(savageWorldsRollExpression.getTargetNumberArg(), 4);
+        context.setSavageWorldsTargetNumber(targetNumber);
+
         return result.getValues();
     }
 
