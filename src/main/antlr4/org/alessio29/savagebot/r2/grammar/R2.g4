@@ -64,7 +64,11 @@ genericRollSuffix
     ;
 
 savageWorldsRoll
-    :   (t1=term)? ('s'|'S') t2=term (('w'|'W') t3=term)? (('t'|'T') t4=term)?
+    :   (t1=term)? ('s'|'S') t2=term (('w'|'W') t3=term)?
+        (
+         ( (('t'|'T') t4=term)? (('r'|'R') t5=term)? )
+         | ( ('tr'|'TR') t6=term )
+        )
     ;
 
 fudgeRoll

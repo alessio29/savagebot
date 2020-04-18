@@ -228,13 +228,27 @@ class ExpressionDesugarer extends Desugarer<Expression> {
     public Expression visitSavageWorldsRollExpr(R2Parser.SavageWorldsRollExprContext ctx) {
         R2Parser.SavageWorldsRollContext swrc = ctx.savageWorldsRoll();
 
-        return new SavageWorldsRollExpression(
-                getOriginalText(ctx),
-                visitOrNull(swrc.t1),
-                visit(swrc.t2),
-                visitOrNull(swrc.t3),
-                visitOrNull(swrc.t4)
-        );
+        if (swrc.t6 == null) {
+            return new SavageWorldsRollExpression(
+                    getOriginalText(ctx),
+                    visitOrNull(swrc.t1),
+                    visit(swrc.t2),
+                    visitOrNull(swrc.t3),
+                    visitOrNull(swrc.t4),
+                    visitOrNull(swrc.t5),
+                    null
+            );
+        } else {
+            return new SavageWorldsRollExpression(
+                    getOriginalText(ctx),
+                    visitOrNull(swrc.t1),
+                    visit(swrc.t2),
+                    visitOrNull(swrc.t3),
+                    null,
+                    null,
+                    visitOrNull(swrc.t6)
+            );
+        }
     }
 
     private Expression visitOrNull(ParseTree parseTree) {
