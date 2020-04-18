@@ -59,6 +59,14 @@ Currently supported dice codes are:
 
 `!3s8w8` - Savage Worlds roll with three trait die d8 and wild die d8 (bursts with non-default wild die)
 
+Also SavageBot supports custom TN and counting raises from it. To do so - use the following syntax: `s6t5`. Result will look like: 
+
+  s6t5: [11; w8] = 11 (2; TN: 5) 
+
+This means: roll result is 11, 2 - is success with one raise, TN is self-explanatory.
+
+This may be combined with othe roll options, like custom wild die: `!s6w8t7`.
+
 `!Nw[+1/+2]` - West End Games D6 System roll. Rolls N d6's one of which is 'wild': it explodes on 6 and subtracts highest number on 1.
 
 `!6d6s4` - WoD, Lady Blackbird roll - rolls 6 d6 and returns how many dice rolled 4 or more
