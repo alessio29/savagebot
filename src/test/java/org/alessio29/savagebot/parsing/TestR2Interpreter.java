@@ -475,6 +475,34 @@ public class TestR2Interpreter {
                 "s8t6+4: [6; w5] + 4 = **10** (2; TN: 6)",
                 "s8t6+4"
         );
+        expect(
+                "10xs12t5r5: \n" +
+                        "1: s12t5r5: [1; w5] = **5** (1; TN: 5; raise step: 5)\n" +
+                        "2: s12t5r5: [2; w28] = **28** (5; TN: 5; raise step: 5)\n" +
+                        "3: s12t5r5: [4; w3] = **4**\n" +
+                        "4: s12t5r5: [6; w17] = **17** (3; TN: 5; raise step: 5)\n" +
+                        "5: s12t5r5: [21; w5] = **21** (4; TN: 5; raise step: 5)\n" +
+                        "6: s12t5r5: [4; w9] = **9** (1; TN: 5; raise step: 5)\n" +
+                        "7: s12t5r5: [8; w1] = **8** (1; TN: 5; raise step: 5)\n" +
+                        "8: s12t5r5: [9; w9] = **9** (1; TN: 5; raise step: 5)\n" +
+                        "9: s12t5r5: [5; w4] = **5** (1; TN: 5; raise step: 5)\n" +
+                        "10: s12t5r5: [11; w1] = **11** (2; TN: 5; raise step: 5)",
+                "10xs12t5r5"
+        );
+        expect(
+                "10xs12tr5: \n" +
+                        "1: s12tr5: [1; w5] = **5** (1; TN: 5; raise step: 5)\n" +
+                        "2: s12tr5: [2; w28] = **28** (5; TN: 5; raise step: 5)\n" +
+                        "3: s12tr5: [4; w3] = **4**\n" +
+                        "4: s12tr5: [6; w17] = **17** (3; TN: 5; raise step: 5)\n" +
+                        "5: s12tr5: [21; w5] = **21** (4; TN: 5; raise step: 5)\n" +
+                        "6: s12tr5: [4; w9] = **9** (1; TN: 5; raise step: 5)\n" +
+                        "7: s12tr5: [8; w1] = **8** (1; TN: 5; raise step: 5)\n" +
+                        "8: s12tr5: [9; w9] = **9** (1; TN: 5; raise step: 5)\n" +
+                        "9: s12tr5: [5; w4] = **5** (1; TN: 5; raise step: 5)\n" +
+                        "10: s12tr5: [11; w1] = **11** (2; TN: 5; raise step: 5)",
+                "10xs12tr5"
+        );
     }
 
     @Test

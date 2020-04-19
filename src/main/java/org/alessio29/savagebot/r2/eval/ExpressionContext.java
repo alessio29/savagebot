@@ -11,6 +11,7 @@ class ExpressionContext {
     private final Map<Expression, String> explanations = new HashMap<>();
 
     private int savageWorldsTargetNumber = 4;
+    private int savageWorldsRaiseStep = 4;
 
     public ExpressionContext(Expression topExpression, CommandContext commandContext) {
         this.topExpression = topExpression;
@@ -39,5 +40,13 @@ class ExpressionContext {
 
     public int getSavageWorldsTargetNumber() {
         return savageWorldsTargetNumber;
+    }
+
+    public void setSavageWorldsRaiseStep(int raiseStep) {
+        savageWorldsRaiseStep = raiseStep;
+    }
+
+    public int getSavageWorldsRaiseStep() {
+        return savageWorldsRaiseStep;
     }
 }

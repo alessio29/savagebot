@@ -41,23 +41,33 @@ You can make multiple rolls in one command separated by space: `!r d6 d4! d10+d1
 
 You can use comments in roll: `!r shooting at vampire s8 damage 2d6+1`
 
+Roll dice command can be anywhere in your message: `Shooting: !s10`
+
 Currently supported dice codes are:
 
 `!3d6` - roll 3 6-sided dice, show sum
 
 `!2d8!` - roll 2 'exploding' 8-sided dice, show sum. 'Exploding' means that if die come up with maximum value - it will be rolled again and summed up 
 
-`!4d6k3` - roll 4 6-sided dice keep 3 highest (DnD attributes roll-up)
+`!4d6k3` - roll 4 6-sided dice, keep 3 highest
+
+`!6x4d6k3` - repeat 6 times: roll 4 6-sided dice, keep 3 highest 
 
 `!2d10kl1` - roll 2 10-sided dice keep 1 lowest
 
-`!s8` - Savage Worlds roll with trait die d8 and wild die d6
+`!s8` - Savage Worlds roll with d8 trait die and (default) d6 wild die
 
-`!3s8` - Savage Worlds roll with three trait die d8 (Can be used for bursts)
+`!3s8` - Savage Worlds roll with three d8 trait dice (e.g., bursts)
 
 `!s8w10` - Savage Worlds roll with trait die d8 and wild die d10
 
-`!3s8w8` - Savage Worlds roll with three trait die d8 and wild die d8 (bursts with non-default wild die)
+`!3s8w8` - Savage Worlds roll with three d8 trait dice and d8 wild die (e.g., bursts with non-default wild die)
+
+`!s8t6` - Savage Worlds roll with trait die d8 and target number 6 (for counting successes and raises)
+
+`!s8tr6` - Savage Worlds roll with trait die d8, target number 6, and raise step 6
+
+`!s8t10r6` - Savage Worlds roll with trait die d8, target number 10, and raise step 6
 
 Also SavageBot supports custom TN and counting raises from it. To do so - use the following syntax: `s6t5`. Result will look like: 
 
@@ -95,33 +105,37 @@ Bot supports limits to roll:
 
 `!dC` - Carcosa roll. First d20 is rolled to determine size of dice - then this dice is rolled.
 
-**rh**    <expression_1> ... <expressionN>    creates data for histogram: rolls dice multiple times and shows resulting distribution. 
+`!rh    <expression_1> ... <expressionN>`    creates data for histogram: rolls dice multiple times and shows resulting distribution. 
 Example: `!rh 1000x2d6` - rolls 2d6 1000 times and shows results table.
   
-**rs**    [<heading_1>] <expression_1> ... [<heading_N>] <expression_N>    rolls multiple dice and print them out sorted.
+`!rs    [<heading_1>] <expression_1> ... [<heading_N>] <expression_N>`    rolls multiple dice and print them out sorted.
 This is mostly useful for rolling initiative as a single command.
-!rs Huey d20 Dewey d20 Louie d20 => 
-`Dewey 14
+```
+> !rs Huey d20 Dewey d20 Louie d20 
+Dewey 14
 Huey 10
-Louie 5`
+Louie 5
+```
 
 __**TOKENS category**__
 
-**give** character1 [token count1] [character2 [token count2]] [...]		Gives token(s) to character(s). 
+`!give character1 [token count1] [character2 [token count2]] [...]`		Gives token(s) to character(s). 
 
 Example: `!give Huey 2 Louie Dewey 3` - gives 2 tokens to Huey, 1 to Louie and 3 to Dewey. 
 
 
-**take** character [token count] [character2 [token count2]] [...]    Takes token(s) from character(s).  
+`!take character [token count] [character2 [token count2]] [...]`    Takes token(s) from character(s).  
 
 Example: `!give Huey Louie Dewey 2` - takes 1 tokens from Huey, 1 from Louie and 2 from Dewey.
 
 
-**clear** character1 [character2] [...] /all    Clears token(s) for sprecified character or for all characters in channel
+`!clear character1 [character2] [...] /all`    Clears token(s) for sprecified character or for all characters in channel
 
 __**STATES category**__
 
-**state** or **st** <character_name1> [+/-]<state1> [+/-][<state2>] [...]   Sets and removes states of character.
+`!state <character_name1> [+/-]<state1> [+/-][<state2>] [...]`
+
+`!st <character_name1> [+/-]<state1> [+/-][<state2>] [...]` Sets and removes states of character.
   
   Example: `!state Huey +stunned -vul dis Dewey dis -ent Louie clear`
   

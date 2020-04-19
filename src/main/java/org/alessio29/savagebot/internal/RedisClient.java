@@ -1,6 +1,5 @@
 package org.alessio29.savagebot.internal;
 
-import jdk.nashorn.internal.runtime.ECMAException;
 import org.alessio29.savagebot.internal.utils.JsonConverter;
 import org.apache.log4j.Logger;
 import redis.clients.jedis.Jedis;

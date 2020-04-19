@@ -42,13 +42,20 @@ class ExpressionExplainer implements Expression.Visitor<String> {
 
     private String getSuccessesIfAny(int intValue) {
         int targetNumber = expressionContext.getSavageWorldsTargetNumber();
+        int raiseStep = expressionContext.getSavageWorldsRaiseStep();
+        if (raiseStep <= 0) {
+            throw new EvaluationErrorException("Raise step should be above 0: " + raiseStep);
+        }
         int marginOfSuccess = intValue - targetNumber;
         if (marginOfSuccess < 0) {
             return "";
         } else {
-            StringBuilder sb = new StringBuilder().append(" (").append(marginOfSuccess / 4 + 1);
+            StringBuilder sb = new StringBuilder().append(" (").append(marginOfSuccess / raiseStep + 1);
             if (targetNumber != 4) {
                 sb.append("; TN: ").append(targetNumber);
+            }
+            if (raiseStep != 4) {
+                sb.append("; raise step: ").append(raiseStep);
             }
             return sb.append(")").toString();
         }
