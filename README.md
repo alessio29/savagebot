@@ -9,49 +9,50 @@ In case you like this bot so much - you can support development via Patreon: htt
 Click on the following link and authorize bot on your server: https://discordapp.com/oauth2/authorize?&client_id=448952545784758303&scope=bot&permissions=0
 
 To know whether the bot is alive:
-```javascript
+```
 !ping
 ```
 
 If that exclamation mark is an issue (conflict with another bot?), you can change it with `prefix` command followed by a symbol to use as prefix from now on:
-```javascript
+```
 !prefix #
 ```
 
 `invite` command let you get this bot invite link, to share it with friends for their server.
-```javascript
+```
 !invite
 ```
 
-# Help
+## Help & Syntax
 All commands starts with`!`.
 Most commands can have their name shortened to speed things up.
 
 To get help from a discord channel, just type `help` command:
-```javascript
+```
 !help
 ```
 
-## Dice Rolls
+---
+# Dice Rolls
 Let's first see the simpliest rolls for Savage Worlds Extra and Wild Cards. But, in the [Avanced](#advanced) section below, we will see more complex rolls as well as rolls for other systems, including D20 initiative.
 
-### Simple die
+## Simple rolls
 To roll a single die (no Acing), you can use the `roll` (or `r` for short) command, or even simply use the die as command `d4`, `d6`, `d8`, `d10` or `d12`.
 
 For example, you need to know in which direction a grenade deviates?
-```javascript
+```
 !r d12
 ```
 **Tips:** 
 * In fact, you can just roll any die `!d20`, `!d100`, even very weird ones `!d73` if you feel like it!
 * You can also directly include modifiers (after or before the roll), for example, here is a human running roll `!6+d6`.
 
-### Trait rolls
+## Trait rolls
 Traits roll do Ace (if the die hits its max, you roll another one and add it, until no more die aces).
 Follow the die with an `!`.
 
 For example, lets roll a Fighting d6 for a bandit extra:
-```javascript
+```
 !d6!
 ```
 The result will directly display the sum of the dices. You won't see each individual ones. 
@@ -62,11 +63,11 @@ Here, on a d4, we got 4, then 2:
 
 **Tips** You can directly add modifiers to the roll, like a -2 (dim light) penalty to Shooting `!d6!-2`, or Combat Reflexes adding +2 to recover from Shaken `!d8!+2`. Untrained would be `!d4!-2`.
 
-### Wildcard Trait rolls
+## Wildcard Trait rolls
 Wild Cards do roll a "Wild Die" (usually a d6) next to their Trait and keep the highest of both. Use `s4`
 
 For example, let's have Player Character Huey rolls for Persuasion:
-```javascript
+```
 !s8
 ```
 
@@ -87,14 +88,14 @@ Oops, Snake Eyes!
 ```
 
 **Tips:** You can put descriptive text before the roll (it will return to next line after each roll).
-```javascript
+```
 Huey's Persuasion is !s8
 ```
 
-### Parry
+## Fighting vs Parry
 For rolls where the Target Number is not the standard 4, you can add a `t` parameter after the `s` savage roll.
 For example, Huery attacks in melee a Parry 6 bandit:
-```javascript
+```
 Huey Fighting vs Bandit: !s10t6
 ```
 
@@ -103,107 +104,108 @@ The number of success and raises is calculated accordingly:
 > Huey Fighting vs Bandit: s10t6: [9; w3] = 9 (1; TN: 6)
 ```
 
-### Custom Wild Die
+## Custom Wild Die
 If a character has an Edge such as Master, they get to roll a Wild Die higher than d6. You can add `w` to the Savage roll to tell which Wild Die to use.
 Here is Master d12+2, using a d10 for Wild Die.
-```javascript
+```
 !s12w10+2
 ```
 
 **Tips:** You can combine with specific target number, but if you add modifiers, you must also add parenthesis.
 This rolls d12+2, with a d10 for Wild Die, against Parry 8.
-```javascript
+```
 !(s12w10t8)+2
 ```
 
-### Damage rolls
+## Damage rolls
 Pretty simple, back to standard `d` syntax. Damage dice ace.
 
 You can roll multiple dice and sum them up.
 Here is a knife (Str+d4) wielding bandit with d6 strength:
-```javascript
+```
 !d6!+d4!
 ```
 Here is a bow (2d6) wielding assassin:
-```javascript
+```
 !2d6!
 ```
 
 **Tips:** You roll multiple separate rolls on the same line, and put texts around as you like.
-```javascript
+```
 The assassin shoots at Huey !s8 Damage: !2d6!+1 Bonus damage (if raise): !d6!
 ```
 Will display:
 ```
-The assassin shoots at Huey s8: [1; w3] = 3
-Damage: 2d6!+1: 5 + 1 + 1 = 7
-Bonus damage (if raise): d6!: 1 = 1
+> The assassin shoots at Huey s8: [1; w3] = 3
+> Damage: 2d6!+1: 5 + 1 + 1 = 7
+> Bonus damage (if raise): d6!: 1 = 1
 ```
 
 **Not yet:** You can't compare damage to toughness and read the number of wounds. `!2d6!t8` isn't available yet.
 
-## Savage Worlds Initiative
+---
+# Savage Worlds Initiative
 
-### Start a fight
+## Start a fight
 To start a fight use the `fight` or `f` command:
-```javascript
+```
 !f
 ```
 This shuffles deck and resets (clears) initiative tracker.
 
-### Deal cards
+## Deal cards
 To deal cards to one or more characters, use `di` followed by the characters' names. Those are not the discord names of the players, but really the character names or nicknames, and NPC names.
-```javascript
+```
 !di Huey Dewey Bandits Wolves
 ```
 **Tips**: Remove spaces from their name (or they will be considered multiple characters). Keep the character names short, like one word, you might have to type them more than once.
 
-### Quick, Level Headed, and Hesitant
+## Quick, Level Headed, and Hesitant
 For characters with such Edges/Hindrances, when dealing cards to them, follow their name with -q (for Quick), -l (for Level Headed), -i (for Improved Level Headed), or -h (for Hesistant).
-```javascript
+```
 !di Huey -q Dewey Bandits -h Assassin -i
 ```
 
 **Tips**: When a player has Level Headed and Improved Level Headed, you only add `-i`.
 
-### Tactician, Card for a Benny
+## Tactician, Card for a Benny
 If you need to deal a new card to a character, because of an Edge, or they spend a benny, or whatever reason, use `card` command.
-```javascript
+```
 !card Dewey
 ```
 
-### Show Initiative
+## Show Initiative
 When you need to pick again at the initiative tracker, run the `init` command (init for initiative, not for initialize!) :
-```javascript
+```
 !init
 ```
 
-### New Round
+## New Round
 `round` let's you move into next round of combat. This will remove cards from the initiative tracker, shuffle the deck if a Joker was dealt on previous round. By default, all characters are also removed from the tracker. However, if you add `+` after the command, you keep the characters and deal them new cards (applying their edges if they had).
-```javascript
+```
 !rd +
 ```
 
-### Add new characters
+## Add new characters
 A new contendent joins the frey? Well, simply deal them a card with `di`.
-```javascript
+```
 !di Scrooge
 ```
 
-### Remove characters
+## Remove characters
 Someone is dead or fled? You made a typo in their name? Whenever you need to remove someone from the initiative tracker, use `drop` followed by the character names.
-```javascript
+```
 !drop Huey Bandits
 ```
 
 Oh, you can also do that when you start a new round, by adding the character names prefixed by `-` to the `rd` command.
-```javascript
+```
 !rd + -Bandits
 ```
 
 
 ------
-OLD 
+OLD (upcoming)
 
 __**CHARACTERS category**__
 
