@@ -136,11 +136,10 @@ As a wild card, the syntax is simpler, prefix your savage die with the number of
 !2s6
 ```
 
-**Tips:** This also works with Custom Wild Die, e.g. `!3s12w10+2`. But not yet with Target Numbers (Parry).
+**Tips:** This also works with Custom Wild Die and Modifiers, e.g. `!3s12w10+2`. But not yet with Target Numbers (Parry): `!3s6t2` (TN 2 is ignored here).
 
 ## Group Rolls
 Group Rolls are used in Savage Worlds to simulate an average result for a group of extra (e.g. when they all sneak on the party, all attempt to notice something, or evaluate how well they survive their journey through the desert). It is resolved using a single Trait roll plus a standard d6 Wild Die. So simply use the `s` Savage Die!
-
 ```
 !s6
 ```
@@ -233,6 +232,106 @@ Oh, you can also do that when you start a new round, by adding the character nam
 !rd + -Bandits
 ```
 
+---
+# Bennies
+## Grant a Benny
+To give a Benny to a player (or character), use the `!give` command.
+```
+!give Huey
+```
+
+To grant multiple Bennies at once, add the number of Bennies after the character name.
+```
+!give Huey 3
+```
+
+You can give Bennies to multiple persons at once, for example when a Joker is dealt.
+This gives 2 to Huey, one to Louie, and 3 to Dewey.
+```
+!give Huey 2 Louie Dewey 3
+```
+
+## Spend a Benny
+When a player wants to spend a Benny, the Game Master `take` it from them (or they take it away from themselves).
+```
+!take Huey
+```
+
+You can take away from multiple players, multiple Bennies in a single line.
+```
+!take Huey Louie 2 Dewey 2
+```
+
+## Who has what?
+The `list`command lets you check how many Bennies each character has. (it also shows states, see [Managing character states](#states) below).
+```
+!list
+```
+
+Here is what the result looks like:
+```
+> NAME                TOKENS    STATES                             
+> Huey                2                                            
+> Dewey               4                                            
+> Louie               2              
+```
+
+## New session
+When you start a new session and want to reset all Bennies to default 3 (or more with Edges), first use the `clear` command to remove all remaining Bennies, and then, `give` each character what they deserve.
+
+Here, our group with Huey, Louie, and Dewey, and Louie has the Luck Edge:
+```
+!clear
+!give Huey 3 Louie 4 Dewey 3
+```
+
+### Removing characters
+Once you gave a Benny to a character, it remains in the `list`, even if they reach 0 Benny. It's ok when it's a player, at some point they will regain some Benny, but for Wild Card NPCs, you might want to `remove` them from the list.
+```
+!remove Assassin
+```
+
+**Tips:** You can remove multiple characters at one: `!remove LordDenak GoblinWarlord EliteSentinel`
+
+## Deadland Bennies
+Deadlands uses a pool of colored Bennies. Each color has its own uses. Characters draw Bennies at random from the pool.
+This will use complete different command than regular Bennies. We assume Bennies are drawn (`benny`) from a `hat` and placed in the character's `pocket` until they `use` them. Do NOT use `clear`, `give`, or `take` for Deadlands bennies.
+
+**Trivia:** Savage Bot started out aimed for Deadlands players. That's why the `benny` command is for Deadlands Bennies and not for standard Savage Worlds bennies.
+
+### New Deadlands session
+Fill your hat with 20 white Bennies, 10 red Bennies, 5 blue Bennies (and no Golden ones):
+```
+!hat fill
+```
+
+### Grant Deadlands Bennies
+Use `benny` to draw a random Benny from the hand and deal it to a single character.
+```
+!benny Huey
+```
+
+**Note:** as of now, there is no way to draw multiple Deadlands Bennies at once, and no way to deal to multiple players at once.
+
+### Spend Deadlands Bennies
+The `use` command lets you spend a Benny of a given color from a character.
+```
+!use white Huey
+```
+
+### What's in your pocket?
+To check a character's pocket for Deadlands Bennies, use `pocket`.
+```
+!pocket Huey
+```
+
+**Note:** at the moment, there is no way to check for all characters' pockets at once.
+
+### What's left in the hat?
+Using `hat` command without the `fill` argument, you simply check how many Bennies of each color are left in the hat.
+```
+!hat
+```
 
 ------
 OLD (upcoming)
@@ -255,22 +354,6 @@ __**CARDS category**__
 **shuffle**        Shuffles current deck, resets secret cards dealt to all users in this channel
 
 
-
-__**TOKENS category**__
-
-`!give character1 [token count1] [character2 [token count2]] [...]`		Gives token(s) to character(s). 
-
-Example: `!give Huey 2 Louie Dewey 3` - gives 2 tokens to Huey, 1 to Louie and 3 to Dewey. 
-
-
-`!take character [token count] [character2 [token count2]] [...]`    Takes token(s) from character(s).  
-
-Example: `!give Huey Louie Dewey 2` - takes 1 tokens from Huey, 1 from Louie and 2 from Dewey.
-
-
-`!clear character1 [character2] [...] /all`    Clears token(s) for sprecified character or for all characters in channel
-
-
 __**STATES category**__
 
 `!state <character_name1> [+/-]<state1> [+/-][<state2>] [...]`
@@ -280,17 +363,6 @@ __**STATES category**__
   Example: `!state Huey +stunned -vul dis Dewey dis -ent Louie clear`
   
   States are Savage Worlds states: Shaken, Stunned, Entangled, Bound, Distracted and Vulnerable. You can write them in any case even like sTuNnEd. You can use abbreviations: sha, stn, ent, bnd, dis, vul.
-
-
-__**BENNIES category**__
-
-**pocket**		<characterName>	Shows character's bennies
-
-**use**			Uses one of character's benny
-
-**benny**		<character>	Get benny from hat and adds it to characker's pocket
-
-**hat**		[fill]	Puts all required bennies into the hat
 
 
 __**DICE category**__
