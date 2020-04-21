@@ -92,11 +92,7 @@ Oops, Snake Eyes!
 > s12: [1; w1] = 1
 ```
 
-**Tips:** You can put descriptive text before the roll (it will return to next line after each roll).
-```
-Huey's Persuasion is !s8
-```
-And modifiers are also supported. Let's take a Wild Card untrained Trait roll: `!s4-2`.
+**Tips:** Modifiers are also supported. Let's take a Wild Card untrained Trait roll: `!s4-2`.
 
 ## Damage rolls
 Pretty simple, back to standard `d` syntax. Damage dice ace.
@@ -109,17 +105,6 @@ Here is a knife (Str+d4) wielding bandit with d6 strength:
 Here is a bow (2d6) wielding assassin:
 ```
 !2d6!
-```
-
-**Tips:** You roll multiple separate rolls on the same line, and put texts around as you like.
-```
-The assassin shoots at Huey !s8 Damage: !2d6!+1 Bonus damage (if raise): !d6!
-```
-Will display:
-```
-> The assassin shoots at Huey s8: [1; w3] = 3
-> Damage: 2d6!+1: 5 + 1 + 1 = 7
-> Bonus damage (if raise): d6!: 1 = 1
 ```
 
 ---
@@ -318,6 +303,15 @@ Want to see if a character is Shaken or Distracted?
 # Advanced Savage Worlds
 
 ## Advanced Rolls
+
+### Emote and Narrative
+You roll multiple separate rolls on the same line/command and put narrative text around as you like. Note that it returns to next line after each roll:
+```
+The assassin shoots at Huey !s8 Damage: !2d6!+1 Bonus damage (if raise): !d6!
+> The assassin shoots at Huey s8: [1; w3] = 3
+> Damage: 2d6!+1: 5 + 1 + 1 = 7
+> Bonus damage (if raise): d6!: 1 = 1
+```
 
 ### Variable Target Number (Fighting vs Parry)
 For rolls where the Target Number is not the standard 4, you can add a `t` parameter after the `s` savage roll.
