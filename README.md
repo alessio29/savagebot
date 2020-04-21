@@ -303,6 +303,12 @@ To remove all states from a character, add `clear` after their name. This remove
 Want to see if a character is Shaken or Distracted?
 ```
 !list
+> NAME                TOKENS    STATES                             
+> Huey                1         STUNNED                            
+> Assassin            2         DISTRACTED                         
+> Dewey               1         SHAKEN                             
+> Louie               3                                            
+> Bandits             0                                    
 ```
 
 ---
