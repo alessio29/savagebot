@@ -96,6 +96,7 @@ Oops, Snake Eyes!
 ```
 Huey's Persuasion is !s8
 ```
+And modifiers are also supported. Let's take a Wild Card untrained Trait roll: `!s4-2`.
 
 ## Fighting vs Parry
 For rolls where the Target Number is not the standard 4, you can add a `t` parameter after the `s` savage roll.
