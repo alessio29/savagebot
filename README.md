@@ -246,7 +246,7 @@ Use `list` to have the list of players/characters currently in the game. It show
 ## Remove characters
 Since the `list` holds players and characters, and since some characters might just have to leave (defeated, passing by npc, ...), you can `remove` characters:
 ```
-!remove BigBadEvilBoss BigBagLieutnant
+!remove BigBadEvilBoss BigBadLieutenant
 ```
 
 ## Character Sheets
