@@ -285,7 +285,7 @@ Here, our group with Huey, Louie, and Dewey, and Louie has the Luck Edge:
 !give Huey 3 Louie 4 Dewey 3
 ```
 
-### Removing characters
+## Removing characters
 Once you gave a Benny to a character, it remains in the `list`, even if they reach 0 Benny. It's ok when it's a player, at some point they will regain some Benny, but for Wild Card NPCs, you might want to `remove` them from the list.
 ```
 !remove Assassin
@@ -333,14 +333,28 @@ Using `hat` command without the `fill` argument, you simply check how many Benni
 !hat
 ```
 
-------
-OLD (upcoming)
+---
+# Characters
 
-__**CHARACTERS category**__
+## Add characters
+Users often ask *how do I add players to my game?*. Well, you don't. Players (and characters) are automatically added if you deal them an initiative card, a Benny (or a state see [Managing character states](#states) below).
 
-**list**        Lists characters with tokens and states
+## Who is playing?
+Use `list` to have the list of players/characters currently in the game. It shows their name, Bennies (tokens), and states.
+```
+!list
+```
 
-**remove**      <charName1> [<charName2> ...] Removes character(s) totally. This command could be used to erase defeated extras.
+## Remove characters
+Since the `list` holds players and characters, and since some characters might just have to leave (defeated, passing by npc, ...), you can `remove` characters:
+```
+!remove BigBadEvilBoss BigBagLieutnant
+```
+
+## Character Sheets
+At the moment, Savage Bot does not manage Character Sheets. You can't roll `!persuasion` or `!fighting`.
+
+Players or GMs usually keep the character sheets on paper in front of them, or use online sites such as [Savaged.us](http://savaged.us), or Virtual TableTop softwares with Character Sheets abilities. Whatever works for you. The simpler the better. Fast! Fun! Furious!
 
 
 __**CARDS category**__
