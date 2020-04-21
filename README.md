@@ -241,7 +241,10 @@ Once you gave a Benny to a character, it remains in the `list`, even if they rea
 !remove Assassin
 ```
 
-**Tips:** You can remove multiple characters at one: `!remove LordDenak GoblinWarlord EliteSentinel`
+**Tips:** You can remove multiple characters at one: 
+```
+!remove LordDenak GoblinWarlord EliteSentinel
+```
 
 ---
 # Characters
