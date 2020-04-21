@@ -576,14 +576,34 @@ Currently supported dice codes are:
 Example: `!rh 1000x2d6` - rolls 2d6 1000 times and shows results table.
 
 ## Cards
+Here are a few commands to manipulate a standard deck of 54 cards.
+This feature is pretty old and quite limited. It might get a rework later on.
 
-__**CARDS category**__
+### Deal Cards
+`deal` or `dl` deals cards in secret to you. Each player must use this command themselves. You can't deal to another person. The cards dealt are sent by direct message to you.
 
-**deal** or **dl**    [<card_count>] Secretly deals several (1 by default) cards to user's private channel
+This deals a hand of 5 cards:
+```
+!dl 5
+```
 
-**show** or **sh**    Shows your cards, previously dealt to you by 'deal' command to current channel
+### What's my Hand?
+`show` or `sh` displays your current hand of cards.
+```
+!show
+> 3 :spades: Q :hearts: 2 :hearts: 10 :spades: 4 :hearts:
+```
 
-**put**         Deals card and "puts it on table" (shows in current channel). 
+### Draw to the Table
+`put` does draw a card from the deck and put it on the table for everyone to see.
 
-**shuffle**        Shuffles current deck, resets secret cards dealt to all users in this channel
+This draws three cards, and drop them on the table.
+```
+!put 3
+```
 
+### Shuffle
+Grabs every cards back and shuffle into a new fresh deck.
+```
+!shuffle
+```
