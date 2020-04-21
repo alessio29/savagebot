@@ -356,7 +356,7 @@ As a wild card, the syntax is simpler, prefix your savage die with the number of
 !2s6
 ```
 
-**Tips:** This also works with Custom Wild Die and Modifiers, e.g. `!3s12w10+2`. But not yet with Target Numbers (Parry): `!3s6t2` (TN 2 is ignored here).
+**Tips:** This also works with Custom Wild Die and Modifiers, e.g. `!3s12w10+2`. But not (yet) with Target Numbers (Parry): `!3s6t2` (TN 2 is ignored here).
 
 ### Group Rolls
 Group Rolls are used in Savage Worlds to simulate an average result for a group of extra (e.g. when they all sneak on the party, all attempt to notice something, or evaluate how well they survive their journey through the desert). It is resolved using a single Trait roll plus a standard d6 Wild Die. So simply use the `s` Savage Die!
@@ -369,32 +369,37 @@ Group Rolls are used in Savage Worlds to simulate an average result for a group 
 ### Custom Rolls
 For a specific setting or house-rule you need something even more specific? Here are a few tricks that can be useful.
 
-TODO: variant raise step.
+**Raise step other than 4**
+If you need to count number of success and raises in step of 3 or 6 (instead of the standard 4):
+```
+!s8r6
+> s8r6: [10; w1] = 10 (2; raise step: 6)
+```
 
-`!s8` - Savage Worlds roll with d8 trait die and (default) d6 wild die
+With specific target number:
+```
+!s12t8r6
+> s12t8r6: [16; w1] = 16 (2; TN: 8; raise step: 6)
+```
 
-`!3s8` - Savage Worlds roll with three d8 trait dice (e.g., bursts)
+When target number and raise steps are the same:
+```
+!s12tr6
+> s12tr6: [9; w3] = 9 (1; TN: 6; raise step: 6)
+```
 
-`!s8w10` - Savage Worlds roll with trait die d8 and wild die d10
+And with custom Wild Die too:
+```
+!s12w8t5r3
+> s12w8t5r3: [7; w2] = 7 (1; TN: 5; raise step: 3)
+```
 
-`!3s8w8` - Savage Worlds roll with three d8 trait dice and d8 wild die (e.g., bursts with non-default wild die)
-
-`!s8t6` - Savage Worlds roll with trait die d8 and target number 6 (for counting successes and raises)
-
-`!s8tr6` - Savage Worlds roll with trait die d8, target number 6, and raise step 6
-
-`!s8t10r6` - Savage Worlds roll with trait die d8, target number 10, and raise step 6
-
-Also SavageBot supports custom TN and counting raises from it. To do so - use the following syntax: `s6t5`. Result will look like: 
-
-  s6t5: [11; w8] = 11 (2; TN: 5) 
-
-This means: roll result is 11, 2 - is success with one raise, TN is self-explanatory.
-
-This may be combined with othe roll options, like custom wild die: `!s6w8t7`.
-
-Bot supports limits to roll: 
-`!r (3d8!+d6!)[6:24+6]` - this roll will give value at least 6 and no more than 30 (24+6). This used in our house-rule for damage rolls for Savage Worlds.
+**Limit roll results**
+You will roll and sum up multiple dice, but you want the result to be not too extreme? You can put a lower and higher limit on your rolls. Here, we want the result to be between 6 and 30 (24+6).
+```
+!r (3d8!+d6!)[6:24+6]
+```
+This used in our house-rule for damage rolls for Savage Worlds.
 
 ## Dramatic Tasks
 When running a Dramatic Tasks, players must collect a given amount of tokens in a set number of rounds.
