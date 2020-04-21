@@ -268,16 +268,42 @@ Players or GMs usually keep the character sheets on paper in front of them, or u
 
 ---
 # States
+In Savage Worlds, states are effects that affects a character for some time, like being Shaken, Distracted, or Vulnerable.
 
-__**STATES category**__
+Savage Bot allows you to track the following states: Shaken, Stunned, Entangled, Bound, Distracted and Vulnerable.
 
-`!state <character_name1> [+/-]<state1> [+/-][<state2>] [...]`
+## Apply State to Character
+When a character is Shaken, or Entangled, or whatnot, use the `state` command to track it.
+```
+!state Huey +Vulnerable
+```
 
-`!st <character_name1> [+/-]<state1> [+/-][<state2>] [...]` Sets and removes states of character.
-  
-  Example: `!state Huey +stunned -vul dis Dewey dis -ent Louie clear`
-  
-  States are Savage Worlds states: Shaken, Stunned, Entangled, Bound, Distracted and Vulnerable. You can write them in any case even like sTuNnEd. You can use abbreviations: sha, stn, ent, bnd, dis, vul.
+**Tips:** You can use the shortened version of each state: Shaken → sha, Stunned → stn, Entangled → ent, Bound → bnd, Distracted → dis and Vulnerable → vul. You can also apply a state to multiple characters at once.
+```
+!state Huey +stn Dewey +dis Louie +bnd
+```
+
+## Remove State from Character
+Use `state` again, with a minus sign.
+```
+!state Huey -vul
+```
+
+To remove all states from a character, add `clear` after their name. This removes all states from Huey:
+```
+!state Huey clear
+```
+
+**Tips:** You can apply and remove states to a single character at once. You omit the `+` sign, it is still considered a "add/apply". This adds Stunned and Distracted to Huey while also removing Distracted, add Distracted to Dewey but also adds Entangled, and clears everything from Louie. Yeah, we know some nasty GMs!
+```
+!state Huey +stunned -vul dis Dewey dis -ent Louie clear
+```
+
+## How Are You Doing?
+Want to see if a character is Shaken or Distracted?
+```
+!list
+```
 
 ---
 # Advanced Savage Worlds
