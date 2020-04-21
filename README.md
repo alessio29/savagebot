@@ -43,6 +43,11 @@ For example, you need to know in which direction a grenade deviates?
 ```
 !r d12
 ```
+or for short:
+```
+!d12
+```
+
 **Tips:** 
 * In fact, you can just roll any die `!d20`, `!d100`, even very weird ones `!d73` if you feel like it!
 * You can also directly include modifiers (after or before the roll), for example, here is a human running roll `!6+d6`.
