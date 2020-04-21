@@ -591,27 +591,72 @@ First d20 is rolled to determine size of dice - then roll that dice.
 ---
 # Other tricks
 
-## Some Other Kind of Rolls
+## Keep Highest roll
+Roll 4 d6 and keep the three best results:
+```
+!4d6k3
+```
 
-`!6x4d6k3` - roll 4 dice keeping 3 highest 6 times
-You can roll any dice with advantage: `!3d6adv`
-You can roll any dice with disadvantage: `!3d8dis`
+You can pretend to "roll with advantage" any dice. Yeah, this works with any die, not just d20. It will roll one more dice than asked and exclude the lowest from the total. 
+```
+!3d6adv
+> 3d6adv: 4 + 6 + 6 + 6 = 18
+```
 
-Currently supported dice codes are:
+## Keep Lowest
+Roll five d10 and keep the lowest two.
+```
+!5d10kl2
+> 5d10kl2: 5 + 7 + 8 + 9 + 9 = 12
+```
 
-`!3d6` - roll 3 6-sided dice, show sum
+You can also "roll with disadvantage" any dice. It will roll one more dice and exclude the highest result.
+```
+!3d8dis
+> 3d8dis: 3 + 4 + 6 + 8 = 13
+```
 
-`!2d8!` - roll 2 'exploding' 8-sided dice, show sum. 'Exploding' means that if die come up with maximum value - it will be rolled again and summed up 
+## Run multiple times the same roll
+You can repeat any roll any number of times.
+Here, roll 4d6 and keep the 3 highest, repeat 6 times.
+```
+!6x4d6k3
+> 6x4d6k3: 
+> 1: 4d6k3: 1 + 3 + 3 + 6 = 12
+> 2: 4d6k3: 2 + 2 + 5 + 6 = 13
+> 3: 4d6k3: 1 + 2 + 3 + 5 = 10
+> 4: 4d6k3: 1 + 2 + 3 + 4 = 9
+> 5: 4d6k3: 2 + 4 + 4 + 5 = 13
+> 6: 4d6k3: 1 + 2 + 3 + 4 = 9
+```
 
-`!4d6k3` - roll 4 6-sided dice, keep 3 highest
-
-`!6x4d6k3` - repeat 6 times: roll 4 6-sided dice, keep 3 highest 
-
-`!2d10kl1` - roll 2 10-sided dice keep 1 lowest
+This works with pretty much any roll.
+```
+!20x4dF
+!10xs8t7
+```
 
 ## Roll Statistics
-`!rh    <expression_1> ... <expressionN>`    creates data for histogram: rolls dice multiple times and shows resulting distribution. 
-Example: `!rh 1000x2d6` - rolls 2d6 1000 times and shows results table.
+Want to check out the probabilities of a given roll?
+Run it high number of times and have each possible result display how many times it went out.
+Here we will run 1000 times 2d6 and `rh` will tell us how many ended up with a 2, a 7, a 12...
+```
+!rh 1000x2d6
+> 2d6:
+> 2: 2d6: 22;
+> 3: 2d6: 61;
+> 4: 2d6: 69;
+> 5: 2d6: 119;
+> 6: 2d6: 142;
+> 7: 2d6: 168;
+> 8: 2d6: 115;
+> 9: 2d6: 121;
+> 10: 2d6: 97;
+> 11: 2d6: 53;
+> 12: 2d6: 33;
+```
+
+**Tips:** Since the number of rolls we called is a factor of 100, it's easy to get percentages of. (22 → 2.2%, 119 → 11.9%)
 
 ## Cards
 Here are a few commands to manipulate a standard deck of 54 cards.
