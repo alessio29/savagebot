@@ -515,50 +515,85 @@ Using `hat` command without the `fill` argument, you simply check how many Benni
 ---
 # Other Systems
 
+## West End Games D6 System
+One d6 is Wild: it explodes on 6 and subtracts highest number on 1.
+
+```
+!3w
+> 3w: w11 + 6 + 4 = 21
+```
+
 ## Worlds of Darkness
-`!Nw[+1/+2]` - West End Games D6 System roll. Rolls N d6's one of which is 'wild': it explodes on 6 and subtracts highest number on 1.
+In World of Darkness or Lady Blackbird, you roll dices and count the number of success, that is how many did hit a given target.
 
-`!6d6s4` - WoD, Lady Blackbird roll - rolls 6 d6 and returns how many dice rolled 4 or more
+Roll 6d6, successes on 4+:
+```
+!6d6s4
+> 6d6s4: [successes(3): 6, 6, 4; rest: 2, 1, 1] = 3
+```
 
-`!12d10s7` - roll 12 d10s, each 7+ result is a success, shows count of successes
+Failures removes from number of successes:
+Roll 12d10, success on 7+, failure on 1.
+```
+!12d10f1s7
+> 12d10f1s7: [successes(3): 10, 9, 7; failures(1): 1; rest: 6, 5, 5, 5, 5, 4, 3, 3] = 2
+```
 
-`!12d10f1s7` - roll 12 d10s, each 7+ result is a success, each 1- result is a failure, shows (successes-failures)
-
-`!12d10s7f1` -  same as above (you can provide success or failure condition in any order)
-
-`!28d6!f1s10` - roll 28 open-ended d6s, each 10+ is a success, each 1- is a failure, show (successes-failures)
-
-`!6x4d6k3` - roll 4 dice keeping 3 highest 6 times
+Same with exploding (open-ended, acing) dice.
+Roll 28d6, success on 10+, failture on 1-.
+```
+!28d6!s10f1
+> 28d6!s10f1: [successes(7): 15, 14, 11, 11, 10, 10, 10; failures(5): 1, 1, 1, 1, 1; rest: 9, 9, 7, 5, 5, 4, 4, 4, 4, 3, 3, 2, 2, 2, 2, 2] = 2
+```
 
 ## Coriolis
-
-`!d66` - rolls two d6 and returns values from 11 to 66 to support random choice from 6x6 table (for example in Coriolis)
+Randomly pick in a 6x6 table, roll two d6, for cols and rows (displayed as 11, 25, 66...).
+```
+!d66
+```
 
 ## Fate/Fudge
-`!4dF` - rolls four Fudge/FATE dice
+Rolls four Fudge/FATE dice.
+Roll 4 Fate dice:
+```
+!4dF
+```
 
 ## D&D
-### Roll with Advantage
-`!d20adv+2` - advantage roll in DnD5. You can roll any dice with advantage: `!3d6adv`
-### Roll with Disadvantage
-`!d20dis+2` - disadvantage roll in DnD5e. You can roll any dice with disadvantage: `!3d8dis`
-### Initiative
-`!rs    [<heading_1>] <expression_1> ... [<heading_N>] <expression_N>`    rolls multiple dice and print them out sorted.
-This is mostly useful for rolling initiative as a single command.
+Roll with Advantage (roll 2, keep highest).
+Roll a d20 with advantage and +2 modifier:
 ```
-> !rs Huey d20 Dewey d20 Louie d20 
-Dewey 14
-Huey 10
-Louie 5
+!d20adv+2
+```
+
+Roll with Disadvantage (roll 2, keep lowest).
+```
+!d20dis+2
+```
+
+To roll initiative, give character names and their initiative dice, this will sort them from highest to smallest.
+```
+!rs Huey d20 Dewey d20-2 Louie d20+4
+> Louie: d20+4: 18 + 4 = 22
+> Huey: d20: 15
+> Dewey: d20-2: 7 - 2 = 5
 ```
 
 ## Carcosa
-`!dC` - Carcosa roll. First d20 is rolled to determine size of dice - then this dice is rolled.
+First d20 is rolled to determine size of dice - then roll that dice.
+```
+!dC
+```
 
 ---
 # Other tricks
 
 ## Some Other Kind of Rolls
+
+`!6x4d6k3` - roll 4 dice keeping 3 highest 6 times
+You can roll any dice with advantage: `!3d6adv`
+You can roll any dice with disadvantage: `!3d8dis`
+
 Currently supported dice codes are:
 
 `!3d6` - roll 3 6-sided dice, show sum
