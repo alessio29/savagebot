@@ -364,11 +364,56 @@ This may be combined with othe roll options, like custom wild die: `!s6w8t7`.
 Bot supports limits to roll: 
 `!r (3d8!+d6!)[6:24+6]` - this roll will give value at least 6 and no more than 30 (24+6). This used in our house-rule for damage rolls for Savage Worlds.
 
+## Dramatic Tasks
+When running a Dramatic Tasks, players must collect a given amount of tokens in a set number of rounds.
+To track those tokens, we will use the Benny commands (`give`, `take`, and `list`) and a virtual character, we will call... Miss Task!
+
+### Start a Dramatic Task
+Well, in case you had a previous task running, to start out fresh, start by removing MsTask from characters.
+```
+!remove MsTask
+!list
+```
+
+**Notes:** We don't want to use `clear`, it would remove all Bennies from all players. This makes players unhappy. Not good.
+
+### Gain Task Tokens
+When players gain Task Token, deal them to MsTask.
+```
+!give MsTask 2
+```
+
+Same if they Snake Eye, and lose a Task Token:
+```
+!take MsTask 1
+```
+
+## Mass Battles
+Same as with Dramatic Tasks, use the bennies commands to deal and take from two virtual characters. Let's call them TheHeroes and TheVillains (we give them names which starts the same, so that they end up next to eachother in the characters list).
+
+### Set up a Mass Battle
+Decide which side has the maximum number of tokens (10), and how many tokens the other side gets. Then deal those amounts of tokens to our mass battle avatars. In case you had a previous Mass Battle running, don't forget to remove the avatars before giving them new tokens.
+
+```
+!remove TheHeroes TheVillains
+!give TheHeroes 7 TheVillains 10
+```
+
+### Morale and Casualties
+At the end of each round of Mass Battles, `give` or `take` tokens from each sides.
+
+```
+!take TheVillains 2
+!give TheHeroes 1
+```
+
 ## Deadland Bennies
 Deadlands uses a pool of colored Bennies. Each color has its own uses. Characters draw Bennies at random from the pool.
 This will use complete different command than regular Bennies. We assume Bennies are drawn (`benny`) from a `hat` and placed in the character's `pocket` until they `use` them. Do NOT use `clear`, `give`, or `take` for Deadlands bennies.
 
 **Trivia:** Savage Bot started out aimed for Deadlands players. That's why the `benny` command is for Deadlands Bennies and not for standard Savage Worlds bennies.
+
+Those Deadlands Bennies commands might get a rework to put them more in line with standard Benny features.
 
 ### New Deadlands session
 Fill your hat with 20 white Bennies, 10 red Bennies, 5 blue Bennies (and no Golden ones):
@@ -397,6 +442,11 @@ To check a character's pocket for Deadlands Bennies, use `pocket`.
 ```
 
 **Note:** at the moment, there is no way to check for all characters' pockets at once.
+
+### Reward a Golden Benny
+While the hat seems able to have golden bennies, there is no feature right now to add Golden Bennies to the pot, or give a Golden Benny to a player.
+
+However, if you don't use the standard Bennies commands, you could use them to stand for Golden Bennies.
 
 ### What's left in the hat?
 Using `hat` command without the `fill` argument, you simply check how many Bennies of each color are left in the hat.
