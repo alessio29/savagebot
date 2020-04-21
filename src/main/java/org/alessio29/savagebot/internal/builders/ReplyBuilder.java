@@ -56,6 +56,10 @@ public class ReplyBuilder {
         return "**" + message + "**";
     }
 
+    public static String bold(int value) {
+        return bold(Integer.toString(value));
+    }
+
     public static String italic(String message) {
         return "*" + message + "*";
     }
