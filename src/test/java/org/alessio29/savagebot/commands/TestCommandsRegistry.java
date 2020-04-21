@@ -5,7 +5,6 @@ import org.alessio29.savagebot.internal.commands.CommandRegistry;
 import org.alessio29.savagebot.internal.commands.Commands;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -33,7 +32,7 @@ public class TestCommandsRegistry {
                         "BENNIES:benny, BENNIES:hat, BENNIES:pocket, BENNIES:use, " +
                         "CARDS:deal, CARDS:put, CARDS:show, CARDS:shuffle, " +
                         "CHARACTERS:list, CHARACTERS:remove, " +
-                        "DICE:r, DICE:rh, DICE:rs, " +
+                        "DICE:ept, DICE:r, DICE:rh, DICE:rs, " +
                         "INFO:help, INFO:invite, " +
                         "INITIATIVE:card, INITIATIVE:di, INITIATIVE:drop, INITIATIVE:fight, INITIATIVE:init, INITIATIVE:round, " +
                         "STATES:state, "+
@@ -43,19 +42,21 @@ public class TestCommandsRegistry {
         );
     }
 
-    @Ignore
     @Test
     public void testHelpText() {
         Assert.assertEquals(
                 "__**CARDS category**__\n" +
-                        "!card <character_name>; aliases: !cd\n" +
-//                        "!deal [<card_count>]; aliases: !dl\n" +
-                        "!draw [<card_count>] [<user>]; aliases: !dw\n" +
-                        "!open [<card_count>]; aliases: !op\n" +
+                        "!deal [<card_count>] [<user>]; aliases: !dl\n" +
+                        "!put [<card_count>]\n" +
                         "!show; aliases: !sh\n" +
                         "!shuffle\n" +
                         "\n" +
+                        "__**CHARACTERS category**__\n" +
+                        "!list\n" +
+                        "!remove; aliases: !rm\n" +
+                        "\n" +
                         "__**DICE category**__\n" +
+                        "!ept <level> <hit_die_expression>\n" +
                         "!r <expression1> ... <expressionN> \n" +
                         "!rh <expression_1> ... <expressionN>\n" +
                         "!rs [<heading_1>] <expression_1> ... [<heading_N>] <expression_N>\n" +
@@ -67,8 +68,9 @@ public class TestCommandsRegistry {
                         "!use <benny_color> <character_name>\n" +
                         "\n" +
                         "__**INITIATIVE category**__\n" +
+                        "!card <character_name>; aliases: !cd\n" +
                         "!di <character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]\n" +
-                        "!drop <character_name>\n"+
+                        "!drop <character_name>\n" +
                         "!fight; aliases: !f\n" +
                         "!init\n" +
                         "!round [+] [-<char_name>]; aliases: !rd\n" +
@@ -86,7 +88,9 @@ public class TestCommandsRegistry {
                         "!clear <character_name>/all\n" +
                         "!give <character_name> [<amount of tokens>]\n" +
                         "!take <character_name> [<amount of tokens>]\n" +
-                        "!tokens\n" +
+                        "\n" +
+                        "__**STATES category**__\n" +
+                        "!state <character_name> [clear] [+/-]<state1> [<state2>] [...]; aliases: !st\n" +
                         "\n" +
                         "For more details, use `!help <command>` or see https://github.com/alessio29/savagebot/blob/master/README.md",
                 HelpAction.getBriefHelpForAllCommands()

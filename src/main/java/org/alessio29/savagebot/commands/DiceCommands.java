@@ -1,9 +1,6 @@
 package org.alessio29.savagebot.commands;
 
-import org.alessio29.savagebot.apiActions.diceRolls.ParseAndRollAction;
-import org.alessio29.savagebot.apiActions.diceRolls.RollDiceAction;
-import org.alessio29.savagebot.apiActions.diceRolls.RollHistogramAction;
-import org.alessio29.savagebot.apiActions.diceRolls.RollSortedAction;
+import org.alessio29.savagebot.apiActions.diceRolls.*;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
@@ -57,5 +54,16 @@ public class DiceCommands {
     )
     public static CommandExecutionResult rollHistogram(IMessageReceived message, String[] args) {
         return new RollHistogramAction().doAction(message, args);
+    }
+
+    @CommandCallback(
+            name = "ept",
+            description = "rolls HP by Empire of Petal Throne rules.\n" +
+                    "Example: `!ept 4 d6+1`",
+            aliases = {},
+            arguments = { "<level> <hit_die_expression>"}
+    )
+    public static CommandExecutionResult rollEmpireOfPetalThroneHP(IMessageReceived message, String[] args) {
+        return new RollEmpireOfPetalThroneHPAction().doAction(message, args);
     }
 }
