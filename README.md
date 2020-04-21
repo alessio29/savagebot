@@ -6,7 +6,7 @@ Supports various dice-rolling, Savage Worlds initiative cards, bennies, tokens, 
 In case you like this bot so much - you can support development via Patreon: https://www.patreon.com/savagebot
 
 ## Installation
-Click on the following link and authorize bot on your server: https://discordapp.com/oauth2/authorize?&client_id=448952545784758303&scope=bot&permissions=0
+Click on this link and [authorize bot on your server](https://discordapp.com/oauth2/authorize?&client_id=448952545784758303&scope=bot&permissions=0)
 
 To know whether the bot is alive:
 ```
@@ -198,7 +198,7 @@ You can take away from multiple players, multiple Bennies in a single line.
 ```
 
 ## Who has what?
-The `list`command lets you check how many Bennies each character has. (it also shows states, see [Managing character states](#states) below).
+The `list` command lets you check how many Bennies each character has. (it also shows states, see [States](#states) below).
 ```
 !list
 ```
@@ -235,7 +235,7 @@ Once you gave a Benny to a character, it remains in the `list`, even if they rea
 # Characters
 
 ## Add characters
-Users often ask *how do I add players to my game?*. Well, you don't. Players (and characters) are automatically added if you deal them an initiative card, a Benny (or a state see [Managing character states](#states) below).
+Users often ask *how do I add players to my game?*. Well, you don't. Players (and characters) are automatically added if you deal them an initiative card, a Benny (or a state see [States](#states) below).
 
 ## Who is playing?
 Use `list` to have the list of players/characters currently in the game. It shows their name, Bennies (tokens), and states.
@@ -304,7 +304,7 @@ Want to see if a character is Shaken or Distracted?
 
 ## Advanced Rolls
 
-### Emote and Narrative
+### Emotes and Narration
 You roll multiple separate rolls on the same line/command and put narrative text around as you like. Note that it returns to next line after each roll:
 ```
 The assassin shoots at Huey !s8 Damage: !2d6!+1 Bonus damage (if raise): !d6!
@@ -325,7 +325,16 @@ The number of success and raises is calculated accordingly:
 > Huey Fighting vs Bandit: s10t6: [9; w3] = 9 (1; TN: 6)
 ```
 
-**Not yet:** You can't compare damage to toughness and read the number of wounds. `!2d6!t8` isn't available yet.
+**Not yet:** You can't compare damage to toughness and read the number of wounds (yet).
+
+### Multiple Modifiers
+You don't want to add up penalties and bonuses by yourself? Let's go lazy, Savage Bot does it for you.
+Melee attack with Called Shot to Head, Dim Light, Trademark Weapon, and Wild attack?
+```
+!s10-4-2+1+2
+> s10-4-2+1+2: [7; w4] - 4 - 2 + 1 + 2 = 4 (1)
+```
+That was close!
 
 ### Custom Wild Die
 If a character has an Edge such as Master, they get to roll a Wild Die higher than d6. You can add `w` to the Savage roll to tell which Wild Die to use.
@@ -334,10 +343,10 @@ Here is Master d12+2, using a d10 for Wild Die.
 !s12w10+2
 ```
 
-**Tips:** You can combine with specific target number, but if you add modifiers, you must also add parenthesis.
+**Tips:** You can combine with specific target number.
 This rolls d12+2, with a d10 for Wild Die, against Parry 8.
 ```
-!(s12w10t8)+2
+!s12w10t8+2
 ```
 
 ### Multi-dice
