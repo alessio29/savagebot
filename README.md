@@ -117,6 +117,30 @@ This rolls d12+2, with a d10 for Wild Die, against Parry 8.
 !(s12w10t8)+2
 ```
 
+## Multi-dice
+Weapons with a Rate of Fire, Frenzy, Work the Room, there are situations where you need to roll multiple Trait dice for a single action (and a single Wild Die if you are a Wild Card). 
+
+As an extra, prefix with the number of dice to roll and a x (for *times*)
+```
+!2xd6!
+```
+
+As a wild card, the syntax is simpler, prefix your savage die with the number of dice to roll:
+```
+!2s6
+```
+
+**Tips:** This also works with Custom Wild Die, e.g. `!3s12w10+2`. But not yet with Target Numbers (Parry).
+
+## Group Rolls
+Group Rolls are used in Savage Worlds to simulate an average result for a group of extra (e.g. when they all sneak on the party, all attempt to notice something, or evaluate how well they survive their journey through the desert). It is resolved using a single Trait roll plus a standard d6 Wild Die. So simply use the `s` Savage Die!
+
+```
+!s6
+```
+
+**Tips:** Groups rolls are not used in combat. You'll have to roll each extra action one by one. However, you can roll multiple dice at once like this: `!5d6!` (5 extra rolling a d6 Trait).
+
 ## Damage rolls
 Pretty simple, back to standard `d` syntax. Damage dice ace.
 
