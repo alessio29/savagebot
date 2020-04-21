@@ -407,6 +407,27 @@ At the end of each round of Mass Battles, `give` or `take` tokens from each side
 !give TheHeroes 1
 ```
 
+## Social Conflicts
+Same as with Mass Battles and Dramatic Tasks, deal bennies to virtual characters to track the Social Conflict progress. Here let's call it MsInfluence.
+
+### Start a Social Conflict
+In case you already had a Social Conflict running, remove MsInfluence from the character list.
+```
+!remove MsInfluence
+!list
+```
+
+### Gain Influence
+Simply `give` Bennies to MsInfluence each time your arguments have gained you some influence.
+```
+!give MsInfluence 1
+```
+
+At the end of the three rounds, check how many influence MsInfluence has gained:
+```
+!list
+```
+
 ## Deadland Bennies
 Deadlands uses a pool of colored Bennies. Each color has its own uses. Characters draw Bennies at random from the pool.
 This will use complete different command than regular Bennies. We assume Bennies are drawn (`benny`) from a `hat` and placed in the character's `pocket` until they `use` them. Do NOT use `clear`, `give`, or `take` for Deadlands bennies.
