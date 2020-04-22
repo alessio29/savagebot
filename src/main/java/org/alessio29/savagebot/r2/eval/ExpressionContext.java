@@ -10,7 +10,8 @@ class ExpressionContext {
     private final CommandContext commandContext;
     private final Map<Expression, String> explanations = new HashMap<>();
 
-    private boolean savageWorldsSuccessesAndRaisesRequired = false;
+    private boolean savageWorldsMarginOfSuccessRequired = false;
+    private boolean treatMarginOfSuccessAsSuccessesAndRaises = false;
     private int savageWorldsTargetNumber = 4;
     private int savageWorldsRaiseStep = 4;
 
@@ -35,8 +36,12 @@ class ExpressionContext {
         return commandContext;
     }
 
-    public void setSavageWorldsSuccessesAndRaisesRequired(boolean savageWorldsSuccessesAndRaisesRequired) {
-        this.savageWorldsSuccessesAndRaisesRequired = savageWorldsSuccessesAndRaisesRequired;
+    public void setSavageWorldsMarginOfSuccessRequired(boolean savageWorldsMarginOfSuccessRequired) {
+        this.savageWorldsMarginOfSuccessRequired = savageWorldsMarginOfSuccessRequired;
+    }
+
+    public void setTreatMarginOfSuccessAsSuccessesAndRaises(boolean treatMarginOfSuccessAsSuccessesAndRaises) {
+        this.treatMarginOfSuccessAsSuccessesAndRaises = treatMarginOfSuccessAsSuccessesAndRaises;
     }
 
     public void setSavageWorldsTargetNumber(int targetNumber) {
@@ -55,7 +60,11 @@ class ExpressionContext {
         return savageWorldsRaiseStep;
     }
 
-    public boolean isSavageWorldsSuccessesAndRaisesRequired() {
-        return savageWorldsSuccessesAndRaisesRequired;
+    public boolean isSavageWorldsMarginOfSuccessRequired() {
+        return savageWorldsMarginOfSuccessRequired;
+    }
+
+    public boolean isTreatMarginOfSuccessAsSuccessesAndRaises() {
+        return treatMarginOfSuccessAsSuccessesAndRaises;
     }
 }

@@ -573,11 +573,11 @@ public class TestR2Interpreter {
     @Test
     public void testGenericRollsWithTargetNumberAndRaiseStep() {
         expect(
-                "2d6t6: 1 + 5 = **6** (1; TN: 6)",
+                "2d6t6: 1 + 5 = **6** (shaken, TN: 6)",
                 "2d6t6"
         );
         expect(
-                "4d6!t6: 1 + 5 + 2 + 28 = **36** (8; TN: 6)",
+                "4d6!t6: 1 + 5 + 2 + 28 = **36** (shaken, **7** wounds, TN: 6)",
                 "4d6!t6"
         );
         expect(
@@ -585,19 +585,19 @@ public class TestR2Interpreter {
                         "1: d6!t6: 1 = **1**\n" +
                         "2: d6!t6: 5 = **5**\n" +
                         "3: d6!t6: 2 = **2**\n" +
-                        "4: d6!t6: 28 = **28** (6; TN: 6)",
+                        "4: d6!t6: 28 = **28** (shaken, **5** wounds, TN: 6)",
                 "4xd6!t6"
         );
         expect(
-                "d8!t6+2d6: 6 + 5 + 2 = **13** (2; TN: 6)",
+                "d8!t6+2d6: 6 + 5 + 2 = **13** (shaken, **1** wound, TN: 6)",
                 "d8!t6+2d6"
         );
         expect(
-                "d8!r6+2d6: 6 + 5 + 2 = **13** (2; raise step: 6)",
+                "d8!r6+2d6: 6 + 5 + 2 = **13** (shaken, **1** wound, raise step: 6)",
                 "d8!r6+2d6"
         );
         expect(
-                "d8!tr6+2d6: 6 + 5 + 2 = **13** (2; TN: 6; raise step: 6)",
+                "d8!tr6+2d6: 6 + 5 + 2 = **13** (shaken, **1** wound, TN: 6, raise step: 6)",
                 "d8!tr6+2d6"
         );
     }

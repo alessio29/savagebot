@@ -20,7 +20,7 @@ class ExpressionExplainer implements Expression.Visitor<String> {
             return explanation;
         }
 
-        if (expressionContext.isSavageWorldsSuccessesAndRaisesRequired() || isSavageWorldsCheck(expression)) {
+        if (expressionContext.isSavageWorldsMarginOfSuccessRequired() || isSavageWorldsCheck(expression)) {
             return expression.getText() + ": " + explanation + " = " +
                     values.stream()
                             .map(i -> ReplyBuilder.bold(i.toString()) + getSuccessesIfAny(i))
@@ -46,16 +46,37 @@ class ExpressionExplainer implements Expression.Visitor<String> {
         if (raiseStep <= 0) {
             throw new EvaluationErrorException("Raise step should be above 0: " + raiseStep);
         }
+
         int marginOfSuccess = intValue - targetNumber;
         if (marginOfSuccess < 0) {
             return "";
-        } else {
+        }
+
+        if (expressionContext.isTreatMarginOfSuccessAsSuccessesAndRaises()) {
             StringBuilder sb = new StringBuilder().append(" (").append(marginOfSuccess / raiseStep + 1);
             if (targetNumber != 4) {
                 sb.append("; TN: ").append(targetNumber);
             }
             if (raiseStep != 4) {
                 sb.append("; raise step: ").append(raiseStep);
+            }
+            return sb.append(")").toString();
+        } else {
+            int numberOfWounds = marginOfSuccess / raiseStep;
+            StringBuilder sb = new StringBuilder().append(" (shaken");
+            if (numberOfWounds > 0) {
+                sb.append(", ").append(ReplyBuilder.bold(numberOfWounds));
+                if (numberOfWounds > 1) {
+                    sb.append(" wounds");
+                } else {
+                    sb.append(" wound");
+                }
+            }
+            if (targetNumber != 4) {
+                sb.append(", TN: ").append(targetNumber);
+            }
+            if (raiseStep != 4) {
+                sb.append(", raise step: ").append(raiseStep);
             }
             return sb.append(")").toString();
         }

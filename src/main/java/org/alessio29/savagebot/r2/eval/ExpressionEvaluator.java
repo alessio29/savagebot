@@ -201,7 +201,7 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
         IntResult result;
 
         if (genericRollExpression.isWithTargetNumberAndRaiseStep()) {
-            context.setSavageWorldsSuccessesAndRaisesRequired(true);
+            context.setSavageWorldsMarginOfSuccessRequired(true);
             handleTargetNumberAndRaiseStep(genericRollExpression);
         }
 
@@ -279,7 +279,8 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
 
     @Override
     public List<Integer> visitSavageWorldsRollExpression(SavageWorldsRollExpression savageWorldsRollExpression) {
-        context.setSavageWorldsSuccessesAndRaisesRequired(true);
+        context.setSavageWorldsMarginOfSuccessRequired(true);
+        context.setTreatMarginOfSuccessAsSuccessesAndRaises(true);
 
         int diceCount = evalInt(savageWorldsRollExpression.getDiceCountArg(), 1);
 
@@ -300,7 +301,8 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
 
     @Override
     public List<Integer> visitExtrasRollExpression(SavageWorldsExtrasRollExpression savageWorldsExtrasRollExpression) {
-        context.setSavageWorldsSuccessesAndRaisesRequired(true);
+        context.setSavageWorldsMarginOfSuccessRequired(true);
+        context.setTreatMarginOfSuccessAsSuccessesAndRaises(true);
 
         int facetsCount = evalInt(savageWorldsExtrasRollExpression.getFacetsArg(), 6);
 
