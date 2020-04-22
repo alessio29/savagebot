@@ -26,7 +26,7 @@ public class TestR2Parser {
                 "NonParsedString text='abc' parserErrorMessage='[0]: token recognition error at: 'ab''\n" +
                         "NonParsedString text='def' parserErrorMessage='[1]: mismatched input 'e' expecting {'%', '(', INT, VAR}'\n" +
                         "NonParsedString text='qwer' parserErrorMessage='[0]: token recognition error at: 'q''\n" +
-                        "NonParsedString text='tty' parserErrorMessage='[0]: mismatched input 't' expecting {'e', 'E', '+', '-', 'd', 'D', 's', 'S', 'dF', 'df', 'DF', 'dC', 'dc', 'DC', '(', INT, FLAG, VAR}'\n" +
+                        "NonParsedString text='tty' parserErrorMessage='[2]: token recognition error at: 'y''\n" +
                         "RollOnce\n" +
                         "  expr: Int 123",
                 "abc def", "  qwer tty", "123"

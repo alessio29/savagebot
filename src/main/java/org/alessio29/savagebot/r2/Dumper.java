@@ -199,6 +199,18 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
     }
 
     @Override
+    public Void visitTargetNumberAndRaiseStepExpression(TargetNumberAndRaiseStepExpression expression) {
+        println("TargetNumberAndStep");
+        indented(() -> {
+            dump("targetNumber", expression.getTargetNumberArg());
+            dump("raiseStep", expression.getRaiseStepArg());
+            dump("targetNumberAndRaiseStep", expression.getTargetNumberAndRaiseStepArg());
+            dump("argument", expression.getExpression());
+        });
+        return null;
+    }
+
+    @Override
     public Void visitNonParsedStringStatement(NonParsedStringStatement nonParsedStringStatement) {
         println("NonParsedString " +
                 "text='" + nonParsedStringStatement.getText() + "' " +
