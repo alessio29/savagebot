@@ -329,6 +329,13 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
         return Collections.singletonList(result);
     }
 
+    @Override
+    public List<Integer> visitTargetNumberAndRaiseStepExpression(TargetNumberAndRaiseStepExpression expression) {
+        context.setSavageWorldsMarginOfSuccessRequired(true);
+        handleTargetNumberAndRaiseStep(expression);
+        return eval(expression.getExpression());
+    }
+
     private void handleTargetNumberAndRaiseStep(WithTargetNumberAndRaiseStep expression) {
         Expression targetNumberAndRaiseStepArg = expression.getTargetNumberAndRaiseStepArg();
         if (targetNumberAndRaiseStepArg != null) {

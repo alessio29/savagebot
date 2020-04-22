@@ -43,6 +43,8 @@ expression
         # WegD6RollExpr
     |   e1=expression '[' (e2=expression)? ':' (e3=expression)? ']'
         # BoundedExpr
+    |   targetNumberAndRaiseStep ':' e1=expression
+        # TargetNumberAndRaiseStepExpr
     |   v=VAR ':=' e1=expression
         # AssignExpr
     |   e1=expression op=('*'|'/'|'%') e2=expression
@@ -68,17 +70,13 @@ genericRollSuffix
         # SuccessOrFailSuffix1
     |   fop=('f'|'F') fn=term sop=('s'|'S') sn=term
         # SuccessOrFailSuffix2
-    |   ('t'|'T') tn=term (('r'|'R') tr=term)?
-        # TargetNumberAndRaiseStepSuffix1
-    |   ('r'|'R') tr=term (('t'|'T') tn=term)?
-        # TargetNumberAndRaiseStepSuffix2
-    |   ('tr'|'TR') tnr=term
-        # TargetNumberAndRaiseStepSuffix3
+    |   targetNumberAndRaiseStep
+        # TargetNumberAndRaiseStepSuffix
     ;
 
 savageWorldsRoll
     :   (t1=term)? ('s'|'S') t2=term (('w'|'W') t3=term)?
-        targetNumberAndRaiseStep
+        targetNumberAndRaiseStep?
     ;
 
 savageWorldsExtrasRoll
@@ -86,8 +84,9 @@ savageWorldsExtrasRoll
     ;
 
 targetNumberAndRaiseStep
-    :   ('tr'|'TR') ttr=term
-    |   (('t'|'T') tt=term)? (('r'|'R') tr=term)?
+    :   ('tr'|'TR') tnr=term
+    |   ('t'|'T') tt=term (('r'|'R') tr=term)?
+    |   ('r'|'R') tr=term (('t'|'T') tt=term)?
     ;
 
 additiveModifier

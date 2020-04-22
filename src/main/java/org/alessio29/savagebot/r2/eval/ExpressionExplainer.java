@@ -335,4 +335,9 @@ class ExpressionExplainer implements Expression.Visitor<String> {
     public String visitWegD6Expression(WegD6RollExpression wegD6RollExpression) {
         return getKnownExplanation(wegD6RollExpression);
     }
+
+    @Override
+    public String visitTargetNumberAndRaiseStepExpression(TargetNumberAndRaiseStepExpression expression) {
+        return getKnownExplanation(expression.getExpression());
+    }
 }

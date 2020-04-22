@@ -176,45 +176,19 @@ class ExpressionDesugarer extends Desugarer<Expression> {
         } else if (grs instanceof R2Parser.SuccessOrFailSuffix2Context) {
             R2Parser.SuccessOrFailSuffix2Context suffix = (R2Parser.SuccessOrFailSuffix2Context) grs;
             return desugarSuccessOrFailure(getOriginalText(ctx), arg1, arg2, isOpenEnded, suffix.sn, suffix.fn);
-        } else if (grs instanceof R2Parser.TargetNumberAndRaiseStepSuffix1Context) {
-            R2Parser.TargetNumberAndRaiseStepSuffix1Context suffix =
-                    (R2Parser.TargetNumberAndRaiseStepSuffix1Context) grs;
-            return desugarTargetNumberAndRaiseStep(
-                    getOriginalText(ctx), arg1, arg2, isOpenEnded, suffix.tn, suffix.tr, null
-            );
-        } else if (grs instanceof R2Parser.TargetNumberAndRaiseStepSuffix2Context) {
-            R2Parser.TargetNumberAndRaiseStepSuffix2Context suffix =
-                    (R2Parser.TargetNumberAndRaiseStepSuffix2Context) grs;
-            return desugarTargetNumberAndRaiseStep(
-                    getOriginalText(ctx), arg1, arg2, isOpenEnded, suffix.tn, suffix.tr, null
-            );
-        } else if (grs instanceof R2Parser.TargetNumberAndRaiseStepSuffix3Context) {
-            R2Parser.TargetNumberAndRaiseStepSuffix3Context suffix =
-                    (R2Parser.TargetNumberAndRaiseStepSuffix3Context) grs;
-            return desugarTargetNumberAndRaiseStep(
-                    getOriginalText(ctx), arg1, arg2, isOpenEnded, null, null, suffix.tnr
+        } else if (grs instanceof R2Parser.TargetNumberAndRaiseStepSuffixContext) {
+            R2Parser.TargetNumberAndRaiseStepContext tnrc =
+                    ((R2Parser.TargetNumberAndRaiseStepSuffixContext) grs).targetNumberAndRaiseStep();
+            return new GenericRollExpression(
+                    getOriginalText(ctx),
+                    arg1, arg2, isOpenEnded,
+                    visitOrNull(tnrc.tt), visitOrNull(tnrc.tr), visitOrNull(tnrc.tnr)
             );
         }
         else {
             throw new DesugaringErrorExceptioon("Unexpected generic roll suffix: '" + grs.getText() + "': " +
                     grs.getClass().getSimpleName());
         }
-    }
-
-    private Expression desugarTargetNumberAndRaiseStep(
-            String originalText,
-            Expression arg1,
-            Expression arg2,
-            boolean isOpenEnded,
-            R2Parser.TermContext tn,
-            R2Parser.TermContext tr,
-            R2Parser.TermContext tnr
-    ) {
-        return new GenericRollExpression(
-                originalText,
-                arg1, arg2, isOpenEnded,
-                visitOrNull(tn), visitOrNull(tr), visitOrNull(tnr)
-        );
     }
 
     private Expression desugarSuccessOrFailure(
@@ -291,6 +265,18 @@ class ExpressionDesugarer extends Desugarer<Expression> {
         );
     }
 
+    @Override
+    public Expression visitTargetNumberAndRaiseStepExpr(R2Parser.TargetNumberAndRaiseStepExprContext ctx) {
+        TargetNumberAndRaiseStep tnr = desugarTargetNumberAndRaiseStep(ctx.targetNumberAndRaiseStep());
+        return new TargetNumberAndRaiseStepExpression(
+                getOriginalText(ctx),
+                tnr.getTargetNumber(),
+                tnr.getRaiseStep(),
+                tnr.getTargetNumberAndRaiseStep(),
+                visit(ctx.e1)
+        );
+    }
+
     public Expression visitOrNull(ParseTree parseTree) {
         return parseTree == null ? null : visit(parseTree);
     }
@@ -303,8 +289,8 @@ class ExpressionDesugarer extends Desugarer<Expression> {
         Expression trExpr;
         if (tnrc == null) {
             tExpr = rExpr = trExpr = null;
-        } else if (tnrc.ttr != null) {
-            trExpr = visitOrNull(tnrc.ttr);
+        } else if (tnrc.tnr != null) {
+            trExpr = visitOrNull(tnrc.tnr);
             tExpr = rExpr = null;
         } else {
             tExpr = visitOrNull(tnrc.tt);
