@@ -603,6 +603,40 @@ public class TestR2Interpreter {
     }
 
     @Test
+    public void testTargetNumberAndRaiseExpressionPrefix() {
+        expect(
+                "t6:2d6: 1 + 5 = **6** (shaken, TN: 6)",
+                "t6:2d6"
+        );
+        expect(
+                "t6:2d6+1: 1 + 5 + 1 = **7** (shaken, TN: 6)",
+                "t6:2d6+1"
+        );
+        expect(
+                "t6:2d6+d4+1: 1 + 5 + 1 + 1 = **8** (shaken, TN: 6)",
+                "t6:2d6+d4+1"
+        );
+        expect(
+                "t6:s8+2: [6; w5] + 2 = **8** (2)",
+                "t6:s8+2"
+        );
+        expect(
+                "5xtr6:s6: \n" +
+                        "1: tr6:s6: [1; w5] = **5** (1)\n" +
+                        "2: tr6:s6: [2; w28] = **28** (7)\n" +
+                        "3: tr6:s6: [4; w3] = **4** (1)\n" +
+                        "4: tr6:s6: [23; w9] = **23** (5)\n" +
+                        "5: tr6:s6: [5; w4] = **5** (1)",
+                "5xtr6:s6"
+        );
+        // Only last target number and raise step are taken into account
+        expect(
+                "t6:s6+t8:s8: [1; w5] + [2; w28] = **33** (8)",
+                "t6:s6+t8:s8"
+        );
+    }
+
+    @Test
     public void testMultipleSavageWorldChecksWithTargetNumbers() {
         // Only last TN and raise step is taken into account
         expect(
