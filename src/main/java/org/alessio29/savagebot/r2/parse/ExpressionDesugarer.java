@@ -176,10 +176,45 @@ class ExpressionDesugarer extends Desugarer<Expression> {
         } else if (grs instanceof R2Parser.SuccessOrFailSuffix2Context) {
             R2Parser.SuccessOrFailSuffix2Context suffix = (R2Parser.SuccessOrFailSuffix2Context) grs;
             return desugarSuccessOrFailure(getOriginalText(ctx), arg1, arg2, isOpenEnded, suffix.sn, suffix.fn);
-        } else {
+        } else if (grs instanceof R2Parser.TargetNumberAndRaiseStepSuffix1Context) {
+            R2Parser.TargetNumberAndRaiseStepSuffix1Context suffix =
+                    (R2Parser.TargetNumberAndRaiseStepSuffix1Context) grs;
+            return desugarTargetNumberAndRaiseStep(
+                    getOriginalText(ctx), arg1, arg2, isOpenEnded, suffix.tn, suffix.tr, null
+            );
+        } else if (grs instanceof R2Parser.TargetNumberAndRaiseStepSuffix2Context) {
+            R2Parser.TargetNumberAndRaiseStepSuffix2Context suffix =
+                    (R2Parser.TargetNumberAndRaiseStepSuffix2Context) grs;
+            return desugarTargetNumberAndRaiseStep(
+                    getOriginalText(ctx), arg1, arg2, isOpenEnded, suffix.tn, suffix.tr, null
+            );
+        } else if (grs instanceof R2Parser.TargetNumberAndRaiseStepSuffix3Context) {
+            R2Parser.TargetNumberAndRaiseStepSuffix3Context suffix =
+                    (R2Parser.TargetNumberAndRaiseStepSuffix3Context) grs;
+            return desugarTargetNumberAndRaiseStep(
+                    getOriginalText(ctx), arg1, arg2, isOpenEnded, null, null, suffix.tnr
+            );
+        }
+        else {
             throw new DesugaringErrorExceptioon("Unexpected generic roll suffix: '" + grs.getText() + "': " +
                     grs.getClass().getSimpleName());
         }
+    }
+
+    private Expression desugarTargetNumberAndRaiseStep(
+            String originalText,
+            Expression arg1,
+            Expression arg2,
+            boolean isOpenEnded,
+            R2Parser.TermContext tn,
+            R2Parser.TermContext tr,
+            R2Parser.TermContext tnr
+    ) {
+        return new GenericRollExpression(
+                originalText,
+                arg1, arg2, isOpenEnded,
+                visitOrNull(tn), visitOrNull(tr), visitOrNull(tnr)
+        );
     }
 
     private Expression desugarSuccessOrFailure(
@@ -228,30 +263,55 @@ class ExpressionDesugarer extends Desugarer<Expression> {
     public Expression visitSavageWorldsRollExpr(R2Parser.SavageWorldsRollExprContext ctx) {
         R2Parser.SavageWorldsRollContext swrc = ctx.savageWorldsRoll();
 
-        if (swrc.t6 == null) {
-            return new SavageWorldsRollExpression(
-                    getOriginalText(ctx),
-                    visitOrNull(swrc.t1),
-                    visit(swrc.t2),
-                    visitOrNull(swrc.t3),
-                    visitOrNull(swrc.t4),
-                    visitOrNull(swrc.t5),
-                    null
-            );
-        } else {
-            return new SavageWorldsRollExpression(
-                    getOriginalText(ctx),
-                    visitOrNull(swrc.t1),
-                    visit(swrc.t2),
-                    visitOrNull(swrc.t3),
-                    null,
-                    null,
-                    visitOrNull(swrc.t6)
-            );
-        }
+        TargetNumberAndRaiseStep tnr = desugarTargetNumberAndRaiseStep(swrc.targetNumberAndRaiseStep());
+
+        return new SavageWorldsRollExpression(
+                getOriginalText(ctx),
+                visitOrNull(swrc.t1),
+                visit(swrc.t2),
+                visitOrNull(swrc.t3),
+                tnr.getTargetNumber(),
+                tnr.getRaiseStep(),
+                tnr.getTargetNumberAndRaiseStep()
+        );
     }
 
-    private Expression visitOrNull(ParseTree parseTree) {
+    @Override
+    public Expression visitSavageWorldsExtrasRollExpr(R2Parser.SavageWorldsExtrasRollExprContext ctx) {
+        R2Parser.SavageWorldsExtrasRollContext swerc = ctx.savageWorldsExtrasRoll();
+        TargetNumberAndRaiseStep tnr = desugarTargetNumberAndRaiseStep(swerc.targetNumberAndRaiseStep());
+        return new SavageWorldsExtrasRollExpression(
+                getOriginalText(ctx),
+                visitOrNull(swerc.t1),
+                null,
+                null,
+                tnr.getTargetNumber(),
+                tnr.getRaiseStep(),
+                tnr.getTargetNumberAndRaiseStep()
+        );
+    }
+
+    public Expression visitOrNull(ParseTree parseTree) {
         return parseTree == null ? null : visit(parseTree);
+    }
+
+    public TargetNumberAndRaiseStep desugarTargetNumberAndRaiseStep(
+            R2Parser.TargetNumberAndRaiseStepContext tnrc
+    ) {
+        Expression tExpr;
+        Expression rExpr;
+        Expression trExpr;
+        if (tnrc == null) {
+            tExpr = rExpr = trExpr = null;
+        } else if (tnrc.ttr != null) {
+            trExpr = visitOrNull(tnrc.ttr);
+            tExpr = rExpr = null;
+        } else {
+            tExpr = visitOrNull(tnrc.tt);
+            rExpr = visitOrNull(tnrc.tr);
+            trExpr = null;
+        }
+
+        return new TargetNumberAndRaiseStep(tExpr, rExpr, trExpr);
     }
 }

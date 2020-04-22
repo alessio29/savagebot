@@ -24,9 +24,9 @@ public class TestR2Parser {
         );
         expect(
                 "NonParsedString text='abc' parserErrorMessage='[0]: token recognition error at: 'ab''\n" +
-                        "NonParsedString text='def' parserErrorMessage='[1]: token recognition error at: 'e''\n" +
+                        "NonParsedString text='def' parserErrorMessage='[1]: mismatched input 'e' expecting {'%', '(', INT, VAR}'\n" +
                         "NonParsedString text='qwer' parserErrorMessage='[0]: token recognition error at: 'q''\n" +
-                        "NonParsedString text='tty' parserErrorMessage='[0]: mismatched input 't' expecting {'+', '-', 'd', 'D', 's', 'S', 'dF', 'df', 'DF', 'dC', 'dc', 'DC', '(', INT, FLAG, VAR}'\n" +
+                        "NonParsedString text='tty' parserErrorMessage='[0]: mismatched input 't' expecting {'e', 'E', '+', '-', 'd', 'D', 's', 'S', 'dF', 'df', 'DF', 'dC', 'dc', 'DC', '(', INT, FLAG, VAR}'\n" +
                         "RollOnce\n" +
                         "  expr: Int 123",
                 "abc def", "  qwer tty", "123"
@@ -190,7 +190,10 @@ public class TestR2Parser {
                         "  expr: SavageWorldsRoll\n" +
                         "    diceCount: null\n" +
                         "    abilityDie: Int 8\n" +
-                        "    wildDie: null",
+                        "    wildDie: null\n" +
+                        "    targetNumber: null\n" +
+                        "    raiseStep: null\n" +
+                        "    targetNumberAndRaiseStep: null",
                 "s8"
         );
         expect(
@@ -200,6 +203,9 @@ public class TestR2Parser {
                         "      diceCount: null\n" +
                         "      abilityDie: Int 8\n" +
                         "      wildDie: null\n" +
+                        "      targetNumber: null\n" +
+                        "      raiseStep: null\n" +
+                        "      targetNumberAndRaiseStep: null\n" +
                         "    arg2: Int 2",
                 "s8+2"
         );
@@ -208,7 +214,10 @@ public class TestR2Parser {
                         "  expr: SavageWorldsRoll\n" +
                         "    diceCount: Int 2\n" +
                         "    abilityDie: Int 8\n" +
-                        "    wildDie: null",
+                        "    wildDie: null\n" +
+                        "    targetNumber: null\n" +
+                        "    raiseStep: null\n" +
+                        "    targetNumberAndRaiseStep: null",
                 "2s8"
         );
         expect(
@@ -216,7 +225,10 @@ public class TestR2Parser {
                         "  expr: SavageWorldsRoll\n" +
                         "    diceCount: Int 2\n" +
                         "    abilityDie: Int 8\n" +
-                        "    wildDie: Int 10",
+                        "    wildDie: Int 10\n" +
+                        "    targetNumber: null\n" +
+                        "    raiseStep: null\n" +
+                        "    targetNumberAndRaiseStep: null",
                 "2s8w10"
         );
     }
@@ -249,6 +261,9 @@ public class TestR2Parser {
                         "        diceCount: null\n" +
                         "        abilityDie: Int 8\n" +
                         "        wildDie: null\n" +
+                        "        targetNumber: null\n" +
+                        "        raiseStep: null\n" +
+                        "        targetNumberAndRaiseStep: null\n" +
                         "      arg2: FudgeRoll\n" +
                         "        diceCount: Int 2\n" +
                         "    arg2: Int 2",

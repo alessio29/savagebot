@@ -15,6 +15,11 @@ statement
         # RollTimesStmt
     |   n=term ('x'|'X') '[' batchElement* ']'
         # RollBatchTimesStmt
+    |
+        // Hack to support short-hand repetition for Savage Worlds extras roll:
+        // '4e6' is desugared to '4xe6', so it's effectively a repeat statement.
+        n=term ('e'|'E') t1=term targetNumberAndRaiseStep? additiveModifier?
+        # RollSavageWorldsExtraStmt
     |   flag=FLAG
         # FlagStmt
     ;
@@ -28,6 +33,8 @@ expression
         # GenericRollExpr
     |   savageWorldsRoll
         # SavageWorldsRollExpr
+    |   savageWorldsExtrasRoll
+        # SavageWorldsExtrasRollExpr
     |   fudgeRoll
         # FudgeRollExpr
     |   carcosaRoll
@@ -61,14 +68,30 @@ genericRollSuffix
         # SuccessOrFailSuffix1
     |   fop=('f'|'F') fn=term sop=('s'|'S') sn=term
         # SuccessOrFailSuffix2
+    |   ('t'|'T') tn=term (('r'|'R') tr=term)?
+        # TargetNumberAndRaiseStepSuffix1
+    |   ('r'|'R') tr=term (('t'|'T') tn=term)?
+        # TargetNumberAndRaiseStepSuffix2
+    |   ('tr'|'TR') tnr=term
+        # TargetNumberAndRaiseStepSuffix3
     ;
 
 savageWorldsRoll
     :   (t1=term)? ('s'|'S') t2=term (('w'|'W') t3=term)?
-        (
-         ( (('t'|'T') t4=term)? (('r'|'R') t5=term)? )
-         | ( ('tr'|'TR') t6=term )
-        )
+        targetNumberAndRaiseStep
+    ;
+
+savageWorldsExtrasRoll
+    :   ('e'|'E') t1=term targetNumberAndRaiseStep?
+    ;
+
+targetNumberAndRaiseStep
+    :   ('tr'|'TR') ttr=term
+    |   (('t'|'T') tt=term)? (('r'|'R') tr=term)?
+    ;
+
+additiveModifier
+    :   op=('+'|'-') em=expression
     ;
 
 fudgeRoll
