@@ -28,13 +28,16 @@ public class ClearTokensParamsIterator extends ParamsIterator {
         if (!(entity instanceof Collection)) {
             return null;
         }
+        Collection collection = (Collection) entity;
         Collection<String> result = new ArrayList<>();
-        Collection<Character> collection = (Collection<Character>) entity;
-        for (Character character : collection) {
-            if (character!=null) {
-                character.removeAllTokens();
-                result.add(character.getName());
+
+        for (Object item : collection) {
+            if (!(item instanceof Character)) {
+                continue;
             }
+            Character character = (Character)item;
+            character.removeAllTokens();
+            result.add(character.getName());
         }
         return result;
     }

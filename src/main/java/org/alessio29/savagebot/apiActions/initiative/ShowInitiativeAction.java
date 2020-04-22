@@ -58,7 +58,7 @@ public class ShowInitiativeAction implements IBotAction {
             statesStize = Math.max(statesStize+2, MIN_STATES_SIZE);
 
             for (Character c : sortedList) {
-                String allCards = c.getAllCards().stream().map(Card::toString).collect(Collectors.joining(", "));
+                String allCards = c.getInitCards().stream().map(Card::toString).collect(Collectors.joining(", "));
                 String edgesString = StringUtils.rightPad(
                         new ReplyBuilder().
                             addSquareBrackets(

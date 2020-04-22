@@ -2,6 +2,7 @@ package org.alessio29.savagebot.characters;
 
 import org.alessio29.savagebot.internal.RedisClient;
 import org.alessio29.savagebot.internal.utils.JsonConverter;
+import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -11,6 +12,8 @@ import java.util.stream.Collectors;
 
 
 public class Characters {
+
+    private static Logger log = Logger.getLogger(Characters.class);
 
     private static final String REDIS_CHARACTERS_KEY = "characters";
 
@@ -136,8 +139,14 @@ public class Characters {
                 // key is wrong
                 continue;
             }
-            Character character = JsonConverter.getInstance().fromJson(map.get(key), Character.class);
-            getCharacters(keyParts[0], keyParts[1]).put(character.getName(), character);
+            try {
+                Character character = JsonConverter.getInstance().fromJson(map.get(key), Character.class);
+                getCharacters(keyParts[0], keyParts[1]).put(character.getName(), character);
+            } catch (Exception e) {
+                log.debug("Error while reading character from Redis storage.", e);
+            }
+
+
         }
     }
 }

@@ -116,30 +116,30 @@ public class Deck {
     public DrawCardResult getCardByParams(String params) {
 
         Card limit = Deck.LOWEST_CARD;
-
-        params = params.trim().toLowerCase();
-
+        if (params == null) {
+            params = "";
+        } else {
+            params = params.trim().toLowerCase();
+        }
         int count = 1;
-
-        if (params.contains(HESITANT)) {
-            return getHesitantResult();
+        if (!params.isEmpty()) {
+            if (params.contains(HESITANT)) {
+                return getHesitantResult();
+            }
+            if (params.contains(IMPROVED_LEVELHEADED)) {
+                count = 3;
+                params = params.replace(IMPROVED_LEVELHEADED, "");
+            } else if (params.contains(LEVELHEADED)) {
+                count = 2;
+                params = params.replace(LEVELHEADED, "");
+            }
+            if (params.contains(QUICK)) {
+                limit = Deck.LOWEST_QUICK_CARD;
+            }
         }
-
-        if (params.contains(IMPROVED_LEVELHEADED)) {
-            count = 3;
-            params = params.replace(IMPROVED_LEVELHEADED, "");
-        } else if (params.contains(LEVELHEADED)) {
-            count = 2;
-            params = params.replace(LEVELHEADED, "");
-        }
-
         DrawCardResult result = new DrawCardResult();
         for (int i = 0; i < count; i++) {
             result = result.combineWith(getCard(), false);
-        }
-
-        if (params.contains(QUICK)) {
-            limit = Deck.LOWEST_QUICK_CARD;
         }
         while (result.getBestCard().compareTo(limit) <0 ) {
             result = result.combineWith(getCard(), true);
@@ -162,10 +162,6 @@ public class Deck {
         DrawCardResult result = new DrawCardResult();
         Card newCard = getNextCard();
         result.getCards().add(newCard);
-//        while (newCard != null && newCard.compareTo(limit) == -1) {
-//            newCard = getNextCard();
-//            result.getCards().add(newCard);
-//        }
         result.setBestCard(result.findBestCard());
         return result;
     }

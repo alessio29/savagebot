@@ -5,7 +5,6 @@ import org.alessio29.savagebot.apiActions.characters.ListCharactersAction;
 import org.alessio29.savagebot.apiActions.tokens.ClearTokensAction;
 import org.alessio29.savagebot.apiActions.tokens.GiveTokenAction;
 import org.alessio29.savagebot.apiActions.tokens.TakeTokenAction;
-import org.alessio29.savagebot.internal.RedisClient;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -19,8 +18,6 @@ public class TestTokenActions {
 
     @Test
     public void testTokensScenario() {
-
-        RedisClient.setTestMode(true);
 
         TestUtils.MessageBuilder mb = TestUtils.createDefaultForTests();
 

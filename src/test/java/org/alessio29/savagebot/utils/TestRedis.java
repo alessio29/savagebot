@@ -48,9 +48,8 @@ public class TestRedis {
         assert ch.getSaWoInitParams().equals(newChar.getSaWoInitParams());
         assert ch.getTokens().equals(newChar.getTokens());
         assert ch.isOutOfFight().equals(newChar.isOutOfFight());
-        assert ch.getAllCards().equals(newChar.getAllCards());
-        assert ch.getStates().equals(newChar.getStates());
         assert ch.getInitCards().equals(newChar.getInitCards());
+        assert ch.getStates().equals(newChar.getStates());
     }
 
     @NotNull

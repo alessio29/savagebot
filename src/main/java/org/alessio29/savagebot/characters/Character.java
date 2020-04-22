@@ -33,7 +33,7 @@ public class Character {
     }
 
     public Character(String name, String params, DrawCardResult cards) {
-        this.setAllCards(cards.getCards());
+        this.setInitCards(cards.getCards());
         this.name = name;
         this.sawoInitParams = params;
         findBestCard();
@@ -87,16 +87,6 @@ public class Character {
     }
 
     @JsonProperty
-    public List<Card> getInitCards() {
-        return initCards;
-    }
-
-    @JsonProperty
-    public void setInitCards(ArrayList<Card> initCards) {
-        this.initCards = initCards;
-    }
-
-    @JsonProperty
     public Card getBestCard() {
         return this.bestCard;
     }
@@ -107,18 +97,15 @@ public class Character {
     }
 
     @JsonProperty
-    public List<Card> getAllCards() {
+    public List<Card> getInitCards() {
         return this.initCards;
     }
 
-    @JsonProperty
-    public void setAllCards(List<Card> allCards) {
+    @JsonIgnore
+    public void setInitCards(List<Card> allCards) {
         this.initCards = allCards;
         findBestCard();
     }
-
-
-
 
     // ==================== STATES ========================
     @JsonIgnore
@@ -142,8 +129,6 @@ public class Character {
     @JsonIgnore
     public void clearStates() {
         states.clear();
-//        states = null; // previous version
-
     }
 
     // ==================== CARDS & INITIATIVE ========================
@@ -164,7 +149,7 @@ public class Character {
     }
 
     private void findBestCard() {
-        List<Card> allCards = getAllCards();
+        List<Card> allCards = getInitCards();
         if (allCards.isEmpty()) {
             this.bestCard = null;
             return;
@@ -202,7 +187,7 @@ public class Character {
 
     @JsonIgnore
     public void giveCard(DrawCardResult cards) {
-        List<Card> allCards = getAllCards();
+        List<Card> allCards = getInitCards();
         allCards.addAll(cards.getCards());
         this.initCards = allCards;
         Card bestCard = cards.findBestCard();
@@ -212,7 +197,7 @@ public class Character {
             findBestCard();
         }
     }
-
+    @JsonIgnore
     public void removeFromFight() {
         setOutOfFight(true);
         clearCards();
@@ -291,7 +276,7 @@ public class Character {
 
     public void dealInitiativeCards(Deck deck) {
         DrawCardResult cards = deck.getCardByParams(this.getSaWoInitParams());
-        this.setAllCards(cards.getCards());
+        this.setInitCards(cards.getCards());
         this.backToFight();
     }
 

@@ -35,10 +35,10 @@ public class DrawCardResult {
 		this.bestCard = bestCard;
 	}
 
-	public DrawCardResult combineWith(DrawCardResult other, boolean best) {
+	public DrawCardResult combineWith(DrawCardResult other, boolean normalSortingOrder) {
 		
 		this.getCards().addAll(other.getCards());
-		if (best) {
+		if (normalSortingOrder) {
 			this.setBestCard(findBestCard());
 		} else {
 			this.setBestCard(findWorstCard());
@@ -48,7 +48,11 @@ public class DrawCardResult {
 
 	public Card findBestCard() {
 		Collections.sort(this.getCards());
-		return this.getCards().get(this.getCards().size()-1);
+		if (this.getCards().size() > 1) {
+			return this.getCards().get(this.getCards().size()-1);
+		}
+		return this.getCards().get(0);
+
 	}
 
 	public Card findWorstCard() {
