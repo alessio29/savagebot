@@ -1,41 +1,41 @@
 package org.alessio29.savagebot.r2.tree;
 
-public class SavageWorldsRollExpression extends Expression implements WithTargetNumberAndRaiseStep {
-    private final Expression diceCountArg;
-    private final Expression abilityDieArg;
-    private final Expression wildDieArg;
+public class SavageWorldsExtrasRollExpression extends Expression implements WithTargetNumberAndRaiseStep {
+    private final Expression facetsArg;
+    private final OperatorExpression.Operator modifierOperator;
+    private final Expression modifierArg;
     private final Expression targetNumberArg;
     private final Expression raiseStepArg;
     private final Expression targetNumberAndRaiseStepArg;
 
-    public SavageWorldsRollExpression(
+    public SavageWorldsExtrasRollExpression(
             String text,
-            Expression diceCountArg,
-            Expression abilityDieArg,
-            Expression wildDieArg,
+            Expression facetsArg,
+            OperatorExpression.Operator modifierOperator,
+            Expression modifierArg,
             Expression targetNumberArg,
             Expression raiseStepArg,
             Expression targetNumberAndRaiseStepArg
     ) {
         super(text);
-        this.diceCountArg = diceCountArg;
-        this.abilityDieArg = abilityDieArg;
-        this.wildDieArg = wildDieArg;
+        this.facetsArg = facetsArg;
+        this.modifierOperator = modifierOperator;
+        this.modifierArg = modifierArg;
         this.targetNumberArg = targetNumberArg;
         this.raiseStepArg = raiseStepArg;
         this.targetNumberAndRaiseStepArg = targetNumberAndRaiseStepArg;
     }
 
-    public Expression getDiceCountArg() {
-        return diceCountArg;
+    public Expression getFacetsArg() {
+        return facetsArg;
     }
 
-    public Expression getAbilityDieArg() {
-        return abilityDieArg;
+    public OperatorExpression.Operator getModifierOperator() {
+        return modifierOperator;
     }
 
-    public Expression getWildDieArg() {
-        return wildDieArg;
+    public Expression getModifierArg() {
+        return modifierArg;
     }
 
     @Override
@@ -55,6 +55,6 @@ public class SavageWorldsRollExpression extends Expression implements WithTarget
 
     @Override
     public <V> V accept(Visitor<V> visitor) {
-        return visitor.visitSavageWorldsRollExpression(this);
+        return visitor.visitExtrasRollExpression(this);
     }
 }

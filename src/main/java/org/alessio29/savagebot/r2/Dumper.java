@@ -158,12 +158,36 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
     }
 
     @Override
+    public Void visitExtrasRollExpression(SavageWorldsExtrasRollExpression savageWorldsExtrasRollExpression) {
+        println("ExtrasRoll");
+        indented(() -> {
+            dump("facetsCount", savageWorldsExtrasRollExpression.getFacetsArg());
+
+            OperatorExpression.Operator modifierOperator = savageWorldsExtrasRollExpression.getModifierOperator();
+            if (modifierOperator != null) {
+                println("modifierOperator: " + modifierOperator.getImage());
+            } else {
+                println("modifierOperator: null");
+            }
+
+            dump("modifierArg", savageWorldsExtrasRollExpression.getModifierArg());
+            dump("targetNumber", savageWorldsExtrasRollExpression.getTargetNumberArg());
+            dump("raiseStep", savageWorldsExtrasRollExpression.getRaiseStepArg());
+            dump("targetNumberAndRaiseStep", savageWorldsExtrasRollExpression.getTargetNumberAndRaiseStepArg());
+        });
+        return null;
+    }
+
+    @Override
     public Void visitSavageWorldsRollExpression(SavageWorldsRollExpression savageWorldsRollExpression) {
         println("SavageWorldsRoll");
         indented(() -> {
             dump("diceCount", savageWorldsRollExpression.getDiceCountArg());
             dump("abilityDie", savageWorldsRollExpression.getAbilityDieArg());
             dump("wildDie", savageWorldsRollExpression.getWildDieArg());
+            dump("targetNumber", savageWorldsRollExpression.getTargetNumberArg());
+            dump("raiseStep", savageWorldsRollExpression.getRaiseStepArg());
+            dump("targetNumberAndRaiseStep", savageWorldsRollExpression.getTargetNumberAndRaiseStepArg());
         });
         return null;
     }

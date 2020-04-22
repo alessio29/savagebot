@@ -20,7 +20,7 @@ class ExpressionExplainer implements Expression.Visitor<String> {
             return explanation;
         }
 
-        if (isSavageWorldsCheck(expression)) {
+        if (expressionContext.isSavageWorldsSuccessesAndRaisesRequired() || isSavageWorldsCheck(expression)) {
             return expression.getText() + ": " + explanation + " = " +
                     values.stream()
                             .map(i -> ReplyBuilder.bold(i.toString()) + getSuccessesIfAny(i))
@@ -63,7 +63,9 @@ class ExpressionExplainer implements Expression.Visitor<String> {
 
     private boolean isSavageWorldsCheck(Expression expression) {
         expression = dropBrackets(expression);
-        if (isSimpleSavageWorldsRoll(expression)) {
+        if (expression instanceof SavageWorldsExtrasRollExpression) {
+            return true;
+        } else if (isSimpleSavageWorldsRoll(expression)) {
             return true;
         } else if (expression instanceof OperatorExpression) {
             OperatorExpression operatorExpression = (OperatorExpression) expression;
@@ -291,6 +293,11 @@ class ExpressionExplainer implements Expression.Visitor<String> {
     @Override
     public String visitSavageWorldsRollExpression(SavageWorldsRollExpression savageWorldsRollExpression) {
         return getKnownExplanation(savageWorldsRollExpression);
+    }
+
+    @Override
+    public String visitExtrasRollExpression(SavageWorldsExtrasRollExpression savageWorldsExtrasRollExpression) {
+        return getKnownExplanation(savageWorldsExtrasRollExpression);
     }
 
     @Override

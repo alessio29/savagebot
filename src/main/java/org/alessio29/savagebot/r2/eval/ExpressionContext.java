@@ -10,6 +10,7 @@ class ExpressionContext {
     private final CommandContext commandContext;
     private final Map<Expression, String> explanations = new HashMap<>();
 
+    private boolean savageWorldsSuccessesAndRaisesRequired = false;
     private int savageWorldsTargetNumber = 4;
     private int savageWorldsRaiseStep = 4;
 
@@ -34,6 +35,10 @@ class ExpressionContext {
         return commandContext;
     }
 
+    public void setSavageWorldsSuccessesAndRaisesRequired(boolean savageWorldsSuccessesAndRaisesRequired) {
+        this.savageWorldsSuccessesAndRaisesRequired = savageWorldsSuccessesAndRaisesRequired;
+    }
+
     public void setSavageWorldsTargetNumber(int targetNumber) {
         savageWorldsTargetNumber = targetNumber;
     }
@@ -48,5 +53,9 @@ class ExpressionContext {
 
     public int getSavageWorldsRaiseStep() {
         return savageWorldsRaiseStep;
+    }
+
+    public boolean isSavageWorldsSuccessesAndRaisesRequired() {
+        return savageWorldsSuccessesAndRaisesRequired;
     }
 }

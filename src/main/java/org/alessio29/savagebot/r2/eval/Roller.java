@@ -15,14 +15,14 @@ public class Roller {
         this.random = random;
     }
 
-    private int roll(int facetsCount) {
+    public int roll(int facetsCount) {
         if (facetsCount <= 0) {
             throw new EvaluationErrorException("Facets count should be >0: " + facetsCount);
         }
         return random.nextInt(facetsCount) + 1;
     }
 
-    private IntResult roll(int facetsCount, boolean isOpenEnded) {
+    public IntResult roll(int facetsCount, boolean isOpenEnded) {
         int total = 0;
         StringJoiner explained = new StringJoiner("+");
 
