@@ -14,14 +14,11 @@ import java.util.stream.Collectors;
 public class Characters {
 
     private static Logger log = Logger.getLogger(Characters.class);
-
     private static final String REDIS_CHARACTERS_KEY = "characters";
-
     //                 guildId,    channelId    charName
     private static Map<String, Map<String, Map<String, Character>>> characters = new HashMap<>();
 
     public static Map<String, Character> getCharacters(String guild, String channel) {
-
         characters.computeIfAbsent(guild, k -> new HashMap<>());
         characters.get(guild).computeIfAbsent(channel, k -> new HashMap<>());
         return characters.get(guild).get(channel);
@@ -145,8 +142,6 @@ public class Characters {
             } catch (Exception e) {
                 log.debug("Error while reading character from Redis storage.", e);
             }
-
-
         }
     }
 }

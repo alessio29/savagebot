@@ -113,27 +113,27 @@ public class TestR2Interpreter {
     @Test
     public void testSavageWorldsRolls() {
         expect(
-                "s8: [6; w5] = **6** (1)",
+                "s8: [6; w5] = **6** (success)",
                 "s8"
         );
         expect(
-                "s8+2: [6; w5] + 2 = **8** (2)",
+                "s8+2: [6; w5] + 2 = **8** (success; **1** raise)",
                 "s8+2"
         );
         expect(
-                "s8+2df: [6; w5] + [0+] = **7** (1)",
+                "s8+2df: [6; w5] + [0+] = **7** (success)",
                 "s8+2df"
         );
         expect(
-                "3s8: [2; 6; 7; w28] = **6** (1), **7** (1), **28** (7)",
+                "3s8: [2; 6; 7; w28] = **6** (success), **7** (success), **28** (success; **6** raises)",
                 "3s8"
         );
         expect(
-                "3s8w10: [2; 6; 7; w8] = **6** (1), **7** (1), **8** (2)",
+                "3s8w10: [2; 6; 7; w8] = **6** (success), **7** (success), **8** (success; **1** raise)",
                 "3s8w10"
         );
         expect(
-                "3s6+2: [1; 2; 5; w28] + 2 = **4** (1), **7** (1), **30** (7)",
+                "3s6+2: [1; 2; 5; w28] + 2 = **4** (success), **7** (success), **30** (success; **6** raises)",
                 "3s6+2"
         );
     }
@@ -176,16 +176,16 @@ public class TestR2Interpreter {
         );
         expect(
                 "10x3s6+2: \n" +
-                        "1: 3s6+2: [1; 2; 5; w28] + 2 = **4** (1), **7** (1), **30** (7)\n" +
-                        "2: 3s6+2: [3; 4; 23; w9] + 2 = **6** (1), **11** (2), **25** (6)\n" +
-                        "3: 3s6+2: [4; 5; 9; w2] + 2 = **6** (1), **7** (1), **11** (2)\n" +
-                        "4: 3s6+2: [1; 3; 9; w5] + 2 = **5** (1), **7** (1), **11** (2)\n" +
-                        "5: 3s6+2: [1; 4; 5; w33] + 2 = **6** (1), **7** (1), **35** (8)\n" +
-                        "6: 3s6+2: [3; 4; 11; w4] + 2 = **6** (1), **6** (1), **13** (3)\n" +
-                        "7: 3s6+2: [2; 3; 9; w5] + 2 = **5** (1), **7** (1), **11** (2)\n" +
-                        "8: 3s6+2: [4; 5; 5; w5] + 2 = **7** (1), **7** (1), **7** (1)\n" +
-                        "9: 3s6+2: [1; 2; 4; w3] + 2 = **4** (1), **5** (1), **6** (1)\n" +
-                        "10: 3s6+2: [1; 4; 5; w5] + 2 = **6** (1), **7** (1), **7** (1)",
+                        "1: 3s6+2: [1; 2; 5; w28] + 2 = **4** (success), **7** (success), **30** (success; **6** raises)\n" +
+                        "2: 3s6+2: [3; 4; 23; w9] + 2 = **6** (success), **11** (success; **1** raise), **25** (success; **5** raises)\n" +
+                        "3: 3s6+2: [4; 5; 9; w2] + 2 = **6** (success), **7** (success), **11** (success; **1** raise)\n" +
+                        "4: 3s6+2: [1; 3; 9; w5] + 2 = **5** (success), **7** (success), **11** (success; **1** raise)\n" +
+                        "5: 3s6+2: [1; 4; 5; w33] + 2 = **6** (success), **7** (success), **35** (success; **7** raises)\n" +
+                        "6: 3s6+2: [3; 4; 11; w4] + 2 = **6** (success), **6** (success), **13** (success; **2** raises)\n" +
+                        "7: 3s6+2: [2; 3; 9; w5] + 2 = **5** (success), **7** (success), **11** (success; **1** raise)\n" +
+                        "8: 3s6+2: [4; 5; 5; w5] + 2 = **7** (success), **7** (success), **7** (success)\n" +
+                        "9: 3s6+2: [1; 2; 4; w3] + 2 = **4** (success), **5** (success), **6** (success)\n" +
+                        "10: 3s6+2: [1; 4; 5; w5] + 2 = **6** (success), **7** (success), **7** (success)",
                 "10x3s6+2"
         );
     }
@@ -285,7 +285,7 @@ public class TestR2Interpreter {
     @Test
     public void testShootingAtVampireExample() {
         expect(
-                "shooting at vampire s8: [6; w5] = **6** (1)\n" +
+                "shooting at vampire s8: [6; w5] = **6** (success)\n" +
                         "damage 2d6+1: 2 + 6 + 1 = **9**",
                 "shooting", "at", "vampire", "s8", "damage", "2d6+1"
         );
@@ -434,20 +434,20 @@ public class TestR2Interpreter {
     @Test
     public void testSavageWorldsChecksWithSuccessesInExplanation() {
         expect(
-                "s8+5: [6; w5] + 5 = **11** (2)",
+                "s8+5: [6; w5] + 5 = **11** (success; **1** raise)",
                 "s8+5"
         );
         expect(
                 "10xs10: \n" +
-                        "1: s10: [1; w5] = **5** (1)\n" +
-                        "2: s10: [18; w22] = **22** (5)\n" +
-                        "3: s10: [15; w23] = **23** (5)\n" +
-                        "4: s10: [6; w3] = **6** (1)\n" +
-                        "5: s10: [5; w4] = **5** (1)\n" +
+                        "1: s10: [1; w5] = **5** (success)\n" +
+                        "2: s10: [18; w22] = **22** (success; **4** raises)\n" +
+                        "3: s10: [15; w23] = **23** (success; **4** raises)\n" +
+                        "4: s10: [6; w3] = **6** (success)\n" +
+                        "5: s10: [5; w4] = **5** (success)\n" +
                         "6: s10: [2; w3] = **3**\n" +
-                        "7: s10: [4; w1] = **4** (1)\n" +
-                        "8: s10: [5; w9] = **9** (2)\n" +
-                        "9: s10: [1; w4] = **4** (1)\n" +
+                        "7: s10: [4; w1] = **4** (success)\n" +
+                        "8: s10: [5; w9] = **9** (success; **1** raise)\n" +
+                        "9: s10: [1; w4] = **4** (success)\n" +
                         "10: s10: [3; w1] = **3**",
                 "10xs10"
         );
@@ -456,15 +456,15 @@ public class TestR2Interpreter {
     @Test
     public void testSavageWorldsChecksWithSuccessesInExplanationsWithParenthesizedExpressions() {
         expect(
-                "(s8+2): ([6; w5] + 2) = **8** (2)",
+                "(s8+2): ([6; w5] + 2) = **8** (success; **1** raise)",
                 "(s8+2)"
         );
         expect(
-                "(s8)+2: ([6; w5]) + 2 = **8** (2)",
+                "(s8)+2: ([6; w5]) + 2 = **8** (success; **1** raise)",
                 "(s8)+2"
         );
         expect(
-                "s8+(2): [6; w5] + (2) = **8** (2)",
+                "s8+(2): [6; w5] + (2) = **8** (success; **1** raise)",
                 "s8+(2)"
         );
     }
@@ -472,35 +472,35 @@ public class TestR2Interpreter {
     @Test
     public void testSavageWorldsChecksWithAlternativeTargetNumber() {
         expect(
-                "s8t6+4: [6; w5] + 4 = **10** (2; TN: 6)",
+                "s8t6+4: [6; w5] + 4 = **10** (success; **1** raise)",
                 "s8t6+4"
         );
         expect(
                 "10xs12t5r5: \n" +
-                        "1: s12t5r5: [1; w5] = **5** (1; TN: 5; raise step: 5)\n" +
-                        "2: s12t5r5: [2; w28] = **28** (5; TN: 5; raise step: 5)\n" +
+                        "1: s12t5r5: [1; w5] = **5** (success)\n" +
+                        "2: s12t5r5: [2; w28] = **28** (success; **4** raises)\n" +
                         "3: s12t5r5: [4; w3] = **4**\n" +
-                        "4: s12t5r5: [6; w17] = **17** (3; TN: 5; raise step: 5)\n" +
-                        "5: s12t5r5: [21; w5] = **21** (4; TN: 5; raise step: 5)\n" +
-                        "6: s12t5r5: [4; w9] = **9** (1; TN: 5; raise step: 5)\n" +
-                        "7: s12t5r5: [8; w1] = **8** (1; TN: 5; raise step: 5)\n" +
-                        "8: s12t5r5: [9; w9] = **9** (1; TN: 5; raise step: 5)\n" +
-                        "9: s12t5r5: [5; w4] = **5** (1; TN: 5; raise step: 5)\n" +
-                        "10: s12t5r5: [11; w1] = **11** (2; TN: 5; raise step: 5)",
+                        "4: s12t5r5: [6; w17] = **17** (success; **2** raises)\n" +
+                        "5: s12t5r5: [21; w5] = **21** (success; **3** raises)\n" +
+                        "6: s12t5r5: [4; w9] = **9** (success)\n" +
+                        "7: s12t5r5: [8; w1] = **8** (success)\n" +
+                        "8: s12t5r5: [9; w9] = **9** (success)\n" +
+                        "9: s12t5r5: [5; w4] = **5** (success)\n" +
+                        "10: s12t5r5: [11; w1] = **11** (success; **1** raise)",
                 "10xs12t5r5"
         );
         expect(
                 "10xs12tr5: \n" +
-                        "1: s12tr5: [1; w5] = **5** (1; TN: 5; raise step: 5)\n" +
-                        "2: s12tr5: [2; w28] = **28** (5; TN: 5; raise step: 5)\n" +
+                        "1: s12tr5: [1; w5] = **5** (success)\n" +
+                        "2: s12tr5: [2; w28] = **28** (success; **4** raises)\n" +
                         "3: s12tr5: [4; w3] = **4**\n" +
-                        "4: s12tr5: [6; w17] = **17** (3; TN: 5; raise step: 5)\n" +
-                        "5: s12tr5: [21; w5] = **21** (4; TN: 5; raise step: 5)\n" +
-                        "6: s12tr5: [4; w9] = **9** (1; TN: 5; raise step: 5)\n" +
-                        "7: s12tr5: [8; w1] = **8** (1; TN: 5; raise step: 5)\n" +
-                        "8: s12tr5: [9; w9] = **9** (1; TN: 5; raise step: 5)\n" +
-                        "9: s12tr5: [5; w4] = **5** (1; TN: 5; raise step: 5)\n" +
-                        "10: s12tr5: [11; w1] = **11** (2; TN: 5; raise step: 5)",
+                        "4: s12tr5: [6; w17] = **17** (success; **2** raises)\n" +
+                        "5: s12tr5: [21; w5] = **21** (success; **3** raises)\n" +
+                        "6: s12tr5: [4; w9] = **9** (success)\n" +
+                        "7: s12tr5: [8; w1] = **8** (success)\n" +
+                        "8: s12tr5: [9; w9] = **9** (success)\n" +
+                        "9: s12tr5: [5; w4] = **5** (success)\n" +
+                        "10: s12tr5: [11; w1] = **11** (success; **1** raise)",
                 "10xs12tr5"
         );
     }
@@ -513,29 +513,29 @@ public class TestR2Interpreter {
         );
         expect(
                 "5e6+4: \n" +
-                        "1: e6+4: 1 + 4 = **5** (1)\n" +
-                        "2: e6+4: 5 + 4 = **9** (2)\n" +
-                        "3: e6+4: 2 + 4 = **6** (1)\n" +
-                        "4: e6+4: 28 + 4 = **32** (8)\n" +
-                        "5: e6+4: 4 + 4 = **8** (2)",
+                        "1: e6+4: 1 + 4 = **5** (success)\n" +
+                        "2: e6+4: 5 + 4 = **9** (success; **1** raise)\n" +
+                        "3: e6+4: 2 + 4 = **6** (success)\n" +
+                        "4: e6+4: 28 + 4 = **32** (success; **7** raises)\n" +
+                        "5: e6+4: 4 + 4 = **8** (success; **1** raise)",
                 "5e6+4"
         );
         expect(
                 "5e6t5: \n" +
                         "1: e6t5: 1 = **1**\n" +
-                        "2: e6t5: 5 = **5** (1; TN: 5)\n" +
+                        "2: e6t5: 5 = **5** (success)\n" +
                         "3: e6t5: 2 = **2**\n" +
-                        "4: e6t5: 28 = **28** (6; TN: 5)\n" +
+                        "4: e6t5: 28 = **28** (success; **5** raises)\n" +
                         "5: e6t5: 4 = **4**",
                 "5e6t5"
         );
         expect(
                 "5e6r7: \n" +
                         "1: e6r7: 1 = **1**\n" +
-                        "2: e6r7: 5 = **5** (1; raise step: 7)\n" +
+                        "2: e6r7: 5 = **5** (success)\n" +
                         "3: e6r7: 2 = **2**\n" +
-                        "4: e6r7: 28 = **28** (4; raise step: 7)\n" +
-                        "5: e6r7: 4 = **4** (1; raise step: 7)",
+                        "4: e6r7: 28 = **28** (success; **3** raises)\n" +
+                        "5: e6r7: 4 = **4** (success)",
                 "5e6r7"
         );
         expect(
@@ -543,7 +543,7 @@ public class TestR2Interpreter {
                         "1: e6tr6: 1 = **1**\n" +
                         "2: e6tr6: 5 = **5**\n" +
                         "3: e6tr6: 2 = **2**\n" +
-                        "4: e6tr6: 28 = **28** (4; TN: 6; raise step: 6)\n" +
+                        "4: e6tr6: 28 = **28** (success; **3** raises)\n" +
                         "5: e6tr6: 4 = **4**",
                 "5e6tr6"
         );
@@ -552,20 +552,20 @@ public class TestR2Interpreter {
                         "1: e6t10+2: 1 + 2 = **3**\n" +
                         "2: e6t10+2: 5 + 2 = **7**\n" +
                         "3: e6t10+2: 2 + 2 = **4**\n" +
-                        "4: e6t10+2: 28 + 2 = **30** (6; TN: 10)\n" +
+                        "4: e6t10+2: 28 + 2 = **30** (success; **5** raises)\n" +
                         "5: e6t10+2: 4 + 2 = **6**",
                 "5e6t10+2"
         );
         expect(
-                "e8+2d6: 6 + 5 + 2 = **13** (3)",
+                "e8+2d6: 6 + 5 + 2 = **13** (success; **2** raises)",
                 "e8+2d6"
         );
         expect(
-                "e8t5+2d6: 6 + 5 + 2 = **13** (3; TN: 5)",
+                "e8t5+2d6: 6 + 5 + 2 = **13** (success; **2** raises)",
                 "e8t5+2d6"
         );
         expect(
-                "2d6+e8: 1 + 5 + 2 = **8** (2)",
+                "2d6+e8: 1 + 5 + 2 = **8** (success; **1** raise)",
                 "2d6+e8"
         );
     }
@@ -573,11 +573,11 @@ public class TestR2Interpreter {
     @Test
     public void testGenericRollsWithTargetNumberAndRaiseStep() {
         expect(
-                "2d6t6: 1 + 5 = **6** (shaken, TN: 6)",
+                "2d6t6: 1 + 5 = **6** (shaken)",
                 "2d6t6"
         );
         expect(
-                "4d6!t6: 1 + 5 + 2 + 28 = **36** (shaken, **7** wounds, TN: 6)",
+                "4d6!t6: 1 + 5 + 2 + 28 = **36** (shaken, **7** wounds)",
                 "4d6!t6"
         );
         expect(
@@ -585,19 +585,19 @@ public class TestR2Interpreter {
                         "1: d6!t6: 1 = **1**\n" +
                         "2: d6!t6: 5 = **5**\n" +
                         "3: d6!t6: 2 = **2**\n" +
-                        "4: d6!t6: 28 = **28** (shaken, **5** wounds, TN: 6)",
+                        "4: d6!t6: 28 = **28** (shaken, **5** wounds)",
                 "4xd6!t6"
         );
         expect(
-                "d8!t6+2d6: 6 + 5 + 2 = **13** (shaken, **1** wound, TN: 6)",
+                "d8!t6+2d6: 6 + 5 + 2 = **13** (shaken, **1** wound)",
                 "d8!t6+2d6"
         );
         expect(
-                "d8!r6+2d6: 6 + 5 + 2 = **13** (shaken, **1** wound, raise step: 6)",
+                "d8!r6+2d6: 6 + 5 + 2 = **13** (shaken, **1** wound)",
                 "d8!r6+2d6"
         );
         expect(
-                "d8!tr6+2d6: 6 + 5 + 2 = **13** (shaken, **1** wound, TN: 6, raise step: 6)",
+                "d8!tr6+2d6: 6 + 5 + 2 = **13** (shaken, **1** wound)",
                 "d8!tr6+2d6"
         );
     }
@@ -605,33 +605,33 @@ public class TestR2Interpreter {
     @Test
     public void testTargetNumberAndRaiseExpressionPrefix() {
         expect(
-                "t6:2d6: 1 + 5 = **6** (shaken, TN: 6)",
+                "t6:2d6: 1 + 5 = **6** (shaken)",
                 "t6:2d6"
         );
         expect(
-                "t6:2d6+1: 1 + 5 + 1 = **7** (shaken, TN: 6)",
+                "t6:2d6+1: 1 + 5 + 1 = **7** (shaken)",
                 "t6:2d6+1"
         );
         expect(
-                "t6:2d6+d4+1: 1 + 5 + 1 + 1 = **8** (shaken, TN: 6)",
+                "t6:2d6+d4+1: 1 + 5 + 1 + 1 = **8** (shaken)",
                 "t6:2d6+d4+1"
         );
         expect(
-                "t6:s8+2: [6; w5] + 2 = **8** (1; TN: 6)",
+                "t6:s8+2: [6; w5] + 2 = **8** (success)",
                 "t6:s8+2"
         );
         expect(
                 "5xtr6:s6: \n" +
                         "1: tr6:s6: [1; w5] = **5**\n" +
-                        "2: tr6:s6: [2; w28] = **28** (4; TN: 6; raise step: 6)\n" +
+                        "2: tr6:s6: [2; w28] = **28** (success; **3** raises)\n" +
                         "3: tr6:s6: [4; w3] = **4**\n" +
-                        "4: tr6:s6: [23; w9] = **23** (3; TN: 6; raise step: 6)\n" +
+                        "4: tr6:s6: [23; w9] = **23** (success; **2** raises)\n" +
                         "5: tr6:s6: [5; w4] = **5**",
                 "5xtr6:s6"
         );
         // Only last target number and raise step are taken into account
         expect(
-                "t6:s6+t8:s8: [1; w5] + [2; w28] = **33** (7; TN: 8)",
+                "t6:s6+t8:s8: [1; w5] + [2; w28] = **33** (success; **6** raises)",
                 "t6:s6+t8:s8"
         );
     }
@@ -641,9 +641,9 @@ public class TestR2Interpreter {
         expect(
                 "5xtr6:s10: \n" +
                         "1: tr6:s10: [1; w5] = **5**\n" +
-                        "2: tr6:s10: [18; w22] = **22** (3; TN: 6; raise step: 6)\n" +
-                        "3: tr6:s10: [15; w23] = **23** (3; TN: 6; raise step: 6)\n" +
-                        "4: tr6:s10: [6; w3] = **6** (1; TN: 6; raise step: 6)\n" +
+                        "2: tr6:s10: [18; w22] = **22** (success; **2** raises)\n" +
+                        "3: tr6:s10: [15; w23] = **23** (success; **2** raises)\n" +
+                        "4: tr6:s10: [6; w3] = **6** (success)\n" +
                         "5: tr6:s10: [5; w4] = **5**",
                 "5xtr6:s10"
         );
@@ -654,9 +654,9 @@ public class TestR2Interpreter {
         expect(
                 "5xtr6:e10: \n" +
                         "1: tr6:e10: 1 = **1**\n" +
-                        "2: tr6:e10: 9 = **9** (1; TN: 6; raise step: 6)\n" +
-                        "3: tr6:e10: 18 = **18** (3; TN: 6; raise step: 6)\n" +
-                        "4: tr6:e10: 6 = **6** (1; TN: 6; raise step: 6)\n" +
+                        "2: tr6:e10: 9 = **9** (success)\n" +
+                        "3: tr6:e10: 18 = **18** (success; **2** raises)\n" +
+                        "4: tr6:e10: 6 = **6** (success)\n" +
                         "5: tr6:e10: 4 = **4**",
                 "5xtr6:e10"
         );
@@ -666,7 +666,7 @@ public class TestR2Interpreter {
     public void testMultipleSavageWorldChecksWithTargetNumbers() {
         // Only last TN and raise step is taken into account
         expect(
-                "s8t4+s8t6: [6; w5] + [2; w28] = **34** (8; TN: 6)",
+                "s8t4+s8t6: [6; w5] + [2; w28] = **34** (success; **7** raises)",
                 "s8t4+s8t6"
         );
     }
