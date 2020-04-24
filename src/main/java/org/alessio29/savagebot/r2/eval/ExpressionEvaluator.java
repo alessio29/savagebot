@@ -343,10 +343,14 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
             context.setSavageWorldsTargetNumber(targetNumberAndRaiseStep);
             context.setSavageWorldsRaiseStep(targetNumberAndRaiseStep);
         } else {
-            int targetNumber = evalInt(expression.getTargetNumberArg(), 4);
-            context.setSavageWorldsTargetNumber(targetNumber);
-            int raiseStep = evalInt(expression.getRaiseStepArg(), 4);
-            context.setSavageWorldsRaiseStep(raiseStep);
+            if (expression.getTargetNumberArg() != null) {
+                int targetNumber = evalInt(expression.getTargetNumberArg(), 4);
+                context.setSavageWorldsTargetNumber(targetNumber);
+            }
+            if (expression.getRaiseStepArg() != null) {
+                int raiseStep = evalInt(expression.getRaiseStepArg(), 4);
+                context.setSavageWorldsRaiseStep(raiseStep);
+            }
         }
     }
 

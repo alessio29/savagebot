@@ -617,22 +617,48 @@ public class TestR2Interpreter {
                 "t6:2d6+d4+1"
         );
         expect(
-                "t6:s8+2: [6; w5] + 2 = **8** (2)",
+                "t6:s8+2: [6; w5] + 2 = **8** (1; TN: 6)",
                 "t6:s8+2"
         );
         expect(
                 "5xtr6:s6: \n" +
-                        "1: tr6:s6: [1; w5] = **5** (1)\n" +
-                        "2: tr6:s6: [2; w28] = **28** (7)\n" +
-                        "3: tr6:s6: [4; w3] = **4** (1)\n" +
-                        "4: tr6:s6: [23; w9] = **23** (5)\n" +
-                        "5: tr6:s6: [5; w4] = **5** (1)",
+                        "1: tr6:s6: [1; w5] = **5**\n" +
+                        "2: tr6:s6: [2; w28] = **28** (4; TN: 6; raise step: 6)\n" +
+                        "3: tr6:s6: [4; w3] = **4**\n" +
+                        "4: tr6:s6: [23; w9] = **23** (3; TN: 6; raise step: 6)\n" +
+                        "5: tr6:s6: [5; w4] = **5**",
                 "5xtr6:s6"
         );
         // Only last target number and raise step are taken into account
         expect(
-                "t6:s6+t8:s8: [1; w5] + [2; w28] = **33** (8)",
+                "t6:s6+t8:s8: [1; w5] + [2; w28] = **33** (7; TN: 8)",
                 "t6:s6+t8:s8"
+        );
+    }
+
+    @Test
+    public void testSwithTRPrefix() {
+        expect(
+                "5xtr6:s10: \n" +
+                        "1: tr6:s10: [1; w5] = **5**\n" +
+                        "2: tr6:s10: [18; w22] = **22** (3; TN: 6; raise step: 6)\n" +
+                        "3: tr6:s10: [15; w23] = **23** (3; TN: 6; raise step: 6)\n" +
+                        "4: tr6:s10: [6; w3] = **6** (1; TN: 6; raise step: 6)\n" +
+                        "5: tr6:s10: [5; w4] = **5**",
+                "5xtr6:s10"
+        );
+    }
+
+    @Test
+    public void testEwithTRPrefix() {
+        expect(
+                "5xtr6:e10: \n" +
+                        "1: tr6:e10: 1 = **1**\n" +
+                        "2: tr6:e10: 9 = **9** (1; TN: 6; raise step: 6)\n" +
+                        "3: tr6:e10: 18 = **18** (3; TN: 6; raise step: 6)\n" +
+                        "4: tr6:e10: 6 = **6** (1; TN: 6; raise step: 6)\n" +
+                        "5: tr6:e10: 4 = **4**",
+                "5xtr6:e10"
         );
     }
 
