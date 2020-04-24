@@ -53,12 +53,15 @@ class ExpressionExplainer implements Expression.Visitor<String> {
         }
 
         if (expressionContext.isTreatMarginOfSuccessAsSuccessesAndRaises()) {
-            StringBuilder sb = new StringBuilder().append(" (").append(marginOfSuccess / raiseStep + 1);
-            if (targetNumber != 4) {
-                sb.append("; TN: ").append(targetNumber);
-            }
-            if (raiseStep != 4) {
-                sb.append("; raise step: ").append(raiseStep);
+            StringBuilder sb = new StringBuilder().append(" (success");
+            int raiseCount = marginOfSuccess / raiseStep;
+            if (raiseCount > 0) {
+                sb.append("; ").append(ReplyBuilder.bold(raiseCount));
+                if (raiseCount == 1) {
+                    sb.append(" raise");
+                } else {
+                    sb.append(" raises");
+                }
             }
             return sb.append(")").toString();
         } else {
@@ -71,12 +74,6 @@ class ExpressionExplainer implements Expression.Visitor<String> {
                 } else {
                     sb.append(" wound");
                 }
-            }
-            if (targetNumber != 4) {
-                sb.append(", TN: ").append(targetNumber);
-            }
-            if (raiseStep != 4) {
-                sb.append(", raise step: ").append(raiseStep);
             }
             return sb.append(")").toString();
         }
