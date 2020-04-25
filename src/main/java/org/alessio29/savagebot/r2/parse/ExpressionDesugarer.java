@@ -179,10 +179,13 @@ class ExpressionDesugarer extends Desugarer<Expression> {
         } else if (grs instanceof R2Parser.TargetNumberAndRaiseStepSuffixContext) {
             R2Parser.TargetNumberAndRaiseStepContext tnrc =
                     ((R2Parser.TargetNumberAndRaiseStepSuffixContext) grs).targetNumberAndRaiseStep();
-            return new GenericRollExpression(
+            return desugarTargetNumberAndRaiseStep(
                     getOriginalText(ctx),
-                    arg1, arg2, isOpenEnded,
-                    visitOrNull(tnrc.tt), visitOrNull(tnrc.tr), visitOrNull(tnrc.tnr)
+                    tnrc,
+                    new GenericRollExpression(
+                            getOriginalText(ctx),
+                            arg1, arg2, isOpenEnded
+                    )
             );
         }
         else {
@@ -237,42 +240,38 @@ class ExpressionDesugarer extends Desugarer<Expression> {
     public Expression visitSavageWorldsRollExpr(R2Parser.SavageWorldsRollExprContext ctx) {
         R2Parser.SavageWorldsRollContext swrc = ctx.savageWorldsRoll();
 
-        TargetNumberAndRaiseStep tnr = desugarTargetNumberAndRaiseStep(swrc.targetNumberAndRaiseStep());
-
-        return new SavageWorldsRollExpression(
+        return desugarTargetNumberAndRaiseStep(
                 getOriginalText(ctx),
-                visitOrNull(swrc.t1),
-                visit(swrc.t2),
-                visitOrNull(swrc.t3),
-                tnr.getTargetNumber(),
-                tnr.getRaiseStep(),
-                tnr.getTargetNumberAndRaiseStep()
-        );
+                swrc.targetNumberAndRaiseStep(),
+                new SavageWorldsRollExpression(
+                        getOriginalText(ctx),
+                        visitOrNull(swrc.t1),
+                        visit(swrc.t2),
+                        visitOrNull(swrc.t3)
+                ));
     }
 
     @Override
     public Expression visitSavageWorldsExtrasRollExpr(R2Parser.SavageWorldsExtrasRollExprContext ctx) {
         R2Parser.SavageWorldsExtrasRollContext swerc = ctx.savageWorldsExtrasRoll();
-        TargetNumberAndRaiseStep tnr = desugarTargetNumberAndRaiseStep(swerc.targetNumberAndRaiseStep());
-        return new SavageWorldsExtrasRollExpression(
+
+        return desugarTargetNumberAndRaiseStep(
                 getOriginalText(ctx),
-                visitOrNull(swerc.t1),
-                null,
-                null,
-                tnr.getTargetNumber(),
-                tnr.getRaiseStep(),
-                tnr.getTargetNumberAndRaiseStep()
+                swerc.targetNumberAndRaiseStep(),
+                new SavageWorldsExtrasRollExpression(
+                        getOriginalText(ctx),
+                        visitOrNull(swerc.t1),
+                        null,
+                        null
+                )
         );
     }
 
     @Override
     public Expression visitTargetNumberAndRaiseStepExpr(R2Parser.TargetNumberAndRaiseStepExprContext ctx) {
-        TargetNumberAndRaiseStep tnr = desugarTargetNumberAndRaiseStep(ctx.targetNumberAndRaiseStep());
-        return new TargetNumberAndRaiseStepExpression(
+        return desugarTargetNumberAndRaiseStep(
                 getOriginalText(ctx),
-                tnr.getTargetNumber(),
-                tnr.getRaiseStep(),
-                tnr.getTargetNumberAndRaiseStep(),
+                ctx.targetNumberAndRaiseStep(),
                 visit(ctx.e1)
         );
     }
@@ -281,14 +280,17 @@ class ExpressionDesugarer extends Desugarer<Expression> {
         return parseTree == null ? null : visit(parseTree);
     }
 
-    public TargetNumberAndRaiseStep desugarTargetNumberAndRaiseStep(
-            R2Parser.TargetNumberAndRaiseStepContext tnrc
+    public Expression desugarTargetNumberAndRaiseStep(
+            String text,
+            R2Parser.TargetNumberAndRaiseStepContext tnrc,
+            Expression innerExpression
     ) {
         Expression tExpr;
         Expression rExpr;
         Expression trExpr;
+
         if (tnrc == null) {
-            tExpr = rExpr = trExpr = null;
+            return innerExpression;
         } else if (tnrc.tnr != null) {
             trExpr = visitOrNull(tnrc.tnr);
             tExpr = rExpr = null;
@@ -298,6 +300,10 @@ class ExpressionDesugarer extends Desugarer<Expression> {
             trExpr = null;
         }
 
-        return new TargetNumberAndRaiseStep(tExpr, rExpr, trExpr);
+        return new TargetNumberAndRaiseStepExpression(
+                text,
+                tExpr, rExpr, trExpr,
+                innerExpression
+        );
     }
 }

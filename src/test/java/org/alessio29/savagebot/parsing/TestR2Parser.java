@@ -190,10 +190,7 @@ public class TestR2Parser {
                         "  expr: SavageWorldsRoll\n" +
                         "    diceCount: null\n" +
                         "    abilityDie: Int 8\n" +
-                        "    wildDie: null\n" +
-                        "    targetNumber: null\n" +
-                        "    raiseStep: null\n" +
-                        "    targetNumberAndRaiseStep: null",
+                        "    wildDie: null",
                 "s8"
         );
         expect(
@@ -203,9 +200,6 @@ public class TestR2Parser {
                         "      diceCount: null\n" +
                         "      abilityDie: Int 8\n" +
                         "      wildDie: null\n" +
-                        "      targetNumber: null\n" +
-                        "      raiseStep: null\n" +
-                        "      targetNumberAndRaiseStep: null\n" +
                         "    arg2: Int 2",
                 "s8+2"
         );
@@ -214,10 +208,7 @@ public class TestR2Parser {
                         "  expr: SavageWorldsRoll\n" +
                         "    diceCount: Int 2\n" +
                         "    abilityDie: Int 8\n" +
-                        "    wildDie: null\n" +
-                        "    targetNumber: null\n" +
-                        "    raiseStep: null\n" +
-                        "    targetNumberAndRaiseStep: null",
+                        "    wildDie: null",
                 "2s8"
         );
         expect(
@@ -225,11 +216,20 @@ public class TestR2Parser {
                         "  expr: SavageWorldsRoll\n" +
                         "    diceCount: Int 2\n" +
                         "    abilityDie: Int 8\n" +
-                        "    wildDie: Int 10\n" +
-                        "    targetNumber: null\n" +
-                        "    raiseStep: null\n" +
-                        "    targetNumberAndRaiseStep: null",
+                        "    wildDie: Int 10",
                 "2s8w10"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: TargetNumberAndStep\n" +
+                        "    targetNumber: Int 7\n" +
+                        "    raiseStep: null\n" +
+                        "    targetNumberAndRaiseStep: null\n" +
+                        "    argument: SavageWorldsRoll\n" +
+                        "      diceCount: null\n" +
+                        "      abilityDie: Int 8\n" +
+                        "      wildDie: null",
+                "s8t7"
         );
     }
 
@@ -261,9 +261,6 @@ public class TestR2Parser {
                         "        diceCount: null\n" +
                         "        abilityDie: Int 8\n" +
                         "        wildDie: null\n" +
-                        "        targetNumber: null\n" +
-                        "        raiseStep: null\n" +
-                        "        targetNumberAndRaiseStep: null\n" +
                         "      arg2: FudgeRoll\n" +
                         "        diceCount: Int 2\n" +
                         "    arg2: Int 2",

@@ -171,9 +171,6 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
             }
 
             dump("modifierArg", savageWorldsExtrasRollExpression.getModifierArg());
-            dump("targetNumber", savageWorldsExtrasRollExpression.getTargetNumberArg());
-            dump("raiseStep", savageWorldsExtrasRollExpression.getRaiseStepArg());
-            dump("targetNumberAndRaiseStep", savageWorldsExtrasRollExpression.getTargetNumberAndRaiseStepArg());
         });
         return null;
     }
@@ -185,9 +182,6 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
             dump("diceCount", savageWorldsRollExpression.getDiceCountArg());
             dump("abilityDie", savageWorldsRollExpression.getAbilityDieArg());
             dump("wildDie", savageWorldsRollExpression.getWildDieArg());
-            dump("targetNumber", savageWorldsRollExpression.getTargetNumberArg());
-            dump("raiseStep", savageWorldsRollExpression.getRaiseStepArg());
-            dump("targetNumberAndRaiseStep", savageWorldsRollExpression.getTargetNumberAndRaiseStepArg());
         });
         return null;
     }

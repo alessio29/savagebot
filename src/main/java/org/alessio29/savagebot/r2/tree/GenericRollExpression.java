@@ -3,7 +3,7 @@ package org.alessio29.savagebot.r2.tree;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GenericRollExpression extends Expression implements WithTargetNumberAndRaiseStep {
+public class GenericRollExpression extends Expression {
     public enum SuffixOperator {
         KEEP(1, "k", "K"),
         KEEP_LEAST(1, "kl", "KL"),
@@ -62,11 +62,6 @@ public class GenericRollExpression extends Expression implements WithTargetNumbe
     private final Expression suffixArg1;
     private final Expression suffixArg2;
 
-    private final boolean isWithTargetNumberAndRaiseStep;
-    private final Expression targetNumberArg;
-    private final Expression raiseStepArg;
-    private final Expression targetNumberAndRaiseStepArg;
-
     public GenericRollExpression(
             String text,
             Expression diceCountArg,
@@ -83,11 +78,6 @@ public class GenericRollExpression extends Expression implements WithTargetNumbe
         this.suffixOperator = suffixOperator;
         this.suffixArg1 = suffixArg1;
         this.suffixArg2 = suffixArg2;
-
-        this.isWithTargetNumberAndRaiseStep = false;
-        this.targetNumberArg = null;
-        this.raiseStepArg = null;
-        this.targetNumberAndRaiseStepArg = null;
     }
 
     public GenericRollExpression(
@@ -108,31 +98,6 @@ public class GenericRollExpression extends Expression implements WithTargetNumbe
             boolean isOpenEnded
     ) {
         this(text, diceCountArg, facetsCountArg, isOpenEnded, null, null);
-    }
-
-    public GenericRollExpression(
-            String text,
-            Expression diceCountArg,
-            Expression facetsCountArg,
-            boolean isOpenEnded,
-            Expression targetNumberArg,
-            Expression raiseStepArg,
-            Expression targetNumberAndRaiseStepArg
-    ) {
-        super(text);
-
-        this.diceCountArg = diceCountArg;
-        this.facetsCountArg = facetsCountArg;
-        this.isOpenEnded = isOpenEnded;
-
-        this.isWithTargetNumberAndRaiseStep = true;
-        this.targetNumberArg = targetNumberArg;
-        this.raiseStepArg = raiseStepArg;
-        this.targetNumberAndRaiseStepArg = targetNumberAndRaiseStepArg;
-
-        this.suffixOperator = null;
-        this.suffixArg1 = null;
-        this.suffixArg2 = null;
     }
 
     public Expression getDiceCountArg() {
@@ -157,25 +122,6 @@ public class GenericRollExpression extends Expression implements WithTargetNumbe
 
     public Expression getSuffixArg2() {
         return suffixArg2;
-    }
-
-    public boolean isWithTargetNumberAndRaiseStep() {
-        return isWithTargetNumberAndRaiseStep;
-    }
-
-    @Override
-    public Expression getTargetNumberArg() {
-        return targetNumberArg;
-    }
-
-    @Override
-    public Expression getRaiseStepArg() {
-        return raiseStepArg;
-    }
-
-    @Override
-    public Expression getTargetNumberAndRaiseStepArg() {
-        return targetNumberAndRaiseStepArg;
     }
 
     @Override
