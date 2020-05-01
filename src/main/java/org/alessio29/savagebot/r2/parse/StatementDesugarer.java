@@ -60,26 +60,24 @@ class StatementDesugarer extends Desugarer<Statement> {
         Expression n = expressionDesugarer.visit(ctx.n);
         Expression facets = expressionDesugarer.visit(ctx.t1);
 
-        TargetNumberAndRaiseStep tnrs =
-                expressionDesugarer.desugarTargetNumberAndRaiseStep(ctx.targetNumberAndRaiseStep());
-
         R2Parser.AdditiveModifierContext admc = ctx.additiveModifier();
 
         int start = ctx.n != null ? ctx.n.getStop().getStopIndex() + 1 : ctx.getStart().getStartIndex();
         int stop = ctx.getStop().getStopIndex();
         String text = inputString.substring(start, stop + 1);
 
-        Expression rollExpr = new SavageWorldsExtrasRollExpression(
+        Expression expr = expressionDesugarer.desugarTargetNumberAndRaiseStep(
                 text,
-                facets,
-                admc != null ? OperatorExpression.getBinaryOperator(admc.op.getText()) : null,
-                admc != null ? expressionDesugarer.visit(admc.em) : null,
-                tnrs.getTargetNumber(),
-                tnrs.getRaiseStep(),
-                tnrs.getTargetNumberAndRaiseStep()
+                ctx.targetNumberAndRaiseStep(),
+                new SavageWorldsExtrasRollExpression(
+                        text,
+                        facets,
+                        admc != null ? OperatorExpression.getBinaryOperator(admc.op.getText()) : null,
+                        admc != null ? expressionDesugarer.visit(admc.em) : null
+                )
         );
 
-        return new RollTimesStatement(getOriginalText(ctx), n, rollExpr);
+        return new RollTimesStatement(getOriginalText(ctx), n, expr);
     }
 
     private Expression desugarExpression(ParseTree parseTree) {

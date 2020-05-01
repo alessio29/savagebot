@@ -1,6 +1,6 @@
 package org.alessio29.savagebot.r2.tree;
 
-public class TargetNumberAndRaiseStepExpression extends Expression implements WithTargetNumberAndRaiseStep {
+public class TargetNumberAndRaiseStepExpression extends Expression {
     private final Expression targetNumberArg;
     private final Expression raiseStepArg;
     private final Expression targetNumberAndRaiseStepArg;
@@ -20,17 +20,14 @@ public class TargetNumberAndRaiseStepExpression extends Expression implements Wi
         this.expression = expression;
     }
 
-    @Override
     public Expression getTargetNumberArg() {
         return targetNumberArg;
     }
 
-    @Override
     public Expression getRaiseStepArg() {
         return raiseStepArg;
     }
 
-    @Override
     public Expression getTargetNumberAndRaiseStepArg() {
         return targetNumberAndRaiseStepArg;
     }
