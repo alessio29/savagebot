@@ -20,6 +20,7 @@ public class TakeTokenAction implements IBotAction {
         }
 
         List<String> taken = new ArrayList<>();
+        List<String> notFound = new ArrayList<>();
         TakeTokensParamsIterator it = new TakeTokensParamsIterator(args);
 
         while (it.hasNext()) {
@@ -27,7 +28,11 @@ public class TakeTokenAction implements IBotAction {
             if (!it.isEntity(value)) {
                 return new CommandExecutionResult("Provide character name!", args.length + 1);
             }
-            Character character = Characters.getByNameOrCreate(message.getGuildId(), message.getChannelId(), value);
+            Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), value);
+            if (character == null) {
+                notFound.add(value);
+                continue;
+            }
             String modifier = null;
             Integer tokens = 1;
             if (it.nextIsModifier()) {
@@ -39,6 +44,11 @@ public class TakeTokenAction implements IBotAction {
                 Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
             }
         }
-        return new CommandExecutionResult("Taken tokens from character(s): " + StringUtils.join(taken, ", "), args.length + 1);
+        String messageStr = "Taken tokens from character(s): " + StringUtils.join(taken, ", ");
+        if (!notFound.isEmpty()) {
+            messageStr += "Character(s) not found: " + StringUtils.join(notFound, ", ");
+        }
+
+        return new CommandExecutionResult(messageStr, args.length + 1);
     }
 }

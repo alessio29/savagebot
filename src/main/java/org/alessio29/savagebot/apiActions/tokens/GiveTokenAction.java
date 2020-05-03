@@ -5,13 +5,10 @@ import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
-import org.alessio29.savagebot.internal.iterators.ClearTokensParamsIterator;
 import org.alessio29.savagebot.internal.iterators.GiveTokensParamsIterator;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class GiveTokenAction implements IBotAction {
@@ -20,6 +17,7 @@ public class GiveTokenAction implements IBotAction {
         if (args.length < 1) {
             return new CommandExecutionResult("Character name missing!", 1);
         }
+
         List<String> given = new ArrayList<>();
         GiveTokensParamsIterator it = new GiveTokensParamsIterator(args);
 
@@ -27,6 +25,9 @@ public class GiveTokenAction implements IBotAction {
             String value = it.next();
             if (!it.isEntity(value)) {
                 return new CommandExecutionResult("Provide character name!", args.length+1);
+            }
+            if (value.equalsIgnoreCase("all")) {
+                continue;
             }
             Character character = Characters.getByNameOrCreate(message.getGuildId(), message.getChannelId(), value);
             String modifier = null;
