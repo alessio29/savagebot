@@ -48,28 +48,29 @@ or for short:
 !d12
 ```
 
-**Tips:** 
+**Tips:**
 * In fact, you can just roll any die `!d20`, `!d100`, even very weird ones `!d73` if you feel like it!
 * You can also directly include modifiers (after or before the roll), for example, here is a human running roll `!6+d6`.
 
-## Trait rolls
+## Extra Trait rolls
 Traits roll do Ace (if the die hits its max, you roll another one and add it, until no more die aces).
-Follow the die with an `!`.
+For extra, use the `e` command.
 
 For example, lets roll a Fighting d6 for a bandit extra:
 ```
-!d6!
+!e6
 ```
-The result will directly display the sum of the dices. You won't see each individual ones. 
+The result will directly display the sum of the dices. You won't see each individual ones.
 Here, on a d4, we got 4, then 2:
 ```
-> d4!: 6 = 6
+> e6: 8 = 8 (success; 1 raise)
 ```
+You also see whether you got a success or a raise.
 
-**Tips** You can directly add modifiers to the roll, like a -2 (dim light) penalty to Shooting `!d6!-2`, or Combat Reflexes adding +2 to recover from Shaken `!d8!+2`. Untrained would be `!d4!-2`.
+**Tips** You can directly add modifiers to the roll, like a -2 (dim light) penalty to Shooting `!e8-2`, or Combat Reflexes adding +2 to recover from Shaken `!e6+2`. Untrained would be `!e4-2`.
 
 ## Wildcard Trait rolls
-Wild Cards do roll a "Wild Die" (usually a d6) next to their Trait and keep the highest of both. Use `s4`
+Wild Cards do roll a "Wild Die" (usually a d6) next to their Trait and keep the highest of both. Use `s` command.
 
 For example, let's have Player Character Huey rolls for Persuasion:
 ```
@@ -78,13 +79,13 @@ For example, let's have Player Character Huey rolls for Persuasion:
 
 This will not only display the highest total to keep, but also individual rolls, so you know whether you got Snake Eyes, or if you hit Innocent Bystanders.
 ```
-> s8: [5, w4] = 5(1)
+> s8: [4; w5] = 5 (success)
 ```
+'w' for the Wild Die roll.
 
-The number in parenthesis in the end, if the number of successes against a Target Number of 4 (which is usually the case for Trait rolls). 0 would be a failure, 1 a simple success, 2 a success and a raise, and so on.
-Here we have a nice roll with 2 raises:
+Success and Raise are also shown.
 ```
-> s8: [13; w2] = 13 (3)
+> s4: [21; w5] = 21 (success; 4 raises)
 ```
 
 Oops, Snake Eyes!
@@ -95,17 +96,25 @@ Oops, Snake Eyes!
 **Tips:** Modifiers are also supported. Let's take a Wild Card untrained Trait roll: `!s4-2`.
 
 ## Damage rolls
-Pretty simple, back to standard `d` syntax. Damage dice ace.
+Damage is a sum of all dices, so we won't be using `e` or `s` but `d` as most dice roller program uses.
+However, since we want the dice to Ace, we add a `!` near the end.
+
+Exploding d6:
+```
+!d6!
+```
 
 You can roll multiple dice and sum them up.
-Here is a knife (Str+d4) wielding bandit with d6 strength:
+Here is d6 Strength bandit wielding a knife (Str+d4):
 ```
 !d6!+d4!
 ```
-Here is a bow (2d6) wielding assassin:
+Here is an assassin wielding a bow (2d6):
 ```
 !2d6!
 ```
+
+**Tips:** Modifiers workds too. Cast *smite* on that bow: `!2d6!+2`.
 
 ---
 # Savage Worlds Initiative
@@ -226,7 +235,7 @@ Once you gave a Benny to a character, it remains in the `list`, even if they rea
 !remove Assassin
 ```
 
-**Tips:** You can remove multiple characters at one: 
+**Tips:** You can remove multiple characters at one:
 ```
 !remove LordDenak GoblinWarlord EliteSentinel
 ```
@@ -313,8 +322,8 @@ The assassin shoots at Huey !s8 Damage: !2d6!+1 Bonus damage (if raise): !d6!
 > Bonus damage (if raise): d6!: 1 = 1
 ```
 
-### Variable Target Number (Fighting vs Parry)
-For rolls where the Target Number is not the standard 4, you can add a `t` parameter after the `s` savage roll.
+### Fighting vs Parry (Variable Target Number)
+For rolls where the Target Number is not the standard 4, you can add a `t` parameter after the `s` or `e` savage rolls.
 For example, Huery attacks in melee a Parry 6 bandit:
 ```
 Huey Fighting vs Bandit: !s10t6
@@ -322,17 +331,39 @@ Huey Fighting vs Bandit: !s10t6
 
 The number of success and raises is calculated accordingly:
 ```
-> Huey Fighting vs Bandit: s10t6: [9; w3] = 9 (1; TN: 6)
+> Huey Fighting vs Bandit: s10t6: [7; w3] = 7 (success)
+```
+```
+Bandit Fighting vs Huey: !e6t7
+> Bandit Fighting vs Huey: e6t7: 11 = 11 (success; 1 raise)
 ```
 
-**Not yet:** You can't compare damage to toughness and read the number of wounds (yet).
+### Damage vs Toughness (Variable Target Number)
+Same as with Parry, you can add `t` to damage dice.
+Result tells you whether you Shake or Wound.
+
+```
+Huey Bow vs Bandit toughness: !2d6!t6
+> 2d6!t6: 3 + 10 = 13 (shaken, 1 wound)
+```
+
+**Tips:** Since the roll don't know which character is targeted, it doesn't know whether the target is already Shaken, and the new Shaken needs to be turned into a Wound. We leave a bit of work for the GM and players, right?
+
+### Breaking Things ###
+Damage to objects do not explode. Skip the `!`. They still can compare to Hardness.
+```
+!2d6t6
+> 2d6t6: 4 + 2 = 6 (shaken)
+```
+
+Well, you could "shake" a door, but not Shake it. Read that Shake as "you beat the Toughness without a raise", it's usually enough to shatter it.
 
 ### Multiple Modifiers
 You don't want to add up penalties and bonuses by yourself? Let's go lazy, Savage Bot does it for you.
 Melee attack with Called Shot to Head, Dim Light, Trademark Weapon, and Wild attack?
 ```
 !s10-4-2+1+2
-> s10-4-2+1+2: [7; w4] - 4 - 2 + 1 + 2 = 4 (1)
+> s10-4-2+1+2: [9; w3] - 4 - 2 + 1 + 2 = 6 (success)
 ```
 That was close!
 
@@ -344,25 +375,37 @@ Here is Master d12+2, using a d10 for Wild Die.
 ```
 
 **Tips:** You can combine with specific target number.
-This rolls d12+2, with a d10 for Wild Die, against Parry 8.
+This rolls d12+2, with a d10 for Wild Die, against Parry 8, but the modifiers needs to be pushed to the end.
 ```
 !s12w10t8+2
 ```
 
 ### Multi-dice
-Weapons with a Rate of Fire, Frenzy, Work the Room, there are situations where you need to roll multiple Trait dice for a single action (and a single Wild Die if you are a Wild Card). 
+Weapons with a Rate of Fire, Frenzy, Work the Room, there are situations where you need to roll multiple Trait dice for a single action (and a single Wild Die if you are a Wild Card).
 
-As an extra, prefix with the number of dice to roll and a x (for *times*)
+Prefix the roll with the number of *times*.
+Here is a bandit rolling Frenzy with d6 Fighting vs Parry of 5.
 ```
-!2xd6!
+!2e6t5
+> 2e6t5:
+> 1: e6t5: 5 = 5 (success)
+> 2: e6t5: 11 = 11 (success; 1 raise)
 ```
 
-As a wild card, the syntax is simpler, prefix your savage die with the number of dice to roll:
+Same with Wild Cards.
+Here Huey using Work the Crowd to support two allies. Poor work, once failed:
 ```
-!2s6
+!2s10
+> 2s10: [1; 2; w4] = 2, 4 (success)
 ```
 
-**Tips:** This also works with Custom Wild Die and Modifiers, e.g. `!3s12w10+2`. But not (yet) with Target Numbers (Parry): `!3s6t2` (TN 2 is ignored here).
+**Tips:** This also works with Custom Wild Die, Target Numbers and Modifiers.
+```
+!3s12w10t6+2
+3s12w10t6+2: [4; 11; 20; w28] + 2 = 13 (success; 1 raise), 22 (success; 4 raises), 30 (success; 6 raises)
+```
+Sounds like I was pretty lucky here!
+
 
 ### Group Rolls
 Group Rolls are used in Savage Worlds to simulate an average result for a group of extra (e.g. when they all sneak on the party, all attempt to notice something, or evaluate how well they survive their journey through the desert). It is resolved using a single Trait roll plus a standard d6 Wild Die. So simply use the `s` Savage Die!
@@ -370,7 +413,7 @@ Group Rolls are used in Savage Worlds to simulate an average result for a group 
 !s6
 ```
 
-**Tips:** Groups rolls are not used in combat. You'll have to roll each extra action one by one. However, you can roll multiple dice at once like this: `!5d6!` (5 extra rolling a d6 Trait).
+**Tips:** Groups rolls are not used in combat. You'll have to roll each extra action one by one. However, you can use `x` to roll multiple times the same roll, like this: `!5xe6` (5 extra rolling a d6 Trait).
 
 ### Custom Rolls
 For a specific setting or house-rule you need something even more specific? Here are a few tricks that can be useful.
@@ -379,25 +422,43 @@ For a specific setting or house-rule you need something even more specific? Here
 If you need to count number of success and raises in step of 3 or 6 (instead of the standard 4):
 ```
 !s8r6
-> s8r6: [10; w1] = 10 (2; raise step: 6)
+> s8r6: [3; w11] = 11 (success; 1 raise)
 ```
 
 With specific target number:
 ```
 !s12t8r6
-> s12t8r6: [16; w1] = 16 (2; TN: 8; raise step: 6)
+> s12t8r6: [11; w8] = 11 (success)
 ```
 
 When target number and raise steps are the same:
 ```
 !s12tr6
-> s12tr6: [9; w3] = 9 (1; TN: 6; raise step: 6)
+> s12tr6: [10; w4] = 10 (success)
 ```
 
 And with custom Wild Die too:
 ```
 !s12w8t5r3
-> s12w8t5r3: [7; w2] = 7 (1; TN: 5; raise step: 3)
+s12w8t5r3: [19; w3] = 19 (success; 4 raises)
+```
+
+Also works with `e`
+```
+!e6t5r3
+e6t5r3: 8 = 8 (success; 1 raise)
+```
+
+And you could do it for damage too.
+```
+!2d6!t7r3
+> 2d6!t7r3: 8 + 5 = 13 (shaken, 2 wounds)
+```
+
+You can also put those `t` and `r` as prefixes to the roll, if it works best for you:
+```
+!t7r3:2d6+4
+> t7r3:2d6+4: 5 + 6 + 4 = 15 (shaken, 2 wounds)
 ```
 
 **Limit roll results**
@@ -600,7 +661,7 @@ Roll 4 d6 and keep the three best results:
 !4d6k3
 ```
 
-You can pretend to "roll with advantage" any dice. Yeah, this works with any die, not just d20. It will roll one more dice than asked and exclude the lowest from the total. 
+You can pretend to "roll with advantage" any dice. Yeah, this works with any die, not just d20. It will roll one more dice than asked and exclude the lowest from the total.
 ```
 !3d6adv
 > 3d6adv: 4 + 6 + 6 + 6 = 18
@@ -624,7 +685,7 @@ You can repeat any roll any number of times.
 Here, roll 4d6 and keep the 3 highest, repeat 6 times.
 ```
 !6x4d6k3
-> 6x4d6k3: 
+> 6x4d6k3:
 > 1: 4d6k3: 1 + 3 + 3 + 6 = 12
 > 2: 4d6k3: 2 + 2 + 5 + 6 = 13
 > 3: 4d6k3: 1 + 2 + 3 + 5 = 10
