@@ -52,7 +52,6 @@ public class DrawCardResult {
 			return this.getCards().get(this.getCards().size()-1);
 		}
 		return this.getCards().get(0);
-
 	}
 
 	public Card findWorstCard() {
