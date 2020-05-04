@@ -1,8 +1,7 @@
 package org.alessio29.savagebot.commands;
 
+import org.alessio29.savagebot.apiActions.bennies.ClearBenniesAction;
 import org.alessio29.savagebot.apiActions.bennies.GiveBenniesAction;
-import org.alessio29.savagebot.apiActions.bennies.InitBenniesAction;
-import org.alessio29.savagebot.apiActions.bennies.ShowBenniesAction;
 import org.alessio29.savagebot.apiActions.bennies.TakeBenniesAction;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
@@ -11,45 +10,30 @@ import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 public class BennyCommands {
 
     @CommandCallback(
-            name = "hat",
-            description = "Initializes bennies storage",
-            aliases = {},
-            arguments = {"[fill]"}
-    )
-    public static CommandExecutionResult init(IMessageReceived message, String[] args) {
-        if (message.isPrivateMessage()) {
-            // This just threw NPE originally
-            throw new RuntimeException("No bennies for private channels");
-        }
-        return new InitBenniesAction().doAction(message, args);
-    }
-
-    @CommandCallback(
-            name = "pocket",
-            description = "Show character's bennies",
-            aliases = {},
+            name = "takebenny",
+            description = "Use character benny",
+            aliases = {"tb"},
             arguments = {"<character_name>"}
-    )
-    public static CommandExecutionResult show(IMessageReceived message, String[] args) {
-        return new ShowBenniesAction().doAction(message, args);
-    }
-
-    @CommandCallback(
-            name = "use",
-            description = "Give new benny to character",
-            aliases = {},
-            arguments = {"<benny_color>", "<character_name>"}
     )
     public static CommandExecutionResult take(IMessageReceived message, String[] args) {
         return new TakeBenniesAction().doAction(message, args);
     }
 
+    @CommandCallback(
+            name = "clearbennies",
+            description = "clear character(s) benny",
+            aliases = {"cb"},
+            arguments = {"<character1_name>/all [<character2_name>]"}
+    )
+    public static CommandExecutionResult clear(IMessageReceived message, String[] args) {
+        return new ClearBenniesAction().doAction(message, args);
+    }
 
     @CommandCallback(
-            name = "benny",
-            description = "Give new benny to character",
-            aliases = {},
-            arguments = {"<character_name>"}
+            name = "givebenny",
+            description = "Give new benny(ies) to character",
+            aliases = {"gb"},
+            arguments = {"<character_name>", "[<amount>]"}
     )
     public static CommandExecutionResult give(IMessageReceived message, String[] args) {
         return new GiveBenniesAction().doAction(message, args);

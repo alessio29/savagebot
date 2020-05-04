@@ -13,15 +13,14 @@ import java.util.stream.Collectors;
 
 public class Characters {
 
-    private static Logger log = Logger.getLogger(Characters.class);
+    private static final Logger log = Logger.getLogger(Characters.class);
     private static final String REDIS_CHARACTERS_KEY = "characters";
     //                 guildId,    channelId    charName
-    private static Map<String, Map<String, Map<String, Character>>> characters = new HashMap<>();
+    private static final Map<String, Map<String, Map<String, Character>>> characters = new HashMap<>();
 
     public static Map<String, Character> getCharacters(String guild, String channel) {
         characters.computeIfAbsent(guild, k -> new HashMap<>());
-        characters.get(guild).computeIfAbsent(channel, k -> new HashMap<>());
-        return characters.get(guild).get(channel);
+        return characters.get(guild).computeIfAbsent(channel, k -> new HashMap<>());
     }
 
     public static Character getCharacterByName(String guild, String channel, String name) {
@@ -136,9 +135,23 @@ public class Characters {
                 // key is wrong
                 continue;
             }
+            String guildId = keyParts[0];
+            String channelId =keyParts[1];
+
             try {
-                Character character = JsonConverter.getInstance().fromJson(map.get(key), Character.class);
-                getCharacters(keyParts[0], keyParts[1]).put(character.getName(), character);
+                JsonConverter converter = JsonConverter.getInstance();
+                String json2convert = map.get(key);
+                if (json2convert == null) {
+                    log.debug("Nothing to convert - null value with key = " +key );
+                    continue;
+                }
+                Character character = converter.fromJson(json2convert, Character.class);
+                if (character == null) {
+                    log.debug("Cannot deserialize character from value with key = " +key );
+                    continue;
+                }
+                Map<String, Character> chars = getCharacters(guildId, channelId);
+                chars.put(character.getName(), character);
             } catch (Exception e) {
                 log.debug("Error while reading character from Redis storage.", e);
             }

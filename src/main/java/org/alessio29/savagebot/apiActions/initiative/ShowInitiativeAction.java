@@ -22,6 +22,7 @@ public class ShowInitiativeAction implements IBotAction {
     private static final int MIN_CARDS_SIZE = 6;
     private static final int MIN_CHAR_NAME_SIZE = 15;
     private static final int TOKENS_SIZE = 8;
+    private static final int BENNIES_SIZE = 8;
     private static final int MIN_STATES_SIZE = 8;
     private static final int ALL_CARDS_SIZE = 30;
     private static final int EDGES_SIZE = 6;
@@ -71,8 +72,16 @@ public class ShowInitiativeAction implements IBotAction {
                                 ).toString()
                         , TOKENS_SIZE);
 
+                String benniesString = StringUtils.rightPad(
+                        new ReplyBuilder().
+                                addSquareBrackets(
+                                        Utils.notNullValue(c.getBennies()).toString()
+                                ).toString()
+                        , BENNIES_SIZE);
+
                 reply.rightPad(c.getName()+" "+edgesString, charNameSize).
                         rightPad(tokensString, TOKENS_SIZE).
+                        rightPad(benniesString, BENNIES_SIZE).
                         rightPad(c.getStatesString(), statesStize).
                         rightPad(c.getBestCard().toString(), cardsSize).
                         rightPad("[" + allCards + "]", ALL_CARDS_SIZE).
@@ -82,6 +91,7 @@ public class ShowInitiativeAction implements IBotAction {
             header.newLine();
             header.rightPad("NAME [MODS]", charNameSize).
                     rightPad("TOKENS", TOKENS_SIZE).
+                    rightPad("BENNIES", BENNIES_SIZE).
                     rightPad("STATES", statesStize).
                     rightPad("CARD", cardsSize).
                     rightPad("ALL CARDS", ALL_CARDS_SIZE).

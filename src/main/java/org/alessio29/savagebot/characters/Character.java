@@ -1,6 +1,7 @@
 package org.alessio29.savagebot.characters;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.alessio29.savagebot.cards.Card;
 import org.alessio29.savagebot.cards.Deck;
@@ -13,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Character {
     private static final String HESITANT = "h";
 
@@ -23,6 +25,7 @@ public class Character {
     private Boolean outOfFight;
     private List<Card> initCards = new ArrayList<>();
     private Card bestCard;
+    private Integer bennies;
 
 
     public Character() {
@@ -64,6 +67,16 @@ public class Character {
     @JsonProperty
     public void setTokens(Integer tokens) {
         this.tokens = tokens;
+    }
+
+    @JsonProperty
+    public Integer getBennies() {
+        return Utils.notNullValue(bennies);
+    }
+
+    @JsonProperty
+    public void setBennies(int bennies) {
+        this.bennies = bennies;
     }
 
     @JsonProperty
@@ -186,6 +199,16 @@ public class Character {
     }
 
     @JsonIgnore
+    public void useBenny() {
+        bennies = (bennies <= 0) ? 0 : bennies - 1;
+    }
+
+    public void removeAllBennies() {
+        this.bennies = null;
+    }
+
+
+    @JsonIgnore
     public void giveCard(DrawCardResult cards) {
         List<Card> allCards = getInitCards();
         allCards.addAll(cards.getCards());
@@ -223,6 +246,11 @@ public class Character {
 
     public void removeAllTokens() {
         this.tokens = null;
+    }
+
+    public void addBennies(int bennies) {
+        bennies = Math.max(Utils.notNullValue(getBennies()) + Utils.notNullValue(bennies), 0);
+        this.bennies = bennies;
     }
 
     // ==================== PRIVATE  ========================
@@ -267,11 +295,7 @@ public class Character {
             return false;
         }
 
-        if (this.outOfFight != null) {
-            return false;
-        }
-
-        return true;
+        return this.outOfFight == null;
     }
 
     public void dealInitiativeCards(Deck deck) {
@@ -292,6 +316,7 @@ public class Character {
                 ", bestCard=" + bestCard +
                 '}';
     }
+
 
 
 }

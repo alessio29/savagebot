@@ -29,13 +29,13 @@ public class TestCommandsRegistry {
         Assert.assertEquals(
                 "[" +
                         "ADMIN:info, ADMIN:ping, ADMIN:prefix, " +
-                        "BENNIES:benny, BENNIES:hat, BENNIES:pocket, BENNIES:use, " +
+                        "BENNIES:clearbennies, BENNIES:givebenny, BENNIES:takebenny, " +
                         "CARDS:deal, CARDS:put, CARDS:show, CARDS:shuffle, " +
                         "CHARACTERS:list, CHARACTERS:remove, " +
                         "DICE:ept, DICE:r, DICE:rh, DICE:rs, " +
                         "INFO:help, INFO:invite, " +
                         "INITIATIVE:card, INITIATIVE:di, INITIATIVE:drop, INITIATIVE:fight, INITIATIVE:init, INITIATIVE:round, " +
-                        "STATES:state, "+
+                        "STATES:state, " +
                         "TOKENS:clear, TOKENS:give, TOKENS:take" +
                         "]",
                 commands.toString()
@@ -62,10 +62,9 @@ public class TestCommandsRegistry {
                         "!rs [<heading_1>] <expression_1> ... [<heading_N>] <expression_N>\n" +
                         "\n" +
                         "__**BENNIES category**__\n" +
-                        "!benny <character_name>\n" +
-                        "!hat [fill]\n" +
-                        "!pocket <character_name>\n" +
-                        "!use <benny_color> <character_name>\n" +
+                        "!clearbennies <character1_name>/all [<character2_name>]; aliases: !cb\n" +
+                        "!givebenny <character_name> [<amount>]; aliases: !gb\n" +
+                        "!takebenny <character_name>; aliases: !tb\n" +
                         "\n" +
                         "__**INITIATIVE category**__\n" +
                         "!card <character_name>; aliases: !cd\n" +

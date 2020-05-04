@@ -44,7 +44,10 @@ public class TakeTokenAction implements IBotAction {
                 Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
             }
         }
-        String messageStr = "Taken tokens from character(s): " + StringUtils.join(taken, ", ");
+        String messageStr = "";
+        if (!taken.isEmpty()) {
+            messageStr += "Taken tokens from character(s): " + StringUtils.join(taken, ", ");
+        }
         if (!notFound.isEmpty()) {
             messageStr += "Character(s) not found: " + StringUtils.join(notFound, ", ");
         }
