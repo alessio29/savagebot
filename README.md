@@ -160,7 +160,7 @@ When you need to pick again at the initiative tracker, run the `init` command (i
 ```
 
 ## Add new characters
-A new contendent joins the frey? Well, simply deal them a card with `di`.
+A new contendent joins the fray? Well, simply deal them a card with `di`.
 ```
 !di Scrooge
 ```
