@@ -14,6 +14,7 @@ public class ListCharactersAction implements IBotAction {
 
     private static final int NAME_SIZE = 20;
     private static final int TOKEN_SIZE = 10;
+    private static final int BENNIES_SIZE = 10;
     private static final int STATES_SIZE = 35;
 
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
@@ -26,11 +27,13 @@ public class ListCharactersAction implements IBotAction {
         replyBuilder.blockQuote().
                 rightPad("NAME", NAME_SIZE).
                 rightPad("TOKENS", TOKEN_SIZE).
+                rightPad("BENNIES", BENNIES_SIZE).
                 rightPad("STATES", STATES_SIZE).
                 newLine();
         for (Character chr : chars) {
             replyBuilder.rightPad(chr.getName(), NAME_SIZE).
                     rightPad(String.valueOf(Utils.notNullValue(chr.getTokens())), TOKEN_SIZE).
+                    rightPad(String.valueOf(Utils.notNullValue(chr.getBennies())), BENNIES_SIZE).
                     rightPad(Utils.notNullValue(chr.getStatesString()), STATES_SIZE).
                     newLine();
         }
