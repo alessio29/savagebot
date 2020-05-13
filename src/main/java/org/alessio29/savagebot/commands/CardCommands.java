@@ -33,9 +33,9 @@ public class CardCommands {
 
     @CommandCallback(
             name = "deal",
-            description = "Secretly deals several (1 by default) cards to user (to self by default)",
+            description = "Secretly deals several (1 by default) cards to user",
             aliases = {"dl"},
-            arguments = {"[<card_count>]", "[<user>]"}
+            arguments = {"[<card_count>]"}
     )
     public static CommandExecutionResult draw(IMessageReceived message, String[] args) {
         return new DealCardsAction().doAction(message, args);
