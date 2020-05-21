@@ -16,6 +16,11 @@ public class Prefixes {
         return res == null ? DEFAULT_PREFIX : res;
     }
 
+    public static void resetPrefix(String userId) {
+        prefixes.remove(userId);
+        save2Redis();
+    }
+
     public static void setPrefix(String userId, String prefix) {
         prefixes.put(userId, prefix);
         save2Redis();

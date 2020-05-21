@@ -5,31 +5,44 @@ import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.Prefixes;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class PrefixAction implements IBotAction {
 
-    public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
-        CommandExecutionResult result;
-        if (args.length>0) {
-            String newPrefix = args[0].trim();
-            if (newPrefix.length()>1) {
-                result = new CommandExecutionResult("Prefix must be one-character long!", 1);
-            } else {
+    private static final List<String> restrictedPrefixes;
 
-                if (newPrefix.equals("?") || newPrefix.equals("*") || newPrefix.equals("^") || newPrefix.equals("\\") || newPrefix.equals("$")) {
-                    result = new CommandExecutionResult("Prefix must not be dollar sign, question sign, asterisk, backslash or circumflex!", 1);
-                } else {
-                    Prefixes.setPrefix(message.getAuthorId(), newPrefix);
-                    result = new CommandExecutionResult("Prefix is set to "+newPrefix, 2);
-                }
-            }
-        } else {
-            String prfx = Prefixes.getPrefix(message.getAuthorId());
-            if (prfx == null) {
-                result = new CommandExecutionResult("Custom prefix is not set! Default prefix is "+Prefixes.DEFAULT_BOT_PREFIX, 1);
+    static {
+        restrictedPrefixes = Arrays.asList("?", "*", "^", "$", "\\", "+");
+    }
+
+    public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
+
+        if (args.length <= 0) {
+            String prefix = Prefixes.getPrefix(message.getAuthorId());
+            if (prefix == null) {
+                return new CommandExecutionResult("Custom prefix is not set! Default prefix is " + Prefixes.DEFAULT_BOT_PREFIX, 1);
             } else {
-                result = new CommandExecutionResult("Prefix is '"+prfx+"'", 1);
+                return new CommandExecutionResult("Prefix is '" + prefix + "'", 1);
             }
         }
-        return result;
+        String newPrefix = args[0].trim();
+
+        if (newPrefix.equalsIgnoreCase("reset")) {
+            Prefixes.resetPrefix(message.getAuthorId());
+            return new CommandExecutionResult("Prefix is reset to default", 2);
+        }
+        if (newPrefix.length() > 1) {
+            return new CommandExecutionResult("Prefix must be one-character long!", 1);
+        }
+        boolean isRestricted = false;
+        for (String restrictedPrefix : restrictedPrefixes) {
+            isRestricted = isRestricted || newPrefix.equals(restrictedPrefix);
+        }
+        if (isRestricted) {
+            return new CommandExecutionResult("Prefix must not be dollar sign, question sign, asterisk, backslash or circumflex!", 1);
+        }
+        Prefixes.setPrefix(message.getAuthorId(), newPrefix);
+        return new CommandExecutionResult("Prefix is set to " + newPrefix, 2);
     }
 }
