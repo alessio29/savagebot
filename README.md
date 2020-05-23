@@ -179,31 +179,31 @@ Oh, you can also do that when you start a new round, by adding the character nam
 ---
 # Bennies
 ## Grant a Benny
-To give a Benny to a player (or character), use the `!give` command.
+To give a Benny to a player (or character), use the `!gb` (give benny) command.
 ```
-!give Huey
+!gb Huey
 ```
 
 To grant multiple Bennies at once, add the number of Bennies after the character name.
 ```
-!give Huey 3
+!gb Huey 3
 ```
 
 You can give Bennies to multiple persons at once, for example when a Joker is dealt.
 This gives 2 to Huey, one to Louie, and 3 to Dewey.
 ```
-!give Huey 2 Louie Dewey 3
+!gb Huey 2 Louie Dewey 3
 ```
 
 ## Spend a Benny
-When a player wants to spend a Benny, the Game Master `take` it from them (or they take it away from themselves).
+When a player wants to spend a Benny, the Game Master `tb` (take benny)  it from them (or they take it away from themselves).
 ```
-!take Huey
+!tb Huey
 ```
 
 You can take away from multiple players, multiple Bennies in a single line.
 ```
-!take Huey Louie 2 Dewey 2
+!tb Huey Louie 2 Dewey 2
 ```
 
 ## Who has what?
@@ -214,19 +214,19 @@ The `list` command lets you check how many Bennies each character has. (it also 
 
 Here is what the result looks like:
 ```
-> NAME                TOKENS    STATES                             
+> NAME                BENNIES    STATES                             
 > Huey                2                                            
 > Dewey               4                                            
 > Louie               2              
 ```
 
 ## New session
-When you start a new session and want to reset all Bennies to default 3 (or more with Edges), first use the `clear` command to remove all remaining Bennies, and then, `give` each character what they deserve.
+When you start a new session and want to reset all Bennies to default 3 (or more with Edges), first use the `cb` (clear bennies) command to remove all remaining Bennies, and then, `gb` each character what they deserve.
 
 Here, our group with Huey, Louie, and Dewey, and Louie has the Luck Edge:
 ```
-!clear
-!give Huey 3 Louie 4 Dewey 3
+!cb
+!gb Huey 3 Louie 4 Dewey 3
 ```
 
 ## Removing characters
@@ -470,7 +470,7 @@ This used in our house-rule for damage rolls for Savage Worlds.
 
 ## Dramatic Tasks
 When running a Dramatic Tasks, players must collect a given amount of tokens in a set number of rounds.
-To track those tokens, we will use the Benny commands (`give`, `take`, and `list`) and a virtual character, we will call... Miss Task!
+To track those tokens, we will use the Benny commands (`gb`, `tb`, and `list`) and a virtual character, we will call... Miss Task!
 
 ### Start a Dramatic Task
 Well, in case you had a previous task running, to start out fresh, start by removing MsTask from characters.
@@ -484,12 +484,12 @@ Well, in case you had a previous task running, to start out fresh, start by remo
 ### Gain Task Tokens
 When players gain Task Token, deal them to MsTask.
 ```
-!give MsTask 2
+!gb MsTask 2
 ```
 
 Same if they Snake Eye, and lose a Task Token:
 ```
-!take MsTask 1
+!tb MsTask
 ```
 
 ## Mass Battles
@@ -500,15 +500,15 @@ Decide which side has the maximum number of tokens (10), and how many tokens the
 
 ```
 !remove TheHeroes TheVillains
-!give TheHeroes 7 TheVillains 10
+!gb TheHeroes 7 TheVillains 10
 ```
 
 ### Morale and Casualties
-At the end of each round of Mass Battles, `give` or `take` tokens from each sides.
+At the end of each round of Mass Battles, `gb` or `tb` tokens from each sides.
 
 ```
-!take TheVillains 2
-!give TheHeroes 1
+!tb TheVillains 2
+!gb TheHeroes 1
 ```
 
 ## Social Conflicts
@@ -522,9 +522,9 @@ In case you already had a Social Conflict running, remove MsInfluence from the c
 ```
 
 ### Gain Influence
-Simply `give` Bennies to MsInfluence each time your arguments have gained you some influence.
+Simply `gb` Bennies to MsInfluence each time your arguments have gained you some influence.
 ```
-!give MsInfluence 1
+!gb MsInfluence
 ```
 
 At the end of the three rounds, check how many influence MsInfluence has gained:
@@ -534,49 +534,22 @@ At the end of the three rounds, check how many influence MsInfluence has gained:
 
 ## Deadland Bennies
 Deadlands uses a pool of colored Bennies. Each color has its own uses. Characters draw Bennies at random from the pool.
-This will use complete different command than regular Bennies. We assume Bennies are drawn (`benny`) from a `hat` and placed in the character's `pocket` until they `use` them. Do NOT use `clear`, `give`, or `take` for Deadlands bennies.
+To use Deadlands bennies, you have to switch the bennies command mode with `setbennymode`.
 
-**Trivia:** Savage Bot started out aimed for Deadlands players. That's why the `benny` command is for Deadlands Bennies and not for standard Savage Worlds bennies.
-
-Those Deadlands Bennies commands might get a rework to put them more in line with standard Benny features.
-
-### New Deadlands session
-Fill your hat with 20 white Bennies, 10 red Bennies, 5 blue Bennies (and no Golden ones):
 ```
-!hat fill
+!setbennymode deadlands
 ```
 
-### Grant Deadlands Bennies
-Use `benny` to draw a random Benny from the hand and deal it to a single character.
-```
-!benny Huey
-```
+Then, simply give, take and reset as usual.
 
-**Note:** as of now, there is no way to draw multiple Deadlands Bennies at once, and no way to deal to multiple players at once.
-
-### Spend Deadlands Bennies
-The `use` command lets you spend a Benny of a given color from a character.
+However, you can specific the benny color (especially when using/taking bennies). `w` for white, `b` for blue, `r` for red, and `g` for golden.
 ```
-!use white Huey
+!gb Huey 3b Huey 2w Ellie 1r
 ```
 
-### What's in your pocket?
-To check a character's pocket for Deadlands Bennies, use `pocket`.
+When you need to give or take only one, you can simply omit the number:
 ```
-!pocket Huey
-```
-
-**Note:** at the moment, there is no way to check for all characters' pockets at once.
-
-### Reward a Golden Benny
-While the hat seems able to have golden bennies, there is no feature right now to add Golden Bennies to the pot, or give a Golden Benny to a player.
-
-However, if you don't use the standard Bennies commands, you could use them to stand for Golden Bennies.
-
-### What's left in the hat?
-Using `hat` command without the `fill` argument, you simply check how many Bennies of each color are left in the hat.
-```
-!hat
+!tb Huey b
 ```
 
 ---
