@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonConverter {
 
-    public static JsonConverter INSTANCE = new JsonConverter();
+    private static final JsonConverter INSTANCE = new JsonConverter();
 
-    private static ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = new ObjectMapper();
 
 
     private JsonConverter() {

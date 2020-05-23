@@ -1,8 +1,6 @@
 package org.alessio29.savagebot.commands;
 
-import org.alessio29.savagebot.apiActions.bennies.ClearBenniesAction;
-import org.alessio29.savagebot.apiActions.bennies.GiveBenniesAction;
-import org.alessio29.savagebot.apiActions.bennies.TakeBenniesAction;
+import org.alessio29.savagebot.apiActions.bennies.*;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
@@ -17,6 +15,16 @@ public class BennyCommands {
     )
     public static CommandExecutionResult take(IMessageReceived message, String[] args) {
         return new TakeBenniesAction().doAction(message, args);
+    }
+
+    @CommandCallback(
+            name = "setbennymode",
+            description = "Set benny mode",
+            aliases = {"sbm"},
+            arguments = {"normal/deadlands"}
+    )
+    public static CommandExecutionResult setBennyMode(IMessageReceived message, String[] args) {
+        return new SetBennyModeAction().doAction(message, args);
     }
 
     @CommandCallback(
@@ -37,5 +45,25 @@ public class BennyCommands {
     )
     public static CommandExecutionResult give(IMessageReceived message, String[] args) {
         return new GiveBenniesAction().doAction(message, args);
+    }
+
+    @CommandCallback(
+            name = "pullbenny",
+            description = "Pull benny for character from bennies pool",
+            aliases = {"pb"},
+            arguments = {"<character_name>"}
+    )
+    public static CommandExecutionResult pull(IMessageReceived message, String[] args) {
+        return new PullBenniesAction().doAction(message, args);
+    }
+
+    @CommandCallback(
+            name = "initbennies",
+            description = "Create initial bennies pool",
+            aliases = {"ib"},
+            arguments = {}
+    )
+    public static CommandExecutionResult init(IMessageReceived message, String[] args) {
+        return new InitBenniesAction().doAction(message, args);
     }
 }

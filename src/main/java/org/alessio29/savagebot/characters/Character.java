@@ -3,16 +3,15 @@ package org.alessio29.savagebot.characters;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.alessio29.savagebot.bennies.BennyColor;
+import org.alessio29.savagebot.bennies.BennyType;
 import org.alessio29.savagebot.cards.Card;
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.initiative.DrawCardResult;
 import org.alessio29.savagebot.internal.utils.Utils;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Character {
@@ -26,7 +25,10 @@ public class Character {
     private List<Card> initCards = new ArrayList<>();
     private Card bestCard;
     private Integer bennies;
-
+    private Integer blueBennies;
+    private Integer redBennies;
+    private Integer whiteBennies;
+    private Integer goldenBennies;
 
     public Character() {
     }
@@ -61,7 +63,7 @@ public class Character {
 
     @JsonProperty
     public Integer getTokens() {
-        return  Utils.notNullValue(tokens);
+        return Utils.notNullValue(tokens);
     }
 
     @JsonProperty
@@ -81,7 +83,7 @@ public class Character {
 
     @JsonProperty
     public String getName() {
-        return  Utils.notNullValue(this.name);
+        return Utils.notNullValue(this.name);
     }
 
     @JsonProperty
@@ -91,7 +93,7 @@ public class Character {
 
     @JsonProperty
     public Set<State> getStates() {
-        return  Utils.notNullValue(states);
+        return Utils.notNullValue(states);
     }
 
     @JsonProperty
@@ -205,6 +207,10 @@ public class Character {
 
     public void removeAllBennies() {
         this.bennies = null;
+        this.blueBennies = null;
+        this.redBennies = null;
+        this.whiteBennies = null;
+        this.goldenBennies = null;
     }
 
 
@@ -214,12 +220,13 @@ public class Character {
         allCards.addAll(cards.getCards());
         this.initCards = allCards;
         Card bestCard = cards.findBestCard();
-        if (isHesitant() && bestCard.compareTo(getBestCard()) >0 ){
+        if (isHesitant() && bestCard.compareTo(getBestCard()) > 0) {
             this.bestCard = bestCard;
         } else {
             findBestCard();
         }
     }
+
     @JsonIgnore
     public void removeFromFight() {
         setOutOfFight(true);
@@ -318,5 +325,114 @@ public class Character {
     }
 
 
+    public void addColoredBennies(Map.Entry<BennyColor, Integer> parseBennies) {
+        BennyColor type = parseBennies.getKey();
+        Integer count = parseBennies.getValue();
+        this.addBennies(count, type);
+    }
 
+    private void addBennies(Integer count, BennyColor type) {
+
+        switch (type) {
+            case BLUE:
+                this.blueBennies = Utils.notNullValue(this.blueBennies) + count;
+                break;
+            case RED:
+                this.redBennies = Utils.notNullValue(this.redBennies)+ count;
+                break;
+            case WHITE:
+                this.whiteBennies =Utils.notNullValue(whiteBennies)+ count;
+                break;
+            case GOLDEN:
+                this.goldenBennies =Utils.notNullValue(goldenBennies)+ count;
+                break;
+        }
+    }
+
+    public Integer getBlueBennies() {
+        return blueBennies;
+    }
+
+    public Integer getRedBennies() {
+        return redBennies;
+    }
+
+    public Integer getWhiteBennies() {
+        return whiteBennies;
+    }
+
+    public Integer getGoldenBennies() {
+        return goldenBennies;
+    }
+
+    public void setBlueBennies(Integer blueBennies) {
+        this.blueBennies = blueBennies;
+    }
+
+    public void setRedBennies(Integer redBennies) {
+        this.redBennies = redBennies;
+    }
+
+    public void setWhiteBennies(Integer whiteBennies) {
+        this.whiteBennies = whiteBennies;
+    }
+
+    public void setGoldenBennies(Integer goldenBennies) {
+        this.goldenBennies = goldenBennies;
+    }
+
+    public String getBennyValue(BennyType bType) {
+
+        if (bType.equals(BennyType.NORMAL)) {
+            return String.valueOf(Utils.notNullValue(this.getBennies()));
+        }
+        if (bType.equals(BennyType.DEADLANDS)) {
+            List<String> result = new ArrayList<>();
+            if (Utils.notNullValue(this.goldenBennies)>0) {
+                result.add(this.goldenBennies+"G");
+            }
+            if (Utils.notNullValue(this.whiteBennies)>0) {
+                result.add(this.whiteBennies+"W");
+            }
+            if (Utils.notNullValue(this.redBennies)>0) {
+                result.add(this.redBennies+"R");
+            }
+            if (Utils.notNullValue(this.blueBennies)>0) {
+                result.add(this.blueBennies+"B");
+            }
+            return StringUtils.join(result, ",");
+        }
+        return "";
+    }
+
+    public boolean hasBennies(String bennyColor) {
+        switch (bennyColor.trim().toLowerCase()) {
+            case "w" :
+                return Utils.notNullValue(this.whiteBennies)>0;
+            case "b" :
+                return Utils.notNullValue(this.blueBennies)>0;
+            case "r" :
+                return Utils.notNullValue(this.redBennies)>0;
+            case "g" :
+                return Utils.notNullValue(this.goldenBennies)>0;
+        }
+        return false;
+    }
+
+    public void useBenny(String bennyColor) {
+        switch (bennyColor.trim().toLowerCase()) {
+            case "w" :
+                this.whiteBennies = Utils.notNullValue(this.whiteBennies)-1;
+                break;
+            case "b" :
+                this.blueBennies = Utils.notNullValue(this.blueBennies)-1;
+                break;
+            case "r" :
+                this.redBennies = Utils.notNullValue(this.redBennies)-1;
+                break;
+            case "g" :
+                this.goldenBennies = Utils.notNullValue(this.goldenBennies)-1;
+                break;
+        }
+    }
 }
