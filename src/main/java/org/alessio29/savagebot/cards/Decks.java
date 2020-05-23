@@ -58,12 +58,12 @@ public class Decks {
 				if (decks.get(guildID).get(channelID) == null) {
 					continue;
 				}
-				Deck d = decks.get(guildID).get(channelID);
-				if (d == null) {
+				Deck deck = decks.get(guildID).get(channelID);
+				if (deck == null) {
 					continue;
 				}
 				String key = guildID + RedisClient.DELIMITER + channelID;
-				map.put(key, RedisClient.asJson(d));
+				map.put(key, RedisClient.asJson(deck));
 			}
 		}
 		RedisClient.saveMapAtKey(REDIS_DECKS_KEY, map);
