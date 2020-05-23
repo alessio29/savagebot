@@ -37,16 +37,24 @@ public class GiveBenniesAction implements IBotAction {
             if (!it.isEntity(value)) {
                 return new CommandExecutionResult("Provide character name!", args.length+1);
             }
-            if (value.equalsIgnoreCase("all")) {
-                continue;
-            }
+
             Character character = Characters.getByNameOrCreate(message.getGuildId(), message.getChannelId(), value);
-            if (it.nextIsModifier()) {
-                given.add((String)it.process(it.next().trim().toLowerCase(), character));
-                Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
+            if (!channelConfig.normalBennies()) {
+                if (it.nextIsModifier()) {
+                    given.add((String)it.process(it.next().trim().toLowerCase(), character));
+                    Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
+                } else {
+                    return new CommandExecutionResult("Provide benny type to give!", args.length + 1);
+                }
             } else {
-                return new CommandExecutionResult("Provide benny type to give!", args.length + 1);
+                String val = null;
+                if (it.nextIsModifier()) {
+                    val = it.next().trim().toLowerCase();
+                }
+                given.add((String)it.process(val, character));
+                Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
             }
+
         }
         return new CommandExecutionResult("Given bennies to character(s): "+ StringUtils.join(given, ", "), args.length + 1);
     }
