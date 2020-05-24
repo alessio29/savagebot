@@ -1,6 +1,7 @@
 package org.alessio29.savagebot.bennies;
 
 import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.Map;
 
 public enum BennyColor {
@@ -10,6 +11,18 @@ public enum BennyColor {
     BLUE,
     GOLDEN;
 
+
+    private static final Map<String, BennyColor> mapping = new HashMap<>();
+    static {
+        mapping.put("w", BennyColor.WHITE);
+        mapping.put("b", BennyColor.BLUE );
+        mapping.put("r", BennyColor.RED);
+        mapping.put("g", BennyColor.GOLDEN);
+    }
+
+    public static BennyColor get(String color) {
+        return mapping.get(color);
+    }
 
     public static Map.Entry<BennyColor, Integer> parseBennies(String modifier) {
 

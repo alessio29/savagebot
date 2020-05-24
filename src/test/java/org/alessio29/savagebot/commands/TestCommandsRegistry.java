@@ -29,14 +29,15 @@ public class TestCommandsRegistry {
         Assert.assertEquals(
                 "[" +
                         "ADMIN:info, ADMIN:ping, ADMIN:prefix, " +
-                        "BENNIES:clearbennies, BENNIES:givebenny, BENNIES:initbennies, BENNIES:pullbenny, BENNIES:setbennymode, BENNIES:takebenny, " +
+                        "BENNIES:addbenny, BENNIES:clearbennies, BENNIES:givebenny, BENNIES:initbennies, BENNIES:pullbenny, BENNIES:setbennymode, BENNIES:takebenny, " +
                         "CARDS:deal, CARDS:put, CARDS:show, CARDS:shuffle, " +
                         "CHARACTERS:list, CHARACTERS:remove, " +
                         "DICE:ept, DICE:r, DICE:rh, DICE:rs, " +
                         "INFO:help, INFO:invite, " +
                         "INITIATIVE:card, INITIATIVE:di, INITIATIVE:drop, INITIATIVE:fight, INITIATIVE:init, INITIATIVE:round, " +
                         "STATES:state, " +
-                        "TOKENS:clear, TOKENS:give, TOKENS:take]",
+                        "TOKENS:clear, TOKENS:give, TOKENS:take" +
+                        "]",
                 commands.toString()
         );
     }
@@ -61,12 +62,13 @@ public class TestCommandsRegistry {
                         "!rs [<heading_1>] <expression_1> ... [<heading_N>] <expression_N>\n" +
                         "\n" +
                         "__**BENNIES category**__\n" +
+                        "!addbenny w/b/r/g; aliases: !ab\n" +
                         "!clearbennies <character1_name>/all [<character2_name>]; aliases: !cb\n" +
                         "!givebenny <character_name> [<amount>]; aliases: !gb\n" +
                         "!initbennies; aliases: !ib\n" +
-                        "!pullbenny <character_name>; aliases: !pb\n" +
+                        "!pullbenny <character_name> [<amount>]; aliases: !pb\n" +
                         "!setbennymode normal/deadlands; aliases: !sbm\n" +
-                        "!takebenny <character_name>; aliases: !tb\n" +
+                        "!takebenny <character_name> [<bennyColor>]; aliases: !tb\n" +
                         "\n"+
                         "__**INITIATIVE category**__\n" +
                         "!card <character_name>; aliases: !cd\n" +

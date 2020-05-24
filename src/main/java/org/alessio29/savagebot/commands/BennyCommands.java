@@ -11,7 +11,7 @@ public class BennyCommands {
             name = "takebenny",
             description = "Use character benny",
             aliases = {"tb"},
-            arguments = {"<character_name>"}
+            arguments = {"<character_name> [<bennyColor>]"}
     )
     public static CommandExecutionResult take(IMessageReceived message, String[] args) {
         return new TakeBenniesAction().doAction(message, args);
@@ -25,6 +25,16 @@ public class BennyCommands {
     )
     public static CommandExecutionResult setBennyMode(IMessageReceived message, String[] args) {
         return new SetBennyModeAction().doAction(message, args);
+    }
+
+    @CommandCallback(
+            name = "addbenny",
+            description = "Add benny to pool",
+            aliases = {"ab"},
+            arguments = {"w/b/r/g"}
+    )
+    public static CommandExecutionResult addBenny(IMessageReceived message, String[] args) {
+        return new AddBennyAction().doAction(message, args);
     }
 
     @CommandCallback(
@@ -51,7 +61,7 @@ public class BennyCommands {
             name = "pullbenny",
             description = "Pull benny for character from bennies pool",
             aliases = {"pb"},
-            arguments = {"<character_name>"}
+            arguments = {"<character_name> [<amount>]"}
     )
     public static CommandExecutionResult pull(IMessageReceived message, String[] args) {
         return new PullBenniesAction().doAction(message, args);

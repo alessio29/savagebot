@@ -63,4 +63,10 @@ public class ChannelConfig {
         }
         Collections.shuffle(benniesPool);
     }
+
+    @JsonIgnore
+    public void addBennyToPool(BennyColor color) {
+        benniesPool.add(color);
+    }
+
 }
