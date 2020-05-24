@@ -189,6 +189,11 @@ To grant multiple Bennies at once, add the number of Bennies after the character
 !gb Huey 3
 ```
 
+To give Deadlands Reloaded colored bennies you must specify color:
+```
+!gb Dewey w
+```
+
 You can give Bennies to multiple persons at once, for example when a Joker is dealt.
 This gives 2 to Huey, one to Louie, and 3 to Dewey.
 ```
@@ -204,6 +209,27 @@ When a player wants to spend a Benny, the Game Master `tb` (take benny)  it from
 You can take away from multiple players, multiple Bennies in a single line.
 ```
 !tb Huey Louie 2 Dewey 2
+```
+
+## Benny pool in Deadlands Reloaded
+When you use Deadlands Reloaded bennies there must pool of bennies (20 white, 10 red and 5 blue).
+
+### Prepare benny pool
+To prepare pool use `initbennies` command (`ib` for short).
+```
+!ib
+```
+
+### Add benny to pool
+To add benny to pool (for example - golden benny for defeating dangerous beast) - use `addbenny` command (`ab` for short). Benny color set as parameter (w, b, r or g).
+```
+!ab w
+```
+
+### Take bennies from pool
+To take bennies from pool use `pullbenny` (or `pb`) command. You must specify character name and amount of bennies (to pull only one benny - you may omit amount).
+```
+!pb GM 3
 ```
 
 ## Who has what?
@@ -544,7 +570,7 @@ Then, simply give, take and reset as usual.
 
 However, you can specific the benny color (especially when using/taking bennies). `w` for white, `b` for blue, `r` for red, and `g` for golden.
 ```
-!gb Huey 3b Huey 2w Ellie 1r
+!gb Huey 3b Louie 2w Ellie 1r
 ```
 
 When you need to give or take only one, you can simply omit the number:
