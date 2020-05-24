@@ -534,12 +534,12 @@ At the end of the three rounds, check how many influence MsInfluence has gained:
 
 ## Deadland Bennies
 Deadlands uses a pool of colored Bennies. Each color has its own uses. Characters draw Bennies at random from the pool.
-To use Deadlands bennies, you have to switch the bennies command mode with `setbennymode`.
+To use Deadlands bennies, you have to switch the bennies command mode with `setbennymode` or `sbm`.
+
 
 ```
-!setbennymode deadlands
+!sbm deadlands
 ```
-
 Then, simply give, take and reset as usual.
 
 However, you can specific the benny color (especially when using/taking bennies). `w` for white, `b` for blue, `r` for red, and `g` for golden.
@@ -550,6 +550,11 @@ However, you can specific the benny color (especially when using/taking bennies)
 When you need to give or take only one, you can simply omit the number:
 ```
 !tb Huey b
+```
+
+Note that you can revert to non-deadlands bennies with:
+```
+!sbm normal
 ```
 
 ---
