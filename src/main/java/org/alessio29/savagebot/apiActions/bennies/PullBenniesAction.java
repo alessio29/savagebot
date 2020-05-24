@@ -20,10 +20,7 @@ public class PullBenniesAction implements IBotAction {
             return new CommandExecutionResult("Command syntax: pb <CharName> [bennyCount]", args.length + 1);
         }
         String charName = args[0];
-        Character character = Characters.getCharacterByName(message.getGuildId(), message.getChannelId(), charName);
-        if (character == null) {
-            return new CommandExecutionResult(charName + " not found.", args.length + 1);
-        }
+        Character character = Characters.getByNameOrCreate(message.getGuildId(), message.getChannelId(), charName);
         int count = 1;
         if (args.length > 1) {
             count = Integer.parseInt(args[1]);
@@ -35,9 +32,9 @@ public class PullBenniesAction implements IBotAction {
             character.addColoredBennies(pair);
         }
         String info = StringUtils.join(
-                map.entrySet().stream().map(p -> p.getKey() + " " + p.getValue()).
+                map.entrySet().stream().map(p ->  p.getValue().toString().toLowerCase() + " " + p.getKey()).
                         collect(Collectors.toList()), ",");
 
-        return new CommandExecutionResult(charName + "pulled " + info, args.length + 1);
+        return new CommandExecutionResult(charName + " pulled " + info + " benny(ies)", args.length + 1);
     }
 }
