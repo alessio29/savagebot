@@ -4,6 +4,7 @@ import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.Prefixes;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +14,7 @@ public class PrefixAction implements IBotAction {
     private static final List<String> restrictedPrefixes;
 
     static {
-        restrictedPrefixes = Arrays.asList("?", "*", "^", "$", "\\", "+");
+        restrictedPrefixes = Arrays.asList("?", "*", "^", "$", "\\", "+", "(", ")");
     }
 
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
@@ -40,7 +41,7 @@ public class PrefixAction implements IBotAction {
             isRestricted = isRestricted || newPrefix.equals(restrictedPrefix);
         }
         if (isRestricted) {
-            return new CommandExecutionResult("Prefix must not be dollar sign, question sign, asterisk, backslash or circumflex!", 1);
+            return new CommandExecutionResult("Prefix cannot be set to following symbols: "+ StringUtils.join(restrictedPrefixes, ", "), 1);
         }
         Prefixes.setPrefix(message.getAuthorId(), newPrefix);
         return new CommandExecutionResult("Prefix is set to " + newPrefix, 2);
