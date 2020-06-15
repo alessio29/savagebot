@@ -6,7 +6,7 @@ Supports various dice-rolling, Savage Worlds initiative cards, bennies, tokens, 
 In case you like this bot so much - you can support development via Patreon: https://www.patreon.com/savagebot
 
 ## Installation
-Click on this link and [authorize bot on your server](https://discordapp.com/oauth2/authorize?&client_id=448952545784758303&scope=bot&permissions=0)
+Click on this link and [authorize bot on your server](https://discord.com/api/oauth2/authorize?client_id=716426194509234178&permissions=0&scope=bot)
 
 To know whether the bot is alive:
 ```
