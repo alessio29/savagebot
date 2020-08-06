@@ -1,7 +1,7 @@
 package org.alessio29.savagebot.variables;
 
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.User;
 
 import java.util.HashMap;
 import java.util.Map;

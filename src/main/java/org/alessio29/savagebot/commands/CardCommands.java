@@ -1,6 +1,6 @@
 package org.alessio29.savagebot.commands;
 
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.apiActions.cards.DealCardsAction;
 import org.alessio29.savagebot.apiActions.cards.PutCardsAction;
 import org.alessio29.savagebot.apiActions.cards.ShowCardsAction;

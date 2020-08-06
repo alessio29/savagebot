@@ -1,9 +1,9 @@
 package org.alessio29.savagebot.internal;
 
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.alessio29.savagebot.internal.builders.DiscordResponseBuilder;
 import org.alessio29.savagebot.internal.commands.CommandInterpreter;
 

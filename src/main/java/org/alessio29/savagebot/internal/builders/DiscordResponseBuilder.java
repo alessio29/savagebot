@@ -1,7 +1,7 @@
 package org.alessio29.savagebot.internal.builders;
 
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
 
 public class DiscordResponseBuilder extends SplittingResponseBuilder {
     public final static int MESSAGE_LENGTH_LIMIT = 2000;
