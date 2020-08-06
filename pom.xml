@@ -17,7 +17,7 @@
 	<properties>
 		<basedir>D:/GIT_REPO/savagebot/</basedir>
 		<javalib>d:/Archive/java_lib/</javalib>
-
+		<JDA.version>3.8.3_462</JDA.version>
         <antlr.version>4.8</antlr.version>
 	</properties>
 
@@ -65,11 +65,19 @@
 		</plugins>
 	</build>
 	<dependencies>
-		<dependency>
+		<!-- dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
 			<version>3.8.1_448</version>
+		</dependency -->
+
+		<dependency>
+			<groupId>net.dv8tion</groupId>
+			<artifactId>JDA</artifactId>
+			<version>4.1.1_156</version>
 		</dependency>
+
+
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>

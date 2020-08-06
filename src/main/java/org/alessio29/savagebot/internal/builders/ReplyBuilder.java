@@ -1,6 +1,6 @@
 package org.alessio29.savagebot.internal.builders;
 
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.api.entities.User;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;

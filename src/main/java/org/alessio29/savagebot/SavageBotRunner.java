@@ -1,7 +1,9 @@
 package org.alessio29.savagebot;
 
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.api.AccountType;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
 import org.alessio29.savagebot.cards.Decks;
 import org.alessio29.savagebot.cards.Hands;
 import org.alessio29.savagebot.characters.Characters;
@@ -46,8 +48,7 @@ public class SavageBotRunner {
 			}
 		}
 
-	    JDA jda = new JDABuilder(token).build();
-        jda.addEventListener(new ParseInputListener());
+		JDABuilder.createDefault(token).addEventListeners(new ParseInputListener()).build();
 	}
 
 	public static boolean passwdOk(String str) {
