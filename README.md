@@ -6,7 +6,7 @@ Supports various dice-rolling, Savage Worlds initiative cards, bennies, tokens, 
 In case you like this bot so much - you can support development via Patreon: https://www.patreon.com/savagebot
 
 ## Installation
-Click on this link and [authorize bot on your server](https://discordapp.com/oauth2/authorize?&client_id=448952545784758303&scope=bot&permissions=0)
+Click on this link and [authorize bot on your server](https://discord.com/api/oauth2/authorize?client_id=448952545784758303&permissions=0&scope=bot)
 
 To know whether the bot is alive:
 ```
@@ -48,28 +48,29 @@ or for short:
 !d12
 ```
 
-**Tips:** 
+**Tips:**
 * In fact, you can just roll any die `!d20`, `!d100`, even very weird ones `!d73` if you feel like it!
 * You can also directly include modifiers (after or before the roll), for example, here is a human running roll `!6+d6`.
 
-## Trait rolls
+## Extra Trait rolls
 Traits roll do Ace (if the die hits its max, you roll another one and add it, until no more die aces).
-Follow the die with an `!`.
+For extra, use the `e` command.
 
 For example, lets roll a Fighting d6 for a bandit extra:
 ```
-!d6!
+!e6
 ```
-The result will directly display the sum of the dices. You won't see each individual ones. 
+The result will directly display the sum of the dices. You won't see each individual ones.
 Here, on a d4, we got 4, then 2:
 ```
-> d4!: 6 = 6
+> e6: 8 = 8 (success; 1 raise)
 ```
+You also see whether you got a success or a raise.
 
-**Tips** You can directly add modifiers to the roll, like a -2 (dim light) penalty to Shooting `!d6!-2`, or Combat Reflexes adding +2 to recover from Shaken `!d8!+2`. Untrained would be `!d4!-2`.
+**Tips** You can directly add modifiers to the roll, like a -2 (dim light) penalty to Shooting `!e8-2`, or Combat Reflexes adding +2 to recover from Shaken `!e6+2`. Untrained would be `!e4-2`.
 
 ## Wildcard Trait rolls
-Wild Cards do roll a "Wild Die" (usually a d6) next to their Trait and keep the highest of both. Use `s4`
+Wild Cards do roll a "Wild Die" (usually a d6) next to their Trait and keep the highest of both. Use `s` command.
 
 For example, let's have Player Character Huey rolls for Persuasion:
 ```
@@ -78,13 +79,13 @@ For example, let's have Player Character Huey rolls for Persuasion:
 
 This will not only display the highest total to keep, but also individual rolls, so you know whether you got Snake Eyes, or if you hit Innocent Bystanders.
 ```
-> s8: [5, w4] = 5(1)
+> s8: [4; w5] = 5 (success)
 ```
+'w' for the Wild Die roll.
 
-The number in parenthesis in the end, if the number of successes against a Target Number of 4 (which is usually the case for Trait rolls). 0 would be a failure, 1 a simple success, 2 a success and a raise, and so on.
-Here we have a nice roll with 2 raises:
+Success and Raise are also shown.
 ```
-> s8: [13; w2] = 13 (3)
+> s4: [21; w5] = 21 (success; 4 raises)
 ```
 
 Oops, Snake Eyes!
@@ -95,17 +96,25 @@ Oops, Snake Eyes!
 **Tips:** Modifiers are also supported. Let's take a Wild Card untrained Trait roll: `!s4-2`.
 
 ## Damage rolls
-Pretty simple, back to standard `d` syntax. Damage dice ace.
+Damage is a sum of all dices, so we won't be using `e` or `s` but `d` as most dice roller program uses.
+However, since we want the dice to Ace, we add a `!` near the end.
+
+Exploding d6:
+```
+!d6!
+```
 
 You can roll multiple dice and sum them up.
-Here is a knife (Str+d4) wielding bandit with d6 strength:
+Here is d6 Strength bandit wielding a knife (Str+d4):
 ```
 !d6!+d4!
 ```
-Here is a bow (2d6) wielding assassin:
+Here is an assassin wielding a bow (2d6):
 ```
 !2d6!
 ```
+
+**Tips:** Modifiers workds too. Cast *smite* on that bow: `!2d6!+2`.
 
 ---
 # Savage Worlds Initiative
@@ -151,7 +160,7 @@ When you need to pick again at the initiative tracker, run the `init` command (i
 ```
 
 ## Add new characters
-A new contendent joins the frey? Well, simply deal them a card with `di`.
+A new contendent joins the fray? Well, simply deal them a card with `di`.
 ```
 !di Scrooge
 ```
@@ -170,31 +179,57 @@ Oh, you can also do that when you start a new round, by adding the character nam
 ---
 # Bennies
 ## Grant a Benny
-To give a Benny to a player (or character), use the `!give` command.
+To give a Benny to a player (or character), use the `!gb` (give benny) command.
 ```
-!give Huey
+!gb Huey
 ```
 
 To grant multiple Bennies at once, add the number of Bennies after the character name.
 ```
-!give Huey 3
+!gb Huey 3
+```
+
+To give Deadlands Reloaded colored bennies you must specify color:
+```
+!gb Dewey w
 ```
 
 You can give Bennies to multiple persons at once, for example when a Joker is dealt.
 This gives 2 to Huey, one to Louie, and 3 to Dewey.
 ```
-!give Huey 2 Louie Dewey 3
+!gb Huey 2 Louie Dewey 3
 ```
 
 ## Spend a Benny
-When a player wants to spend a Benny, the Game Master `take` it from them (or they take it away from themselves).
+When a player wants to spend a Benny, the Game Master `tb` (take benny)  it from them (or they take it away from themselves).
 ```
-!take Huey
+!tb Huey
 ```
 
 You can take away from multiple players, multiple Bennies in a single line.
 ```
-!take Huey Louie 2 Dewey 2
+!tb Huey Louie 2 Dewey 2
+```
+
+## Benny pool in Deadlands Reloaded
+When you use Deadlands Reloaded bennies there must pool of bennies (20 white, 10 red and 5 blue).
+
+### Prepare benny pool
+To prepare pool use `initbennies` command (`ib` for short).
+```
+!ib
+```
+
+### Add benny to pool
+To add benny to pool (for example - golden benny for defeating dangerous beast) - use `addbenny` command (`ab` for short). Benny color set as parameter (w, b, r or g).
+```
+!ab w
+```
+
+### Take bennies from pool
+To take bennies from pool use `pullbenny` (or `pb`) command. You must specify character name and amount of bennies (to pull only one benny - you may omit amount).
+```
+!pb GM 3
 ```
 
 ## Who has what?
@@ -205,19 +240,19 @@ The `list` command lets you check how many Bennies each character has. (it also 
 
 Here is what the result looks like:
 ```
-> NAME                TOKENS    STATES                             
+> NAME                BENNIES    STATES                             
 > Huey                2                                            
 > Dewey               4                                            
 > Louie               2              
 ```
 
 ## New session
-When you start a new session and want to reset all Bennies to default 3 (or more with Edges), first use the `clear` command to remove all remaining Bennies, and then, `give` each character what they deserve.
+When you start a new session and want to reset all Bennies to default 3 (or more with Edges), first use the `cb` (clear bennies) command to remove all remaining Bennies, and then, `gb` each character what they deserve.
 
 Here, our group with Huey, Louie, and Dewey, and Louie has the Luck Edge:
 ```
-!clear
-!give Huey 3 Louie 4 Dewey 3
+!cb
+!gb Huey 3 Louie 4 Dewey 3
 ```
 
 ## Removing characters
@@ -226,7 +261,7 @@ Once you gave a Benny to a character, it remains in the `list`, even if they rea
 !remove Assassin
 ```
 
-**Tips:** You can remove multiple characters at one: 
+**Tips:** You can remove multiple characters at one:
 ```
 !remove LordDenak GoblinWarlord EliteSentinel
 ```
@@ -313,8 +348,8 @@ The assassin shoots at Huey !s8 Damage: !2d6!+1 Bonus damage (if raise): !d6!
 > Bonus damage (if raise): d6!: 1 = 1
 ```
 
-### Variable Target Number (Fighting vs Parry)
-For rolls where the Target Number is not the standard 4, you can add a `t` parameter after the `s` savage roll.
+### Fighting vs Parry (Variable Target Number)
+For rolls where the Target Number is not the standard 4, you can add a `t` parameter after the `s` or `e` savage rolls.
 For example, Huery attacks in melee a Parry 6 bandit:
 ```
 Huey Fighting vs Bandit: !s10t6
@@ -322,17 +357,39 @@ Huey Fighting vs Bandit: !s10t6
 
 The number of success and raises is calculated accordingly:
 ```
-> Huey Fighting vs Bandit: s10t6: [9; w3] = 9 (1; TN: 6)
+> Huey Fighting vs Bandit: s10t6: [7; w3] = 7 (success)
+```
+```
+Bandit Fighting vs Huey: !e6t7
+> Bandit Fighting vs Huey: e6t7: 11 = 11 (success; 1 raise)
 ```
 
-**Not yet:** You can't compare damage to toughness and read the number of wounds (yet).
+### Damage vs Toughness (Variable Target Number)
+Same as with Parry, you can add `t` to damage dice.
+Result tells you whether you Shake or Wound.
+
+```
+Huey Bow vs Bandit toughness: !2d6!t6
+> 2d6!t6: 3 + 10 = 13 (shaken, 1 wound)
+```
+
+**Tips:** Since the roll don't know which character is targeted, it doesn't know whether the target is already Shaken, and the new Shaken needs to be turned into a Wound. We leave a bit of work for the GM and players, right?
+
+### Breaking Things ###
+Damage to objects do not explode. Skip the `!`. They still can compare to Hardness.
+```
+!2d6t6
+> 2d6t6: 4 + 2 = 6 (shaken)
+```
+
+Well, you could "shake" a door, but not Shake it. Read that Shake as "you beat the Toughness without a raise", it's usually enough to shatter it.
 
 ### Multiple Modifiers
 You don't want to add up penalties and bonuses by yourself? Let's go lazy, Savage Bot does it for you.
 Melee attack with Called Shot to Head, Dim Light, Trademark Weapon, and Wild attack?
 ```
 !s10-4-2+1+2
-> s10-4-2+1+2: [7; w4] - 4 - 2 + 1 + 2 = 4 (1)
+> s10-4-2+1+2: [9; w3] - 4 - 2 + 1 + 2 = 6 (success)
 ```
 That was close!
 
@@ -344,25 +401,37 @@ Here is Master d12+2, using a d10 for Wild Die.
 ```
 
 **Tips:** You can combine with specific target number.
-This rolls d12+2, with a d10 for Wild Die, against Parry 8.
+This rolls d12+2, with a d10 for Wild Die, against Parry 8, but the modifiers needs to be pushed to the end.
 ```
 !s12w10t8+2
 ```
 
 ### Multi-dice
-Weapons with a Rate of Fire, Frenzy, Work the Room, there are situations where you need to roll multiple Trait dice for a single action (and a single Wild Die if you are a Wild Card). 
+Weapons with a Rate of Fire, Frenzy, Work the Room, there are situations where you need to roll multiple Trait dice for a single action (and a single Wild Die if you are a Wild Card).
 
-As an extra, prefix with the number of dice to roll and a x (for *times*)
+Prefix the roll with the number of *times*.
+Here is a bandit rolling Frenzy with d6 Fighting vs Parry of 5.
 ```
-!2xd6!
+!2e6t5
+> 2e6t5:
+> 1: e6t5: 5 = 5 (success)
+> 2: e6t5: 11 = 11 (success; 1 raise)
 ```
 
-As a wild card, the syntax is simpler, prefix your savage die with the number of dice to roll:
+Same with Wild Cards.
+Here Huey using Work the Crowd to support two allies. Poor work, once failed:
 ```
-!2s6
+!2s10
+> 2s10: [1; 2; w4] = 2, 4 (success)
 ```
 
-**Tips:** This also works with Custom Wild Die and Modifiers, e.g. `!3s12w10+2`. But not (yet) with Target Numbers (Parry): `!3s6t2` (TN 2 is ignored here).
+**Tips:** This also works with Custom Wild Die, Target Numbers and Modifiers.
+```
+!3s12w10t6+2
+3s12w10t6+2: [4; 11; 20; w28] + 2 = 13 (success; 1 raise), 22 (success; 4 raises), 30 (success; 6 raises)
+```
+Sounds like I was pretty lucky here!
+
 
 ### Group Rolls
 Group Rolls are used in Savage Worlds to simulate an average result for a group of extra (e.g. when they all sneak on the party, all attempt to notice something, or evaluate how well they survive their journey through the desert). It is resolved using a single Trait roll plus a standard d6 Wild Die. So simply use the `s` Savage Die!
@@ -370,7 +439,7 @@ Group Rolls are used in Savage Worlds to simulate an average result for a group 
 !s6
 ```
 
-**Tips:** Groups rolls are not used in combat. You'll have to roll each extra action one by one. However, you can roll multiple dice at once like this: `!5d6!` (5 extra rolling a d6 Trait).
+**Tips:** Groups rolls are not used in combat. You'll have to roll each extra action one by one. However, you can use `x` to roll multiple times the same roll, like this: `!5xe6` (5 extra rolling a d6 Trait).
 
 ### Custom Rolls
 For a specific setting or house-rule you need something even more specific? Here are a few tricks that can be useful.
@@ -379,25 +448,43 @@ For a specific setting or house-rule you need something even more specific? Here
 If you need to count number of success and raises in step of 3 or 6 (instead of the standard 4):
 ```
 !s8r6
-> s8r6: [10; w1] = 10 (2; raise step: 6)
+> s8r6: [3; w11] = 11 (success; 1 raise)
 ```
 
 With specific target number:
 ```
 !s12t8r6
-> s12t8r6: [16; w1] = 16 (2; TN: 8; raise step: 6)
+> s12t8r6: [11; w8] = 11 (success)
 ```
 
 When target number and raise steps are the same:
 ```
 !s12tr6
-> s12tr6: [9; w3] = 9 (1; TN: 6; raise step: 6)
+> s12tr6: [10; w4] = 10 (success)
 ```
 
 And with custom Wild Die too:
 ```
 !s12w8t5r3
-> s12w8t5r3: [7; w2] = 7 (1; TN: 5; raise step: 3)
+s12w8t5r3: [19; w3] = 19 (success; 4 raises)
+```
+
+Also works with `e`
+```
+!e6t5r3
+e6t5r3: 8 = 8 (success; 1 raise)
+```
+
+And you could do it for damage too.
+```
+!2d6!t7r3
+> 2d6!t7r3: 8 + 5 = 13 (shaken, 2 wounds)
+```
+
+You can also put those `t` and `r` as prefixes to the roll, if it works best for you:
+```
+!t7r3:2d6+4
+> t7r3:2d6+4: 5 + 6 + 4 = 15 (shaken, 2 wounds)
 ```
 
 **Limit roll results**
@@ -409,7 +496,7 @@ This used in our house-rule for damage rolls for Savage Worlds.
 
 ## Dramatic Tasks
 When running a Dramatic Tasks, players must collect a given amount of tokens in a set number of rounds.
-To track those tokens, we will use the Benny commands (`give`, `take`, and `list`) and a virtual character, we will call... Miss Task!
+To track those tokens, we will use the Benny commands (`gb`, `tb`, and `list`) and a virtual character, we will call... Miss Task!
 
 ### Start a Dramatic Task
 Well, in case you had a previous task running, to start out fresh, start by removing MsTask from characters.
@@ -423,12 +510,12 @@ Well, in case you had a previous task running, to start out fresh, start by remo
 ### Gain Task Tokens
 When players gain Task Token, deal them to MsTask.
 ```
-!give MsTask 2
+!gb MsTask 2
 ```
 
 Same if they Snake Eye, and lose a Task Token:
 ```
-!take MsTask 1
+!tb MsTask
 ```
 
 ## Mass Battles
@@ -439,15 +526,15 @@ Decide which side has the maximum number of tokens (10), and how many tokens the
 
 ```
 !remove TheHeroes TheVillains
-!give TheHeroes 7 TheVillains 10
+!gb TheHeroes 7 TheVillains 10
 ```
 
 ### Morale and Casualties
-At the end of each round of Mass Battles, `give` or `take` tokens from each sides.
+At the end of each round of Mass Battles, `gb` or `tb` tokens from each sides.
 
 ```
-!take TheVillains 2
-!give TheHeroes 1
+!tb TheVillains 2
+!gb TheHeroes 1
 ```
 
 ## Social Conflicts
@@ -461,9 +548,9 @@ In case you already had a Social Conflict running, remove MsInfluence from the c
 ```
 
 ### Gain Influence
-Simply `give` Bennies to MsInfluence each time your arguments have gained you some influence.
+Simply `gb` Bennies to MsInfluence each time your arguments have gained you some influence.
 ```
-!give MsInfluence 1
+!gb MsInfluence
 ```
 
 At the end of the three rounds, check how many influence MsInfluence has gained:
@@ -473,49 +560,27 @@ At the end of the three rounds, check how many influence MsInfluence has gained:
 
 ## Deadland Bennies
 Deadlands uses a pool of colored Bennies. Each color has its own uses. Characters draw Bennies at random from the pool.
-This will use complete different command than regular Bennies. We assume Bennies are drawn (`benny`) from a `hat` and placed in the character's `pocket` until they `use` them. Do NOT use `clear`, `give`, or `take` for Deadlands bennies.
+To use Deadlands bennies, you have to switch the bennies command mode with `setbennymode` or `sbm`.
 
-**Trivia:** Savage Bot started out aimed for Deadlands players. That's why the `benny` command is for Deadlands Bennies and not for standard Savage Worlds bennies.
 
-Those Deadlands Bennies commands might get a rework to put them more in line with standard Benny features.
-
-### New Deadlands session
-Fill your hat with 20 white Bennies, 10 red Bennies, 5 blue Bennies (and no Golden ones):
 ```
-!hat fill
+!sbm deadlands
 ```
+Then, simply give, take and reset as usual.
 
-### Grant Deadlands Bennies
-Use `benny` to draw a random Benny from the hand and deal it to a single character.
+However, you can specific the benny color (especially when using/taking bennies). `w` for white, `b` for blue, `r` for red, and `g` for golden.
 ```
-!benny Huey
+!gb Huey 3b Louie 2w Ellie 1r
 ```
 
-**Note:** as of now, there is no way to draw multiple Deadlands Bennies at once, and no way to deal to multiple players at once.
-
-### Spend Deadlands Bennies
-The `use` command lets you spend a Benny of a given color from a character.
+When you need to give or take only one, you can simply omit the number:
 ```
-!use white Huey
+!tb Huey b
 ```
 
-### What's in your pocket?
-To check a character's pocket for Deadlands Bennies, use `pocket`.
+Note that you can revert to non-deadlands bennies with:
 ```
-!pocket Huey
-```
-
-**Note:** at the moment, there is no way to check for all characters' pockets at once.
-
-### Reward a Golden Benny
-While the hat seems able to have golden bennies, there is no feature right now to add Golden Bennies to the pot, or give a Golden Benny to a player.
-
-However, if you don't use the standard Bennies commands, you could use them to stand for Golden Bennies.
-
-### What's left in the hat?
-Using `hat` command without the `fill` argument, you simply check how many Bennies of each color are left in the hat.
-```
-!hat
+!sbm normal
 ```
 
 ---
@@ -600,7 +665,7 @@ Roll 4 d6 and keep the three best results:
 !4d6k3
 ```
 
-You can pretend to "roll with advantage" any dice. Yeah, this works with any die, not just d20. It will roll one more dice than asked and exclude the lowest from the total. 
+You can pretend to "roll with advantage" any dice. Yeah, this works with any die, not just d20. It will roll one more dice than asked and exclude the lowest from the total.
 ```
 !3d6adv
 > 3d6adv: 4 + 6 + 6 + 6 = 18
@@ -624,7 +689,7 @@ You can repeat any roll any number of times.
 Here, roll 4d6 and keep the 3 highest, repeat 6 times.
 ```
 !6x4d6k3
-> 6x4d6k3: 
+> 6x4d6k3:
 > 1: 4d6k3: 1 + 3 + 3 + 6 = 12
 > 2: 4d6k3: 2 + 2 + 5 + 6 = 13
 > 3: 4d6k3: 1 + 2 + 3 + 5 = 10
