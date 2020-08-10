@@ -1,6 +1,5 @@
 package org.alessio29.savagebot.internal;
 
-import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class DiscordMessageReceived implements IMessageReceived<MessageReceivedEvent> {
@@ -20,11 +19,6 @@ public class DiscordMessageReceived implements IMessageReceived<MessageReceivedE
         this.authorId = event.getAuthor().getId();
         this.authorMention = event.getAuthor().getAsMention();
         this.rawMessage = event.getMessage().getContentRaw();
-    }
-
-    @Override
-    public boolean isPrivateMessage() {
-        return event.getChannelType() == ChannelType.PRIVATE;
     }
 
     @Override

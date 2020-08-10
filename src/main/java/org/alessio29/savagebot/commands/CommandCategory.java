@@ -11,9 +11,8 @@ public enum CommandCategory implements Comparable<CommandCategory>{
 	ADMIN,
 	TOKENS,
 	STATES,
+	MUSIC,
 	OTHER;
-
-
 
     public static CommandCategory valueOfOrNull(String string) {
 		try {

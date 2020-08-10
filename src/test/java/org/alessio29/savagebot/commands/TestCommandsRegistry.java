@@ -27,17 +27,17 @@ public class TestCommandsRegistry {
                 .sorted()
                 .collect(Collectors.toList());
         Assert.assertEquals(
-                "[" +
-                        "ADMIN:info, ADMIN:ping, ADMIN:prefix, " +
-                        "BENNIES:addbenny, BENNIES:clearbennies, BENNIES:givebenny, BENNIES:initbennies, BENNIES:pullbenny, BENNIES:setbennymode, BENNIES:takebenny, " +
+                "[ADMIN:info, ADMIN:ping, ADMIN:prefix, " +
+                        "BENNIES:addbenny, BENNIES:clearbennies, BENNIES:givebenny, " +
+                        "BENNIES:initbennies, BENNIES:pullbenny, BENNIES:setbennymode, BENNIES:takebenny, " +
                         "CARDS:deal, CARDS:put, CARDS:show, CARDS:shuffle, " +
                         "CHARACTERS:list, CHARACTERS:remove, " +
                         "DICE:ept, DICE:r, DICE:rh, DICE:rs, " +
                         "INFO:help, INFO:invite, " +
                         "INITIATIVE:card, INITIATIVE:di, INITIATIVE:drop, INITIATIVE:fight, INITIATIVE:init, INITIATIVE:round, " +
+                        "MUSIC:join, MUSIC:leave, MUSIC:nowplaying, MUSIC:play, MUSIC:queue, MUSIC:skip, MUSIC:stop, " +
                         "STATES:state, " +
-                        "TOKENS:clear, TOKENS:give, TOKENS:take" +
-                        "]",
+                        "TOKENS:clear, TOKENS:give, TOKENS:take]",
                 commands.toString()
         );
     }
