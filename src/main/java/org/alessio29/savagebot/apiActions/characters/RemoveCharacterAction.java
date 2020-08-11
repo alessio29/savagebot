@@ -1,19 +1,15 @@
 package org.alessio29.savagebot.apiActions.characters;
 
-import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
-import org.alessio29.savagebot.internal.iterators.RemoveCharacterParamsIterator;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-public class RemoveCharacterAction implements IBotAction {
+public class RemoveCharacterAction {
 
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
 
@@ -23,7 +19,7 @@ public class RemoveCharacterAction implements IBotAction {
 
         if (args[0].equalsIgnoreCase("all")) {
             Characters.removeAllCharacters(message.getGuildId(), message.getChannelId());
-            return new CommandExecutionResult("All characters removed.", args.length+1);
+            return new CommandExecutionResult("All characters removed.", args.length + 1);
         }
         List<String> charsNotFound = new ArrayList<>();
         List<String> charsToRemove = new ArrayList<>();
@@ -47,6 +43,6 @@ public class RemoveCharacterAction implements IBotAction {
         if (!charsToRemove.isEmpty()) {
             response = response + "Character(s) removed: " + StringUtils.join(charsToRemove, ", ");
         }
-        return new CommandExecutionResult(response, args.length+1);
+        return new CommandExecutionResult(response, args.length + 1);
     }
 }

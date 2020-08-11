@@ -35,11 +35,6 @@ public class TestUtils {
         }
 
         @Override
-        public boolean isPrivateMessage() {
-            return isPrivate;
-        }
-
-        @Override
         public String getGuildId() {
             return guildId;
         }

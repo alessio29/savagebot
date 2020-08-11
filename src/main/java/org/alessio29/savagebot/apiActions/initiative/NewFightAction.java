@@ -1,13 +1,12 @@
 package org.alessio29.savagebot.apiActions.initiative;
 
-import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.cards.Decks;
 import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.initiative.Rounds;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
-public class NewFightAction implements IBotAction {
+public class NewFightAction {
 
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
 

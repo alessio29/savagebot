@@ -1,6 +1,5 @@
 package org.alessio29.savagebot.apiActions.bennies;
 
-import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.bennies.BennyColor;
 import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
@@ -13,8 +12,8 @@ import org.apache.commons.lang.StringUtils;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class PullBenniesAction implements IBotAction {
-    @Override
+public class PullBenniesAction {
+
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
         if (args.length < 1) {
             return new CommandExecutionResult("Command syntax: pb <CharName> [bennyCount]", args.length + 1);

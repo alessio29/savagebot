@@ -1,6 +1,5 @@
 package org.alessio29.savagebot.apiActions.initiative;
 
-import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.cards.Decks;
 import org.alessio29.savagebot.characters.Character;
@@ -12,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.regex.Pattern;
 
-public class DealInitiativeCardsAction implements IBotAction {
+public class DealInitiativeCardsAction {
 
     private static final String QUICK_MAKER = "q";
     private static final CharSequence HESITANT_MARKER = "h";
@@ -41,7 +40,7 @@ public class DealInitiativeCardsAction implements IBotAction {
         while (it.hasNext()) {
             String value = it.next();
             if (!it.isEntity(value)) {
-                return new CommandExecutionResult("Provide at least one character name!", args.length+1);
+                return new CommandExecutionResult("Provide at least one character name!", args.length + 1);
             }
             String modifier = null;
             if (it.nextIsModifier()) {
@@ -51,7 +50,7 @@ public class DealInitiativeCardsAction implements IBotAction {
                 }
                 CommandExecutionResult res = getCheckModsValidity(modifier, args.length + 1);
                 if (res != null) {
-                    return  res;
+                    return res;
                 }
             }
             Character character = Characters.getByNameOrCreate(message.getGuildId(), message.getChannelId(), value);

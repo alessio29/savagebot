@@ -27,17 +27,17 @@ public class TestCommandsRegistry {
                 .sorted()
                 .collect(Collectors.toList());
         Assert.assertEquals(
-                "[" +
-                        "ADMIN:info, ADMIN:ping, ADMIN:prefix, " +
-                        "BENNIES:addbenny, BENNIES:clearbennies, BENNIES:givebenny, BENNIES:initbennies, BENNIES:pullbenny, BENNIES:setbennymode, BENNIES:takebenny, " +
+                "[ADMIN:info, ADMIN:ping, ADMIN:prefix, " +
+                        "BENNIES:addbenny, BENNIES:clearbennies, BENNIES:givebenny, " +
+                        "BENNIES:initbennies, BENNIES:pullbenny, BENNIES:setbennymode, BENNIES:takebenny, " +
                         "CARDS:deal, CARDS:put, CARDS:show, CARDS:shuffle, " +
                         "CHARACTERS:list, CHARACTERS:remove, " +
                         "DICE:ept, DICE:r, DICE:rh, DICE:rs, " +
                         "INFO:help, INFO:invite, " +
                         "INITIATIVE:card, INITIATIVE:di, INITIATIVE:drop, INITIATIVE:fight, INITIATIVE:init, INITIATIVE:round, " +
+                        "MUSIC:join, MUSIC:leave, MUSIC:nowplaying, MUSIC:play, MUSIC:queue, MUSIC:skip, MUSIC:stop, " +
                         "STATES:state, " +
-                        "TOKENS:clear, TOKENS:give, TOKENS:take" +
-                        "]",
+                        "TOKENS:clear, TOKENS:give, TOKENS:take]",
                 commands.toString()
         );
     }
@@ -83,7 +83,7 @@ public class TestCommandsRegistry {
                         "!invite\n" +
                         "\n" +
                         "__**ADMIN category**__\n" +
-                        "!info password\n" +
+                        "!info\n" +
                         "!ping\n" +
                         "!prefix [<character>]\n" +
                         "\n" +
@@ -94,6 +94,15 @@ public class TestCommandsRegistry {
                         "\n" +
                         "__**STATES category**__\n" +
                         "!state <character_name> [clear] [+/-]<state1> [<state2>] [...]; aliases: !st\n" +
+                        "\n" +
+                        "__**MUSIC category**__\n" +
+                        "!join; aliases: !jn\n" +
+                        "!leave; aliases: !lv\n" +
+                        "!nowplaying; aliases: !np\n" +
+                        "!play music_URL; aliases: !pl\n" +
+                        "!queue; aliases: !que\n" +
+                        "!skip\n" +
+                        "!stop; aliases: !\n" +
                         "\n" +
                         "For more details, use `!help <command>` or see https://github.com/alessio29/savagebot/blob/master/README.md",
                 HelpAction.getBriefHelpForAllCommands()

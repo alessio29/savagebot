@@ -1,6 +1,5 @@
 package org.alessio29.savagebot.apiActions.admin;
 
-import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.commands.CommandCategory;
 import org.alessio29.savagebot.commands.ICommand;
 import org.alessio29.savagebot.internal.IMessageReceived;
@@ -11,7 +10,7 @@ import org.alessio29.savagebot.internal.commands.CommandRegistry;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class HelpAction implements IBotAction {
+public class HelpAction {
 
     private static final String README_LINK =
             "https://github.com/alessio29/savagebot/blob/master/README.md";

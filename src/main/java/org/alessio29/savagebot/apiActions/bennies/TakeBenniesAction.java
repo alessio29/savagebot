@@ -1,6 +1,5 @@
 package org.alessio29.savagebot.apiActions.bennies;
 
-import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.bennies.BennyColor;
 import org.alessio29.savagebot.bennies.BennyType;
 import org.alessio29.savagebot.characters.Character;
@@ -9,12 +8,7 @@ import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import org.alessio29.savagebot.internal.utils.ChannelConfigs;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class TakeBenniesAction implements IBotAction {
-
-
+public class TakeBenniesAction {
 
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
 
@@ -34,7 +28,7 @@ public class TakeBenniesAction implements IBotAction {
             }
             character.useBenny(bennyColor);
             BennyColor bc = BennyColor.get(bennyColor);
-            return new CommandExecutionResult("Character " + charName + " used "+bc.toString().toLowerCase()+" benny.", args.length + 1);
+            return new CommandExecutionResult("Character " + charName + " used " + bc.toString().toLowerCase() + " benny.", args.length + 1);
         } else {
             if (args.length < 1) {
                 return new CommandExecutionResult("Command syntax: tb <CharName>", args.length + 1);
