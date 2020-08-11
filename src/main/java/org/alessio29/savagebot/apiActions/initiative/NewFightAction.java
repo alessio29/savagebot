@@ -9,10 +9,9 @@ import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 public class NewFightAction {
 
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
-        Decks.getDeck(message.getGuildId(), message.getChannelId()).shuffle();
-        Characters.resetCharactersInitiative(message.getGuildId(), message.getChannelId());
 
+        Characters.resetCharactersInitiative(message.getGuildId(), message.getChannelId());
         Rounds.resetRounds(message.getGuildId(), message.getChannelId());
-        return new CommandExecutionResult("Deck is shuffled, initiative tracker reset, starting new fight.\n  ========== Round 1 ========== ", 1);
+        return new CommandExecutionResult("Initiative tracker reset, starting new fight.\n  ========== Round 1 ========== ", 1);
     }
 }
