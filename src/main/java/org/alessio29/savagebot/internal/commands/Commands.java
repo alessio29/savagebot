@@ -33,7 +33,5 @@ public class Commands {
 
 		// characters commands
 		registry.registerCommandsFromStaticMethods(CharacterCommands.class);
-
-
 	}
 }

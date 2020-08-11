@@ -15,7 +15,11 @@ public class DiscordMessageReceived implements IMessageReceived<MessageReceivedE
 
     public DiscordMessageReceived(MessageReceivedEvent event) {
         this.event = event;
-        this.guildId = event.getGuild().getId();
+        if (event.getMessage().getChannelType() != ChannelType.TEXT ) {
+            this.guildId = null;
+        } else {
+            this.guildId = event.getGuild().getId();
+        }
         this.channelId = event.getChannel().getId();
         this.authorId = event.getAuthor().getId();
         this.authorMention = event.getAuthor().getAsMention();
