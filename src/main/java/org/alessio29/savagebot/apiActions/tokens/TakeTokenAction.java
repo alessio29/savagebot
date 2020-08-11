@@ -1,6 +1,5 @@
 package org.alessio29.savagebot.apiActions.tokens;
 
-import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.internal.IMessageReceived;
@@ -11,7 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TakeTokenAction implements IBotAction {
+public class TakeTokenAction {
 
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
 

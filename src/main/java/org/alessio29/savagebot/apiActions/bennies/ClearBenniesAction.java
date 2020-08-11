@@ -1,19 +1,17 @@
 package org.alessio29.savagebot.apiActions.bennies;
 
-import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import org.alessio29.savagebot.internal.iterators.ClearBenniesParamsIterator;
-import org.alessio29.savagebot.internal.iterators.ClearTokensParamsIterator;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ClearBenniesAction implements IBotAction {
+public class ClearBenniesAction {
 
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
         if (args.length < 1) {

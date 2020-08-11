@@ -1,19 +1,17 @@
 package org.alessio29.savagebot.apiActions.characters;
 
-import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.bennies.BennyType;
 import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
-import org.alessio29.savagebot.internal.utils.ChannelConfig;
 import org.alessio29.savagebot.internal.utils.ChannelConfigs;
 import org.alessio29.savagebot.internal.utils.Utils;
 
 import java.util.Collection;
 
-public class ListCharactersAction implements IBotAction {
+public class ListCharactersAction {
 
     private static final int NAME_SIZE = 20;
     private static final int TOKEN_SIZE = 10;

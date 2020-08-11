@@ -1,6 +1,5 @@
 package org.alessio29.savagebot.apiActions.states;
 
-import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.internal.IMessageReceived;
@@ -11,9 +10,8 @@ import org.apache.commons.lang.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ManageStatesAction implements IBotAction {
+public class ManageStatesAction {
 
-    @Override
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
 
         if (args.length < 1) {

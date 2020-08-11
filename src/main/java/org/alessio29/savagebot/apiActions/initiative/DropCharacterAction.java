@@ -1,6 +1,5 @@
 package org.alessio29.savagebot.apiActions.initiative;
 
-import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.internal.IMessageReceived;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class DropCharacterAction implements IBotAction {
+public class DropCharacterAction {
 
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
 
@@ -22,15 +21,15 @@ public class DropCharacterAction implements IBotAction {
 
         if (args[0].equalsIgnoreCase("all")) {
             Set<Character> allChars = Characters.getFightingCharacters(message.getGuildId(), message.getChannelId());
-            for (Character ch : allChars ) {
+            for (Character ch : allChars) {
                 ch.removeFromFight();
             }
-            return new CommandExecutionResult("All characters dropped from fight.", args.length+1);
+            return new CommandExecutionResult("All characters dropped from fight.", args.length + 1);
         }
 
         List<String> removed = new ArrayList<>();
-        List<String> notFound =  new ArrayList<>();
-        List<String> alreadyOut =  new ArrayList<>();
+        List<String> notFound = new ArrayList<>();
+        List<String> alreadyOut = new ArrayList<>();
 
         DropCharacterParamsIterator it = new DropCharacterParamsIterator(args);
         while (it.hasNext()) {
@@ -57,14 +56,14 @@ public class DropCharacterAction implements IBotAction {
 
         String response = "";
         if (!notFound.isEmpty()) {
-            response = "Character(s) " + StringUtils.join(notFound, ", ")+ " not found.\n";
+            response = "Character(s) " + StringUtils.join(notFound, ", ") + " not found.\n";
         }
         if (!alreadyOut.isEmpty()) {
-            response = response + "Character(s) " +StringUtils.join(alreadyOut, ", ")+ " already out of fight.\n";
+            response = response + "Character(s) " + StringUtils.join(alreadyOut, ", ") + " already out of fight.\n";
         }
         if (!removed.isEmpty()) {
-            response = response + "Character(s) " +StringUtils.join(removed, ", ")+ " removed from fight.\n";
+            response = response + "Character(s) " + StringUtils.join(removed, ", ") + " removed from fight.\n";
         }
-        return new CommandExecutionResult(response, args.length+1);
+        return new CommandExecutionResult(response, args.length + 1);
     }
 }

@@ -1,6 +1,5 @@
 package org.alessio29.savagebot.apiActions.tokens;
 
-import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.internal.IMessageReceived;
@@ -8,9 +7,11 @@ import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import org.alessio29.savagebot.internal.iterators.ClearTokensParamsIterator;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-public class ClearTokensAction implements IBotAction {
+public class ClearTokensAction {
 
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
         if (args.length < 1) {

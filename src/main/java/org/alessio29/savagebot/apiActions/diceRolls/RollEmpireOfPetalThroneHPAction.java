@@ -1,6 +1,5 @@
 package org.alessio29.savagebot.apiActions.diceRolls;
 
-import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
@@ -16,8 +15,8 @@ import org.alessio29.savagebot.r2.tree.Statement;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class RollEmpireOfPetalThroneHPAction implements IBotAction {
-    @Override
+public class RollEmpireOfPetalThroneHPAction {
+
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
         if (args.length < 1) {
             return new CommandExecutionResult("Expected arguments: <level> <hit_die_expression>", args.length + 1);

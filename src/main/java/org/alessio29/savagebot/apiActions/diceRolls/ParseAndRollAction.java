@@ -1,6 +1,5 @@
 package org.alessio29.savagebot.apiActions.diceRolls;
 
-import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import org.alessio29.savagebot.r2.eval.CommandContext;
@@ -12,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ParseAndRollAction implements IBotAction {
+public class ParseAndRollAction {
     @Nullable
     public static List<Statement> tryParseStatements(String command) {
         Parser parser = new Parser();

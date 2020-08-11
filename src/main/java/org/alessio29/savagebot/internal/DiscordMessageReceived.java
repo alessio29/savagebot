@@ -1,5 +1,6 @@
 package org.alessio29.savagebot.internal;
 
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class DiscordMessageReceived implements IMessageReceived<MessageReceivedEvent> {
@@ -14,7 +15,11 @@ public class DiscordMessageReceived implements IMessageReceived<MessageReceivedE
 
     public DiscordMessageReceived(MessageReceivedEvent event) {
         this.event = event;
-        this.guildId = event.getGuild().getId();
+        if (event.getMessage().getChannelType() != ChannelType.PRIVATE) {
+            this.guildId = event.getGuild().getId();
+        } else {
+            guildId = null;
+        }
         this.channelId = event.getChannel().getId();
         this.authorId = event.getAuthor().getId();
         this.authorMention = event.getAuthor().getAsMention();
@@ -35,15 +40,6 @@ public class DiscordMessageReceived implements IMessageReceived<MessageReceivedE
     public String getAuthorId() {
         return this.authorId;
     }
-
-//    @Override
-//    public List<String> getMentions() {
-//        return event.getMessage().getMentionedUsers().
-//                stream().
-//                filter(user -> !user.isBot()).
-//                map(user -> user.getId()).
-//                collect(Collectors.toList());
-//    }
 
     @Override
     public String getAuthorMention() {
