@@ -41,7 +41,7 @@ public class MusicCommands {
     @CommandCallback(
             name = "stop",
             description = "Orders bot to stop playing",
-            aliases = {""},
+            aliases = {},
             arguments = {}
     )
     public static CommandExecutionResult stop(IMessageReceived message, String[] args) {
