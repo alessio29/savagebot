@@ -69,7 +69,7 @@ public class TestCommandsRegistry {
                         "!pullbenny <character_name> [<amount>]; aliases: !pb\n" +
                         "!setbennymode normal/deadlands; aliases: !sbm\n" +
                         "!takebenny <character_name> [<bennyColor>]; aliases: !tb\n" +
-                        "\n"+
+                        "\n" +
                         "__**INITIATIVE category**__\n" +
                         "!card <character_name>; aliases: !cd\n" +
                         "!di <character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]\n" +
@@ -102,7 +102,7 @@ public class TestCommandsRegistry {
                         "!play music_URL; aliases: !pl\n" +
                         "!queue; aliases: !que\n" +
                         "!skip\n" +
-                        "!stop; aliases: !\n" +
+                        "!stop\n" +
                         "\n" +
                         "For more details, use `!help <command>` or see https://github.com/alessio29/savagebot/blob/master/README.md",
                 HelpAction.getBriefHelpForAllCommands()
