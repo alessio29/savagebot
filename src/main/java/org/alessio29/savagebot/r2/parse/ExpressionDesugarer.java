@@ -237,7 +237,11 @@ class ExpressionDesugarer extends Desugarer<Expression> {
     public Expression visitSavageWorldsRollExpr(R2Parser.SavageWorldsRollExprContext ctx) {
         R2Parser.SavageWorldsRollContext swrc = ctx.savageWorldsRoll();
 
-        TargetNumberAndRaiseStep tnr = desugarTargetNumberAndRaiseStep(swrc.targetNumberAndRaiseStep());
+        TargetNumberAndRaiseStep tnr =
+                desugarTargetNumberAndRaiseStep(
+                        swrc.targetNumberAndRaiseStep(),
+                        TargetNumberMode.SAVAGE_WORLDS_SUCCESSES_AND_RAISES
+                );
 
         return new SavageWorldsRollExpression(
                 getOriginalText(ctx),
@@ -253,7 +257,11 @@ class ExpressionDesugarer extends Desugarer<Expression> {
     @Override
     public Expression visitSavageWorldsExtrasRollExpr(R2Parser.SavageWorldsExtrasRollExprContext ctx) {
         R2Parser.SavageWorldsExtrasRollContext swerc = ctx.savageWorldsExtrasRoll();
-        TargetNumberAndRaiseStep tnr = desugarTargetNumberAndRaiseStep(swerc.targetNumberAndRaiseStep());
+        TargetNumberAndRaiseStep tnr =
+                desugarTargetNumberAndRaiseStep(
+                        swerc.targetNumberAndRaiseStep(),
+                        TargetNumberMode.SAVAGE_WORLDS_SUCCESSES_AND_RAISES
+                );
         return new SavageWorldsExtrasRollExpression(
                 getOriginalText(ctx),
                 visitOrNull(swerc.t1),
@@ -267,13 +275,23 @@ class ExpressionDesugarer extends Desugarer<Expression> {
 
     @Override
     public Expression visitTargetNumberAndRaiseStepExpr(R2Parser.TargetNumberAndRaiseStepExprContext ctx) {
-        TargetNumberAndRaiseStep tnr = desugarTargetNumberAndRaiseStep(ctx.targetNumberAndRaiseStep());
+        Expression arg = visit(ctx.e1);
+
+        TargetNumberAndRaiseStep tnr =
+                desugarTargetNumberAndRaiseStep(
+                        ctx.targetNumberAndRaiseStep(),
+                        arg instanceof SavageWorldsRollExpression || arg instanceof SavageWorldsExtrasRollExpression
+                                ? TargetNumberMode.SAVAGE_WORLDS_SUCCESSES_AND_RAISES
+                                : TargetNumberMode.SAVAGE_WORLDS_DAMAGE
+                );
+
         return new TargetNumberAndRaiseStepExpression(
                 getOriginalText(ctx),
+                tnr.getMode(),
                 tnr.getTargetNumber(),
                 tnr.getRaiseStep(),
                 tnr.getTargetNumberAndRaiseStep(),
-                visit(ctx.e1)
+                arg
         );
     }
 
@@ -282,13 +300,23 @@ class ExpressionDesugarer extends Desugarer<Expression> {
     }
 
     public TargetNumberAndRaiseStep desugarTargetNumberAndRaiseStep(
-            R2Parser.TargetNumberAndRaiseStepContext tnrc
+            R2Parser.TargetNumberAndRaiseStepContext tnrc,
+            TargetNumberMode defaultMode
     ) {
         Expression tExpr;
         Expression rExpr;
         Expression trExpr;
+        TargetNumberMode mode = defaultMode;
         if (tnrc == null) {
             tExpr = rExpr = trExpr = null;
+        } else if (tnrc.tn != null) {
+            tExpr = visitOrNull(tnrc.tn);
+            rExpr = trExpr = null;
+            if (tnrc.getText().endsWith("-")) {
+                mode = TargetNumberMode.GENERIC_TN_ROLL_UNDER;
+            } else {
+                mode = TargetNumberMode.GENERIC_TN_ROLL_ABOVE;
+            }
         } else if (tnrc.tnr != null) {
             trExpr = visitOrNull(tnrc.tnr);
             tExpr = rExpr = null;
@@ -298,6 +326,6 @@ class ExpressionDesugarer extends Desugarer<Expression> {
             trExpr = null;
         }
 
-        return new TargetNumberAndRaiseStep(tExpr, rExpr, trExpr);
+        return new TargetNumberAndRaiseStep(mode, tExpr, rExpr, trExpr);
     }
 }

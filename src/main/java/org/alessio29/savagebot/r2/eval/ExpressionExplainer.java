@@ -20,10 +20,10 @@ class ExpressionExplainer implements Expression.Visitor<String> {
             return explanation;
         }
 
-        if (expressionContext.isSavageWorldsMarginOfSuccessRequired() || isSavageWorldsCheck(expression)) {
+        if (expressionContext.isMarginOfSuccessRequired() || isSavageWorldsCheck(expression)) {
             return expression.getText() + ": " + explanation + " = " +
                     values.stream()
-                            .map(i -> ReplyBuilder.bold(i.toString()) + getSuccessesIfAny(i))
+                            .map(i -> ReplyBuilder.bold(i.toString()) + explainMarginOfSuccess(i))
                             .collect(Collectors.joining(", "));
         }
 
@@ -40,42 +40,59 @@ class ExpressionExplainer implements Expression.Visitor<String> {
         return expression.getText() + ": " + explanation + " = " + results;
     }
 
-    private String getSuccessesIfAny(int intValue) {
-        int targetNumber = expressionContext.getSavageWorldsTargetNumber();
+    private String explainMarginOfSuccess(int intValue) {
+        int targetNumber = expressionContext.getTargetNumber();
         int raiseStep = expressionContext.getSavageWorldsRaiseStep();
         if (raiseStep <= 0) {
             throw new EvaluationErrorException("Raise step should be above 0: " + raiseStep);
         }
 
         int marginOfSuccess = intValue - targetNumber;
-        if (marginOfSuccess < 0) {
-            return "";
-        }
 
-        if (expressionContext.isTreatMarginOfSuccessAsSuccessesAndRaises()) {
-            StringBuilder sb = new StringBuilder().append(" (success");
-            int raiseCount = marginOfSuccess / raiseStep;
-            if (raiseCount > 0) {
-                sb.append("; ").append(ReplyBuilder.bold(raiseCount));
-                if (raiseCount == 1) {
-                    sb.append(" raise");
-                } else {
-                    sb.append(" raises");
+        TargetNumberMode mode = expressionContext.getTargetNumberMode();
+        switch (mode) {
+            case SAVAGE_WORLDS_SUCCESSES_AND_RAISES: {
+                if (marginOfSuccess < 0) {
+                    return "";
                 }
-            }
-            return sb.append(")").toString();
-        } else {
-            int numberOfWounds = marginOfSuccess / raiseStep;
-            StringBuilder sb = new StringBuilder().append(" (shaken");
-            if (numberOfWounds > 0) {
-                sb.append(", ").append(ReplyBuilder.bold(numberOfWounds));
-                if (numberOfWounds > 1) {
-                    sb.append(" wounds");
-                } else {
-                    sb.append(" wound");
+                StringBuilder sb = new StringBuilder().append(" (success");
+                int raiseCount = marginOfSuccess / raiseStep;
+                if (raiseCount > 0) {
+                    sb.append("; ").append(ReplyBuilder.bold(raiseCount));
+                    if (raiseCount == 1) {
+                        sb.append(" raise");
+                    } else {
+                        sb.append(" raises");
+                    }
                 }
+                return sb.append(")").toString();
             }
-            return sb.append(")").toString();
+            case SAVAGE_WORLDS_DAMAGE: {
+                if (marginOfSuccess < 0) {
+                    return "";
+                }
+                int numberOfWounds = marginOfSuccess / raiseStep;
+                StringBuilder sb = new StringBuilder().append(" (shaken");
+                if (numberOfWounds > 0) {
+                    sb.append(", ").append(ReplyBuilder.bold(numberOfWounds));
+                    if (numberOfWounds > 1) {
+                        sb.append(" wounds");
+                    } else {
+                        sb.append(" wound");
+                    }
+                }
+                return sb.append(")").toString();
+            }
+            case GENERIC_TN_ROLL_UNDER:
+                marginOfSuccess = -marginOfSuccess;
+                // fall-though
+            case GENERIC_TN_ROLL_ABOVE:
+                if (marginOfSuccess < 0) {
+                    return " (failure, MoF: " + (-marginOfSuccess) + ")";
+                }
+                return " (success, MoS: " + marginOfSuccess + ")";
+            default:
+                throw new AssertionError("Unexpected TN mode: " + mode);
         }
     }
 

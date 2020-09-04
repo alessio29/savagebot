@@ -39,6 +39,11 @@ public class SavageWorldsRollExpression extends Expression implements WithTarget
     }
 
     @Override
+    public TargetNumberMode getTargetNumberMode() {
+        return TargetNumberMode.SAVAGE_WORLDS_SUCCESSES_AND_RAISES;
+    }
+
+    @Override
     public Expression getTargetNumberArg() {
         return targetNumberArg;
     }

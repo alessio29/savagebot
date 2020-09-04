@@ -4,4 +4,5 @@ public interface WithTargetNumberAndRaiseStep {
     Expression getTargetNumberArg();
     Expression getRaiseStepArg();
     Expression getTargetNumberAndRaiseStepArg();
+    TargetNumberMode getTargetNumberMode();
 }

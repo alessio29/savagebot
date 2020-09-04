@@ -135,6 +135,11 @@ public class GenericRollExpression extends Expression implements WithTargetNumbe
         this.suffixArg2 = null;
     }
 
+    @Override
+    public TargetNumberMode getTargetNumberMode() {
+        return TargetNumberMode.SAVAGE_WORLDS_DAMAGE;
+    }
+
     public Expression getDiceCountArg() {
         return diceCountArg;
     }

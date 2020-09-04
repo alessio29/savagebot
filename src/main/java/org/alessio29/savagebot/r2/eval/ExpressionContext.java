@@ -1,6 +1,7 @@
 package org.alessio29.savagebot.r2.eval;
 
 import org.alessio29.savagebot.r2.tree.Expression;
+import org.alessio29.savagebot.r2.tree.TargetNumberMode;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,10 +11,10 @@ class ExpressionContext {
     private final CommandContext commandContext;
     private final Map<Expression, String> explanations = new HashMap<>();
 
-    private boolean savageWorldsMarginOfSuccessRequired = false;
-    private boolean treatMarginOfSuccessAsSuccessesAndRaises = false;
-    private int savageWorldsTargetNumber = 4;
+    private boolean marginOfSuccessRequired = false;
+    private int targetNumber = 4;
     private int savageWorldsRaiseStep = 4;
+    private TargetNumberMode targetNumberMode = TargetNumberMode.SAVAGE_WORLDS_DAMAGE;
 
     public ExpressionContext(Expression topExpression, CommandContext commandContext) {
         this.topExpression = topExpression;
@@ -36,20 +37,24 @@ class ExpressionContext {
         return commandContext;
     }
 
-    public void setSavageWorldsMarginOfSuccessRequired(boolean savageWorldsMarginOfSuccessRequired) {
-        this.savageWorldsMarginOfSuccessRequired = savageWorldsMarginOfSuccessRequired;
+    public void setMarginOfSuccessRequired(boolean marginOfSuccessRequired) {
+        this.marginOfSuccessRequired = marginOfSuccessRequired;
     }
 
-    public void setTreatMarginOfSuccessAsSuccessesAndRaises(boolean treatMarginOfSuccessAsSuccessesAndRaises) {
-        this.treatMarginOfSuccessAsSuccessesAndRaises = treatMarginOfSuccessAsSuccessesAndRaises;
+    public void setTargetNumber(int targetNumber) {
+        this.targetNumber = targetNumber;
     }
 
-    public void setSavageWorldsTargetNumber(int targetNumber) {
-        savageWorldsTargetNumber = targetNumber;
+    public int getTargetNumber() {
+        return targetNumber;
     }
 
-    public int getSavageWorldsTargetNumber() {
-        return savageWorldsTargetNumber;
+    public void setTargetNumberMode(TargetNumberMode targetNumberMode) {
+        this.targetNumberMode = targetNumberMode;
+    }
+
+    public TargetNumberMode getTargetNumberMode() {
+        return targetNumberMode;
     }
 
     public void setSavageWorldsRaiseStep(int raiseStep) {
@@ -60,11 +65,7 @@ class ExpressionContext {
         return savageWorldsRaiseStep;
     }
 
-    public boolean isSavageWorldsMarginOfSuccessRequired() {
-        return savageWorldsMarginOfSuccessRequired;
-    }
-
-    public boolean isTreatMarginOfSuccessAsSuccessesAndRaises() {
-        return treatMarginOfSuccessAsSuccessesAndRaises;
+    public boolean isMarginOfSuccessRequired() {
+        return marginOfSuccessRequired;
     }
 }

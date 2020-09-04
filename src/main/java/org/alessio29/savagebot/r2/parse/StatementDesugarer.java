@@ -61,7 +61,10 @@ class StatementDesugarer extends Desugarer<Statement> {
         Expression facets = expressionDesugarer.visit(ctx.t1);
 
         TargetNumberAndRaiseStep tnrs =
-                expressionDesugarer.desugarTargetNumberAndRaiseStep(ctx.targetNumberAndRaiseStep());
+                expressionDesugarer.desugarTargetNumberAndRaiseStep(
+                        ctx.targetNumberAndRaiseStep(),
+                        TargetNumberMode.SAVAGE_WORLDS_SUCCESSES_AND_RAISES
+                );
 
         R2Parser.AdditiveModifierContext admc = ctx.additiveModifier();
 

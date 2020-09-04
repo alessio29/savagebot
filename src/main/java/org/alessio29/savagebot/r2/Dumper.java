@@ -200,7 +200,7 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
 
     @Override
     public Void visitTargetNumberAndRaiseStepExpression(TargetNumberAndRaiseStepExpression expression) {
-        println("TargetNumberAndStep");
+        println("TargetNumberAndStep mode:" + expression.getTargetNumberMode());
         indented(() -> {
             dump("targetNumber", expression.getTargetNumberArg());
             dump("raiseStep", expression.getRaiseStepArg());

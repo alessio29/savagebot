@@ -637,6 +637,37 @@ public class TestR2Interpreter {
     }
 
     @Test
+    public void testGenericTargetNumberPrefix() {
+        expect(
+                "5xtn15:2d10!+1: \n" +
+                        "1: tn15:2d10!+1: 1 + 9 + 1 = **11** (failure, MoF: 4)\n" +
+                        "2: tn15:2d10!+1: 18 + 6 + 1 = **25** (success, MoS: 10)\n" +
+                        "3: tn15:2d10!+1: 4 + 2 + 1 = **7** (failure, MoF: 8)\n" +
+                        "4: tn15:2d10!+1: 2 + 15 + 1 = **18** (success, MoS: 3)\n" +
+                        "5: tn15:2d10!+1: 8 + 8 + 1 = **17** (success, MoS: 2)",
+                "5xtn15:2d10!+1"
+        );
+        expect(
+                "5xtn15+:2d10!+1: \n" +
+                        "1: tn15+:2d10!+1: 1 + 9 + 1 = **11** (failure, MoF: 4)\n" +
+                        "2: tn15+:2d10!+1: 18 + 6 + 1 = **25** (success, MoS: 10)\n" +
+                        "3: tn15+:2d10!+1: 4 + 2 + 1 = **7** (failure, MoF: 8)\n" +
+                        "4: tn15+:2d10!+1: 2 + 15 + 1 = **18** (success, MoS: 3)\n" +
+                        "5: tn15+:2d10!+1: 8 + 8 + 1 = **17** (success, MoS: 2)",
+                "5xtn15+:2d10!+1"
+        );
+        expect(
+                "5xtn15-:2d10!+1: \n" +
+                        "1: tn15-:2d10!+1: 1 + 9 + 1 = **11** (success, MoS: 4)\n" +
+                        "2: tn15-:2d10!+1: 18 + 6 + 1 = **25** (failure, MoF: 10)\n" +
+                        "3: tn15-:2d10!+1: 4 + 2 + 1 = **7** (success, MoS: 8)\n" +
+                        "4: tn15-:2d10!+1: 2 + 15 + 1 = **18** (failure, MoF: 3)\n" +
+                        "5: tn15-:2d10!+1: 8 + 8 + 1 = **17** (failure, MoF: 2)",
+                "5xtn15-:2d10!+1"
+        );
+    }
+
+    @Test
     public void testSwithTRPrefix() {
         expect(
                 "5xtr6:s10: \n" +

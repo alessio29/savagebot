@@ -201,7 +201,7 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
         IntResult result;
 
         if (genericRollExpression.isWithTargetNumberAndRaiseStep()) {
-            context.setSavageWorldsMarginOfSuccessRequired(true);
+            context.setMarginOfSuccessRequired(true);
             handleTargetNumberAndRaiseStep(genericRollExpression);
         }
 
@@ -279,8 +279,8 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
 
     @Override
     public List<Integer> visitSavageWorldsRollExpression(SavageWorldsRollExpression savageWorldsRollExpression) {
-        context.setSavageWorldsMarginOfSuccessRequired(true);
-        context.setTreatMarginOfSuccessAsSuccessesAndRaises(true);
+        context.setMarginOfSuccessRequired(true);
+        context.setTargetNumberMode(TargetNumberMode.SAVAGE_WORLDS_SUCCESSES_AND_RAISES);
 
         int diceCount = evalInt(savageWorldsRollExpression.getDiceCountArg(), 1);
 
@@ -301,8 +301,8 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
 
     @Override
     public List<Integer> visitExtrasRollExpression(SavageWorldsExtrasRollExpression savageWorldsExtrasRollExpression) {
-        context.setSavageWorldsMarginOfSuccessRequired(true);
-        context.setTreatMarginOfSuccessAsSuccessesAndRaises(true);
+        context.setMarginOfSuccessRequired(true);
+        context.setTargetNumberMode(TargetNumberMode.SAVAGE_WORLDS_SUCCESSES_AND_RAISES);
 
         int facetsCount = evalInt(savageWorldsExtrasRollExpression.getFacetsArg(), 6);
 
@@ -331,21 +331,24 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
 
     @Override
     public List<Integer> visitTargetNumberAndRaiseStepExpression(TargetNumberAndRaiseStepExpression expression) {
-        context.setSavageWorldsMarginOfSuccessRequired(true);
+        context.setMarginOfSuccessRequired(true);
         handleTargetNumberAndRaiseStep(expression);
         return eval(expression.getExpression());
     }
 
     private void handleTargetNumberAndRaiseStep(WithTargetNumberAndRaiseStep expression) {
         Expression targetNumberAndRaiseStepArg = expression.getTargetNumberAndRaiseStepArg();
-        if (targetNumberAndRaiseStepArg != null) {
+        context.setTargetNumberMode(expression.getTargetNumberMode());
+        if (expression.getTargetNumberMode() == TargetNumberMode.GENERIC_TN_ROLL_ABOVE) {
+            context.setTargetNumber(evalInt(expression.getTargetNumberArg(), () -> "No target number"));
+        } else if (targetNumberAndRaiseStepArg != null) {
             int targetNumberAndRaiseStep = evalInt(targetNumberAndRaiseStepArg, 4);
-            context.setSavageWorldsTargetNumber(targetNumberAndRaiseStep);
+            context.setTargetNumber(targetNumberAndRaiseStep);
             context.setSavageWorldsRaiseStep(targetNumberAndRaiseStep);
         } else {
             if (expression.getTargetNumberArg() != null) {
                 int targetNumber = evalInt(expression.getTargetNumberArg(), 4);
-                context.setSavageWorldsTargetNumber(targetNumber);
+                context.setTargetNumber(targetNumber);
             }
             if (expression.getRaiseStepArg() != null) {
                 int raiseStep = evalInt(expression.getRaiseStepArg(), 4);

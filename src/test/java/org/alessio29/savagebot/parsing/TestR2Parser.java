@@ -701,6 +701,49 @@ public class TestR2Parser {
         );
     }
 
+    @Test
+    public void testGenericTargetNumber() {
+        expect(
+                "RollOnce\n" +
+                        "  expr: TargetNumberAndStep mode:GENERIC_TN_ROLL_ABOVE\n" +
+                        "    targetNumber: Int 10\n" +
+                        "    raiseStep: null\n" +
+                        "    targetNumberAndRaiseStep: null\n" +
+                        "    argument: GenericRoll isOpenEnded=false\n" +
+                        "      diceCount: Int 3\n" +
+                        "      facetsCount: Int 6\n" +
+                        "      suffixArg1: null\n" +
+                        "      suffixArg2: null",
+                "tn10:3d6"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: TargetNumberAndStep mode:GENERIC_TN_ROLL_ABOVE\n" +
+                        "    targetNumber: Int 10\n" +
+                        "    raiseStep: null\n" +
+                        "    targetNumberAndRaiseStep: null\n" +
+                        "    argument: GenericRoll isOpenEnded=false\n" +
+                        "      diceCount: Int 3\n" +
+                        "      facetsCount: Int 6\n" +
+                        "      suffixArg1: null\n" +
+                        "      suffixArg2: null",
+                "tn10+:3d6"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: TargetNumberAndStep mode:GENERIC_TN_ROLL_UNDER\n" +
+                        "    targetNumber: Int 10\n" +
+                        "    raiseStep: null\n" +
+                        "    targetNumberAndRaiseStep: null\n" +
+                        "    argument: GenericRoll isOpenEnded=false\n" +
+                        "      diceCount: Int 3\n" +
+                        "      facetsCount: Int 6\n" +
+                        "      suffixArg1: null\n" +
+                        "      suffixArg2: null",
+                "tn10-:3d6"
+        );
+    }
+
     private void expect(String expectedDump, String... args) {
         List<Statement> statements = new Parser().parse(args);
         StringWriter sw = new StringWriter();
