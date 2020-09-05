@@ -25,6 +25,7 @@ public class ShowInitiativeAction {
     private static final int MIN_STATES_SIZE = 8;
     private static final int ALL_CARDS_SIZE = 30;
     private static final int EDGES_SIZE = 6;
+    private static final int HOLD_SIZE = 6;
 
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
 
@@ -39,7 +40,13 @@ public class ShowInitiativeAction {
 
         if (!chars.isEmpty()) {
             List<Character> sortedList = new ArrayList<>(chars);
-            sortedList.sort((o1, o2) -> -o1.getBestCard().compareTo(o2.getBestCard()));
+            sortedList.sort((o1, o2) -> {
+                int r = -Boolean.compare(o1.isOnHold(), o2.isOnHold());
+                if (r == 0) {
+                    return -o1.getBestCard().compareTo(o2.getBestCard());
+                }
+                return r;
+                });
             charNameSize = sortedList.stream().
                     map(character -> {
                         return character.getName().trim().length() + character.getSaWoInitParams().length() + 2;
@@ -59,6 +66,9 @@ public class ShowInitiativeAction {
 
             for (Character c : sortedList) {
                 String allCards = c.getInitCards().stream().map(Card::toString).collect(Collectors.joining(", "));
+
+                String holdStatus = StringUtils.rightPad(c.isOnHold()==true?"<H>":"", HOLD_SIZE);
+
                 String edgesString = StringUtils.rightPad(
                         new ReplyBuilder().
                                 addSquareBrackets(
@@ -78,7 +88,7 @@ public class ShowInitiativeAction {
                                 ).toString()
                         , BENNIES_SIZE);
 
-                reply.rightPad(c.getName() + " " + edgesString, charNameSize).
+                reply.rightPad(c.getName() + holdStatus + " " + edgesString, charNameSize).
                         rightPad(tokensString, TOKENS_SIZE).
                         rightPad(benniesString, BENNIES_SIZE).
                         rightPad(c.getStatesString(), statesStize).

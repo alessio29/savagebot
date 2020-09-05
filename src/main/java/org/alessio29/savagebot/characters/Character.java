@@ -29,6 +29,7 @@ public class Character {
     private Integer redBennies;
     private Integer whiteBennies;
     private Integer goldenBennies;
+    private Boolean onHold;
 
     public Character() {
     }
@@ -198,6 +199,19 @@ public class Character {
     @JsonProperty
     private void setOutOfFight(Boolean outOfFight) {
         this.outOfFight = outOfFight;
+    }
+
+    @JsonProperty
+    private void setOnHold(Boolean onHold) {
+        this.onHold = onHold;
+    }
+
+    @JsonProperty
+    public Boolean isOnHold() {
+        if (this.onHold == null) {
+            return false;
+        }
+        return this.onHold;
     }
 
     @JsonIgnore
@@ -434,5 +448,15 @@ public class Character {
                 this.goldenBennies = Utils.notNullValue(this.goldenBennies)-1;
                 break;
         }
+    }
+
+    @JsonIgnore
+    public void hold() {
+        setOnHold(true);
+    }
+
+    @JsonIgnore
+    public void returnToFight() {
+        setOnHold(false);
     }
 }

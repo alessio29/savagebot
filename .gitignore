@@ -1,1 +1,5 @@
 /target/
+*.log
+.idea
+*iml
+.gitignore

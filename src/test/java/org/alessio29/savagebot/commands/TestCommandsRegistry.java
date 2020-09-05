@@ -28,13 +28,12 @@ public class TestCommandsRegistry {
                 .collect(Collectors.toList());
         Assert.assertEquals(
                 "[ADMIN:info, ADMIN:ping, ADMIN:prefix, " +
-                        "BENNIES:addbenny, BENNIES:clearbennies, BENNIES:givebenny, " +
-                        "BENNIES:initbennies, BENNIES:pullbenny, BENNIES:setbennymode, BENNIES:takebenny, " +
+                        "BENNIES:addbenny, BENNIES:clearbennies, BENNIES:givebenny, BENNIES:initbennies, BENNIES:pullbenny, BENNIES:setbennymode, BENNIES:takebenny, " +
                         "CARDS:deal, CARDS:put, CARDS:show, CARDS:shuffle, " +
                         "CHARACTERS:list, CHARACTERS:remove, " +
                         "DICE:ept, DICE:r, DICE:rh, DICE:rs, " +
                         "INFO:help, INFO:invite, " +
-                        "INITIATIVE:card, INITIATIVE:di, INITIATIVE:drop, INITIATIVE:fight, INITIATIVE:init, INITIATIVE:round, " +
+                        "INITIATIVE:card, INITIATIVE:di, INITIATIVE:drop, INITIATIVE:fight, INITIATIVE:hold, INITIATIVE:init, INITIATIVE:round, " +
                         "MUSIC:join, MUSIC:leave, MUSIC:nowplaying, MUSIC:play, MUSIC:queue, MUSIC:skip, MUSIC:stop, " +
                         "STATES:state, " +
                         "TOKENS:clear, TOKENS:give, TOKENS:take]",
@@ -75,6 +74,7 @@ public class TestCommandsRegistry {
                         "!di <character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]\n" +
                         "!drop <character_name>\n" +
                         "!fight; aliases: !f\n" +
+                        "!hold [-]<character>\n" +
                         "!init\n" +
                         "!round [+] [-<char_name>]; aliases: !rd\n" +
                         "\n" +
