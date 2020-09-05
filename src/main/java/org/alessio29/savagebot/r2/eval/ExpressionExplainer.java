@@ -20,7 +20,7 @@ class ExpressionExplainer implements Expression.Visitor<String> {
             return explanation;
         }
 
-        if (expressionContext.isSavageWorldsMarginOfSuccessRequired() || isSavageWorldsCheck(expression)) {
+        if (expressionContext.getTargetNumberMode() != null) {
             return expression.getText() + ": " + explanation + " = " +
                     values.stream()
                             .map(i -> ReplyBuilder.bold(i.toString()) + getSuccessesIfAny(i))
@@ -41,62 +41,66 @@ class ExpressionExplainer implements Expression.Visitor<String> {
     }
 
     private String getSuccessesIfAny(int intValue) {
-        int targetNumber = expressionContext.getSavageWorldsTargetNumber();
+        int targetNumber = expressionContext.getTargetNumber();
         int raiseStep = expressionContext.getSavageWorldsRaiseStep();
         if (raiseStep <= 0) {
             throw new EvaluationErrorException("Raise step should be above 0: " + raiseStep);
         }
 
-        int marginOfSuccess = intValue - targetNumber;
-        if (marginOfSuccess < 0) {
-            return "";
-        }
-
-        if (expressionContext.isTreatMarginOfSuccessAsSuccessesAndRaises()) {
-            StringBuilder sb = new StringBuilder().append(" (success");
-            int raiseCount = marginOfSuccess / raiseStep;
-            if (raiseCount > 0) {
-                sb.append("; ").append(ReplyBuilder.bold(raiseCount));
-                if (raiseCount == 1) {
-                    sb.append(" raise");
+        TargetNumberMode mode = expressionContext.getTargetNumberMode();
+        switch (mode) {
+            case SAVAGE_WORLDS_SUCCESS: {
+                int marginOfSuccess = intValue - targetNumber;
+                if (marginOfSuccess < 0) {
+                    return "";
+                }
+                StringBuilder sb = new StringBuilder().append(" (success");
+                int raiseCount = marginOfSuccess / raiseStep;
+                if (raiseCount > 0) {
+                    sb.append("; ").append(ReplyBuilder.bold(raiseCount));
+                    if (raiseCount == 1) {
+                        sb.append(" raise");
+                    } else {
+                        sb.append(" raises");
+                    }
+                }
+                return sb.append(")").toString();
+            }
+            case SAVAGE_WORLDS_DAMAGE: {
+                int marginOfSuccess = intValue - targetNumber;
+                if (marginOfSuccess < 0) {
+                    return "";
+                }
+                int numberOfWounds = marginOfSuccess / raiseStep;
+                StringBuilder sb = new StringBuilder().append(" (shaken");
+                if (numberOfWounds > 0) {
+                    sb.append(", ").append(ReplyBuilder.bold(numberOfWounds));
+                    if (numberOfWounds > 1) {
+                        sb.append(" wounds");
+                    } else {
+                        sb.append(" wound");
+                    }
+                }
+                return sb.append(")").toString();
+            }
+            case GENERIC_ROLL_ABOVE: {
+                int marginOfSuccess = intValue - targetNumber;
+                if (marginOfSuccess >= 0) {
+                    return " (success, MoS=" + marginOfSuccess + ")";
                 } else {
-                    sb.append(" raises");
+                    return " (failure, MoF=" + (-marginOfSuccess) + ")";
                 }
             }
-            return sb.append(")").toString();
-        } else {
-            int numberOfWounds = marginOfSuccess / raiseStep;
-            StringBuilder sb = new StringBuilder().append(" (shaken");
-            if (numberOfWounds > 0) {
-                sb.append(", ").append(ReplyBuilder.bold(numberOfWounds));
-                if (numberOfWounds > 1) {
-                    sb.append(" wounds");
+            case GENERIC_ROLL_UNDER: {
+                int marginOfSuccess = targetNumber - intValue;
+                if (marginOfSuccess >= 0) {
+                    return " (success, MoS=" + marginOfSuccess + ")";
                 } else {
-                    sb.append(" wound");
+                    return " (failure, MoF=" + (-marginOfSuccess) + ")";
                 }
             }
-            return sb.append(")").toString();
-        }
-    }
-
-    private boolean isSavageWorldsCheck(Expression expression) {
-        expression = dropBrackets(expression);
-        if (expression instanceof SavageWorldsExtrasRollExpression) {
-            return true;
-        } else if (isSimpleSavageWorldsRoll(expression)) {
-            return true;
-        } else if (expression instanceof OperatorExpression) {
-            OperatorExpression operatorExpression = (OperatorExpression) expression;
-            OperatorExpression.Operator operator = operatorExpression.getOperator();
-            if (operator != OperatorExpression.Operator.PLUS && operator != OperatorExpression.Operator.MINUS) {
-                return false;
-            }
-            Expression arg1 = dropBrackets(operatorExpression.getArgument1());
-            Expression arg2 = dropBrackets(operatorExpression.getArgument2());
-            return isTrivialExpression(arg2) && isSavageWorldsCheck(arg1) ||
-                    isTrivialExpression(arg1) && isSavageWorldsCheck(arg2);
-        } else {
-            return false;
+            default:
+                throw new AssertionError("Unexpected target number mode: " + mode);
         }
     }
 
@@ -109,15 +113,6 @@ class ExpressionExplainer implements Expression.Visitor<String> {
             // fall-through
         }
         return expression;
-    }
-
-    private boolean isSimpleSavageWorldsRoll(Expression expression) {
-        if (!(expression instanceof SavageWorldsRollExpression)) return false;
-        SavageWorldsRollExpression savageWorldsRoll = (SavageWorldsRollExpression) expression;
-        Expression diceCount = savageWorldsRoll.getDiceCountArg();
-        if (diceCount == null) return true;
-        if (!(diceCount instanceof IntExpression)) return false;
-        return ((IntExpression) diceCount).getValue() == 1;
     }
 
     public static boolean isTrivialExpression(Expression expression) {

@@ -3,6 +3,7 @@ package org.alessio29.savagebot.r2.parse;
 import org.alessio29.savagebot.r2.grammar.R2Parser;
 import org.alessio29.savagebot.r2.tree.*;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.jetbrains.annotations.NotNull;
 
 class ExpressionDesugarer extends Desugarer<Expression> {
     ExpressionDesugarer(String inputString) {
@@ -289,21 +290,46 @@ class ExpressionDesugarer extends Desugarer<Expression> {
         Expression rExpr;
         Expression trExpr;
 
+        TargetNumberMode mode;
+
         if (tnrc == null) {
             return innerExpression;
+        } else if (tnrc.tgtn != null) {
+            tExpr = visitOrNull(tnrc.tgtn);
+            if (tnrc.getText().endsWith("-")) {
+                mode = TargetNumberMode.GENERIC_ROLL_UNDER;
+            } else {
+                mode = TargetNumberMode.GENERIC_ROLL_ABOVE;
+            }
+            trExpr = rExpr = null;
         } else if (tnrc.tnr != null) {
             trExpr = visitOrNull(tnrc.tnr);
             tExpr = rExpr = null;
+            mode = getSavageWorldsTargetNumberMode(innerExpression);
         } else {
             tExpr = visitOrNull(tnrc.tt);
             rExpr = visitOrNull(tnrc.tr);
             trExpr = null;
+            mode = getSavageWorldsTargetNumberMode(innerExpression);
         }
 
         return new TargetNumberAndRaiseStepExpression(
                 text,
+                mode,
                 tExpr, rExpr, trExpr,
                 innerExpression
         );
+    }
+
+    @NotNull
+    private TargetNumberMode getSavageWorldsTargetNumberMode(Expression innerExpression) {
+        return isSavageWorldsSuccessRoll(innerExpression)
+                ? TargetNumberMode.SAVAGE_WORLDS_SUCCESS
+                : TargetNumberMode.SAVAGE_WORLDS_DAMAGE;
+    }
+
+    private boolean isSavageWorldsSuccessRoll(Expression innerExpression) {
+        return innerExpression instanceof SavageWorldsRollExpression ||
+                innerExpression instanceof SavageWorldsExtrasRollExpression;
     }
 }
