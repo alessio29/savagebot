@@ -187,6 +187,11 @@ To return to fight - use the same command with '-' added before character name
 !hold -LastActionHero
 ```
 
+Also, you may put on hold or return to fight several characters at once
+```
+!hold LastActionHero Good -Bad Ugly
+```
+
 ---
 # Bennies
 ## Grant a Benny
