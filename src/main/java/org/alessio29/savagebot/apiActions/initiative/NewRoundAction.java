@@ -49,7 +49,9 @@ public class NewRoundAction {
             // deal cards again according to parameters
             Set<Character> chars = Characters.getFightingCharacters(message.getGuildId(), message.getChannelId());
             for (Character c : chars) {
-                c.dealInitiativeCards(deck);
+                if (!c.isOnHold()) {
+                    c.dealInitiativeCards(deck);
+                }
             }
             CommandExecutionResult res = new ShowInitiativeAction().doAction(message, args);
             txtMessage += res.getResult();
