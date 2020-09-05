@@ -782,7 +782,7 @@ Bot is able to play music from YouTube and SoundCloud.
 To summon bot to voice channel you are in - use command `!join` or `!jn`. Bot will join voice channel. 
 
 ## Release bot from voice channel
-To release bot to voice channel - use command `!leave` or `!lv`. Bot will leave voice channel. 
+To release bot from voice channel - use command `!leave` or `!lv`. Bot will leave voice channel. 
 
 ## Show name of track that playing right now
 To show which track bot playing at the moment use `nowplaying` command or it's short version `np`.
