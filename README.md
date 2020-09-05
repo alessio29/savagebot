@@ -176,6 +176,17 @@ Oh, you can also do that when you start a new round, by adding the character nam
 !rd + -Bandits
 ```
 
+## Put character On Hold
+If some character wants to wait for good moment, use `hold` command. 
+```
+!hold LastActionHero
+```
+
+To return to fight - use the same command with '-' added before character name
+```
+!hold -LastActionHero
+```
+
 ---
 # Bennies
 ## Grant a Benny
