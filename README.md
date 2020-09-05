@@ -774,3 +774,27 @@ Grabs every cards back and shuffle into a new fresh deck.
 ```
 !shuffle
 ```
+---
+# Music
+Bot is able to play music from YouTube and SoundCloud. 
+
+## Summon bot to voice channel
+To summon bot to voice channel you are in - use command `!join` or `!jn`. Bot will join voice channel. 
+
+## Release bot from voice channel
+To release bot to voice channel - use command `!leave` or `!lv`. Bot will leave voice channel. 
+
+## Show name of track that playing right now
+To show which track bot playing at the moment use `nowplaying` command or it's short version `np`.
+
+## Play music
+Main task - type `!play <URL>` or `!pl <URL>` and bot will play sound stream. URL must be from YouTube or SoundCloud.
+
+## What is in the playing queue?
+By typing `!queue` or `!que` you will know remaining tracks.
+
+## Go to next track
+To start playing next track in the queue use `!skip` command.
+
+## Stop playing
+Just type `!stop` to stop playing.
