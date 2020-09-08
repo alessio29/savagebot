@@ -2,6 +2,7 @@ package org.alessio29.savagebot.internal.builders;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.alessio29.savagebot.internal.builders.MessageSplitter.splitMessage;
 
@@ -45,9 +46,9 @@ public abstract class SplittingResponseBuilder extends ResponseBuilder {
             header = asMention + ReplyBuilder.SPACE;
         }
 
-        for (String part : messageParts) {
-            sendReplyToOrigin(header + part);
-        }
+        sendReplyPartsToOrigin(
+                messageParts.stream().map((part) -> header + part).collect(Collectors.toList())
+        );
     }
 
     private void splitAndSendPrivate(String message) {
