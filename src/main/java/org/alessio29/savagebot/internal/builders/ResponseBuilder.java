@@ -2,6 +2,7 @@ package org.alessio29.savagebot.internal.builders;
 
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
+import java.util.List;
 import java.util.UUID;
 
 public abstract class ResponseBuilder {
@@ -36,6 +37,13 @@ public abstract class ResponseBuilder {
     public abstract void reportError(UUID id, String word, Exception e);
 
     protected abstract String getUserMention();
+
+    protected void sendReplyPartsToOrigin(List<String> parts) {
+        for (String part : parts) {
+            sendReplyToOrigin(part);
+        }
+    }
+
     protected abstract void sendReplyToOrigin(String message);
     protected abstract void sendPrivateReply(String message);
 }
