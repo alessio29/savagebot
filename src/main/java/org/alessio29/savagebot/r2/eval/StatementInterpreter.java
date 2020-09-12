@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 class StatementInterpreter implements Statement.Visitor<String> {
-    private RollInterpreter interpreter;
+    private final RollInterpreter interpreter;
 
     StatementInterpreter(RollInterpreter interpreter) {
         this.interpreter = interpreter;
@@ -42,6 +42,7 @@ class StatementInterpreter implements Statement.Visitor<String> {
 
         Expression timesExpression = rollTimesStatement.getTimes();
         int times = evalAndExplainTimes(result, timesExpression);
+        checkTimes(times);
 
         result.append("\n");
 
@@ -55,13 +56,22 @@ class StatementInterpreter implements Statement.Visitor<String> {
         return result.toString();
     }
 
+    private void checkTimes(int times) {
+        if (times > Limits.MAX_TIMES) {
+            throw new EvaluationErrorException("Too many repetitions: " + times + ", should be <= " + Limits.MAX_TIMES);
+        }
+    }
+
     @Override
     public String visitRollBatchTimesStatement(RollBatchTimesStatement rollBatchTimesStatement) {
         StringBuilder result = new StringBuilder();
         result.append(rollBatchTimesStatement.getText()).append(": ");
         Expression timesExpression = rollBatchTimesStatement.getTimes();
         List<Expression> expressions = rollBatchTimesStatement.getExpressions();
+
         int times = evalAndExplainTimes(result, timesExpression);
+        checkTimes(times);
+
         result.append("\n");
         for (int i = 0; i < times; ++i) {
             result.append(i + 1).append(": ");
