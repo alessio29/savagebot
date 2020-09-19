@@ -192,6 +192,7 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
     @Override
     public List<Integer> visitGenericRollExpression(GenericRollExpression genericRollExpression) {
         int diceCount = evalInt(genericRollExpression.getDiceCountArg(), 1);
+        checkDiceCount(diceCount);
 
         int facetsCount = evalInt(
                 genericRollExpression.getFacetsCountArg(),
@@ -232,6 +233,12 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
         return Collections.singletonList(result.getValue());
     }
 
+    private void checkDiceCount(int diceCount) {
+        if (diceCount > Limits.MAX_DICE) {
+            throw new EvaluationErrorException("Too many dice: " + diceCount + ", should be <= " + Limits.MAX_DICE);
+        }
+    }
+
     private int evalRollAndKeepSuffixArgument(GenericRollExpression expression) {
         GenericRollExpression.SuffixOperator suffixOperator = expression.getSuffixOperator();
         Expression suffixArgument = expression.getSuffixArg1();
@@ -256,6 +263,7 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
     @Override
     public List<Integer> visitFudgeRollExpression(FudgeRollExpression fudgeRollExpression) {
         int diceCount = evalInt(fudgeRollExpression.getDiceCountArg(), 4);
+        checkDiceCount(diceCount);
 
         IntResult dieResult = roller.rollFudge(diceCount);
 
@@ -267,6 +275,7 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
     @Override
     public List<Integer> visitCarcosaRollExpression(CarcosaRollExpression carcosaRollExpression) {
         int diceCount = evalInt(carcosaRollExpression.getDiceCountArg(), 1);
+        checkDiceCount(diceCount);
         IntResult diceResult = roller.rollCarcosa(diceCount);
         context.putExplanation(carcosaRollExpression, diceResult.getExplained());
         return Collections.singletonList(diceResult.getValue());
@@ -277,6 +286,7 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
         context.setTargetNumberMode(TargetNumberMode.SAVAGE_WORLDS_SUCCESS);
 
         int diceCount = evalInt(savageWorldsRollExpression.getDiceCountArg(), 1);
+        checkDiceCount(diceCount);
 
         int abilityDieFacets = evalInt(
                 savageWorldsRollExpression.getAbilityDieArg(),
@@ -352,6 +362,8 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
     @Override
     public List<Integer> visitWegD6Expression(WegD6RollExpression wegD6RollExpression) {
         int diceCount = evalInt(wegD6RollExpression.getDiceCountArg(), 1);
+        checkDiceCount(diceCount);
+
         IntResult result = roller.rollWegD6(diceCount);
         context.putExplanation(wegD6RollExpression, result.getExplained());
         return Collections.singletonList(result.getValue());
