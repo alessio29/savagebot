@@ -97,7 +97,7 @@ public class TestR2Interpreter {
     @Test
     public void testFudgeRolls() {
         expect(
-                "df: [-00+] = **0**",
+                "df: [-00+] = **0** Mediocre",
                 "df"
         );
         expect(
@@ -105,8 +105,22 @@ public class TestR2Interpreter {
                 "10DF"
         );
         expect(
-                "3d6+df: 1 + 5 + 2 + [++++] = **12**",
+                "3d6+df: 1 + 5 + 2 + [++++] = **12** Legendary+4",
                 "3d6+df"
+        );
+        expect(
+                "10xdf: \n" +
+                        "1: df: [-00+] = **0** Mediocre\n" +
+                        "2: df: [+++-] = **2** Fair\n" +
+                        "3: df: [-+++] = **2** Fair\n" +
+                        "4: df: [+0++] = **3** Good\n" +
+                        "5: df: [0-++] = **1** Average\n" +
+                        "6: df: [0-++] = **1** Average\n" +
+                        "7: df: [+0-0] = **0** Mediocre\n" +
+                        "8: df: [-+++] = **2** Fair\n" +
+                        "9: df: [++++] = **4** Great\n" +
+                        "10: df: [-+0-] = **-1** Poor",
+                "10xdf"
         );
     }
 
