@@ -2,6 +2,7 @@ package org.alessio29.savagebot.r2.eval;
 
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.r2.tree.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,7 +41,7 @@ class ExpressionExplainer implements Expression.Visitor<String> {
         return expression.getText() + ": " + explanation + " = " + results;
     }
 
-    private String getSuccessesIfAny(int intValue) {
+    private String getSuccessesIfAny(int value) {
         int targetNumber = expressionContext.getTargetNumber();
         int raiseStep = expressionContext.getSavageWorldsRaiseStep();
         if (raiseStep <= 0) {
@@ -50,7 +51,7 @@ class ExpressionExplainer implements Expression.Visitor<String> {
         TargetNumberMode mode = expressionContext.getTargetNumberMode();
         switch (mode) {
             case SAVAGE_WORLDS_SUCCESS: {
-                int marginOfSuccess = intValue - targetNumber;
+                int marginOfSuccess = value - targetNumber;
                 if (marginOfSuccess < 0) {
                     return "";
                 }
@@ -67,7 +68,7 @@ class ExpressionExplainer implements Expression.Visitor<String> {
                 return sb.append(")").toString();
             }
             case SAVAGE_WORLDS_DAMAGE: {
-                int marginOfSuccess = intValue - targetNumber;
+                int marginOfSuccess = value - targetNumber;
                 if (marginOfSuccess < 0) {
                     return "";
                 }
@@ -84,7 +85,7 @@ class ExpressionExplainer implements Expression.Visitor<String> {
                 return sb.append(")").toString();
             }
             case GENERIC_ROLL_ABOVE: {
-                int marginOfSuccess = intValue - targetNumber;
+                int marginOfSuccess = value - targetNumber;
                 if (marginOfSuccess >= 0) {
                     return " (success, MoS=" + marginOfSuccess + ")";
                 } else {
@@ -92,15 +93,51 @@ class ExpressionExplainer implements Expression.Visitor<String> {
                 }
             }
             case GENERIC_ROLL_UNDER: {
-                int marginOfSuccess = targetNumber - intValue;
+                int marginOfSuccess = targetNumber - value;
                 if (marginOfSuccess >= 0) {
                     return " (success, MoS=" + marginOfSuccess + ")";
                 } else {
                     return " (failure, MoF=" + (-marginOfSuccess) + ")";
                 }
             }
+            case FATE_LADDER:
+                return explainFudgeLadder(value);
             default:
                 throw new AssertionError("Unexpected target number mode: " + mode);
+        }
+    }
+
+    @NotNull
+    private String explainFudgeLadder(int value) {
+        switch (value) {
+            case -2:
+                return " Terrible";
+            case -1:
+                return " Poor";
+            case 0:
+                return " Mediocre";
+            case 1:
+                return " Average";
+            case 2:
+                return " Fair";
+            case 3:
+                return " Good";
+            case 4:
+                return " Great";
+            case 5:
+                return " Superb";
+            case 6:
+                return " Fantastic";
+            case 7:
+                return " Epic";
+            case 8:
+                return " Legendary";
+            default:
+                if (value < -2) {
+                    return " Terrible" + (value + 2);
+                } else {
+                    return " Legendary+" + (value - 8);
+                }
         }
     }
 

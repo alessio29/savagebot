@@ -265,6 +265,10 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
         int diceCount = evalInt(fudgeRollExpression.getDiceCountArg(), 4);
         checkDiceCount(diceCount);
 
+        if (context.getTargetNumberMode() == null && diceCount == 4) {
+            context.setTargetNumberMode(TargetNumberMode.FATE_LADDER);
+        }
+
         IntResult dieResult = roller.rollFudge(diceCount);
 
         context.putExplanation(fudgeRollExpression, dieResult.getExplained());

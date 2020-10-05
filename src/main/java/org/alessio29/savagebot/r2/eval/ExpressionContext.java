@@ -6,7 +6,7 @@ import org.alessio29.savagebot.r2.tree.TargetNumberMode;
 import java.util.HashMap;
 import java.util.Map;
 
-class ExpressionContext {
+public class ExpressionContext {
     private final Expression topExpression;
     private final CommandContext commandContext;
     private final Map<Expression, String> explanations = new HashMap<>();
