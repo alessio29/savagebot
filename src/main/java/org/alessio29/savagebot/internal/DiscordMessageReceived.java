@@ -27,11 +27,6 @@ public class DiscordMessageReceived implements IMessageReceived<MessageReceivedE
     }
 
     @Override
-    public boolean isPrivateMessage() {
-        return event.getChannelType() == ChannelType.PRIVATE;
-    }
-
-    @Override
     public String getGuildId() {
         return this.guildId;
     }
@@ -45,15 +40,6 @@ public class DiscordMessageReceived implements IMessageReceived<MessageReceivedE
     public String getAuthorId() {
         return this.authorId;
     }
-
-//    @Override
-//    public List<String> getMentions() {
-//        return event.getMessage().getMentionedUsers().
-//                stream().
-//                filter(user -> !user.isBot()).
-//                map(user -> user.getId()).
-//                collect(Collectors.toList());
-//    }
 
     @Override
     public String getAuthorMention() {

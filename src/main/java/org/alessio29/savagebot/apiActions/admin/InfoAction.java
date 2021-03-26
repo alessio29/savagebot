@@ -1,11 +1,10 @@
 package org.alessio29.savagebot.apiActions.admin;
 
 import org.alessio29.savagebot.SavageBotRunner;
-import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 
-public class InfoAction implements IBotAction {
+public class InfoAction {
 
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
         CommandExecutionResult result = null;

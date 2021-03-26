@@ -87,6 +87,7 @@ targetNumberAndRaiseStep
     :   ('tr'|'TR') tnr=term
     |   ('t'|'T') tt=term (('r'|'R') tr=term)?
     |   ('r'|'R') tr=term (('t'|'T') tt=term)?
+    |   ('tn'|'TN') tgtn=term ('+'|'-')?
     ;
 
 additiveModifier

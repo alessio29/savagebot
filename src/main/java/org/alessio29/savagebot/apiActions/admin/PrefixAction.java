@@ -1,6 +1,5 @@
 package org.alessio29.savagebot.apiActions.admin;
 
-import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.Prefixes;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
@@ -9,7 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import java.util.Arrays;
 import java.util.List;
 
-public class PrefixAction implements IBotAction {
+public class PrefixAction {
 
     private static final List<String> restrictedPrefixes;
 

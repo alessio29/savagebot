@@ -1,18 +1,18 @@
 package org.alessio29.savagebot.r2.eval;
 
 import org.alessio29.savagebot.r2.tree.Expression;
+import org.alessio29.savagebot.r2.tree.TargetNumberMode;
 
 import java.util.HashMap;
 import java.util.Map;
 
-class ExpressionContext {
+public class ExpressionContext {
     private final Expression topExpression;
     private final CommandContext commandContext;
     private final Map<Expression, String> explanations = new HashMap<>();
 
-    private boolean savageWorldsMarginOfSuccessRequired = false;
-    private boolean treatMarginOfSuccessAsSuccessesAndRaises = false;
-    private int savageWorldsTargetNumber = 4;
+    private TargetNumberMode targetNumberMode = null;
+    private int targetNumber = 4;
     private int savageWorldsRaiseStep = 4;
 
     public ExpressionContext(Expression topExpression, CommandContext commandContext) {
@@ -36,20 +36,12 @@ class ExpressionContext {
         return commandContext;
     }
 
-    public void setSavageWorldsMarginOfSuccessRequired(boolean savageWorldsMarginOfSuccessRequired) {
-        this.savageWorldsMarginOfSuccessRequired = savageWorldsMarginOfSuccessRequired;
+    public void setTargetNumber(int targetNumber) {
+        this.targetNumber = targetNumber;
     }
 
-    public void setTreatMarginOfSuccessAsSuccessesAndRaises(boolean treatMarginOfSuccessAsSuccessesAndRaises) {
-        this.treatMarginOfSuccessAsSuccessesAndRaises = treatMarginOfSuccessAsSuccessesAndRaises;
-    }
-
-    public void setSavageWorldsTargetNumber(int targetNumber) {
-        savageWorldsTargetNumber = targetNumber;
-    }
-
-    public int getSavageWorldsTargetNumber() {
-        return savageWorldsTargetNumber;
+    public int getTargetNumber() {
+        return targetNumber;
     }
 
     public void setSavageWorldsRaiseStep(int raiseStep) {
@@ -60,11 +52,11 @@ class ExpressionContext {
         return savageWorldsRaiseStep;
     }
 
-    public boolean isSavageWorldsMarginOfSuccessRequired() {
-        return savageWorldsMarginOfSuccessRequired;
+    public void setTargetNumberMode(TargetNumberMode targetNumberMode) {
+        this.targetNumberMode = targetNumberMode;
     }
 
-    public boolean isTreatMarginOfSuccessAsSuccessesAndRaises() {
-        return treatMarginOfSuccessAsSuccessesAndRaises;
+    public TargetNumberMode getTargetNumberMode() {
+        return targetNumberMode;
     }
 }

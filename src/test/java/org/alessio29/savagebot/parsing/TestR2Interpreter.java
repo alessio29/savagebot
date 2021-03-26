@@ -97,7 +97,7 @@ public class TestR2Interpreter {
     @Test
     public void testFudgeRolls() {
         expect(
-                "df: [-00+] = **0**",
+                "df: [-00+] = **0** Mediocre",
                 "df"
         );
         expect(
@@ -105,8 +105,22 @@ public class TestR2Interpreter {
                 "10DF"
         );
         expect(
-                "3d6+df: 1 + 5 + 2 + [++++] = **12**",
+                "3d6+df: 1 + 5 + 2 + [++++] = **12** Legendary+4",
                 "3d6+df"
+        );
+        expect(
+                "10xdf: \n" +
+                        "1: df: [-00+] = **0** Mediocre\n" +
+                        "2: df: [+++-] = **2** Fair\n" +
+                        "3: df: [-+++] = **2** Fair\n" +
+                        "4: df: [+0++] = **3** Good\n" +
+                        "5: df: [0-++] = **1** Average\n" +
+                        "6: df: [0-++] = **1** Average\n" +
+                        "7: df: [+0-0] = **0** Mediocre\n" +
+                        "8: df: [-+++] = **2** Fair\n" +
+                        "9: df: [++++] = **4** Great\n" +
+                        "10: df: [-+0-] = **-1** Poor",
+                "10xdf"
         );
     }
 
@@ -749,6 +763,42 @@ public class TestR2Interpreter {
                         "9: 4w: w9 + 5 + 4 + 5 = **23**\n" +
                         "10: 4w: w5 + 5 + 1 + 2 = **13**",
                 "10x4w"
+        );
+    }
+
+    @Test
+    public void testGenericTargetNumber() {
+        expect(
+                "4xtn10:2d10!+1: \n" +
+                        "1: tn10:2d10!+1: 1 + 9 + 1 = **11** (success, MoS=1)\n" +
+                        "2: tn10:2d10!+1: 18 + 6 + 1 = **25** (success, MoS=15)\n" +
+                        "3: tn10:2d10!+1: 4 + 2 + 1 = **7** (failure, MoF=3)\n" +
+                        "4: tn10:2d10!+1: 2 + 15 + 1 = **18** (success, MoS=8)",
+                "4xtn10:2d10!+1"
+        );
+        expect(
+                "4xTN10:2d10!+1: \n" +
+                        "1: TN10:2d10!+1: 1 + 9 + 1 = **11** (success, MoS=1)\n" +
+                        "2: TN10:2d10!+1: 18 + 6 + 1 = **25** (success, MoS=15)\n" +
+                        "3: TN10:2d10!+1: 4 + 2 + 1 = **7** (failure, MoF=3)\n" +
+                        "4: TN10:2d10!+1: 2 + 15 + 1 = **18** (success, MoS=8)",
+                "4xTN10:2d10!+1"
+        );
+        expect(
+                "4xtn10+:2d10!+1: \n" +
+                        "1: tn10+:2d10!+1: 1 + 9 + 1 = **11** (success, MoS=1)\n" +
+                        "2: tn10+:2d10!+1: 18 + 6 + 1 = **25** (success, MoS=15)\n" +
+                        "3: tn10+:2d10!+1: 4 + 2 + 1 = **7** (failure, MoF=3)\n" +
+                        "4: tn10+:2d10!+1: 2 + 15 + 1 = **18** (success, MoS=8)",
+                "4xtn10+:2d10!+1"
+        );
+        expect(
+                "4xtn10-:3d6: \n" +
+                        "1: tn10-:3d6: 1 + 5 + 2 = **8** (success, MoS=2)\n" +
+                        "2: tn10-:3d6: 6 + 6 + 6 = **18** (failure, MoF=8)\n" +
+                        "3: tn10-:3d6: 6 + 4 + 4 = **14** (failure, MoF=4)\n" +
+                        "4: tn10-:3d6: 3 + 6 + 6 = **15** (failure, MoF=5)",
+                "4xtn10-:3d6"
         );
     }
 

@@ -1,6 +1,5 @@
 package org.alessio29.savagebot.apiActions.initiative;
 
-import org.alessio29.savagebot.apiActions.IBotAction;
 import org.alessio29.savagebot.cards.Deck;
 import org.alessio29.savagebot.cards.Decks;
 import org.alessio29.savagebot.characters.Character;
@@ -14,12 +13,11 @@ import org.apache.commons.lang.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GiveCardsAction implements IBotAction {
+public class GiveCardsAction {
 
-    @Override
     public CommandExecutionResult doAction(IMessageReceived message, String[] args) {
 
-        if (args.length <1 ) {
+        if (args.length < 1) {
             return new CommandExecutionResult("Provide character name!", 1);
         }
         List<String> list = new ArrayList<>();
@@ -36,6 +34,6 @@ public class GiveCardsAction implements IBotAction {
                 list.add(character.getName());
             }
         }
-        return new CommandExecutionResult("Card(s) given to character(s): "+StringUtils.join(list, ", "), args.length + 1);
+        return new CommandExecutionResult("Card(s) given to character(s): " + StringUtils.join(list, ", "), args.length + 1);
     }
 }

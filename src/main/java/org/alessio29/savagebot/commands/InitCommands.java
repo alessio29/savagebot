@@ -70,4 +70,14 @@ public class InitCommands {
     public static CommandExecutionResult dealInitCards(IMessageReceived message, String[] args) {
         return new DealInitiativeCardsAction().doAction(message, args);
     }
+
+    @CommandCallback(
+            name = "hold",
+            description = "Puts character on hold or return it to fight",
+            aliases = {},
+            arguments = { "[-]<character>" }
+    )
+    public static CommandExecutionResult hold(IMessageReceived message, String[] args) {
+        return new HoldAction().doAction(message, args);
+    }
 }
