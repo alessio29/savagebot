@@ -4,8 +4,11 @@ import org.alessio29.savagebot.characters.State;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 public class Utils {
+
+    public static final Pattern bennyPattern = Pattern.compile("\\d*[w|b|r|g]");
 
     public static Integer notNullValue(Integer value) {
 

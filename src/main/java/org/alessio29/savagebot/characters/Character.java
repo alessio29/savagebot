@@ -93,7 +93,7 @@ public class Character {
     }
 
     @JsonProperty
-    public Set<State> getStates() {
+    public Set getStates() {
         return Utils.notNullValue(states);
     }
 
@@ -214,11 +214,6 @@ public class Character {
         return this.onHold;
     }
 
-    @JsonIgnore
-    public void useBenny() {
-        bennies = (bennies <= 0) ? 0 : bennies - 1;
-    }
-
     public void removeAllBennies() {
         this.bennies = null;
         this.blueBennies = null;
@@ -269,7 +264,7 @@ public class Character {
         this.tokens = null;
     }
 
-    public void addBennies(int bennies) {
+    public void adjustBennies(int bennies) {
         bennies = Math.max(Utils.notNullValue(getBennies()) + Utils.notNullValue(bennies), 0);
         this.bennies = bennies;
     }
@@ -342,57 +337,36 @@ public class Character {
     public void addColoredBennies(Map.Entry<BennyColor, Integer> parseBennies) {
         BennyColor type = parseBennies.getKey();
         Integer count = parseBennies.getValue();
-        this.addBennies(count, type);
+        this.adjustBennies(count, type);
     }
 
-    private void addBennies(Integer count, BennyColor type) {
+    public void takeColoredBennies(Map.Entry<BennyColor, Integer> parseBennies) {
+        BennyColor type = parseBennies.getKey();
+        Integer count = parseBennies.getValue();
+        this.adjustBennies(-count, type);
+    }
+
+
+    private void adjustBennies(Integer count, BennyColor type) {
 
         switch (type) {
             case BLUE:
                 this.blueBennies = Utils.notNullValue(this.blueBennies) + count;
+                this.blueBennies = (this.blueBennies<0)?0:this.blueBennies;
                 break;
             case RED:
                 this.redBennies = Utils.notNullValue(this.redBennies)+ count;
+                this.redBennies = (this.redBennies<0)?0:this.redBennies;
                 break;
             case WHITE:
-                this.whiteBennies =Utils.notNullValue(whiteBennies)+ count;
+                this.whiteBennies = Utils.notNullValue(whiteBennies)+ count;
+                this.whiteBennies = (this.whiteBennies <0)?0:this.whiteBennies;
                 break;
             case GOLDEN:
-                this.goldenBennies =Utils.notNullValue(goldenBennies)+ count;
+                this.goldenBennies = Utils.notNullValue(goldenBennies)+ count;
+                this.goldenBennies = (this.goldenBennies<0)?0:this.goldenBennies;
                 break;
         }
-    }
-
-    public Integer getBlueBennies() {
-        return blueBennies;
-    }
-
-    public Integer getRedBennies() {
-        return redBennies;
-    }
-
-    public Integer getWhiteBennies() {
-        return whiteBennies;
-    }
-
-    public Integer getGoldenBennies() {
-        return goldenBennies;
-    }
-
-    public void setBlueBennies(Integer blueBennies) {
-        this.blueBennies = blueBennies;
-    }
-
-    public void setRedBennies(Integer redBennies) {
-        this.redBennies = redBennies;
-    }
-
-    public void setWhiteBennies(Integer whiteBennies) {
-        this.whiteBennies = whiteBennies;
-    }
-
-    public void setGoldenBennies(Integer goldenBennies) {
-        this.goldenBennies = goldenBennies;
     }
 
     public String getBennyValue(BennyType bType) {
@@ -417,37 +391,6 @@ public class Character {
             return StringUtils.join(result, ",");
         }
         return "";
-    }
-
-    public boolean hasBennies(String bennyColor) {
-        switch (bennyColor.trim().toLowerCase()) {
-            case "w" :
-                return Utils.notNullValue(this.whiteBennies)>0;
-            case "b" :
-                return Utils.notNullValue(this.blueBennies)>0;
-            case "r" :
-                return Utils.notNullValue(this.redBennies)>0;
-            case "g" :
-                return Utils.notNullValue(this.goldenBennies)>0;
-        }
-        return false;
-    }
-
-    public void useBenny(String bennyColor) {
-        switch (bennyColor.trim().toLowerCase()) {
-            case "w" :
-                this.whiteBennies = Utils.notNullValue(this.whiteBennies)-1;
-                break;
-            case "b" :
-                this.blueBennies = Utils.notNullValue(this.blueBennies)-1;
-                break;
-            case "r" :
-                this.redBennies = Utils.notNullValue(this.redBennies)-1;
-                break;
-            case "g" :
-                this.goldenBennies = Utils.notNullValue(this.goldenBennies)-1;
-                break;
-        }
     }
 
     @JsonIgnore

@@ -4,11 +4,8 @@ import org.alessio29.savagebot.bennies.BennyColor;
 import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.internal.utils.Utils;
 
-import java.util.regex.Pattern;
-
-public class GiveColoredBenniesParamsIterator extends ParamsIterator {
-
-    public GiveColoredBenniesParamsIterator(String[] args) {
+public class TakeColoredBenniesParamsIterator extends ParamsIterator {
+    public TakeColoredBenniesParamsIterator(String[] args) {
         super(args);
     }
 
@@ -19,11 +16,11 @@ public class GiveColoredBenniesParamsIterator extends ParamsIterator {
 
     @Override
     public boolean isEntity(String param) {
-        return !isModifier(param);
+       return !isModifier(param);
     }
 
     @Override
-    public String process(String modifier, Object entity) {
+    public Object process(String modifier, Object entity) {
         if (entity == null) {
             return null;
         }
@@ -34,7 +31,7 @@ public class GiveColoredBenniesParamsIterator extends ParamsIterator {
             return null;
         }
         Character character = (Character) entity;
-        character.addColoredBennies(BennyColor.parseBennies(modifier));
-        return modifier + " to " + character.getName();
+        character.takeColoredBennies(BennyColor.parseBennies(modifier));
+        return modifier + " from " + character.getName();
     }
 }
