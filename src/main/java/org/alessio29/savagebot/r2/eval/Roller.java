@@ -32,7 +32,7 @@ public class Roller {
 
             explained.add(Integer.toString(die));
 
-            if (!isOpenEnded || die != facetsCount) {
+            if (!isOpenEnded || die != facetsCount || facetsCount == 1) {
                 break;
             }
         }
