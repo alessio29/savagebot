@@ -207,8 +207,10 @@ To grant multiple Bennies at once, add the number of Bennies after the character
 
 To give Deadlands Reloaded colored bennies you must specify color:
 ```
-!gb Dewey w
+!gb Dewey w 2b g
 ```
+This will give Dewey white, blue and 2 golden bennies.
+
 
 You can give Bennies to multiple persons at once, for example when a Joker is dealt.
 This gives 2 to Huey, one to Louie, and 3 to Dewey.
@@ -226,6 +228,12 @@ You can take away from multiple players, multiple Bennies in a single line.
 ```
 !tb Huey Louie 2 Dewey 2
 ```
+
+For Deadlands-style bennies you may provide several colors at once:
+```
+!tb Huey 2w r Louie 2g w Dewey 2b
+```
+This command takes 2 white and one red benny from Huey, 2 golden and white benny from Louie and 2 blue bennies from Dewey.
 
 ## Benny pool in Deadlands Reloaded
 When you use Deadlands Reloaded bennies there must pool of bennies (20 white, 10 red and 5 blue).
