@@ -153,6 +153,13 @@ public class TestR2Interpreter {
     }
 
     @Test
+    public void testForbiddenOpenEndedRolls() {
+        expect("1", "d1!");
+        expect("s1: [1; w5] = **5** (success)", "s1");
+        expect("e1: 1 = **1**", "e1");
+    }
+
+    @Test
     public void testRepeatedRolls() {
         expect(
                 "6x3d6: \n" +
