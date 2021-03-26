@@ -3,9 +3,8 @@ package org.alessio29.savagebot.internal.iterators;
 import org.alessio29.savagebot.characters.Character;
 import org.alessio29.savagebot.internal.utils.Utils;
 
-public class GiveBenniesParamsIterator extends ParamsIterator{
-
-    public GiveBenniesParamsIterator(String[] args) {
+public class TakeBenniesParamsIterator extends ParamsIterator {
+    public TakeBenniesParamsIterator(String[] args) {
         super(args);
     }
 
@@ -20,7 +19,7 @@ public class GiveBenniesParamsIterator extends ParamsIterator{
     }
 
     @Override
-    public String process(String modifier, Object entity) {
+    public Object process(String modifier, Object entity) {
         if (entity == null) {
             return null;
         }
@@ -31,7 +30,7 @@ public class GiveBenniesParamsIterator extends ParamsIterator{
             modifier = "1";
         }
         Character character = (Character)entity;
-        character.adjustBennies(Integer.parseInt(modifier));
-        return modifier+" to "+character.getName();
+        character.adjustBennies(-Integer.parseInt(modifier));
+        return modifier+" from "+character.getName();
     }
 }

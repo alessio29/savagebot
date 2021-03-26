@@ -36,8 +36,6 @@ public class HelpAction {
         return new CommandExecutionResult(getBriefHelpForAllCommands(), 1, true);
     }
 
-
-
     public static String getBriefHelpForAllCommands() {
         Map<CommandCategory, List<ICommand>> byCategory =
                 CommandRegistry.getInstance().getRegisteredCommands().stream()
