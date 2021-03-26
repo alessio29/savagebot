@@ -333,7 +333,6 @@ public class Character {
                 '}';
     }
 
-
     public void addColoredBennies(Map.Entry<BennyColor, Integer> parseBennies) {
         BennyColor type = parseBennies.getKey();
         Integer count = parseBennies.getValue();
@@ -345,7 +344,6 @@ public class Character {
         Integer count = parseBennies.getValue();
         this.adjustBennies(-count, type);
     }
-
 
     private void adjustBennies(Integer count, BennyColor type) {
 

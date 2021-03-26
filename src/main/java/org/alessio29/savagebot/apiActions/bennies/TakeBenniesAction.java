@@ -38,7 +38,7 @@ public class TakeBenniesAction {
             }
 
             Character character = Characters.getByNameOrCreate(message.getGuildId(), message.getChannelId(), value);
-            if (!channelConfig.normalBennies()) {
+            if (channelConfig.normalBennies()) {
                 if (it.nextIsModifier()) {
                     taken.add((String)it.process(it.next().trim().toLowerCase(), character));
                     Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
@@ -46,11 +46,11 @@ public class TakeBenniesAction {
                     return new CommandExecutionResult("Provide benny type to give!", args.length + 1);
                 }
             } else {
-                String val = null;
-                if (it.nextIsModifier()) {
-                    val = it.next().trim().toLowerCase();
+                while (it.nextIsModifier()) {
+                    String val = it.next().trim().toLowerCase();
+                    taken.add((String)it.process(val, character));
                 }
-                taken.add((String)it.process(val, character));
+
                 Characters.storeCharacter(message.getGuildId(), message.getChannelId(), character);
             }
 
