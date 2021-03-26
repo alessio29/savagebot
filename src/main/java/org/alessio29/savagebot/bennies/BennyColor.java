@@ -26,24 +26,9 @@ public enum BennyColor {
 
     public static Map.Entry<BennyColor, Integer> parseBennies(String modifier) {
 
-        BennyColor color = null;
-        char last = modifier.trim().toLowerCase().charAt(modifier.length() -1);
+        String last = modifier.trim().toLowerCase().substring(modifier.length()-1);
+        BennyColor color = get(last);
 
-        switch (last) {
-            case 'w' :
-                color = WHITE;
-                break;
-            case 'b' :
-                color = BLUE;
-                break;
-            case 'r' :
-                color = RED;
-                break;
-            case 'g' :
-                color = GOLDEN;
-                break;
-
-        }
         Integer count = 1;
         if (modifier.length()>1) {
             try {
