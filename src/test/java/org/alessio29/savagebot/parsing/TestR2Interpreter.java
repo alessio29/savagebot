@@ -809,6 +809,15 @@ public class TestR2Interpreter {
         );
     }
 
+    @Test
+    public void testIronSwornRoll() {
+        expect("**Miss**: 1 VS 9, 10", "i");
+        expect("**Miss**: 1 + 2 = 3 VS 9, 10", "i+2");
+        expect("**Miss**: 1 - 2 = -1 VS 9, 10", "i-2");
+        expect("**Strong hit**: 1 + 10 = 11 VS 9, 10", "i+10");
+        expect("**Weak hit**: 1 + 8 = 9 VS 9, 10", "i+8");
+    }
+
     private void expect(String expectedResult, String... args) {
         List<Statement> statements = new Parser().parse(args);
         CommandContext context = new CommandContext(new Random(0));

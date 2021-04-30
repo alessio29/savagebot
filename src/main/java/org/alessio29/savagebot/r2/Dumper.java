@@ -256,4 +256,11 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
         println("Flag '" + flagStatement.getFlag() + "'");
         return null;
     }
+
+    @Override
+    public Void visitIronSwornRollStatement(IronSwornRollStatement ironSwornRollStatement) {
+        println("IronSwornRoll modifierOperator:" + ironSwornRollStatement.getModifierOperator());
+        indented(() -> dump("modifierExpression", ironSwornRollStatement.getModivierExpression()));
+        return null;
+    }
 }

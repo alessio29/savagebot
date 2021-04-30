@@ -19,5 +19,7 @@ public abstract class Statement extends Node {
         V visitRollBatchTimesStatement(RollBatchTimesStatement rollBatchTimesStatement);
 
         V visitFlagStatement(FlagStatement flagStatement);
+
+        V visitIronSwornRollStatement(IronSwornRollStatement ironSwornRollStatement);
     }
 }

@@ -112,4 +112,69 @@ class StatementInterpreter implements Statement.Visitor<String> {
         }
         throw new EvaluationErrorException("Unknown flag: '" + flagStatement.getFlag() + "'");
     }
+
+    @Override
+    public String visitIronSwornRollStatement(IronSwornRollStatement ironSwornRollStatement) {
+        Expression modifierExpression = ironSwornRollStatement.getModivierExpression();
+        OperatorExpression.Operator modifierOperator = ironSwornRollStatement.getModifierOperator();
+
+        Roller roller = new Roller(interpreter.getContext().getRandom());
+        int d6 = roller.roll(6);
+        IntResult modifier = getModifierValue(modifierExpression, modifierOperator);
+        int modifiedD6 = d6 + modifier.getValue();
+        int d10a = roller.roll(10);
+        int d10b = roller.roll(10);
+
+        StringBuilder result = new StringBuilder();
+        if (modifiedD6 >= d10a && modifiedD6 >= d10b) {
+            result.append(ReplyBuilder.bold("Strong hit"));
+        } else if (modifiedD6 >= d10a || modifiedD6 >= d10b) {
+            result.append(ReplyBuilder.bold("Weak hit"));
+        } else {
+            result.append(ReplyBuilder.bold("Miss"));
+        }
+        if (d10a == d10b) {
+            result.append(ReplyBuilder.bold(", match"));
+        }
+        result.append(": ").append(d6);
+        if (modifierOperator != null) {
+            result.append(' ').append(modifierOperator.getImage()).append(' ')
+                    .append(modifier.getExplained())
+                    .append(" = ").append(modifiedD6);
+        }
+        result.append(" VS ").append(d10a).append(", ").append(d10b);
+        return result.toString();
+    }
+
+    private IntResult getModifierValue(Expression modifierExpression, OperatorExpression.Operator modifierOperator) {
+        if (modifierExpression == null) {
+            return new IntResult(0, null);
+        }
+
+        IntListResult modifierResult;
+        try {
+            modifierResult = ExpressionEvaluator.evalUnsafe(modifierExpression, interpreter.getContext());
+        } catch (EvaluationErrorException e) {
+            throw e;
+        } catch (Throwable e) {
+            throw new EvaluationErrorException("Error in `" + modifierExpression.getText() + "`", e);
+        }
+        List<Integer> modifierValues = modifierResult.getValues();
+        if (modifierValues.size() != 1) {
+            throw new EvaluationErrorException(
+                    "Scalar result expected in `" + modifierExpression.getText() + "`: " +
+                            modifierValues + " = " + modifierResult.getExplained()
+            );
+        }
+
+        int modifierValue = modifierValues.get(0);
+        String modifierExplained = modifierResult.getExplained();
+        if (modifierOperator == OperatorExpression.Operator.PLUS) {
+            return new IntResult(modifierValue, modifierExplained);
+        } else if (modifierOperator == OperatorExpression.Operator.MINUS) {
+            return new IntResult(-modifierValue, modifierExplained);
+        } else {
+            throw new EvaluationErrorException("Unexpected modifier operator: " + modifierOperator);
+        }
+    }
 }

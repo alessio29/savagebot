@@ -168,7 +168,7 @@ class ExpressionExplainer implements Expression.Visitor<String> {
         return !isTrivialExpression(expression);
     }
 
-    private static boolean shouldExplanationAlreadyBeResult(Expression expression) {
+    public static boolean shouldExplanationAlreadyBeResult(Expression expression) {
         if (expression instanceof IntExpression || expression instanceof D66RollExpression) {
             return true;
         }
