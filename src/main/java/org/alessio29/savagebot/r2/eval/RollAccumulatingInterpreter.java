@@ -337,5 +337,11 @@ public class RollAccumulatingInterpreter {
             state.addError(new ErrorMessage(flagStatement, "Flags are not supported here"));
             return null;
         }
+
+        @Override
+        public Void visitIronSwornRollStatement(IronSwornRollStatement ironSwornRollStatement) {
+            state.addError(new ErrorMessage(ironSwornRollStatement, "Unsupported statement"));
+            return null;
+        }
     }
 }

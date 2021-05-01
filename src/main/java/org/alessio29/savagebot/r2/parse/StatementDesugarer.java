@@ -80,6 +80,16 @@ class StatementDesugarer extends Desugarer<Statement> {
         return new RollTimesStatement(getOriginalText(ctx), n, expr);
     }
 
+    @Override
+    public Statement visitIronSwornRollStmt(R2Parser.IronSwornRollStmtContext ctx) {
+        R2Parser.AdditiveModifierContext admc = ctx.additiveModifier();
+        return new IronSwornRollStatement(
+                getOriginalText(ctx),
+                admc != null ? OperatorExpression.getBinaryOperator(admc.op.getText()) : null,
+                admc != null ? desugarExpression(admc.em) : null
+        );
+    }
+
     private Expression desugarExpression(ParseTree parseTree) {
         return new ExpressionDesugarer(inputString).visit(parseTree);
     }

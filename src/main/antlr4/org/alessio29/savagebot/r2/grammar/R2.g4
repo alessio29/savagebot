@@ -9,19 +9,15 @@ commandElement
     ;
 
 statement
-    :   e=expression
-        # RollOnceStmt
-    |   n=term ('x'|'X') e=expression
-        # RollTimesStmt
-    |   n=term ('x'|'X') '[' batchElement* ']'
-        # RollBatchTimesStmt
-    |
-        // Hack to support short-hand repetition for Savage Worlds extras roll:
+    :   e=expression                                    # RollOnceStmt
+    |   n=term ('x'|'X') e=expression                   # RollTimesStmt
+    |   n=term ('x'|'X') '[' batchElement* ']'          # RollBatchTimesStmt
+    |   // Hack to support short-hand repetition for Savage Worlds extras roll:
         // '4e6' is desugared to '4xe6', so it's effectively a repeat statement.
         n=term ('e'|'E') t1=term targetNumberAndRaiseStep? additiveModifier?
-        # RollSavageWorldsExtraStmt
-    |   flag=FLAG
-        # FlagStmt
+                                                        # RollSavageWorldsExtraStmt
+    |   ('i'|'I') additiveModifier?                     # IronSwornRollStmt
+    |   flag=FLAG                                       # FlagStmt
     ;
 
 batchElement
@@ -29,32 +25,20 @@ batchElement
     ;
 
 expression
-    :   genericRoll
-        # GenericRollExpr
-    |   savageWorldsRoll
-        # SavageWorldsRollExpr
-    |   savageWorldsExtrasRoll
-        # SavageWorldsExtrasRollExpr
-    |   fudgeRoll
-        # FudgeRollExpr
-    |   carcosaRoll
-        # CarcosaRollExpr
-    |   wegD6Roll
-        # WegD6RollExpr
-    |   e1=expression '[' (e2=expression)? ':' (e3=expression)? ']'
-        # BoundedExpr
-    |   targetNumberAndRaiseStep ':' e1=expression
-        # TargetNumberAndRaiseStepExpr
-    |   v=VAR ':=' e1=expression
-        # AssignExpr
-    |   e1=expression op=('*'|'/'|'%') e2=expression
-        # InfixExpr1
-    |   e1=expression op=('+'|'-') e2=expression
-        # InfixExpr2
-    |   op=('+'|'-') e1=expression
-        # PrefixExpr
-    |   t=term
-        # TermExpr
+    :   genericRoll                                     # GenericRollExpr
+    |   savageWorldsRoll                                # SavageWorldsRollExpr
+    |   savageWorldsExtrasRoll                          # SavageWorldsExtrasRollExpr
+    |   fudgeRoll                                       # FudgeRollExpr
+    |   carcosaRoll                                     # CarcosaRollExpr
+    |   wegD6Roll                                       # WegD6RollExpr
+    |   e1=expression
+        '[' (e2=expression)? ':' (e3=expression)? ']'   # BoundedExpr
+    |   targetNumberAndRaiseStep ':' e1=expression      # TargetNumberAndRaiseStepExpr
+    |   v=VAR ':=' e1=expression                        # AssignExpr
+    |   e1=expression op=('*'|'/'|'%') e2=expression    # InfixExpr1
+    |   e1=expression op=('+'|'-') e2=expression        # InfixExpr2
+    |   op=('+'|'-') e1=expression                      # PrefixExpr
+    |   t=term                                          # TermExpr
     ;
 
 genericRoll
@@ -64,14 +48,10 @@ genericRoll
 dieFacetsTerm: term | '%';
 
 genericRollSuffix
-    :   op=('k'|'K'|'kl'|'KL'|'adv'|'dis') (n=term)?
-        # RollAndKeepSuffix
-    |   sop=('s'|'S') sn=term (fop=('f'|'F') fn=term)?
-        # SuccessOrFailSuffix1
-    |   fop=('f'|'F') fn=term sop=('s'|'S') sn=term
-        # SuccessOrFailSuffix2
-    |   targetNumberAndRaiseStep
-        # TargetNumberAndRaiseStepSuffix
+    :   op=('k'|'K'|'kl'|'KL'|'adv'|'dis') (n=term)?    # RollAndKeepSuffix
+    |   sop=('s'|'S') sn=term (fop=('f'|'F') fn=term)?  # SuccessOrFailSuffix1
+    |   fop=('f'|'F') fn=term sop=('s'|'S') sn=term     # SuccessOrFailSuffix2
+    |   targetNumberAndRaiseStep                        # TargetNumberAndRaiseStepSuffix
     ;
 
 savageWorldsRoll
@@ -107,12 +87,9 @@ wegD6Roll
     ;
 
 term
-    :   i=INT
-        # IntTerm
-    |   v=VAR
-        # VarTerm
-    |   '(' (comment=STRING)? e=expression ')'
-        # ExprTerm
+    :   i=INT                                       # IntTerm
+    |   v=VAR                                       # VarTerm
+    |   '(' (comment=STRING)? e=expression ')'      # ExprTerm
     ;
 
 INT: [0-9]+;
