@@ -12,7 +12,7 @@ public class ChannelConfig {
     private static final int RED_COUNT = 10;
     private static final int BLUE_COUNT = 5;
     private BennyType bennyType;
-    private List<BennyColor> benniesPool = new ArrayList<>();
+    private List<BennyColor> coloredBenniesPool = new ArrayList<>();
 
     public ChannelConfig() {
     }
@@ -36,13 +36,13 @@ public class ChannelConfig {
 
     @JsonIgnore
     public Map<BennyColor, Integer> pullBennies(int count) {
-        if (benniesPool == null) {
+        if ( coloredBenniesPool.isEmpty()) {
             initBenniesPoool();
         }
         Map<BennyColor, Integer> map = new HashMap<>();
 
         for (int i = 0; i < count; i++) {
-            BennyColor bennyColor = benniesPool.remove(benniesPool.size() - 1);
+            BennyColor bennyColor = coloredBenniesPool.remove(coloredBenniesPool.size() - 1);
             Integer c = map.computeIfAbsent(bennyColor, bennyColor1 -> 0);
             c++;
             map.put(bennyColor, c);
@@ -53,20 +53,20 @@ public class ChannelConfig {
     @JsonIgnore
     public void initBenniesPoool() {
         for (int i = 0; i < WHITE_COUNT; i++) {
-            benniesPool.add(BennyColor.WHITE);
+            coloredBenniesPool.add(BennyColor.WHITE);
         }
         for (int i = 0; i < RED_COUNT; i++) {
-            benniesPool.add(BennyColor.RED);
+            coloredBenniesPool.add(BennyColor.RED);
         }
         for (int i = 0; i < BLUE_COUNT; i++) {
-            benniesPool.add(BennyColor.BLUE);
+            coloredBenniesPool.add(BennyColor.BLUE);
         }
-        Collections.shuffle(benniesPool);
+        Collections.shuffle(coloredBenniesPool);
     }
 
     @JsonIgnore
     public void addBennyToPool(BennyColor color) {
-        benniesPool.add(color);
+        coloredBenniesPool.add(color);
     }
 
 }
