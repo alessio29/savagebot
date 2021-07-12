@@ -3,6 +3,9 @@ package org.alessio29.savagebot.internal;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class DiscordMessageReceived implements IMessageReceived<MessageReceivedEvent> {
     private final MessageReceivedEvent event;
 
@@ -11,7 +14,7 @@ public class DiscordMessageReceived implements IMessageReceived<MessageReceivedE
     private final String authorId;
     private final String authorMention;
     private final String rawMessage;
-
+    private final List<String> mentions;
 
     public DiscordMessageReceived(MessageReceivedEvent event) {
         this.event = event;
@@ -24,6 +27,7 @@ public class DiscordMessageReceived implements IMessageReceived<MessageReceivedE
         this.authorId = event.getAuthor().getId();
         this.authorMention = event.getAuthor().getAsMention();
         this.rawMessage = event.getMessage().getContentRaw();
+        this.mentions = event.getMessage().getMentionedMembers().stream().map(m -> m.getAsMention()).collect(Collectors.toList());
     }
 
     @Override
@@ -54,5 +58,9 @@ public class DiscordMessageReceived implements IMessageReceived<MessageReceivedE
     @Override
     public MessageReceivedEvent getOriginalEvent() {
         return event;
+    }
+
+    public List<String> getMentions() {
+        return mentions;
     }
 }

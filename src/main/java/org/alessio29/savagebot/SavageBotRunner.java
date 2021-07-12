@@ -3,12 +3,15 @@ package org.alessio29.savagebot;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.internal.JDAImpl;
 import org.alessio29.savagebot.cards.Decks;
 import org.alessio29.savagebot.cards.Hands;
 import org.alessio29.savagebot.characters.Characters;
 import org.alessio29.savagebot.internal.Prefixes;
 import org.alessio29.savagebot.internal.RedisClient;
+import org.alessio29.savagebot.internal.SelfMentionContainer;
 import org.alessio29.savagebot.internal.commands.Commands;
 import org.alessio29.savagebot.internal.ParseInputListener;
 
@@ -48,7 +51,14 @@ public class SavageBotRunner {
 			}
 		}
 
-		JDABuilder.createDefault(token).addEventListeners(new ParseInputListener()).build();
+
+
+
+
+		JDA api = JDABuilder.createDefault(token).addEventListeners(new ParseInputListener()).build();
+
+		SelfMentionContainer.initialize(api.getSelfUser().getAsMention());
+
 	}
 
 	public static boolean passwdOk(String str) {
@@ -57,4 +67,6 @@ public class SavageBotRunner {
 		}
 		return passwd.equals(str);
 	}
+
+
 }
