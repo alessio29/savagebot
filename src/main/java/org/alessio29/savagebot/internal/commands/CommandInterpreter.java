@@ -3,6 +3,7 @@ package org.alessio29.savagebot.internal.commands;
 import org.alessio29.savagebot.commands.ICommand;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.Prefixes;
+import org.alessio29.savagebot.internal.SelfMentionContainer;
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.internal.builders.ResponseBuilder;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -17,9 +18,17 @@ public class CommandInterpreter {
     private static Logger log = Logger.getLogger(CommandInterpreter.class);
 
     public void run(IMessageReceived message, ResponseBuilder responseBuilder) {
+
+        String rawMessage = message.getRawMessage().replace("<@!", "<@");
+        String botMention1 = SelfMentionContainer.getMention();
+        String botMention2 = SelfMentionContainer.getMention().replace("<@", "<@!");
+        boolean botMentioned = message.getMentions().contains(botMention1) || message.getMentions().contains(botMention2);
+        if (botMentioned) {
+            // remove bot mention from command
+            rawMessage = rawMessage.replace(botMention1, "");
+        }
         String prefix = Prefixes.getPrefix(message.getAuthorId());
 
-        String rawMessage = message.getRawMessage();
         String strippedMessage = ReplyBuilder.removeBlocks(ReplyBuilder.removeQuotes(rawMessage));
         String[] words = strippedMessage.split("\\s+");
 
@@ -32,10 +41,11 @@ public class CommandInterpreter {
             String word = words[index];
             boolean isCommand = false;
 
-            if (word.trim().startsWith(prefix)) {
+            if (word.trim().startsWith(prefix) || botMentioned) {
                 String command = word.replaceFirst(prefix, "");
-
                 ICommand cmd = registry.getCommandByName(command);
+
+//                ICommand cmd = registry.getCommandByName(word);
                 if (cmd != null) {
                     isCommand = true;
                     String[] args = Arrays.copyOfRange(words, index + 1, words.length);
@@ -45,7 +55,7 @@ public class CommandInterpreter {
                         index += res.getToSkip();
                     } catch (Exception e) {
                         UUID errorId = UUID.randomUUID();
-                        log.debug("Exception Id: "+errorId.toString()+"\nException while executing command: ", e);
+                        log.debug("Exception Id: " + errorId.toString() + "\nException while executing command: ", e);
                         responseBuilder.reportError(errorId, word, e);
                         index++;
                     }

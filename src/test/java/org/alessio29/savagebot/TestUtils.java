@@ -5,7 +5,6 @@ import org.alessio29.savagebot.internal.builders.DiscordResponseBuilder;
 import org.alessio29.savagebot.internal.builders.SplittingResponseBuilder;
 import org.alessio29.savagebot.internal.commands.CommandInterpreter;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,13 +24,15 @@ public class TestUtils {
         private final String userId;
         private final String message;
         private final boolean isPrivate;
+        private final List<String> mentions;
 
-        public Message(String guildId, String channelId, String userId, String message, boolean isPrivate) {
+        public Message(String guildId, String channelId, String userId, String message, boolean isPrivate, List<String> mentions) {
             this.guildId = guildId;
             this.channelId = channelId;
             this.userId = userId;
             this.message = message;
             this.isPrivate = isPrivate;
+            this.mentions = mentions;
         }
 
         @Override
@@ -62,6 +63,11 @@ public class TestUtils {
         @Override
         public Message getOriginalEvent() {
             return this;
+        }
+
+        @Override
+        public List<String> getMentions() {
+            return mentions;
         }
 
         @Override
@@ -96,11 +102,11 @@ public class TestUtils {
         }
 
         public Message message(String message) {
-            return new Message(guildId, channelId, userId, message, false);
+            return new Message(guildId, channelId, userId, message, false, Collections.emptyList());
         }
 
         public Message privateMessage(String message) {
-            return new Message(guildId, channelId, userId, message, true);
+            return new Message(guildId, channelId, userId, message, true, Collections.emptyList());
         }
     }
 
