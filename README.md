@@ -18,6 +18,8 @@ If that exclamation mark is an issue (conflict with another bot?), you can chang
 !prefix #
 ```
 
+You may also mention bot then add any command - this also works.
+
 `invite` command let you get this bot invite link, to share it with friends for their server.
 ```
 !invite
