@@ -815,7 +815,8 @@ public class TestR2Interpreter {
         expect("**Miss**: 1 + 2 = 3 VS 9, 10", "i+2");
         expect("**Miss**: 1 - 2 = -1 VS 9, 10", "i-2");
         expect("**Strong hit**: 1 + 10 = 11 VS 9, 10", "i+10");
-        expect("**Weak hit**: 1 + 8 = 9 VS 9, 10", "i+8");
+        expect("**Weak hit**: 1 + 9 = 10 VS 9, 10", "i+9");
+        expect("**Miss**: 1 + 8 = 9 VS 9, 10", "i+8");
     }
 
     private void expect(String expectedResult, String... args) {
