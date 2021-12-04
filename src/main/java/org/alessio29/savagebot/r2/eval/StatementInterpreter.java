@@ -126,17 +126,18 @@ class StatementInterpreter implements Statement.Visitor<String> {
         int d10b = roller.roll(10);
 
         StringBuilder result = new StringBuilder();
+        String moveResult;
         if (modifiedD6 > d10a && modifiedD6 > d10b) {
-            result.append(ReplyBuilder.bold("Strong hit"));
+            moveResult = "Strong hit";
         } else if (modifiedD6 > d10a || modifiedD6 > d10b) {
-            result.append(ReplyBuilder.bold("Weak hit"));
+            moveResult = "Weak hit";
         } else {
-            result.append(ReplyBuilder.bold("Miss"));
+            moveResult = "Miss";
         }
         if (d10a == d10b) {
-            result.append(ReplyBuilder.bold(" with match"));
+            moveResult += " with match";
         }
-        result.append(": ").append(d6);
+        result.append(ReplyBuilder.bold(moveResult)).append(": ").append(d6);
         if (modifierOperator != null) {
             result.append(' ').append(modifierOperator.getImage()).append(' ')
                     .append(modifier.getExplained())
