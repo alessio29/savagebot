@@ -7,7 +7,8 @@ import org.alessio29.savagebot.internal.SelfMentionContainer;
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.internal.builders.ResponseBuilder;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -15,14 +16,21 @@ import java.util.UUID;
 public class CommandInterpreter {
     private final CommandRegistry registry = CommandRegistry.getInstance();
 
-    private static Logger log = Logger.getLogger(CommandInterpreter.class);
+    private static Logger log = LogManager.getLogger(CommandInterpreter.class);
 
     public void run(IMessageReceived message, ResponseBuilder responseBuilder) {
 
         String rawMessage = message.getRawMessage().replace("<@!", "<@");
         String botMention1 = SelfMentionContainer.getMention();
-        String botMention2 = SelfMentionContainer.getMention().replace("<@", "<@!");
-        boolean botMentioned = message.getMentions().contains(botMention1) || message.getMentions().contains(botMention2);
+        String botMention2 = (SelfMentionContainer.getMention()!=null)?SelfMentionContainer.getMention().replace("<@", "<@!"): null;
+        boolean botMentioned;
+
+        if (botMention1 == null && botMention2 == null) {
+            botMentioned = false;
+        }
+        else {
+            botMentioned = message.getMentions().contains(botMention1) || message.getMentions().contains(botMention2);
+        }
         if (botMentioned) {
             // remove bot mention from command
             rawMessage = rawMessage.replace(botMention1, "");

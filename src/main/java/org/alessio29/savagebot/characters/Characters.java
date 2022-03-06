@@ -2,8 +2,11 @@ package org.alessio29.savagebot.characters;
 
 import org.alessio29.savagebot.internal.RedisClient;
 import org.alessio29.savagebot.internal.utils.JsonConverter;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class Characters {
 
-    private static final Logger log = Logger.getLogger(Characters.class);
+    private static final Logger log = LogManager.getLogger(Characters.class.getName());
     private static final String REDIS_CHARACTERS_KEY = "characters";
     //                 guildId,    channelId    charName
     private static final Map<String, Map<String, Map<String, Character>>> characters = new HashMap<>();

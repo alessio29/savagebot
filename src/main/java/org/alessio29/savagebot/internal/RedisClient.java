@@ -2,7 +2,9 @@ package org.alessio29.savagebot.internal;
 
 import org.alessio29.savagebot.internal.utils.JsonConverter;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -20,7 +22,7 @@ public class RedisClient {
     private static int port;
     private static String pass;
     public static final String DELIMITER = ":";
-    private static Logger log = Logger.getLogger(RedisClient.class);
+    private static final Logger log = LogManager.getLogger(RedisClient.class);
 
     private static Jedis getClient() {
         if (jedisPool == null ) {
