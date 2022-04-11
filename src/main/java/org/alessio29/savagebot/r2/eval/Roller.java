@@ -1,6 +1,5 @@
 package org.alessio29.savagebot.r2.eval;
 
-import org.alessio29.savagebot.internal.builders.MessageSplitter;
 import org.alessio29.savagebot.internal.builders.ReplyBuilder;
 import org.alessio29.savagebot.r2.tree.GenericRollExpression;
 
@@ -42,6 +41,10 @@ public class Roller {
 
     private int rollDF() {
         return random.nextInt(3) - 1;
+    }
+
+    public IntResult roll(int diceCount, int facetsCount) {
+        return rollAndKeep(diceCount, facetsCount, false, null, 0);
     }
 
     public IntResult rollAndKeep(

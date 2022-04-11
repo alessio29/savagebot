@@ -369,4 +369,9 @@ class ExpressionExplainer implements Expression.Visitor<String> {
     public String visitTargetNumberAndRaiseStepExpression(TargetNumberAndRaiseStepExpression expression) {
         return getKnownExplanation(expression.getExpression());
     }
+
+    @Override
+    public String visitGygaxRangeRollExpression(GygaxRangeRollExpression gygaxRangeRollExpression) {
+        return getKnownExplanation(gygaxRangeRollExpression);
+    }
 }

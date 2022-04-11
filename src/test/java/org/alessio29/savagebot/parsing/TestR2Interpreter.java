@@ -819,6 +819,18 @@ public class TestR2Interpreter {
         expect("**Miss**: 1 + 8 = 9 VS 9, 10", "i+8");
     }
 
+    @Test
+    public void testGygaxRangeRoll() {
+        expect("1--4: [1d4] 3 = **3**", "1--4");
+        expect("1--6: [1d6] 1 = **1**", "1--6");
+        expect("1--8: [1d8] 6 = **6**", "1--8");
+        expect("1--10: [1d10] 1 = **1**", "1--10");
+        expect("1--12: [1d12] 1 = **1**", "1--12");
+        expect("1--20: [1d20] 1 = **1**", "1--20");
+        expect("5--15: [2d6+3] 1 + 5 + 3 = **9**", "5--15");
+        expect("3--18: [3d6] 1 + 5 + 2 = **8**", "3--18");
+    }
+
     private void expect(String expectedResult, String... args) {
         List<Statement> statements = new Parser().parse(args);
         CommandContext context = new CommandContext(new Random(0));

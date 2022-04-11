@@ -123,7 +123,7 @@ public class Parser {
                     .map(statementContext -> {
                         try {
                             return new StatementDesugarer(stmtString).visit(statementContext);
-                        } catch (DesugaringErrorExceptioon e) {
+                        } catch (DesugaringErrorException e) {
                             return new ErrorStatement(stmtString, e.getMessage());
                         }
                     })

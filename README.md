@@ -752,6 +752,16 @@ Here we will run 1000 times 2d6 and `rh` will tell us how many ended up with a 2
 
 **Tips:** Since the number of rolls we called is a factor of 100, it's easy to get percentages of. (22 → 2.2%, 119 → 11.9%)
 
+## Roll in range (DnD 0e)
+
+In the good ol' days before classic roll notation was invented, Gygax spelled his dice rolls like `1-8`, `2-12`, and so on.
+
+
+```
+!5--15
+> 5--15: [2d6+3] 1 + 5 + 3 = **9**
+```
+
 ## Cards
 Here are a few commands to manipulate a standard deck of 54 cards.
 This feature is pretty old and quite limited. It might get a rework later on.
