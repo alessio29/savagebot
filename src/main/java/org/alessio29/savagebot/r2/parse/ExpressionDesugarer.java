@@ -18,10 +18,14 @@ class ExpressionDesugarer extends Desugarer<Expression> {
     @Override
     public Expression visitIntTerm(R2Parser.IntTermContext ctx) {
         String text = ctx.getText();
+        return new IntExpression(text, parseInt(text));
+    }
+
+    private static int parseInt(String text) {
         try {
-            return new IntExpression(text, Integer.parseInt(text));
+            return Integer.parseInt(text);
         } catch (NumberFormatException e) {
-            throw new DesugaringErrorExceptioon("Unrecognized integer: '" + text + "'", e);
+            throw new DesugaringErrorException("Unrecognized integer: '" + text + "'", e);
         }
     }
 
@@ -86,7 +90,7 @@ class ExpressionDesugarer extends Desugarer<Expression> {
     @Override
     public Expression visitBoundedExpr(R2Parser.BoundedExprContext ctx) {
         if (ctx.e2 == null && ctx.e3 == null) {
-            throw new DesugaringErrorExceptioon("At least one bound should be provided: `" + getOriginalText(ctx) + "`");
+            throw new DesugaringErrorException("At least one bound should be provided: `" + getOriginalText(ctx) + "`");
         }
 
         Expression argument2 = visitOrNull(ctx.e2);
@@ -95,7 +99,7 @@ class ExpressionDesugarer extends Desugarer<Expression> {
             int value2 = ((IntExpression) argument2).getValue();
             int value3 = ((IntExpression) argument3).getValue();
             if (value2 > value3) {
-                throw new DesugaringErrorExceptioon("Empty range: `" + getOriginalText(ctx) + "`");
+                throw new DesugaringErrorException("Empty range: `" + getOriginalText(ctx) + "`");
             }
         }
 
@@ -163,7 +167,7 @@ class ExpressionDesugarer extends Desugarer<Expression> {
             String suffixOperatorText = suffix.op.getText();
             GenericRollExpression.SuffixOperator suffixOperator = GenericRollExpression.getSuffixOperator(suffixOperatorText);
             if (suffixOperator.getRequiredArguments() > 0 && suffix.n == null) {
-                throw new DesugaringErrorExceptioon("Argument required for '" + suffixOperatorText + "'");
+                throw new DesugaringErrorException("Argument required for '" + suffixOperatorText + "'");
             }
             return new GenericRollExpression(
                     getOriginalText(ctx),
@@ -190,7 +194,7 @@ class ExpressionDesugarer extends Desugarer<Expression> {
             );
         }
         else {
-            throw new DesugaringErrorExceptioon("Unexpected generic roll suffix: '" + grs.getText() + "': " +
+            throw new DesugaringErrorException("Unexpected generic roll suffix: '" + grs.getText() + "': " +
                     grs.getClass().getSimpleName());
         }
     }
@@ -331,5 +335,12 @@ class ExpressionDesugarer extends Desugarer<Expression> {
     private boolean isSavageWorldsSuccessRoll(Expression innerExpression) {
         return innerExpression instanceof SavageWorldsRollExpression ||
                 innerExpression instanceof SavageWorldsExtrasRollExpression;
+    }
+
+    @Override
+    public Expression visitGygaxRangeRollExpr(R2Parser.GygaxRangeRollExprContext ctx) {
+        String min = ctx.g0.getText();
+        String max = ctx.g1.getText();
+        return new GygaxRangeRollExpression(ctx.getText(), parseInt(min), parseInt(max));
     }
 }

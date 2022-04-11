@@ -263,4 +263,11 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
         indented(() -> dump("modifierExpression", ironSwornRollStatement.getModivierExpression()));
         return null;
     }
+
+    @Override
+    public Void visitGygaxRangeRollExpression(GygaxRangeRollExpression gygaxRangeRollExpression) {
+        println("GygaxRangeRoll min:" + gygaxRangeRollExpression.getMin() +
+                " max:" + gygaxRangeRollExpression.getMax());
+        return null;
+    }
 }

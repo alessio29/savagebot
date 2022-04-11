@@ -373,6 +373,16 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
         return Collections.singletonList(result.getValue());
     }
 
+    @Override
+    public List<Integer> visitGygaxRangeRollExpression(GygaxRangeRollExpression gygaxRangeRollExpression) {
+        int min = gygaxRangeRollExpression.getMin();
+        int max = gygaxRangeRollExpression.getMax();
+
+        IntResult result = new GygaxRangeRoller(roller).roll(min, max);
+        context.putExplanation(gygaxRangeRollExpression, result.getExplained());
+        return Collections.singletonList(result.getValue());
+    }
+
     public List<Integer> eval(Expression expression) {
         return expression == null ? null : expression.accept(this);
     }

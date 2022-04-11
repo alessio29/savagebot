@@ -36,6 +36,7 @@ expression
     |   targetNumberAndRaiseStep ':' e1=expression      # TargetNumberAndRaiseStepExpr
     |   v=VAR ':=' e1=expression                        # AssignExpr
     |   e1=expression op=('*'|'/'|'%') e2=expression    # InfixExpr1
+    |   g0=INT '--' g1=INT                              # GygaxRangeRollExpr
     |   e1=expression op=('+'|'-') e2=expression        # InfixExpr2
     |   op=('+'|'-') e1=expression                      # PrefixExpr
     |   t=term                                          # TermExpr

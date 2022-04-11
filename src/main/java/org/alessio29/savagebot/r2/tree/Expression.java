@@ -33,5 +33,7 @@ public abstract class Expression extends Node {
         V visitExtrasRollExpression(SavageWorldsExtrasRollExpression savageWorldsExtrasRollExpression);
 
         V visitTargetNumberAndRaiseStepExpression(TargetNumberAndRaiseStepExpression expression);
+
+        V visitGygaxRangeRollExpression(GygaxRangeRollExpression gygaxRangeRollExpression);
     }
 }
