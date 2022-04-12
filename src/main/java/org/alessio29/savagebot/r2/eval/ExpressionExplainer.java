@@ -254,7 +254,7 @@ class ExpressionExplainer implements Expression.Visitor<String> {
                         explanation2 = "(" + explanation2 + ")";
                     }
                 }
-                operatorExplanation = explanation1 + " " + operator.getImage() + " " + explanation2;
+                operatorExplanation = explanation1 + " " + operator.getOutputImage() + " " + explanation2;
                 break;
             case PREFIX:
                 operatorExplanation = operator.getImage() + explanation1;
