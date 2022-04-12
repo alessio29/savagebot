@@ -25,7 +25,7 @@ public class OperatorExpression extends Expression {
     public enum Operator {
         PLUS(OperatorKind.BINARY, "+"),
         MINUS(OperatorKind.BINARY, "-"),
-        MUL(OperatorKind.BINARY, "*"),
+        MUL(OperatorKind.BINARY, "*", true, "×"),
         DIV(OperatorKind.BINARY, "/"),
         MOD(OperatorKind.BINARY, "%"),
         UNARY_PLUS(OperatorKind.PREFIX, "+"),
@@ -37,6 +37,15 @@ public class OperatorExpression extends Expression {
         private final String image1;
         private final String image2;
         private final String image3;
+        private final String outputImage;
+
+        Operator(OperatorKind kind, String image, boolean marker, String outputImage) {
+            this.kind = kind;
+            this.image1 = image;
+            this.image2 = "";
+            this.image3 = "";
+            this.outputImage = outputImage;
+        }
 
         Operator(OperatorKind kind, String image) {
             this(kind, image, "");
@@ -51,6 +60,7 @@ public class OperatorExpression extends Expression {
             this.image1 = image1;
             this.image2 = image2;
             this.image3 = image3;
+            this.outputImage = image1;
         }
 
         public OperatorKind getKind() {
@@ -75,6 +85,10 @@ public class OperatorExpression extends Expression {
 
         public String getImage3() {
             return image3;
+        }
+
+        public String getOutputImage() {
+            return outputImage;
         }
     }
 
