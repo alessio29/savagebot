@@ -25,7 +25,7 @@ public class OperatorExpression extends Expression {
     public enum Operator {
         PLUS(OperatorKind.BINARY, "+"),
         MINUS(OperatorKind.BINARY, "-"),
-        MUL(OperatorKind.BINARY, "*", true, "×"),
+        MUL(OperatorKind.BINARY, "*", true, "x"),
         DIV(OperatorKind.BINARY, "/"),
         MOD(OperatorKind.BINARY, "%"),
         UNARY_PLUS(OperatorKind.PREFIX, "+"),

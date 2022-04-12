@@ -82,7 +82,7 @@ public class GygaxRangeRoller {
         StringBuilder explained = new StringBuilder();
         explained.append("[").append(roll.dice).append("d").append(roll.facets);
         if (roll.multiplier != 1) {
-            explained.append("×").append(roll.multiplier);
+            explained.append("x").append(roll.multiplier);
         }
         if (roll.additive > 0) {
             explained.append("+").append(roll.additive);
@@ -95,7 +95,7 @@ public class GygaxRangeRoller {
         }
         explained.append(rollResult.getExplained());
         if (roll.multiplier != 1) {
-            explained.append(") × ").append(roll.multiplier);
+            explained.append(") x ").append(roll.multiplier);
         }
         if (roll.additive > 0) {
             explained.append(" + ").append(roll.additive);
