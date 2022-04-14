@@ -128,6 +128,7 @@ public class GygaxRangeRoller {
             if (roll != null) return roll;
         }
 
+        // Default roll is 1dN+M
         return new Roll(1, max - min + 1, min - 1);
     }
 
@@ -142,6 +143,10 @@ public class GygaxRangeRoller {
         while (numDice % 10 == 0) {
             numDice /= 10;
             mult *= 10;
+        }
+        if (numDice >= 100) {
+            // Avoid rolling too many dice. This can default to 1dN, anyway.
+            return null;
         }
         return new Roll(numDice, numFacets, mult, 0);
     }
