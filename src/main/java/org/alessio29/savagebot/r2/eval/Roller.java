@@ -203,8 +203,6 @@ public class Roller {
             explained.add("rest: " + getCommaSeparatedExplanations(neutral));
         }
 
-
-
         return new IntResult(successes.size() - failures.size(), explained.toString());
     }
 
@@ -228,7 +226,12 @@ public class Roller {
         } else {
             die = 12;
         }
-        return rollAndKeep(diceCount, die, false, null, 0);
+
+        IntResult rollResult = rollAndKeep(diceCount, die, false, null, 0);
+        return new IntResult(
+                rollResult.getValue(),
+                "[" + diceCount + "d" + die + "] " + rollResult.getExplained()
+        );
     }
 
     public IntResult rollWegD6(int diceCount) {
@@ -257,7 +260,7 @@ public class Roller {
 
         StringJoiner regularDiceValuesText = new StringJoiner(" + ");
         if (wildDieValue != 1) {
-            regularDiceValuesText.add("w" + String.valueOf(wildDieValue));
+            regularDiceValuesText.add("w" + wildDieValue);
         }
 
         boolean crossedOut = false;
@@ -272,7 +275,7 @@ public class Roller {
         }
 
         if (wildDieValue == 1) {
-            return new IntResult(total, "w1; " + regularDiceValuesText.toString());
+            return new IntResult(total, "w1; " + regularDiceValuesText);
         } else {
             return new IntResult(total, regularDiceValuesText.toString());
         }
