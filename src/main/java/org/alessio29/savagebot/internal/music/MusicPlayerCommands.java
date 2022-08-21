@@ -5,6 +5,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.AudioChannel;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -46,11 +47,12 @@ public class MusicPlayerCommands {
         }
 
         GuildVoiceState state = event.getMember().getVoiceState();
-        if (!state.inVoiceChannel()) {
+
+        if (!state.inAudioChannel()) {
             return new CommandExecutionResult("You should be in a voice channel", 1);
         }
 
-        VoiceChannel channel = state.getChannel();
+        AudioChannel channel = state.getChannel();
         Member botMember = event.getGuild().getSelfMember();
 
         if (!botMember.hasPermission(channel, Permission.VOICE_CONNECT)) {
@@ -66,7 +68,7 @@ public class MusicPlayerCommands {
         if (!audioManager.isConnected()) {
             return new CommandExecutionResult("Not connected to voice channel", 1);
         }
-        VoiceChannel channel = audioManager.getConnectedChannel();
+        AudioChannel channel = audioManager.getConnectedChannel();
         if (!channel.getMembers().contains(event.getMember())) {
             return new CommandExecutionResult("Bot connected to another voice channel", 1);
         }
@@ -83,7 +85,7 @@ public class MusicPlayerCommands {
 
         PlayerManager manager = PlayerManager.getInstance();
 
-        manager.loadAndPlay(event.getTextChannel(), args[0]);
+        manager.loadAndPlay(event.getChannel().asTextChannel(), args[0]);
         manager.getGuildMusicManager(event.getGuild()).player.setVolume(LOW_VOLUME);
 
         return new CommandExecutionResult("Playing track " + args[0], 2);

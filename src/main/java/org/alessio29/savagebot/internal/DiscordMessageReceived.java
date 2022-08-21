@@ -1,6 +1,7 @@
 package org.alessio29.savagebot.internal;
 
 import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.IMentionable;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.Collections;
@@ -29,9 +30,10 @@ public class DiscordMessageReceived implements IMessageReceived<MessageReceivedE
         this.authorMention = event.getAuthor().getAsMention();
         this.rawMessage = event.getMessage().getContentRaw();
         if (event.isFromGuild()) {
-            this.mentions = event.getMessage().getMentionedMembers().stream().map(m -> m.getAsMention()).collect(Collectors.toList());
+            this.mentions = event.getMessage().getMentions().getUsers().stream()
+                    .map(IMentionable::getAsMention).collect(Collectors.toList());
         } else {
-            this.mentions = Collections.EMPTY_LIST;
+            this.mentions = Collections.emptyList();
         }
     }
 
