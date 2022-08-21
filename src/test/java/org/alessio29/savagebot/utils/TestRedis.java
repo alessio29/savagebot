@@ -10,6 +10,7 @@ import org.junit.*;
 import org.jetbrains.annotations.NotNull;
 
 import redis.embedded.RedisServer;
+import redis.embedded.exceptions.EmbeddedRedisException;
 
 import java.io.IOException;
 
@@ -22,7 +23,7 @@ public class TestRedis {
     private static RedisServer server;
 
     @BeforeClass
-    public static void init () throws IOException {
+    public static void init () throws IOException, EmbeddedRedisException {
         server = new RedisServer(6379);
         server.start();
     }
