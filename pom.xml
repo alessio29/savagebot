@@ -12,6 +12,11 @@
             <name>jcenter-bintray</name>
             <url>https://jcenter.bintray.com</url>
         </repository>
+        <repository>
+            <id>maven-central</id>
+            <name>maven-central</name>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
     </repositories>
 
     <properties>
@@ -68,7 +73,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>4.1.1_156</version>
+            <version>5.0.0-alpha.17</version>
         </dependency>
 
         <dependency>
