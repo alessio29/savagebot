@@ -2,6 +2,7 @@ package org.alessio29.savagebot;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.alessio29.savagebot.cards.Decks;
 import org.alessio29.savagebot.cards.Hands;
 import org.alessio29.savagebot.characters.Characters;
@@ -18,21 +19,17 @@ public class SavageBotRunner {
 	private static String passwd;
 
 	public static void main(String[] args) throws LoginException {
-
 		if (args.length <5) {
 			System.out.println("Parameters must be provided: password token redisHost redisPort redisPass");
 			return;
 		}
 		passwd = args[0].trim();
 		String token = args[1].trim();
-
 		Commands.registerDefaultCommands();
 
 		String host = args[2].trim();
 		int port = Integer.parseInt(args[3].trim());
 		String pass = (args[4].equals("dummyPass"))?null:args[4];
-
-
 		RedisClient.setup(host, port, pass);
 
 		Prefixes.loadFromRedis();
@@ -46,7 +43,9 @@ public class SavageBotRunner {
 				Prefixes.setDebugPrefix();
 			}
 		}
-		JDA api = JDABuilder.createDefault(token).addEventListeners(new ParseInputListener()).build();
+		JDA api = JDABuilder.createDefault(token)
+				.enableIntents(GatewayIntent.MESSAGE_CONTENT)
+				.addEventListeners(new ParseInputListener()).build();
 		SelfMentionContainer.initialize(api.getSelfUser().getAsMention());
 
 	}
