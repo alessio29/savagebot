@@ -1,5 +1,6 @@
 package org.alessio29.savagebot.commands;
 
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.alessio29.savagebot.apiActions.diceRolls.*;
 import org.alessio29.savagebot.internal.IMessageReceived;
 import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
@@ -17,6 +18,13 @@ public class DiceCommands {
                     "Just roll them bones (no spaces in expressions): `shooting !s8 damage !2d6+1`",
             aliases = {},
             arguments = { "<expression1> ... <expressionN> "}
+    )
+    @DiscordCommandCallback(
+            name = "roll",
+            description = "roll dice",
+            options = {
+                    @DiscordOption(name = "roll", description = "dice to roll, might be mixed with text, e.g.: 'damage 2d8'", isRequired = true)
+            }
     )
     public static CommandExecutionResult rollDice(IMessageReceived message, String[] args) {
         return new RollDiceAction().doAction(message, args);
