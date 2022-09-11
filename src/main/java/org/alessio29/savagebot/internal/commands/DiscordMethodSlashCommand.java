@@ -12,18 +12,25 @@ public class DiscordMethodSlashCommand implements IDiscordCommand {
     private final Object methodOwner;
     private final boolean shouldDefer;
     private final String[] optionNames;
+    private final boolean isVararg;
 
-    public DiscordMethodSlashCommand(String name, Method method, Object methodOwner, boolean shouldDefer, String[] optionNames) {
+    public DiscordMethodSlashCommand(String name, Method method, Object methodOwner, boolean shouldDefer, String[] optionNames, boolean isVararg) {
         this.name = name;
         this.method = method;
         this.methodOwner = methodOwner;
         this.shouldDefer = shouldDefer;
         this.optionNames = optionNames;
+        this.isVararg = isVararg;
     }
 
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean isVararg() {
+        return isVararg;
     }
 
     @Override

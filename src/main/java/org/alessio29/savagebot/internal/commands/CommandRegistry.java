@@ -1,11 +1,13 @@
 package org.alessio29.savagebot.internal.commands;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import org.alessio29.savagebot.commands.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -43,9 +45,15 @@ public class CommandRegistry {
 	private static String[] getOptionNames(DiscordCommandCallback cb) {
 		DiscordOption[] options = cb.options();
 		int numOptions = options.length;
+		if (cb.varargOptionName().length() > 0) {
+			numOptions += 1;
+		}
 		String[] optionNames = new String[numOptions];
-		for (int i = 0; i < numOptions; ++i) {
+		for (int i = 0; i < options.length; ++i) {
 			optionNames[i] = options[i].name();
+		}
+		if (cb.varargOptionName().length() > 0) {
+			optionNames[options.length] = cb.varargOptionName();
 		}
 		return optionNames;
 	}
@@ -81,12 +89,9 @@ public class CommandRegistry {
 
 			DiscordCommandCallback discordCommandCallback = method.getDeclaredAnnotation(DiscordCommandCallback.class);
 			if (discordCommandCallback != null) {
-				String name = discordCommandCallback.name();
-				discordCommands.put(name, new DiscordMethodSlashCommand(
-						name,
-						method, methodOwner,
-						discordCommandCallback.shouldDefer(),
-						getOptionNames(discordCommandCallback)));
+				discordCommands.put(
+						discordCommandCallback.name(),
+						createDiscordMethodSlashCommand(methodOwner, method, discordCommandCallback));
 				discordSlashCommandsToRegister.add(makeSlashCommandData(discordCommandCallback));
 			}
 		}
@@ -99,15 +104,34 @@ public class CommandRegistry {
 		}
 	}
 
+	@NotNull
+	private DiscordMethodSlashCommand createDiscordMethodSlashCommand(
+			Object methodOwner,
+			Method method,
+			DiscordCommandCallback discordCommandCallback) {
+		return new DiscordMethodSlashCommand(
+				discordCommandCallback.name(),
+				method, methodOwner,
+				discordCommandCallback.shouldDefer(),
+				getOptionNames(discordCommandCallback),
+				discordCommandCallback.varargOptionName().length() > 0);
+	}
+
 	private SlashCommandData makeSlashCommandData(DiscordCommandCallback dc) {
 		SlashCommandData slash = Commands.slash(dc.name(), dc.description());
 		DiscordOption[] options = dc.options();
 		int numOptions = options.length;
+		if (dc.varargOptionName().length() > 0) {
+			numOptions += 1;
+		}
 		if (numOptions > 0) {
 			OptionData[] optionData = new OptionData[numOptions];
-			for (int i = 0; i < numOptions; ++i) {
+			for (int i = 0; i < options.length; ++i) {
 				DiscordOption option = options[i];
 				optionData[i] = new OptionData(option.optionType(), option.name(), option.description());
+			}
+			if (dc.varargOptionName().length() > 0) {
+				optionData[options.length] = new OptionData(OptionType.STRING, dc.varargOptionName(), dc.varargOptionDescription());
 			}
 			slash.addOptions(optionData);
 		}

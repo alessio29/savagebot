@@ -25,7 +25,7 @@ public class CommandInterpreter {
         String botMention2 = (SelfMentionContainer.getMention()!=null)?SelfMentionContainer.getMention().replace("<@", "<@!"): null;
         boolean botMentioned;
 
-        if (botMention1 == null && botMention2 == null) {
+        if (botMention1 == null) {
             botMentioned = false;
         }
         else {
@@ -52,8 +52,6 @@ public class CommandInterpreter {
             if (word.trim().startsWith(prefix) || botMentioned) {
                 String command = word.replaceFirst(prefix, "");
                 ICommand cmd = registry.getCommandByName(command);
-
-//                ICommand cmd = registry.getCommandByName(word);
                 if (cmd != null) {
                     isCommand = true;
                     String[] args = Arrays.copyOfRange(words, index + 1, words.length);

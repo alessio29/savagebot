@@ -12,4 +12,6 @@ public @interface DiscordCommandCallback {
     String description();
     DiscordOption[] options() default {};
     boolean shouldDefer() default false;
+    String varargOptionName() default "";
+    String varargOptionDescription() default "";
 }
