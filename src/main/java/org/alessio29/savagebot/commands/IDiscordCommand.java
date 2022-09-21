@@ -9,6 +9,8 @@ public interface IDiscordCommand {
 
     boolean shouldDefer();
 
+    boolean isVararg();
+
     String[] getOptionNames();
 
     CommandExecutionResult invoke(IMessageReceived<SlashCommandInteractionEvent> event, String[] optionValues) throws Exception;

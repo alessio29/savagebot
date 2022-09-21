@@ -9,6 +9,7 @@ import org.alessio29.savagebot.internal.commands.CommandExecutionResult;
 import org.alessio29.savagebot.internal.commands.CommandRegistry;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DiscordSlashCommandListener extends ListenerAdapter {
@@ -88,14 +89,29 @@ public class DiscordSlashCommandListener extends ListenerAdapter {
 
     private String[] getOptionValues(@NotNull SlashCommandInteractionEvent event, IDiscordCommand discordCommand) {
         String[] optionNames = discordCommand.getOptionNames();
-        int numOptions = optionNames.length;
-        String[] optionValues = new String[numOptions];
-        for (int i = 0; i < numOptions; ++i) {
+        int numRegularOptions = optionNames.length;
+        if (discordCommand.isVararg()) {
+            numRegularOptions -= 1;
+        }
+        List<String> optionValues = new ArrayList<>();
+        for (int i = 0; i < numRegularOptions; ++i) {
             OptionMapping om = event.getOption(optionNames[i]);
             if (om != null) {
-                optionValues[i] = om.getAsString();
+                optionValues.add(om.getAsString());
+            } else {
+                optionValues.add(null);
             }
         }
-        return optionValues;
+        if (discordCommand.isVararg()) {
+            OptionMapping varargOptionMapping = event.getOption(optionNames[optionNames.length - 1]);
+            if (varargOptionMapping != null) {
+                for (String word : varargOptionMapping.getAsString().split("\\s+")) {
+                    if (word.length() > 0) {
+                        optionValues.add(word);
+                    }
+                }
+            }
+        }
+        return optionValues.toArray(new String[]{});
     }
 }
