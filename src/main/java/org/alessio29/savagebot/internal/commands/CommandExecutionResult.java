@@ -11,6 +11,15 @@ public class CommandExecutionResult {
 		this.toSkip = i;
 	}
 
+	public CommandExecutionResult(String string) {
+		this.result = string;
+	}
+
+	public CommandExecutionResult(String string, boolean privateMessage) {
+		this.result = string;
+		this.privateMessage = privateMessage;
+	}
+
 	public CommandExecutionResult() {
 	}
 
