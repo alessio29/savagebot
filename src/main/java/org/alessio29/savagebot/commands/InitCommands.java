@@ -74,10 +74,10 @@ public class InitCommands {
             name = "card",
             description = "gives one more card to character",
             aliases = {"cd"},
-            arguments = { "<character_name>"}
+            arguments = {"<character_name>"}
     )
     @DiscordCommandCallback(
-            name = "drop",
+            name = "card",
             description = "gives one more card to character",
             options = {
                     @DiscordOption(name = "character", description = "name of the character to give one more card")
@@ -107,13 +107,13 @@ public class InitCommands {
             name = "hold",
             description = "Puts character on hold or return it to fight",
             aliases = {},
-            arguments = { "[-]<character>" }
+            arguments = {"[-]<character>"}
     )
     @DiscordCommandCallback(
             name = "hold",
             description = "Puts character on hold or return it to fight",
             options = {
-                    @DiscordOption(name = "[-]character", description = "[-]character")
+                    @DiscordOption(name = "character", description = "[-]character")
             }
     )
     public static CommandExecutionResult hold(IMessageReceived message, String[] args) {

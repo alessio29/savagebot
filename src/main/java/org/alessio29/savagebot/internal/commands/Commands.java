@@ -43,5 +43,7 @@ public class Commands {
 
 		// music commands
 		registry.registerCommandsFromStaticMethods(MusicCommands.class);
+
+		registry.registerDiscordSlashCommands();
 	}
 }
