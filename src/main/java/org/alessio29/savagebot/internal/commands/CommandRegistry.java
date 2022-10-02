@@ -1,6 +1,7 @@
 package org.alessio29.savagebot.internal.commands;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -58,13 +59,13 @@ public class CommandRegistry {
 		return optionNames;
 	}
 
+	private final ArrayList<CommandData> discordSlashCommandsToRegister = new ArrayList<>();
+
 	public void registerCommandsFromMethods(Object methodOwner, Class<?> methodClass) {
 		boolean shouldBeStatic = methodOwner == null;
 
 		CommandCategoryOwner commandCategoryAnn = methodClass.getDeclaredAnnotation(CommandCategoryOwner.class);
 		CommandCategory classCommandCategory = commandCategoryAnn != null ? commandCategoryAnn.value() : null;
-
-		ArrayList<CommandData> discordSlashCommandsToRegister = new ArrayList<>();
 
 		for (Method method : methodClass.getDeclaredMethods()) {
 			if (shouldBeStatic != Modifier.isStatic(method.getModifiers())) continue;
@@ -95,13 +96,22 @@ public class CommandRegistry {
 				discordSlashCommandsToRegister.add(makeSlashCommandData(discordCommandCallback));
 			}
 		}
+	}
 
-		if (jda != null && !discordSlashCommandsToRegister.isEmpty()) {
-			for (CommandData commandData : discordSlashCommandsToRegister) {
-				System.out.println("Registering /-command: " + commandData.getName());
-			}
-			jda.updateCommands().addCommands(discordSlashCommandsToRegister).queue();
+	public void registerDiscordSlashCommands() {
+		if (jda == null || discordSlashCommandsToRegister.isEmpty()) {
+			return;
 		}
+		jda.updateCommands().addCommands(discordSlashCommandsToRegister).queue(
+				commands -> {
+					for (Command command : commands) {
+						System.out.println("Registered /-command: " + command.getName());
+					}
+				},
+				throwable -> {
+					throw new RuntimeException("/-command registration failed", throwable);
+				}
+		);
 	}
 
 	@NotNull
