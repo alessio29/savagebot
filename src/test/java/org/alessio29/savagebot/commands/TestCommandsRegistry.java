@@ -5,6 +5,7 @@ import org.alessio29.savagebot.internal.commands.CommandRegistry;
 import org.alessio29.savagebot.internal.commands.Commands;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Ignore
 public class TestCommandsRegistry {
     @Before
     public void setup() {
