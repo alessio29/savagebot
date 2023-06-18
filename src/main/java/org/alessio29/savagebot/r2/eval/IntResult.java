@@ -1,6 +1,8 @@
 package org.alessio29.savagebot.r2.eval;
 
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class IntResult {
     private final int value;
@@ -13,6 +15,10 @@ public class IntResult {
 
     public int getValue() {
         return value;
+    }
+
+    public List<Integer> getSingletonValue() {
+        return Collections.singletonList(value);
     }
 
     public String getExplained() {

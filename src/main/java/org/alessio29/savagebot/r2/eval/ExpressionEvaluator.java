@@ -230,7 +230,7 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
 
         context.putExplanation(genericRollExpression, result.getExplained());
 
-        return Collections.singletonList(result.getValue());
+        return result.getSingletonValue();
     }
 
     private void checkDiceCount(int diceCount) {
@@ -273,7 +273,7 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
 
         context.putExplanation(fudgeRollExpression, dieResult.getExplained());
 
-        return Collections.singletonList(dieResult.getValue());
+        return dieResult.getSingletonValue();
     }
 
     @Override
@@ -282,7 +282,7 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
         checkDiceCount(diceCount);
         IntResult diceResult = roller.rollCarcosa(diceCount);
         context.putExplanation(carcosaRollExpression, diceResult.getExplained());
-        return Collections.singletonList(diceResult.getValue());
+        return diceResult.getSingletonValue();
     }
 
     @Override
@@ -360,7 +360,7 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
 
         context.putExplanation(d66RollExpression, result.getExplained());
 
-        return Collections.singletonList(result.getValue());
+        return result.getSingletonValue();
     }
 
     @Override
@@ -370,7 +370,7 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
 
         IntResult result = roller.rollWegD6(diceCount);
         context.putExplanation(wegD6RollExpression, result.getExplained());
-        return Collections.singletonList(result.getValue());
+        return result.getSingletonValue();
     }
 
     @Override
@@ -380,7 +380,19 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
 
         IntResult result = new GygaxRangeRoller(roller).roll(min, max);
         context.putExplanation(gygaxRangeRollExpression, result.getExplained());
-        return Collections.singletonList(result.getValue());
+        return result.getSingletonValue();
+    }
+
+    @Override
+    public List<Integer> visitSwordWorldPowerRollExpression(
+            SwordWorldPowerRollExpression swordWorldPowerRollExpression
+    ) {
+        int power = evalInt(swordWorldPowerRollExpression.getPower(),
+                () -> "Power value not provided");
+        int critical = evalInt(swordWorldPowerRollExpression.getCritical(), -1);
+        IntResult result = new SwordWorldPowerRoller(roller).roll(power, critical);
+        context.putExplanation(swordWorldPowerRollExpression, result.getExplained());
+        return result.getSingletonValue();
     }
 
     public List<Integer> eval(Expression expression) {

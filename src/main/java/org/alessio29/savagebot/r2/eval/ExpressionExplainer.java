@@ -374,4 +374,9 @@ class ExpressionExplainer implements Expression.Visitor<String> {
     public String visitGygaxRangeRollExpression(GygaxRangeRollExpression gygaxRangeRollExpression) {
         return getKnownExplanation(gygaxRangeRollExpression);
     }
+
+    @Override
+    public String visitSwordWorldPowerRollExpression(SwordWorldPowerRollExpression swordWorldPowerRollExpression) {
+        return getKnownExplanation(swordWorldPowerRollExpression);
+    }
 }
