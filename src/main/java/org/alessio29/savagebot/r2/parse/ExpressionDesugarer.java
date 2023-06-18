@@ -273,6 +273,16 @@ class ExpressionDesugarer extends Desugarer<Expression> {
     }
 
     @Override
+    public Expression visitSwordWorldPowerRollExpr(R2Parser.SwordWorldPowerRollExprContext ctx) {
+        R2Parser.SwordWorldPowerRollContext swprc = ctx.swordWorldPowerRoll();
+        return new SwordWorldPowerRollExpression(
+                getOriginalText(ctx),
+                visit(swprc.t1),
+                visitOrNull(swprc.t2)
+        );
+    }
+
+    @Override
     public Expression visitTargetNumberAndRaiseStepExpr(R2Parser.TargetNumberAndRaiseStepExprContext ctx) {
         return desugarTargetNumberAndRaiseStep(
                 getOriginalText(ctx),

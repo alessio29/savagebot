@@ -31,6 +31,7 @@ expression
     |   fudgeRoll                                       # FudgeRollExpr
     |   carcosaRoll                                     # CarcosaRollExpr
     |   wegD6Roll                                       # WegD6RollExpr
+    |   swordWorldPowerRoll                             # SwordWorldPowerRollExpr
     |   e1=expression
         '[' (e2=expression)? ':' (e3=expression)? ']'   # BoundedExpr
     |   targetNumberAndRaiseStep ':' e1=expression      # TargetNumberAndRaiseStepExpr
@@ -62,6 +63,10 @@ savageWorldsRoll
 
 savageWorldsExtrasRoll
     :   ('e'|'E') t1=term targetNumberAndRaiseStep?
+    ;
+
+swordWorldPowerRoll
+    :   ('p'|'P') t1=term (('c'|'C') t2=term)?
     ;
 
 targetNumberAndRaiseStep

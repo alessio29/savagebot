@@ -270,4 +270,14 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
                 " max:" + gygaxRangeRollExpression.getMax());
         return null;
     }
+
+    @Override
+    public Void visitSwordWorldPowerRollExpression(SwordWorldPowerRollExpression swordWorldPowerRollExpression) {
+        println("SwordWorldPowerRoll");
+        indented(() -> {
+            dump("power", swordWorldPowerRollExpression.getPower());
+            dump("critical", swordWorldPowerRollExpression.getCritical());
+        });
+        return null;
+    }
 }
