@@ -33,7 +33,7 @@ public class TestCommandsRegistry {
                         "CHARACTERS:list, CHARACTERS:remove, " +
                         "DICE:ept, DICE:r, DICE:rh, DICE:rs, " +
                         "INFO:help, INFO:invite, " +
-                        "INITIATIVE:card, INITIATIVE:di, INITIATIVE:drop, INITIATIVE:fight, INITIATIVE:hold, INITIATIVE:init, INITIATIVE:round, " +
+                        "INITIATIVE:card, INITIATIVE:deal, INITIATIVE:drop, INITIATIVE:fight, INITIATIVE:hold, INITIATIVE:init, INITIATIVE:round, " +
                         "MUSIC:join, MUSIC:leave, MUSIC:nowplaying, MUSIC:play, MUSIC:queue, MUSIC:skip, MUSIC:stop, " +
                         "STATES:state, " +
                         "TOKENS:clear, TOKENS:give, TOKENS:take]",
@@ -71,7 +71,7 @@ public class TestCommandsRegistry {
                         "\n" +
                         "__**INITIATIVE category**__\n" +
                         "!card <character_name>; aliases: !cd\n" +
-                        "!di <character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]\n" +
+                        "!deal <character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]; aliases: !di\n" +
                         "!drop <character_name>\n" +
                         "!fight; aliases: !f\n" +
                         "!hold [-]<character>\n" +
