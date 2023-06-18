@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Ignore
+
 public class TestCommandsRegistry {
     @Before
     public void setup() {
