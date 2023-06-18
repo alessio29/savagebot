@@ -837,6 +837,34 @@ public class TestR2Interpreter {
         expect("1200--7200: [12d6x100] (1 + 5 + 2 + 6 + 6 + 6 + 6 + 4 + 4 + 3 + 6 + 6) x 100 = **5500**", "1200--7200");
     }
 
+    @Test
+    public void testSwordWorldPowerRoll() {
+        expect("p0: (power 0; no critical) 1 = **1**", "p0");
+        expect("p1: (power 1; no critical) 1 = **1**", "p1");
+        expect("p5: (power 5; no critical) 2 = **2**", "p5");
+        expect("p15: (power 15; no critical) 4 = **4**", "p15");
+        expect("p25: (power 25; no critical) 5 = **5**", "p25");
+        expect("p35: (power 35; no critical) 7 = **7**", "p35");
+        expect("p45: (power 45; no critical) 9 = **9**", "p45");
+        expect("p55: (power 55; no critical) 10 = **10**", "p55");
+        expect("p65: (power 65; no critical) 12 = **12**", "p65");
+        expect("p75: (power 75; no critical) 13 = **13**", "p75");
+        expect("p85: (power 85; no critical) 14 = **14**", "p85");
+        expect("p95: (power 95; no critical) 16 = **16**", "p95");
+        expect("p99: (power 99; no critical) 17 = **17**", "p99");
+        expect("p100: (power 100; no critical) 18 = **18**", "p100");
+        expect("p101: Power out of range [0..100]: 101", "p101");
+        expect("p5c10: (power 5; critical 10) 2 = **2**", "p5c10");
+        expect("p5c10+3: (power 5; critical 10) 2 + 3 = **5**", "p5c10+3");
+        expect("p5c9: (power 5; critical 9) 2 = **2**", "p5c9");
+        expect("p5c6: (power 5; critical 6) 2 + 3 + 5 + 5 + 2 + 5 + 5 + 4 + 4 + 4 + 0 = **39**", "p5c6");
+        expect("p5c1: Critical out of range: 1", "p5c1");
+        expect("p5c2: Critical out of range: 2", "p5c2");
+        expect("p5c3: Critical out of range: 3", "p5c3");
+        expect("p5c4: Critical out of range: 4", "p5c4");
+        expect("p5c5: Critical out of range: 5", "p5c5");
+    }
+
     private void expect(String expectedResult, String... args) {
         List<Statement> statements = new Parser().parse(args);
         CommandContext context = new CommandContext(new Random(0));
