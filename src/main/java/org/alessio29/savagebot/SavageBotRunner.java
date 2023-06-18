@@ -3,6 +3,8 @@ package org.alessio29.savagebot;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
+import net.dv8tion.jda.api.sharding.ShardManager;
 import org.alessio29.savagebot.cards.Decks;
 import org.alessio29.savagebot.cards.Hands;
 import org.alessio29.savagebot.characters.Characters;
@@ -45,11 +47,14 @@ public class SavageBotRunner {
 			}
 		}
 
-		JDA jda = JDABuilder.createDefault(token)
+		ShardManager shardManager = DefaultShardManagerBuilder.createDefault(token)
 				.addEventListeners(new ParseInputListener(), new DiscordSlashCommandListener())
 				.build();
-		Commands.registerDefaultCommands(jda);
-		SelfMentionContainer.initialize(jda.getSelfUser().getAsMention());
+
+		for (JDA jda : shardManager.getShards()) {
+			Commands.registerDefaultCommands(jda);
+			SelfMentionContainer.initialize(jda.getSelfUser().getAsMention());
+		}
 	}
 
 	public static boolean passwdOk(String str) {

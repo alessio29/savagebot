@@ -1,5 +1,6 @@
 package org.alessio29.savagebot.commands;
 
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.alessio29.savagebot.apiActions.admin.InfoAction;
 import org.alessio29.savagebot.apiActions.admin.PingAction;
@@ -21,7 +22,12 @@ public class AdminCommands {
     )
     public static CommandExecutionResult info(IMessageReceived<MessageReceivedEvent> message, String[] args) {
         ArrayList<String> arr = new ArrayList<String>(Arrays.asList(args));
-        arr.add(message.getOriginalEvent().getJDA().getGuilds().size() + "");
+        Integer count = 0;
+        for(JDA jda:  message.getOriginalEvent().getJDA().getShardManager().getShards()) {
+            count+=jda.getGuilds().size();
+        }
+        arr.add(count.toString());
+
         return new InfoAction().doAction(message, arr.toArray(new String[]{}));
     }
 

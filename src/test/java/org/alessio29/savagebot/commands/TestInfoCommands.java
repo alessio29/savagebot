@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+
 public class TestInfoCommands {
     @Before
     public void setup() {
@@ -15,7 +16,6 @@ public class TestInfoCommands {
         Commands.registerDefaultCommands();
     }
 
-    @Ignore
     @Test
     public void testHelp() {
         TestUtils.MessageBuilder mp = TestUtils.createDefaultForTests();
@@ -23,31 +23,36 @@ public class TestInfoCommands {
                 "<< [guildId='test-guild', channelId='test-channel', userId='test-user', isPrivate=false] '!help'\n" +
                         ">> [private: userId: test-user]\n" +
                         "__**CARDS category**__\n" +
-                        "!deal [<card_count>] [<user>]; aliases: !dl\n" +
-                        "!put [<card_count>]; aliases: !\n" +
+                        "!deal [<card_count>]; aliases: !dl\n" +
+                        "!put [<card_count>]\n" +
                         "!show; aliases: !sh\n" +
                         "!shuffle\n" +
                         "\n" +
                         "__**CHARACTERS category**__\n" +
-                        "!list ; aliases: !\n" +
-                        "!remove ; aliases: !rm\n" +
+                        "!list\n" +
+                        "!remove; aliases: !rm\n" +
                         "\n" +
                         "__**DICE category**__\n" +
+                        "!ept <level> <hit_die_expression>\n" +
                         "!r <expression1> ... <expressionN> \n" +
                         "!rh <expression_1> ... <expressionN>\n" +
                         "!rs [<heading_1>] <expression_1> ... [<heading_N>] <expression_N>\n" +
                         "\n" +
                         "__**BENNIES category**__\n" +
-                        "!benny <character_name>\n" +
-                        "!hat [fill]\n" +
-                        "!pocket <character_name>\n" +
-                        "!use <benny_color> <character_name>\n" +
+                        "!addbenny w/b/r/g; aliases: !ab\n" +
+                        "!clearbennies <character1_name>/all [<character2_name>]; aliases: !cb\n" +
+                        "!givebenny <character_name> [<amount>]; aliases: !gb\n" +
+                        "!initbennies; aliases: !ib\n" +
+                        "!pullbenny <character_name> [<amount>]; aliases: !pb\n" +
+                        "!setbennymode normal/deadlands; aliases: !sbm\n" +
+                        "!takebenny <character_name> [<bennyColor>]; aliases: !tb\n" +
                         "\n" +
                         "__**INITIATIVE category**__\n" +
                         "!card <character_name>; aliases: !cd\n" +
-                        "!di <character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]\n" +
-                        "!drop <character_name>\n"+
+                        "!deal <character_name1> [<modifiers_1>] ... <character_nameN> [<modifiers_N>]; aliases: !di\n" +
+                        "!drop <character_name>\n" +
                         "!fight; aliases: !f\n" +
+                        "!hold [-]<character>\n" +
                         "!init\n" +
                         "!round [+] [-<char_name>]; aliases: !rd\n" +
                         "\n" +
@@ -56,7 +61,7 @@ public class TestInfoCommands {
                         "!invite\n" +
                         "\n" +
                         "__**ADMIN category**__\n" +
-                        "!info password\n" +
+                        "!info\n" +
                         "!ping\n" +
                         "!prefix [<character>]\n" +
                         "\n" +
@@ -66,11 +71,17 @@ public class TestInfoCommands {
                         "!take <character_name> [<amount of tokens>]\n" +
                         "\n" +
                         "__**STATES category**__\n" +
-                        "!clstate <character_name>/all; aliases: !cs\n" +
-                        "!remstate <character_name> <state1> [<state2>] [...]; aliases: !rst\n" +
-                        "!state <character_name> <state1> [<state2>] [...]; aliases: !st\n" +
+                        "!state <character_name> [clear] [+/-]<state1> [<state2>] [...]; aliases: !st\n" +
                         "\n" +
-
+                        "__**MUSIC category**__\n" +
+                        "!join; aliases: !jn\n" +
+                        "!leave; aliases: !lv\n" +
+                        "!nowplaying; aliases: !np\n" +
+                        "!play music_URL; aliases: !pl\n" +
+                        "!queue; aliases: !que\n" +
+                        "!skip\n" +
+                        "!stop\n" +
+                        "\n" +
                         "For more details, use `!help <command>` or see https://github.com/alessio29/savagebot/blob/master/README.md",
                 TestUtils.processMessages(mp.message("!help"))
         );
