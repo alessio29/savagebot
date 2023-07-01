@@ -95,10 +95,15 @@ class StatementInterpreter implements Statement.Visitor<String> {
     private IntListResult eval(Expression expression) {
         try {
             return ExpressionEvaluator.evalUnsafe(expression, interpreter.getContext());
-        } catch (Throwable e) {
+        } catch (EvaluationErrorException e) {
             return new IntListResult(
                     Collections.emptyList(),
                     expression.getText() + ": " + e.getMessage()
+            );
+        } catch (Throwable e) {
+            return new IntListResult(
+                    Collections.emptyList(),
+                    expression.getText() + ": Internal error (" + e.getClass().getSimpleName() + "): " + e.getMessage()
             );
         }
     }

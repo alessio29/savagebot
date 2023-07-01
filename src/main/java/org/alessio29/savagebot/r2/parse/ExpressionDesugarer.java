@@ -192,8 +192,7 @@ class ExpressionDesugarer extends Desugarer<Expression> {
                             arg1, arg2, isOpenEnded
                     )
             );
-        }
-        else {
+        } else {
             throw new DesugaringErrorException("Unexpected generic roll suffix: '" + grs.getText() + "': " +
                     grs.getClass().getSimpleName());
         }
@@ -275,10 +274,47 @@ class ExpressionDesugarer extends Desugarer<Expression> {
     @Override
     public Expression visitSwordWorldPowerRollExpr(R2Parser.SwordWorldPowerRollExprContext ctx) {
         R2Parser.SwordWorldPowerRollContext swprc = ctx.swordWorldPowerRoll();
+
+        Expression power = visit(swprc.tp);
+
+        Expression critical = null;
+        Expression autoFailThreshold = null;
+        Expression numDice = null;
+        Expression rollModifier = null;
+        int rollModifierSign = 1;
+
+        for (R2Parser.SwordWorldPowerRollModifierContext modCtx : ctx.swordWorldPowerRoll().swordWorldPowerRollModifier()) {
+            if (modCtx instanceof R2Parser.SwordWorldCriticalModifierContext) {
+                R2Parser.SwordWorldCriticalModifierContext criticalModCtx = (R2Parser.SwordWorldCriticalModifierContext) modCtx;
+                critical = visitOrNull(criticalModCtx.tc);
+            } else if (modCtx instanceof R2Parser.SwordWorldAutoFailModifierContext) {
+                R2Parser.SwordWorldAutoFailModifierContext autoFailModCtx = (R2Parser.SwordWorldAutoFailModifierContext) modCtx;
+                autoFailThreshold = visitOrNull(autoFailModCtx.tf);
+            } else if (modCtx instanceof R2Parser.SwordWorldRollModifierContext) {
+                R2Parser.SwordWorldRollModifierContext rollModCtx = (R2Parser.SwordWorldRollModifierContext) modCtx;
+                numDice = visitOrNull(rollModCtx.td);
+
+                // [+2] is {numDice: null, rollModifier: 2}
+                // [d+2] is {numDice: 1, rollModifier: 2}
+                if (numDice == null && rollModCtx.dop != null) {
+                    numDice = new IntExpression("", 1);
+                }
+
+                rollModifier = visitOrNull(rollModCtx.tm);
+                if (rollModCtx.mop == null) {
+                    rollModifierSign = 0;
+                } else if (rollModCtx.mop.getText().equals("-")) {
+                    rollModifierSign = -1;
+                } else {
+                    rollModifierSign = 1;
+                }
+            }
+        }
+
         return new SwordWorldPowerRollExpression(
                 getOriginalText(ctx),
-                visit(swprc.t1),
-                visitOrNull(swprc.t2)
+                power, critical, autoFailThreshold, numDice, rollModifier,
+                rollModifierSign
         );
     }
 

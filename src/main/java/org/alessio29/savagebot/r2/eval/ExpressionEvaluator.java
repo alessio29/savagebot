@@ -131,7 +131,7 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
             result.add(bounded);
         }
 
-        explain.append(listContent.toString());
+        explain.append(listContent);
         if (arg.size() > 1) {
             explain.append("]");
         }
@@ -384,15 +384,23 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
     }
 
     @Override
-    public List<Integer> visitSwordWorldPowerRollExpression(
-            SwordWorldPowerRollExpression swordWorldPowerRollExpression
-    ) {
-        int power = evalInt(swordWorldPowerRollExpression.getPower(),
-                () -> "Power value not provided");
-        int critical = evalInt(swordWorldPowerRollExpression.getCritical(), -1);
-        IntResult result = new SwordWorldPowerRoller(roller).roll(power, critical);
-        context.putExplanation(swordWorldPowerRollExpression, result.getExplained());
-        return result.getSingletonValue();
+    public List<Integer> visitSwordWorldPowerRollExpression(SwordWorldPowerRollExpression expr) {
+        SwordWorldPowerRoller.Result result = new SwordWorldPowerRoller(roller)
+                .power(evalInt(expr.getPower(),
+                        () -> "Power value not provided"))
+                .critical(evalInt(expr.getCritical(), -1))
+                .autoFailThreshold(evalInt(expr.getAutoFailThreshold(), 2))
+                .numDice(evalInt(expr.getNumDice(), 2))
+                .rollModifier(evalInt(expr.getRollModifier(), 0) * expr.getRollModifierSign())
+                .roll();
+
+        context.putExplanation(expr, result.getExplained());
+
+        if (!context.isSwordWorldAutoFail()) {
+            context.setSwordWorldAutoFail(result.isAutoFail());
+        }
+
+        return Collections.singletonList(result.getValue());
     }
 
     public List<Integer> eval(Expression expression) {

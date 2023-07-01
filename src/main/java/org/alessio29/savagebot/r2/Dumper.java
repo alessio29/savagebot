@@ -11,12 +11,6 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
     private int indent = 0;
     private boolean atLineStart = true;
 
-    public static String dump(Expression expression) {
-        StringWriter sw = new StringWriter();
-        expression.accept(new Dumper(sw));
-        return sw.toString();
-    }
-
     public static String dump(Statement statement) {
         StringWriter sw = new StringWriter();
         statement.accept(new Dumper(sw));
@@ -277,6 +271,9 @@ public class Dumper implements Statement.Visitor<Void>, Expression.Visitor<Void>
         indented(() -> {
             dump("power", swordWorldPowerRollExpression.getPower());
             dump("critical", swordWorldPowerRollExpression.getCritical());
+            dump("autoFailThreshold", swordWorldPowerRollExpression.getAutoFailThreshold());
+            dump("numDice", swordWorldPowerRollExpression.getNumDice());
+            dump("rollModifier", swordWorldPowerRollExpression.getRollModifier());
         });
         return null;
     }

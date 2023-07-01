@@ -839,38 +839,96 @@ public class TestR2Interpreter {
 
     @Test
     public void testSwordWorldPowerRoll() {
-        expect("p0: (power 0; no critical) 1 = **1**", "p0");
-        expect("p1: (power 1; no critical) 1 = **1**", "p1");
-        expect("p5: (power 5; no critical) 2 = **2**", "p5");
-        expect("p15: (power 15; no critical) 4 = **4**", "p15");
-        expect("p25: (power 25; no critical) 5 = **5**", "p25");
-        expect("p35: (power 35; no critical) 7 = **7**", "p35");
-        expect("p45: (power 45; no critical) 9 = **9**", "p45");
-        expect("p55: (power 55; no critical) 10 = **10**", "p55");
-        expect("p65: (power 65; no critical) 12 = **12**", "p65");
-        expect("p75: (power 75; no critical) 13 = **13**", "p75");
-        expect("p85: (power 85; no critical) 14 = **14**", "p85");
-        expect("p95: (power 95; no critical) 16 = **16**", "p95");
-        expect("p99: (power 99; no critical) 17 = **17**", "p99");
-        expect("p100: (power 100; no critical) 18 = **18**", "p100");
-        expect("p101: Power out of range [0..100]: 101", "p101");
-        expect("p5c10: (power 5; critical 10) 2 = **2**", "p5c10");
-        expect("p5c10+3: (power 5; critical 10) 2 + 3 = **5**", "p5c10+3");
-        expect("p5c9: (power 5; critical 9) 2 = **2**", "p5c9");
-        expect("p5c6: (power 5; critical 6) 2 + 3 + 5 + 5 + 2 + 5 + 5 + 4 + 4 + 4 + 0 = **39**", "p5c6");
-        expect("p5c1: Critical out of range: 1", "p5c1");
-        expect("p5c2: Critical out of range: 2", "p5c2");
-        expect("p5c3: Critical out of range: 3", "p5c3");
-        expect("p5c4: Critical out of range: 4", "p5c4");
-        expect("p5c5: Critical out of range: 5", "p5c5");
+        RngFixture fixture = new RngFixture();
+
+        fixture.expect("p0: (0|0|0|1|2|2|3|3|4|4; no critical) 1 = **1**", "p0");
+        fixture.expect("p1: (0|0|0|1|2|3|3|3|4|4; no critical) 3 = **3**", "p1");
+        fixture.expect("p5: (0|1|1|2|2|3|4|5|5|5; no critical) 5 = **5**", "p5");
+        fixture.expect("p15: (1|2|3|4|4|5|5|6|7|8; no critical) 6 = **6**", "p15");
+        fixture.expect("p25: (2|3|4|5|6|7|8|8|9|10; no critical) 6 = **6**", "p25");
+        fixture.expect("p35: (3|4|5|7|8|9|10|10|11|12; no critical) 12 = **12**", "p35");
+        fixture.expect("p45: (4|6|7|9|10|10|11|12|13|14; no critical) 13 = **13**", "p45");
+        fixture.expect("p55: (5|7|10|10|11|12|13|14|16|16; no critical) 13 = **13**", "p55");
+        fixture.expect("p65: (5|9|10|12|13|14|15|17|18|18; no critical) 15 = **15**", "p65");
+        fixture.expect("p75: (6|9|10|13|16|16|18|19|20|21; no critical) 18 = **18**", "p75");
+        fixture.expect("p85: (6|9|11|14|17|19|21|22|23|24; no critical) 6 = **6**", "p85");
+        fixture.expect("p95: (8|11|14|16|18|20|22|23|26|28; no critical) 22 = **22**", "p95");
+        fixture.expect("p100: (8|12|15|18|19|20|22|24|27|30; no critical) 20 = **20**", "p100");
+        fixture.expect("p101: Power out of range [0..100]: 101", "p101");
+    }
+
+    @Test
+    public void testSwordWorldPowerCriticals() {
+        RngFixture fixture = new RngFixture();
+
+        fixture.expect("p5c1: Critical out of range: 1", "p5c1");
+        fixture.expect("p5c2: Critical out of range: 2", "p5c2");
+        fixture.expect("p5c3: Critical out of range: 3", "p5c3");
+        fixture.expect("p5c4: Critical out of range: 4", "p5c4");
+        fixture.expect("p5c5: Critical out of range: 5", "p5c5");
+
+        fixture.expect("p5c10: (0|1|1|2|2|3|4|5|5|5; critical 10) 2 = **2**", "p5c10");
+        fixture.expect("p5c10: (0|1|1|2|2|3|4|5|5|5; critical 10) 3 = **3**", "p5c10");
+        fixture.expect("p5c10: (0|1|1|2|2|3|4|5|5|5; critical 10) 5 + 5 + 2 = **12**", "p5c10");
+        fixture.expect("p5c10: (0|1|1|2|2|3|4|5|5|5; critical 10) 5 + 5 + 4 = **14**", "p5c10");
+        fixture.expect("p5c10: (0|1|1|2|2|3|4|5|5|5; critical 10) 4 = **4**", "p5c10");
+
+        fixture.expect("p5c10+3: (0|1|1|2|2|3|4|5|5|5; critical 10) 4 + 3 = **7**", "p5c10+3");
+
+        fixture.expect("p5c9: (0|1|1|2|2|3|4|5|5|5; critical 9) 0 = **0**", "p5c9");
+        fixture.expect("p5c9: (0|1|1|2|2|3|4|5|5|5; critical 9) 4 + 3 = **7**", "p5c9");
+        fixture.expect("p5c9: (0|1|1|2|2|3|4|5|5|5; critical 9) 4 + 2 = **6**", "p5c9");
+        fixture.expect("p5c9: (0|1|1|2|2|3|4|5|5|5; critical 9) 5 + 5 + 2 = **12**", "p5c9");
+    }
+
+    @Test
+    public void testSwordWorldPowerAutoFail() {
+        RngFixture fixture = new RngFixture();
+
+        fixture.expect("p10f0: (1|1|2|3|3|4|5|5|6|7; no critical) 3 = **3**", "p10f0");
+
+        fixture.expect("p10f3: (1|1|2|3|3|4|5|5|6|7; no critical) 4 = **4**", "p10f3");
+        fixture.expect("p10f3: (1|1|2|3|3|4|5|5|6|7; no critical) 7 = **7**", "p10f3");
+        fixture.expect("p10f3: (1|1|2|3|3|4|5|5|6|7; no critical) 5 = **5**", "p10f3");
+        fixture.expect("p10f3: (1|1|2|3|3|4|5|5|6|7; no critical) 3 = **3**", "p10f3");
+        fixture.expect("p10f3: (1|1|2|3|3|4|5|5|6|7; no critical) 7 = **7**", "p10f3");
+        fixture.expect("p10f3: (1|1|2|3|3|4|5|5|6|7; no critical) 6 = **6**", "p10f3");
+        fixture.expect("p10f3: (1|1|2|3|3|4|5|5|6|7; no critical) 5 = **5**", "p10f3");
+        fixture.expect("p10f3: (1|1|2|3|3|4|5|5|6|7; no critical) 5 = **5**", "p10f3");
+        fixture.expect("p10f3: (1|1|2|3|3|4|5|5|6|7; no critical) 5 = **5**", "p10f3");
+        fixture.expect("p10f3: (1|1|2|3|3|4|5|5|6|7; no critical) **NO EFFECT**", "p10f3");
+        fixture.expect("p10f3: (1|1|2|3|3|4|5|5|6|7; no critical) 5 = **5**", "p10f3");
+        fixture.expect("p10f3: (1|1|2|3|3|4|5|5|6|7; no critical) 4 = **4**", "p10f3");
+
+        fixture.expect("p10f12: (1|1|2|3|3|4|5|5|6|7; no critical) **NO EFFECT**", "p10f12");
+        fixture.expect("p10f100: Automatic fail threshold out of range: 100", "p10f100");
+    }
+
+    @Test
+    public void testSwordWorldModifiedRoll() {
+        RngFixture fixture = new RngFixture();
+
+        fixture.expect("p10[2d]: (1|1|2|3|3|4|5|5|6|7; no critical) 3 = **3**", "p10[2d]");
+        fixture.expect("p10[2d+2]: (1|1|2|3|3|4|5|5|6|7; no critical) 5 = **5**", "p10[2d+2]");
+        fixture.expect("p10[+2]: (1|1|2|3|3|4|5|5|6|7; no critical) 7 = **7**", "p10[+2]");
+        fixture.expect("p10[1d+4]: (1|1|2|3|3|4|5|5|6|7; no critical) 5 = **5**", "p10[1d+4]");
+        fixture.expect("p10[d+4]: (1|1|2|3|3|4|5|5|6|7; no critical) 4 = **4**", "p10[d+4]");
     }
 
     private void expect(String expectedResult, String... args) {
-        List<Statement> statements = new Parser().parse(args);
-        CommandContext context = new CommandContext(new Random(0));
-        RollInterpreter interpreter = new RollInterpreter(context);
-        String actualResult = TestUtils.normalize(interpreter.run(statements));
-        String expected = TestUtils.normalize(expectedResult);
-        Assert.assertEquals(expected, actualResult);
+        new RngFixture().expect(expectedResult, args);
+    }
+
+    private static class RngFixture {
+        private final Random random = new Random(0);
+
+        public void expect(String expectedResult, String... args) {
+            List<Statement> statements = new Parser().parse(args);
+            CommandContext context = new CommandContext(random);
+            RollInterpreter interpreter = new RollInterpreter(context);
+            String actualResult = TestUtils.normalize(interpreter.run(statements));
+            String expected = TestUtils.normalize(expectedResult);
+            Assert.assertEquals(expected, actualResult);
+        }
     }
 }
