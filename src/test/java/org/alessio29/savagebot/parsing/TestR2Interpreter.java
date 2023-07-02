@@ -896,11 +896,11 @@ public class TestR2Interpreter {
         fixture.expect("p10f3: (1|1|2|3|3|4|5|5|6|7; no critical) 5 = **5**", "p10f3");
         fixture.expect("p10f3: (1|1|2|3|3|4|5|5|6|7; no critical) 5 = **5**", "p10f3");
         fixture.expect("p10f3: (1|1|2|3|3|4|5|5|6|7; no critical) 5 = **5**", "p10f3");
-        fixture.expect("p10f3: (1|1|2|3|3|4|5|5|6|7; no critical) **NO EFFECT**", "p10f3");
+        fixture.expect("p10f3: (1|1|2|3|3|4|5|5|6|7; no critical) \\* = **NO EFFECT**", "p10f3");
         fixture.expect("p10f3: (1|1|2|3|3|4|5|5|6|7; no critical) 5 = **5**", "p10f3");
         fixture.expect("p10f3: (1|1|2|3|3|4|5|5|6|7; no critical) 4 = **4**", "p10f3");
 
-        fixture.expect("p10f12: (1|1|2|3|3|4|5|5|6|7; no critical) **NO EFFECT**", "p10f12");
+        fixture.expect("p10f12: (1|1|2|3|3|4|5|5|6|7; no critical) \\* = **NO EFFECT**", "p10f12");
         fixture.expect("p10f100: Automatic fail threshold out of range: 100", "p10f100");
     }
 

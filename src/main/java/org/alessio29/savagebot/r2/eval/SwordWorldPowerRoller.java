@@ -97,10 +97,8 @@ public class SwordWorldPowerRoller {
             if (ptr.roll <= autoFailThreshold) {
                 if (isFirstRoll) {
                     isAutoFail = true;
-                    addends.append("**NO EFFECT**");
-                } else {
-                    addends.append("\\*");
                 }
+                addends.append("\\*");
                 break;
             }
 

@@ -33,7 +33,7 @@ class ExpressionExplainer implements Expression.Visitor<String> {
         }
 
         if (expressionContext.isSwordWorldAutoFail()) {
-            return expression.getText() + ": " + explanation;
+            return expression.getText() + ": " + explanation + " = " + ReplyBuilder.bold("NO EFFECT");
         }
 
         String results = values.stream()
