@@ -83,7 +83,7 @@ public class SwordWorldPowerRoller {
 
         if (numDice < 1 || numDice > 10) {
             // It should really be 1 or 2
-            throw new EvaluationErrorException("Number of dice threshold out of range: " + numDice);
+            throw new EvaluationErrorException("Number of dice out of range: " + numDice);
         }
 
         int total = 0;
@@ -138,16 +138,20 @@ public class SwordWorldPowerRoller {
     private PowerTableRollResult rollOnTable() {
         int[] table = POWER_TABLE[power];
 
-        int roll = roller.roll(numDice, 6).getValue() + rollModifier;
+        int rollValue = roller.roll(numDice, 6).getValue();
+        int modifiedRoll = rollValue + rollModifier;
+        if (numDice == 2 && rollValue == 2) {
+            modifiedRoll = rollValue;
+        }
 
-        int tableIndex = roll - 2;
+        int tableIndex = modifiedRoll - 2;
         if (tableIndex < 0) {
             tableIndex = 0;
         } else if (tableIndex >= table.length) {
             tableIndex = table.length - 1;
         }
 
-        return new PowerTableRollResult(roll, table[tableIndex]);
+        return new PowerTableRollResult(modifiedRoll, table[tableIndex]);
     }
 
     private static String getPowerTableAsString(int power) {
