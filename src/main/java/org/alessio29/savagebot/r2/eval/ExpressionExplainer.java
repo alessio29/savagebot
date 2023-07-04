@@ -32,7 +32,13 @@ class ExpressionExplainer implements Expression.Visitor<String> {
             return expression.getText() + ": " + ReplyBuilder.bold(explanation);
         }
 
-        String results = values.stream().map(i -> ReplyBuilder.bold(i.toString())).collect(Collectors.joining(", "));
+        if (expressionContext.isSwordWorldAutoFail()) {
+            return expression.getText() + ": " + explanation + " = " + ReplyBuilder.bold("NO EFFECT");
+        }
+
+        String results = values.stream()
+                .map(i -> ReplyBuilder.bold(i.toString()))
+                .collect(Collectors.joining(", "));
 
         if (shouldExplanationContainHeader(expression)) {
             return explanation + " = " + results;

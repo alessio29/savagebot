@@ -66,7 +66,16 @@ savageWorldsExtrasRoll
     ;
 
 swordWorldPowerRoll
-    :   ('p'|'P') t1=term (('c'|'C') t2=term)?
+    :   ('p'|'P') tp=term swordWorldPowerRollModifier*
+    ;
+
+swordWorldPowerRollModifier
+    :   ('c'|'C') tc=term               # SwordWorldCriticalModifier
+    |   ('f'|'F') tf=term               # SwordWorldAutoFailModifier
+    |   '['
+        ((td=term)? dop=('d'|'D'))?
+        (mop=('+'|'-') tm=term)?
+        ']'                             # SwordWorldRollModifier
     ;
 
 targetNumberAndRaiseStep

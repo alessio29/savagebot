@@ -1,13 +1,70 @@
 package org.alessio29.savagebot.r2.eval;
 
+import java.util.StringJoiner;
+
 public class SwordWorldPowerRoller {
     private final Roller roller;
+
+    private int power;
+    private int critical;
+    private int autoFailThreshold;
+    private int numDice;
+    private int rollModifier;
 
     public SwordWorldPowerRoller(Roller roller) {
         this.roller = roller;
     }
 
-    public IntResult roll(int power, int critical) {
+    public SwordWorldPowerRoller power(int power) {
+        this.power = power;
+        return this;
+    }
+
+    public SwordWorldPowerRoller critical(int critical) {
+        this.critical = critical;
+        return this;
+    }
+
+    public SwordWorldPowerRoller autoFailThreshold(int autoFailThreshold) {
+        this.autoFailThreshold = autoFailThreshold;
+        return this;
+    }
+
+    public SwordWorldPowerRoller numDice(int numDice) {
+        this.numDice = numDice;
+        return this;
+    }
+
+    public SwordWorldPowerRoller rollModifier(int rollModifier) {
+        this.rollModifier = rollModifier;
+        return this;
+    }
+
+    public static final class Result {
+        private final boolean isAutoFail;
+        private final int value;
+        private final String explained;
+
+        public Result(boolean isAutoFail, int value, String explained) {
+            this.isAutoFail = isAutoFail;
+            this.value = value;
+            this.explained = explained;
+        }
+
+        public boolean isAutoFail() {
+            return isAutoFail;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public String getExplained() {
+            return explained;
+        }
+    }
+
+    public Result roll() {
         if (power < 0 || power > MAX_POWER) {
             throw new EvaluationErrorException("Power out of range [0.." + MAX_POWER + "]: " + power);
         }
@@ -19,15 +76,33 @@ public class SwordWorldPowerRoller {
             throw new EvaluationErrorException("Critical out of range: " + critical);
         }
 
+        if (autoFailThreshold < 0 || autoFailThreshold > 12) {
+            // Allow 'f0' to signify that automatic fail on this roll is impossible (for whatever reason)
+            throw new EvaluationErrorException("Automatic fail threshold out of range: " + autoFailThreshold);
+        }
+
+        if (numDice < 1 || numDice > 10) {
+            // It should really be 1 or 2
+            throw new EvaluationErrorException("Number of dice out of range: " + numDice);
+        }
+
         int total = 0;
         StringBuilder addends = new StringBuilder();
+        boolean isAutoFail = false;
+        boolean isFirstRoll = true;
 
         while (true) {
-            PowerTableRoll ptr = rollOnTable(power);
-            if (ptr.value == -1) {
+            PowerTableRollResult ptr = rollOnTable();
+
+            if (ptr.roll <= autoFailThreshold) {
+                if (isFirstRoll) {
+                    isAutoFail = true;
+                }
                 addends.append("\\*");
                 break;
             }
+
+            isFirstRoll = false;
 
             total += ptr.value;
             addends.append(ptr.value);
@@ -39,7 +114,7 @@ public class SwordWorldPowerRoller {
         }
 
         StringBuilder explained = new StringBuilder();
-        explained.append("(power ").append(power).append("; ");
+        explained.append("(").append(getPowerTableAsString(power)).append("; ");
         if (critical <= 0) {
             explained.append("no critical");
         } else {
@@ -47,23 +122,45 @@ public class SwordWorldPowerRoller {
         }
         explained.append(") ").append(addends);
 
-        return new IntResult(total, explained.toString());
+        return new Result(isAutoFail, total, explained.toString());
     }
 
-    private static class PowerTableRoll {
+    private static class PowerTableRollResult {
         public final int roll;
         public final int value;
 
-        public PowerTableRoll(int roll, int value) {
+        public PowerTableRollResult(int roll, int value) {
             this.roll = roll;
             this.value = value;
         }
     }
 
-    private PowerTableRoll rollOnTable(int power) {
+    private PowerTableRollResult rollOnTable() {
         int[] table = POWER_TABLE[power];
-        int roll = roller.roll(6) + roller.roll(6);
-        return new PowerTableRoll(roll, table[roll - 2]);
+
+        int rollValue = roller.roll(numDice, 6).getValue();
+        int modifiedRoll = rollValue + rollModifier;
+        if (numDice == 2 && rollValue == 2) {
+            modifiedRoll = rollValue;
+        }
+
+        int tableIndex = modifiedRoll - 2;
+        if (tableIndex < 0) {
+            tableIndex = 0;
+        } else if (tableIndex >= table.length) {
+            tableIndex = table.length - 1;
+        }
+
+        return new PowerTableRollResult(modifiedRoll, table[tableIndex]);
+    }
+
+    private static String getPowerTableAsString(int power) {
+        int[] table = POWER_TABLE[power];
+        StringJoiner joiner = new StringJoiner("|");
+        for (int i = 1; i < table.length; ++i) {
+            joiner.add(Integer.toString(table[i]));
+        }
+        return joiner.toString();
     }
 
     // Generated from tables in Sword World Core Rulebook III, '-1' stands for '*'

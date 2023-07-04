@@ -698,6 +698,50 @@ public class TestR2Parser {
         );
     }
 
+    @Test
+    public void testSwordWorldRollModifier() {
+        expect(
+                "RollOnce\n" +
+                        "  expr: SwordWorldPowerRoll\n" +
+                        "    power: Int 10\n" +
+                        "    critical: null\n" +
+                        "    autoFailThreshold: null\n" +
+                        "    numDice: null\n" +
+                        "    rollModifier: Int 2",
+                "p10[+2]"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: SwordWorldPowerRoll\n" +
+                        "    power: Int 10\n" +
+                        "    critical: null\n" +
+                        "    autoFailThreshold: null\n" +
+                        "    numDice: Int 1\n" +
+                        "    rollModifier: Int 2",
+                "p10[d+2]"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: SwordWorldPowerRoll\n" +
+                        "    power: Int 10\n" +
+                        "    critical: null\n" +
+                        "    autoFailThreshold: null\n" +
+                        "    numDice: Int 1\n" +
+                        "    rollModifier: Int 2",
+                "p10[1d+2]"
+        );
+        expect(
+                "RollOnce\n" +
+                        "  expr: SwordWorldPowerRoll\n" +
+                        "    power: Int 10\n" +
+                        "    critical: null\n" +
+                        "    autoFailThreshold: null\n" +
+                        "    numDice: Int 2\n" +
+                        "    rollModifier: Int 2",
+                "p10[2d+2]"
+        );
+    }
+
     private void expect(String expectedDump, String... args) {
         List<Statement> statements = new Parser().parse(args);
         StringWriter sw = new StringWriter();

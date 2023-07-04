@@ -14,6 +14,7 @@ public class ExpressionContext {
     private TargetNumberMode targetNumberMode = null;
     private int targetNumber = 4;
     private int savageWorldsRaiseStep = 4;
+    private boolean swordWorldAutoFail = false;
 
     public ExpressionContext(Expression topExpression, CommandContext commandContext) {
         this.topExpression = topExpression;
@@ -58,5 +59,13 @@ public class ExpressionContext {
 
     public TargetNumberMode getTargetNumberMode() {
         return targetNumberMode;
+    }
+
+    public void setSwordWorldAutoFail(boolean autoFail) {
+        this.swordWorldAutoFail = autoFail;
+    }
+
+    public boolean isSwordWorldAutoFail() {
+        return swordWorldAutoFail;
     }
 }
