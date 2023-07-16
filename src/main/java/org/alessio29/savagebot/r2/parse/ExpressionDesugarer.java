@@ -282,6 +282,7 @@ class ExpressionDesugarer extends Desugarer<Expression> {
         Expression numDice = null;
         Expression rollModifier = null;
         int rollModifierSign = 1;
+        boolean withHumanSwordGrace = false;
 
         for (R2Parser.SwordWorldPowerRollModifierContext modCtx : ctx.swordWorldPowerRoll().swordWorldPowerRollModifier()) {
             if (modCtx instanceof R2Parser.SwordWorldCriticalModifierContext) {
@@ -308,13 +309,15 @@ class ExpressionDesugarer extends Desugarer<Expression> {
                 } else {
                     rollModifierSign = 1;
                 }
+            } else if (modCtx instanceof R2Parser.SwordWorldHumanSwordGraceModifierContext) {
+                withHumanSwordGrace = true;
             }
         }
 
         return new SwordWorldPowerRollExpression(
                 getOriginalText(ctx),
                 power, critical, autoFailThreshold, numDice, rollModifier,
-                rollModifierSign
+                rollModifierSign, withHumanSwordGrace
         );
     }
 
