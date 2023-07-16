@@ -8,6 +8,7 @@ public class SwordWorldPowerRollExpression extends Expression {
     private final Expression numDice;
     private final Expression rollModifier;
     private final int rollModifierSign;
+    private final boolean withHumanSwordGrace;
 
     public SwordWorldPowerRollExpression(
             String text,
@@ -16,7 +17,8 @@ public class SwordWorldPowerRollExpression extends Expression {
             Expression autoFailThreshold,
             Expression numDice,
             Expression rollModifier,
-            int rollModifierSign
+            int rollModifierSign,
+            boolean withHumanSwordGrace
     ) {
         super(text);
         this.power = power;
@@ -25,6 +27,7 @@ public class SwordWorldPowerRollExpression extends Expression {
         this.numDice = numDice;
         this.rollModifier = rollModifier;
         this.rollModifierSign = rollModifierSign;
+        this.withHumanSwordGrace = withHumanSwordGrace;
     }
 
     public Expression getPower() {
@@ -49,6 +52,10 @@ public class SwordWorldPowerRollExpression extends Expression {
 
     public int getRollModifierSign() {
         return rollModifierSign;
+    }
+
+    public boolean isWithHumanSwordGrace() {
+        return withHumanSwordGrace;
     }
 
     @Override

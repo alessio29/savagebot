@@ -10,6 +10,7 @@ public class SwordWorldPowerRoller {
     private int autoFailThreshold;
     private int numDice;
     private int rollModifier;
+    private boolean withHumanSwordGrace = false;
 
     public SwordWorldPowerRoller(Roller roller) {
         this.roller = roller;
@@ -37,6 +38,11 @@ public class SwordWorldPowerRoller {
 
     public SwordWorldPowerRoller rollModifier(int rollModifier) {
         this.rollModifier = rollModifier;
+        return this;
+    }
+
+    public SwordWorldPowerRoller withHumanSwordGrace(boolean withHumanSwordGrace) {
+        this.withHumanSwordGrace = withHumanSwordGrace;
         return this;
     }
 
@@ -106,6 +112,9 @@ public class SwordWorldPowerRoller {
 
             total += ptr.value;
             addends.append(ptr.value);
+            if (withHumanSwordGrace) {
+                addends.append("[").append(ptr.rollText).append("]");
+            }
             if (critical <= 0 || ptr.roll < critical) {
                 break;
             } else {
@@ -114,7 +123,13 @@ public class SwordWorldPowerRoller {
         }
 
         StringBuilder explained = new StringBuilder();
-        explained.append("(").append(getPowerTableAsString(power)).append("; ");
+        explained.append("(");
+        if (withHumanSwordGrace) {
+            explained.append(getPowerTableAsString(power));
+        } else {
+            explained.append("power ").append(power);
+        }
+        explained.append("; ");
         if (critical <= 0) {
             explained.append("no critical");
         } else {
@@ -128,17 +143,21 @@ public class SwordWorldPowerRoller {
     private static class PowerTableRollResult {
         public final int roll;
         public final int value;
+        public final String rollText;
 
-        public PowerTableRollResult(int roll, int value) {
+        public PowerTableRollResult(int roll, int value, String rollText) {
             this.roll = roll;
             this.value = value;
+            this.rollText = rollText;
         }
     }
 
     private PowerTableRollResult rollOnTable() {
         int[] table = POWER_TABLE[power];
 
-        int rollValue = roller.roll(numDice, 6).getValue();
+        IntResult rollResult = roller.roll(numDice, 6);
+
+        int rollValue = rollResult.getValue();
         int modifiedRoll = rollValue + rollModifier;
         if (numDice == 2 && rollValue == 2) {
             modifiedRoll = rollValue;
@@ -151,7 +170,14 @@ public class SwordWorldPowerRoller {
             tableIndex = table.length - 1;
         }
 
-        return new PowerTableRollResult(modifiedRoll, table[tableIndex]);
+        StringBuilder rollText = new StringBuilder(rollResult.getExplained());
+        if (rollModifier > 0) {
+            rollText.append(" + ").append(rollModifier);
+        } else if (rollModifier < 0){
+            rollText.append(" - ").append(-rollModifier);
+        }
+
+        return new PowerTableRollResult(modifiedRoll, table[tableIndex], rollText.toString());
     }
 
     private static String getPowerTableAsString(int power) {
