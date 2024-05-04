@@ -126,7 +126,8 @@ class StatementInterpreter implements Statement.Visitor<String> {
         Roller roller = new Roller(interpreter.getContext().getRandom());
         int d6 = roller.roll(6);
         IntResult modifier = getModifierValue(modifierExpression, modifierOperator);
-        int modifiedD6 = d6 + modifier.getValue();
+        // Modified roll can't be above 10
+        int modifiedD6 = Math.min(d6 + modifier.getValue(), 10);
         int d10a = roller.roll(10);
         int d10b = roller.roll(10);
 
