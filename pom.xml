@@ -24,6 +24,7 @@
         <javalib>d:/Archive/java_lib/</javalib>
         <JDA.version>3.8.3_462</JDA.version>
         <antlr.version>4.8</antlr.version>
+        <lavaplayer.version>1.3.73</lavaplayer.version>
     </properties>
 
     <build>
@@ -92,7 +93,7 @@
         <dependency>
             <groupId>com.sedmelluq</groupId>
             <artifactId>lavaplayer</artifactId>
-            <version>1.3.59</version>
+            <version>${lavaplayer.version}</version>
         </dependency>
 
         <dependency>

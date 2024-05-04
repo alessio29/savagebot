@@ -319,7 +319,7 @@ public class TestR2Interpreter {
                         "\n" +
                         "shooting\n" +
                         "```\n" +
-                        "NonParsedString text='shooting' parserErrorMessage='[2]: token recognition error at: 'o''\n" +
+                        "NonParsedString text='shooting' parserErrorMessage='[1]: token recognition error at: 'h''\n" +
                         "```\n" +
                         "shooting \n" +
                         "2d6\n" +
