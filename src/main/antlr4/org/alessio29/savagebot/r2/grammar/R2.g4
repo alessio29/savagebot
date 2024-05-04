@@ -72,6 +72,7 @@ swordWorldPowerRoll
 swordWorldPowerRollModifier
     :   ('c'|'C') tc=term               # SwordWorldCriticalModifier
     |   ('f'|'F') tf=term               # SwordWorldAutoFailModifier
+    |   dop=('h'|'H')                   # SwordWorldHumanSwordGraceModifier
     |   '['
         ((td=term)? dop=('d'|'D'))?
         (mop=('+'|'-') tm=term)?

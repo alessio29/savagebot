@@ -392,6 +392,7 @@ public class ExpressionEvaluator implements Expression.Visitor<List<Integer>> {
                 .autoFailThreshold(evalInt(expr.getAutoFailThreshold(), 2))
                 .numDice(evalInt(expr.getNumDice(), 2))
                 .rollModifier(evalInt(expr.getRollModifier(), 0) * expr.getRollModifierSign())
+                .withHumanSwordGrace(expr.isWithHumanSwordGrace())
                 .roll();
 
         context.putExplanation(expr, result.getExplained());
