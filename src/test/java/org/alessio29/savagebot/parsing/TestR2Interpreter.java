@@ -319,7 +319,7 @@ public class TestR2Interpreter {
                         "\n" +
                         "shooting\n" +
                         "```\n" +
-                        "NonParsedString text='shooting' parserErrorMessage='[1]: token recognition error at: 'h''\n" +
+                        "NonParsedString text='shooting' parserErrorMessage='[2]: token recognition error at: 'o''\n" +
                         "```\n" +
                         "shooting \n" +
                         "2d6\n" +
@@ -814,7 +814,7 @@ public class TestR2Interpreter {
         expect("**Miss**: 1 VS 9, 10", "i");
         expect("**Miss**: 1 + 2 = 3 VS 9, 10", "i+2");
         expect("**Miss**: 1 - 2 = -1 VS 9, 10", "i-2");
-        expect("**Strong hit**: 1 + 10 = 11 VS 9, 10", "i+10");
+        expect("**Weak hit**: 1 + 10 = 10 VS 9, 10", "i+10");
         expect("**Weak hit**: 1 + 9 = 10 VS 9, 10", "i+9");
         expect("**Miss**: 1 + 8 = 9 VS 9, 10", "i+8");
     }
