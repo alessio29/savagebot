@@ -1,0 +1,5 @@
+#!/bin/bash
+
+while true ;
+ do nohup java -jar savagebot-0.2.0-SNAPSHOT-jar-with-dependencies.jar password token redisHost redisPort redisPass 2>&1;
+done
